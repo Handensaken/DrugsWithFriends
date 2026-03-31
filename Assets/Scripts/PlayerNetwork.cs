@@ -1,11 +1,10 @@
 using System;
-using Unity.Netcode;
-using Unity.Netcode.Components;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
-[RequireComponent(typeof(PlayerInput), typeof(NetworkTransform))]
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerNetwork : NetworkBehaviour
 {
     public float moveSpeed;
@@ -23,7 +22,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private ActionReferences actionReferences;
     [SerializeField] private PauseEvent pauseEvent;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
-    [SerializeField] private PlayerSettings playerSettings;
+    [SerializeField] private PlayerGameSettings playerSettings;
     
     private PlayerInput playerInput;
     
