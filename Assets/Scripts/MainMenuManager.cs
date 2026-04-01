@@ -30,8 +30,8 @@ public class MainMenuManager : MonoBehaviour
     
     public void JoinLobby()
     {
-        CSteamID steamID = new CSteamID(Convert.ToUInt64(lobbyInput.text));
-        BootstrapManager.JoinByID(steamID);
+        //CSteamID steamID = new CSteamID(Convert.ToUInt64(lobbyInput.text));
+        BootstrapManager.JoinByID(lobbyInput.text);
     }
 
     public void LeaveLobby()
