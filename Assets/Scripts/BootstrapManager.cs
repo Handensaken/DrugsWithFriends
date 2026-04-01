@@ -78,6 +78,7 @@ public class BootstrapManager : MonoBehaviour
 
     public static void JoinByID(string ID)
     {
+        /*
         Debug.Log("Attempting to jioin lobbyu with id" + steamID.m_SteamID);
         if (SteamMatchmaking.RequestLobbyData(steamID))
         {
@@ -90,6 +91,13 @@ public class BootstrapManager : MonoBehaviour
 
         SteamMatchmaking.AddRequestLobbyListStringFilter("lobbyCode", ID, ELobbyComparison.k_ELobbyComparisonEqual);
         var lobbyList = SteamMatchmaking.RequestLobbyList();
+        m_callresultLobbyList.Set(SteamMatchmaking.RequestLobbyList(), OnLobbyMatchList);
+        */
+    }
+    
+    void OnLobbyMatchList(LobbyMatchList_t pLobbyMatchList, bool bIOFailure )
+    {
+        // lobby list has been retrieved from Steam back-end, use results
     }
 
     public static void LeaveLobby()
