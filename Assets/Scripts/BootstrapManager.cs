@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FishNet.Managing;
 using UnityEngine;
 using Steamworks;
+using UnityEditor.Scripting;
 using Random = UnityEngine.Random;
 
 public class BootstrapManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class BootstrapManager : MonoBehaviour
     protected Callback<LobbyCreated_t> LobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> JoinRequest;
     protected Callback<LobbyEnter_t> LobbyEntered;
+    protected CallResult<LobbyMatchList_t> LobbyMatchList;
 
     public static ulong currentLobbyID;
     private string lobbyCode;
@@ -25,6 +27,7 @@ public class BootstrapManager : MonoBehaviour
         LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+        LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
     }
     
     private string GenerateLobbyCode()
@@ -55,6 +58,7 @@ public class BootstrapManager : MonoBehaviour
         SteamMatchmaking.SetLobbyData(new CSteamID(currentLobbyID), "HostAddress", SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(new CSteamID(currentLobbyID), "name", SteamFriends.GetPersonaName().ToString() + "'s Lobby");
         lobbyCode = GenerateLobbyCode();
+        Debug.Log("lobbycode is " + lobbyCode);
         SteamMatchmaking.SetLobbyData(new CSteamID(currentLobbyID), "lobbyCode", lobbyCode);
         fishySteamworks.SetClientAddress(SteamUser.GetSteamID().ToString());
         fishySteamworks.StartConnection(true);
@@ -78,26 +82,29 @@ public class BootstrapManager : MonoBehaviour
 
     public static void JoinByID(string ID)
     {
-        /*
-        Debug.Log("Attempting to jioin lobbyu with id" + steamID.m_SteamID);
-        if (SteamMatchmaking.RequestLobbyData(steamID))
-        {
-            SteamMatchmaking.JoinLobby(steamID);
-        }
-        else
-        {
-            Debug.Log("failed to joinb lobby with id: " + steamID);
-        }
+        Debug.Log("Attempting to jioin lobbyu with id" + ID);
 
         SteamMatchmaking.AddRequestLobbyListStringFilter("lobbyCode", ID, ELobbyComparison.k_ELobbyComparisonEqual);
-        var lobbyList = SteamMatchmaking.RequestLobbyList();
-        m_callresultLobbyList.Set(SteamMatchmaking.RequestLobbyList(), OnLobbyMatchList);
-        */
+        //SteamAPICall_t lobbyList = SteamMatchmaking.RequestLobbyList();
+        SteamMatchmaking.RequestLobbyList();
+        //LobbyMatchList.Set(lobbyList);
     }
     
     void OnLobbyMatchList(LobbyMatchList_t pLobbyMatchList, bool bIOFailure )
     {
-        // lobby list has been retrieved from Steam back-end, use results
+        if(bIOFailure)
+        {
+            Debug.Log("Failed to retrieve lobby list.");
+            return;
+        }
+        if(pLobbyMatchList.m_nLobbiesMatching == 0)
+        {
+            Debug.Log("No lobbies found with code: " + lobbyCode);
+            return;
+        }
+        CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(0);
+        Debug.Log("Lobby found with code: " + lobbyCode + ", joining lobby with ID: " + lobbyID);
+        SteamMatchmaking.JoinLobby(lobbyID);
     }
 
     public static void LeaveLobby()
