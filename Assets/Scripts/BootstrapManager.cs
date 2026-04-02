@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using FishNet.Managing;
+using FishNet.Managing.Transporting;
+using FishNet.Transporting.Tugboat;
 using UnityEngine;
 using Steamworks;
 using UnityEditor.Scripting;
@@ -9,6 +11,9 @@ using Random = UnityEngine.Random;
 public class BootstrapManager : MonoBehaviour
 {
     private static BootstrapManager instance;
+    private static TransportManager transportManager;
+    private static Tugboat tugboat;
+    [SerializeField] private bool useSteam;
 
     private void Awake() => instance = this;
 
@@ -28,6 +33,28 @@ public class BootstrapManager : MonoBehaviour
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
+        if (TryGetComponent(out TransportManager manager))
+        {
+            transportManager = manager;
+            if(useSteam)
+            {
+                transportManager.Transport = fishySteamworks;
+            }
+            else
+            {
+                if (TryGetComponent(out Tugboat tb))
+                {
+                    tugboat = tb;
+                    transportManager.Transport = tugboat;
+                }
+                fishySteamworks.enabled = false;
+            }
+            Debug.Log("using" + transportManager.Transport);
+        }
+        else
+        {
+            Debug.LogError("Couldn't get transportmanager");
+        }
     }
     
     private string GenerateLobbyCode()
@@ -47,7 +74,16 @@ public class BootstrapManager : MonoBehaviour
     
     public static void CreateLobby()
     {
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+        if (instance.useSteam)
+        {
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+        }
+        else
+        {
+            Debug.Log("creating lobby with tugboat");
+            tugboat.StartConnection(true);
+            tugboat.StartConnection(false);
+        }
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -82,6 +118,11 @@ public class BootstrapManager : MonoBehaviour
 
     public static void JoinByID(string ID)
     {
+        if (!instance.useSteam)
+        {
+            tugboat.StartConnection(false);
+            return;
+        }
         Debug.Log("Attempting to jioin lobbyu with id" + ID);
 
         SteamMatchmaking.AddRequestLobbyListStringFilter("lobbyCode", ID, ELobbyComparison.k_ELobbyComparisonEqual);
