@@ -85,9 +85,8 @@ public class BootstrapManager : MonoBehaviour
         Debug.Log("Attempting to jioin lobbyu with id" + ID);
 
         SteamMatchmaking.AddRequestLobbyListStringFilter("lobbyCode", ID, ELobbyComparison.k_ELobbyComparisonEqual);
-        //SteamAPICall_t lobbyList = SteamMatchmaking.RequestLobbyList();
-        SteamMatchmaking.RequestLobbyList();
-        //LobbyMatchList.Set(lobbyList);
+        SteamAPICall_t lobbyList = SteamMatchmaking.RequestLobbyList();
+        instance.LobbyMatchList.Set(lobbyList);
     }
     
     void OnLobbyMatchList(LobbyMatchList_t pLobbyMatchList, bool bIOFailure )
