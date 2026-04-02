@@ -15,7 +15,7 @@ public class BootstrapManager : MonoBehaviour
     private static Tugboat tugboat;
     [SerializeField] private bool useSteam;
 
-    private void Awake() => instance = this;
+    
 
     [SerializeField] private NetworkManager networkManager;
     [SerializeField] private FishySteamworks.FishySteamworks fishySteamworks;
@@ -27,12 +27,27 @@ public class BootstrapManager : MonoBehaviour
     public static ulong currentLobbyID;
     private string lobbyCode;
 
+    private void OnValidate()
+    {
+        CheckTransport();
+    }
+
+    private void Awake()
+    {
+        instance = this;
+        CheckTransport();
+    }
+    
     private void Start()
     {
         LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
+    }
+    
+    private void CheckTransport()
+    {
         if (TryGetComponent(out TransportManager manager))
         {
             transportManager = manager;

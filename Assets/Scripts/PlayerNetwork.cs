@@ -59,6 +59,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     public void Update()
     {
+        if (!IsOwner) return;
         if (moving)
         {
             Move();
