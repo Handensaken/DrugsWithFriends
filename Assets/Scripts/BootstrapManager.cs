@@ -57,6 +57,7 @@ public class BootstrapManager : MonoBehaviour
             if(useSteam)
             {
                 transportManager.Transport = fishySteamworks;
+                fishySteamworks.enabled = true;
             }
             else
             {
