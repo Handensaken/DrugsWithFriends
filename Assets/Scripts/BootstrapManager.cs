@@ -14,9 +14,7 @@ public class BootstrapManager : MonoBehaviour
     private static TransportManager transportManager;
     private static Tugboat tugboat;
     [SerializeField] private bool useSteam;
-
     
-
     [SerializeField] private NetworkManager networkManager;
     [SerializeField] private FishySteamworks.FishySteamworks fishySteamworks;
     protected Callback<LobbyCreated_t> LobbyCreated;
@@ -45,7 +43,12 @@ public class BootstrapManager : MonoBehaviour
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
     }
-    
+
+    private void Update()
+    {
+        Debug.Log(networkManager.TimeManager.RoundTripTime);
+    }
+
     private void CheckTransport()
     {
         if (TryGetComponent(out TransportManager manager))
