@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e33562a0bed6a4d9051cdc1b6d04a3, type: 3}
+  m_Name: AgentData
+  m_EditorClassIdentifier: 
+  patrolMovementData: {fileID: 11400000, guid: 54c7d063df2dd4c43a6286bfb0de4729, type: 2}
+  patrolSightData: {fileID: 11400000, guid: 20a1f537f70bfb84980aa3dd5f8eebef, type: 2}
+  chaseMovementData: {fileID: 11400000, guid: cc9295e2e75a9ee4aad89a6455622d16, type: 2}
+  chaseSightData: {fileID: 11400000, guid: a6434cb9a88a0824a8de397dbac4adcf, type: 2}
+  attackData: {fileID: 11400000, guid: 1dd2ce900879c0441b3f5de2570d20ed, type: 2}
