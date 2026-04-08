@@ -67,7 +67,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (looking)
         {
-            Look();
+            //Look();
         }
     }
     
