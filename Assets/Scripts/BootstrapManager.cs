@@ -96,12 +96,14 @@ public class BootstrapManager : MonoBehaviour
         if (instance.useSteam)
         {
             SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+            MainMenuManager.CloseAllScreens();
         }
         else
         {
             Debug.Log("creating lobby with tugboat");
             tugboat.StartConnection(true);
             tugboat.StartConnection(false);
+            MainMenuManager.CloseAllScreens();
         }
     }
 
@@ -140,13 +142,16 @@ public class BootstrapManager : MonoBehaviour
         if (!instance.useSteam)
         {
             tugboat.StartConnection(false);
-            return;
+            MainMenuManager.CloseAllScreens();
         }
-        Debug.Log("Attempting to jioin lobbyu with id" + ID);
-
-        SteamMatchmaking.AddRequestLobbyListStringFilter("lobbyCode", ID, ELobbyComparison.k_ELobbyComparisonEqual);
-        SteamAPICall_t lobbyList = SteamMatchmaking.RequestLobbyList();
-        instance.LobbyMatchList.Set(lobbyList);
+        else
+        {
+            Debug.Log("Attempting to jioin lobbyu with id" + ID);
+            SteamMatchmaking.AddRequestLobbyListStringFilter("lobbyCode", ID, ELobbyComparison.k_ELobbyComparisonEqual);
+            SteamAPICall_t lobbyList = SteamMatchmaking.RequestLobbyList();
+            instance.LobbyMatchList.Set(lobbyList);
+            MainMenuManager.CloseAllScreens();
+        }
     }
     
     void OnLobbyMatchList(LobbyMatchList_t pLobbyMatchList, bool bIOFailure )
