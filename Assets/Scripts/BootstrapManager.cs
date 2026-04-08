@@ -46,7 +46,7 @@ public class BootstrapManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(networkManager.TimeManager.RoundTripTime);
+        //Debug.Log(networkManager.TimeManager.RoundTripTime);
     }
 
     private void CheckTransport()
@@ -78,17 +78,17 @@ public class BootstrapManager : MonoBehaviour
     
     private string GenerateLobbyCode()
     {
-            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    
-            int codeLength = 6;
-            List<char> codeChars = new List<char>();
-    
-            for (int i = 0; i < codeLength; i++)
-            {
-                char randomChar = chars[Random.Range(0, chars.Length)];
-                codeChars.Add(randomChar);
-            }
-            return new string(codeChars.ToArray());
+        const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+        int codeLength = 6;
+        List<char> codeChars = new List<char>();
+
+        for (int i = 0; i < codeLength; i++)
+        {
+            char randomChar = chars[Random.Range(0, chars.Length)];
+            codeChars.Add(randomChar);
+        }
+        return new string(codeChars.ToArray());
     }
     
     public static void CreateLobby()
@@ -129,6 +129,7 @@ public class BootstrapManager : MonoBehaviour
     
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
+        Debug.Log("lobby entered");
         currentLobbyID = callback.m_ulSteamIDLobby;
 
         MainMenuManager.LobbyEntered(SteamMatchmaking.GetLobbyData(new CSteamID(currentLobbyID), "name"), true);
