@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
 {
     private static MainMenuManager instance;
     
-    [SerializeField] private GameObject menuScreen;
+    public GameObject menuScreen;
     [SerializeField] private TMP_InputField lobbyInput;
 
     [SerializeField] private TextMeshProUGUI lobbyIDText;
@@ -23,9 +23,9 @@ public class MainMenuManager : MonoBehaviour
         instance.lobbyIDText.text = BootstrapManager.currentLobbyID.ToString();
     }
 
-    private void CloseAllScreens()
+    public static void CloseAllScreens()
     {
-        menuScreen.SetActive(false);
+        instance.menuScreen.SetActive(false);
     }
     
     public void JoinLobby()
