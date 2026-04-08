@@ -13,7 +13,7 @@ public class PlayerNetwork : NetworkBehaviour
     public float moveSpeed;
 
     private Vector2 rot;
-    private bool moving, looking;
+    private bool looking;
     private Rigidbody rb;
 
     [Serializable]

@@ -449,7 +449,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584259677352814173
+  _initializedTimestamp: -8584259514486068581
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -490,14 +490,13 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2743882322968031957}
   _networkObjectCache: {fileID: 2743882322968031957}
   moveSpeed: 10
-  rotateSpeed: 5
   actionReferences:
     move: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     look: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     pause: {fileID: 975916435282271596, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     unpause: {fileID: -4260829745248089425, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     cancel: {fileID: 7727032971491509709, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  pauseEvent: {fileID: 0}
+  pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 0}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
   selectionHandler: {fileID: 0}
