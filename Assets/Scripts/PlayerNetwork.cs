@@ -11,7 +11,6 @@ using UnityEngine.InputSystem.Users;
 public class PlayerNetwork : NetworkBehaviour
 {
     public float moveSpeed;
-    public float rotateSpeed;
 
     private Vector2 rot;
     private bool moving, looking;
@@ -20,7 +19,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, look, pause, unpause, cancel;
+        public InputActionReference move, pause, unpause, cancel;
     }
     
     [SerializeField] private ActionReferences actionReferences;
@@ -77,11 +76,6 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
     }
-
-    public void Update()
-    {
-        if (!IsOwner) return;
-    }
     
     public void ResumeButton()
     {
@@ -106,6 +100,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Move(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
         var scaledMoveSpeed = moveSpeed;
@@ -115,6 +110,7 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void StopMovement(InputAction.CallbackContext context)
     {
+        if(!IsOwner) return;
         rb.linearVelocity = new Vector3(0, 0, 0);
     }
     
