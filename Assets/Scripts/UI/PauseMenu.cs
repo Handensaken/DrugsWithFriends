@@ -58,8 +58,8 @@ public class PauseMenu : MonoBehaviour
     {
         playerInput.SwitchCurrentActionMap("UI");
         pauseMenu.SetActive(true);
-        
-        if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
+        return;
+        if (!playerInput.currentControlScheme.ToLower().Contains("keyboard")) // doesnt work atm
         {
             EventSystem.current.SetSelectedGameObject(firstSelected);
         }
