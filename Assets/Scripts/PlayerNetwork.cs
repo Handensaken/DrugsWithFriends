@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using FishNet.Object;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.Users;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerNetwork : NetworkBehaviour
@@ -33,6 +36,31 @@ public class PlayerNetwork : NetworkBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
     }
+    
+
+    public override void OnStartClient()
+    {
+        Debug.Log("started client");
+        base.OnStartClient();
+
+        StartCoroutine(InitializeCamera());
+    }
+
+    private IEnumerator InitializeCamera()
+    {
+        yield return null;
+        
+        if (GetComponentInChildren<CinemachineCamera>() is CinemachineCamera vcam)
+            vcam.enabled = IsOwner;
+
+        if (GetComponentInChildren<CinemachineInputAxisController>() is CinemachineInputAxisController axisController)
+        {
+            axisController.enabled = IsOwner;
+            if (IsOwner)
+                axisController.PlayerIndex = playerInput.playerIndex;
+        }
+    }
+    
 
     private void OnEnable()
     {
