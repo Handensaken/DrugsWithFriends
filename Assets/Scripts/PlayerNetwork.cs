@@ -15,6 +15,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private Vector2 rot;
     private bool moving, looking;
+    private Rigidbody rb;
 
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
@@ -35,39 +36,33 @@ public class PlayerNetwork : NetworkBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        if (TryGetComponent(out Rigidbody rigidbody))
+        {
+            rb = rigidbody;
+        }
+        else
+        {
+            Debug.LogError("No Rigidbody found on PlayerNetwork object. Please add a Rigidbody component.");
+        }
     }
     
 
     public override void OnStartClient()
     {
-        Debug.Log("started client");
         base.OnStartClient();
-
-        StartCoroutine(InitializeCamera());
-    }
-
-    private IEnumerator InitializeCamera()
-    {
-        yield return null;
-        
         if (GetComponentInChildren<CinemachineCamera>() is CinemachineCamera vcam)
             vcam.enabled = IsOwner;
 
         if (GetComponentInChildren<CinemachineInputAxisController>() is CinemachineInputAxisController axisController)
         {
             axisController.enabled = IsOwner;
-            if (IsOwner)
-                axisController.PlayerIndex = playerInput.playerIndex;
         }
     }
-    
 
     private void OnEnable()
     {
-        actionReferences.move.action.performed +=  AllowMove;
-        actionReferences.move.action.canceled += AllowMove;
-        actionReferences.look.action.performed += AllowLook;
-        actionReferences.look.action.canceled += AllowLook;
+        actionReferences.move.action.performed += Move;
+        actionReferences.move.action.canceled += StopMovement;
         actionReferences.pause.action.performed += Pause;
         actionReferences.cancel.action.performed += Cancel; 
         actionReferences.unpause.action.performed += Unpause;
@@ -76,10 +71,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void OnDisable()
     {
-        actionReferences.move.action.performed -= AllowMove;
-        actionReferences.move.action.canceled -= AllowMove;
-        actionReferences.look.action.performed -= AllowLook;
-        actionReferences.look.action.canceled -= AllowLook;
+        actionReferences.move.action.performed -= Move;
+        actionReferences.move.action.canceled -= StopMovement;
         actionReferences.pause.action.performed -= Pause;
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
@@ -88,15 +81,6 @@ public class PlayerNetwork : NetworkBehaviour
     public void Update()
     {
         if (!IsOwner) return;
-        if (moving)
-        {
-            Move();
-        }
-
-        if (looking)
-        {
-            //Look();
-        }
     }
     
     public void ResumeButton()
@@ -120,50 +104,18 @@ public class PlayerNetwork : NetworkBehaviour
         pauseEvent.OnCancel?.Invoke(playerInput);
     }
 
-    private void AllowMove(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            moving = true;
-        }
-        else if (context.canceled)
-        {
-            moving = false;
-        }
-    }
-    
-    private void AllowLook(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            looking = true;
-        }
-        else if (context.canceled)
-        {
-            looking = false;
-        }
-    }
-
-    private void Move()
+    private void Move(InputAction.CallbackContext context)
     {
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
-        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+        var scaledMoveSpeed = moveSpeed;
         var moveVector = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        transform.position += moveVector * scaledMoveSpeed;
+        rb.linearVelocity = moveVector * scaledMoveSpeed;
     }
-
-    private void Look()
+    
+    private void StopMovement(InputAction.CallbackContext context)
     {
-        Debug.Log("looking");
-        Vector2 rotate = actionReferences.look.action.ReadValue<Vector2>();
-        if (rotate.sqrMagnitude < 0.01)
-            return;
-        int invert = playerSettings.invertMouseY ? -1 : 1;
-        var scaledRotateSpeed = invert * rotateSpeed * Time.deltaTime * playerSettings.mouseSensitivity;
-        rot.y += rotate.x * scaledRotateSpeed;
-        rot.x = Mathf.Clamp(rot.x - rotate.y * scaledRotateSpeed, -45, 45);
-        transform.localEulerAngles = rot;
+        rb.linearVelocity = new Vector3(0, 0, 0);
     }
     
     private void ControlsChanged(PlayerInput input)
