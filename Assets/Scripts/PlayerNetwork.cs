@@ -61,9 +61,8 @@ public class PlayerNetwork : NetworkBehaviour
     private void OnEnable()
     {
         actionReferences.move.action.performed += Move;
-        actionReferences.move.action.canceled += StopMovement;
+        actionReferences.move.action.canceled += Move;
         actionReferences.look.action.performed += Look;
-        actionReferences.look.action.canceled += Look;
         actionReferences.look.action.canceled += Look;
         actionReferences.pause.action.performed += Pause;
         actionReferences.cancel.action.performed += Cancel; 
@@ -74,7 +73,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void OnDisable()
     {
         actionReferences.move.action.performed -= Move;
-        actionReferences.move.action.canceled -= StopMovement;
+        actionReferences.move.action.canceled -= Move;
         actionReferences.look.action.performed -= Look;
         actionReferences.look.action.canceled -= Look;
         actionReferences.pause.action.performed -= Pause;
@@ -115,17 +114,18 @@ public class PlayerNetwork : NetworkBehaviour
     private void Move(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
-        if (direction.sqrMagnitude < 0.01) return;
-        var scaledMoveSpeed = moveSpeed;
-        var moveVector = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        rb.linearVelocity = moveVector * scaledMoveSpeed;
-    }
-    
-    private void StopMovement(InputAction.CallbackContext context)
-    {
-        if(!IsOwner) return;
-        rb.linearVelocity = new Vector3(0, 0, 0);
+        if (context.performed)
+        {
+            Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
+            if (direction.sqrMagnitude < 0.01) return;
+            var scaledMoveSpeed = moveSpeed;
+            var moveVector = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
+            rb.linearVelocity = moveVector * scaledMoveSpeed;
+        }
+        else if (context.canceled)
+        {
+            rb.linearVelocity = new Vector3(0, 0, 0);
+        }
     }
 
     private void Look(InputAction.CallbackContext context)
