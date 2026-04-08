@@ -19,7 +19,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, pause, unpause, cancel;
+        public InputActionReference move, look, pause, unpause, cancel;
     }
     
     [SerializeField] private ActionReferences actionReferences;
@@ -30,7 +30,6 @@ public class PlayerNetwork : NetworkBehaviour
     private PlayerInput playerInput;
     
     [SerializeField] private SelectionHandler selectionHandler;
-
 
     private void Awake()
     {
@@ -44,14 +43,15 @@ public class PlayerNetwork : NetworkBehaviour
             Debug.LogError("No Rigidbody found on PlayerNetwork object. Please add a Rigidbody component.");
         }
     }
-    
 
     public override void OnStartClient()
     {
         base.OnStartClient();
         if (GetComponentInChildren<CinemachineCamera>() is CinemachineCamera vcam)
+        {
             vcam.enabled = IsOwner;
-
+        }
+        
         if (GetComponentInChildren<CinemachineInputAxisController>() is CinemachineInputAxisController axisController)
         {
             axisController.enabled = IsOwner;
@@ -62,6 +62,9 @@ public class PlayerNetwork : NetworkBehaviour
     {
         actionReferences.move.action.performed += Move;
         actionReferences.move.action.canceled += StopMovement;
+        actionReferences.look.action.performed += Look;
+        actionReferences.look.action.canceled += Look;
+        actionReferences.look.action.canceled += Look;
         actionReferences.pause.action.performed += Pause;
         actionReferences.cancel.action.performed += Cancel; 
         actionReferences.unpause.action.performed += Unpause;
@@ -72,11 +75,22 @@ public class PlayerNetwork : NetworkBehaviour
     {
         actionReferences.move.action.performed -= Move;
         actionReferences.move.action.canceled -= StopMovement;
+        actionReferences.look.action.performed -= Look;
+        actionReferences.look.action.canceled -= Look;
         actionReferences.pause.action.performed -= Pause;
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
     }
-    
+
+    private void FixedUpdate()
+    {
+        if (!IsOwner) return;
+        if (looking)
+        {
+            // TODO: Add new camera forward here 
+        }
+    }
+
     public void ResumeButton()
     {
         Unpause(new InputAction.CallbackContext());
@@ -112,6 +126,18 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if(!IsOwner) return;
         rb.linearVelocity = new Vector3(0, 0, 0);
+    }
+
+    private void Look(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            looking = true;
+        }
+        else if (context.canceled)
+        {
+            looking = false;
+        }
     }
     
     private void ControlsChanged(PlayerInput input)
