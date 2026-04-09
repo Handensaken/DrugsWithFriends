@@ -95,7 +95,10 @@ public class PlayerNetwork : NetworkBehaviour
             forwardVector = cinemachineCamera.transform.forward;
             if(rb.linearVelocity.sqrMagnitude > 0.01f)
             {
-                SetVelocity();
+                Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
+                if (direction.sqrMagnitude < 0.01) return;
+                var moveVector = cinemachineCamera.transform.forward;
+                rb.linearVelocity = moveVector * moveSpeed;
             }
         }
     }
@@ -126,28 +129,16 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            SetVelocity();
+            Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
+            if (direction.sqrMagnitude < 0.01) return;
+            
+            var moveVector = cinemachineCamera.transform.forward;
+            rb.linearVelocity = moveVector * moveSpeed;
         }
         else if (context.canceled)
         {
             rb.linearVelocity = new Vector3(0, 0, 0);
         }
-    }
-
-    private void SetVelocity()
-    {
-        Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
-        if (direction.sqrMagnitude < 0.01) return;
-
-        Vector3 cameraForward = cinemachineCamera.transform.forward;
-        Vector3 cameraRight = cinemachineCamera.transform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        var moveVector = (cameraForward * direction.y + cameraRight * direction.x);
-        rb.linearVelocity = moveVector * moveSpeed;
     }
 
     private void Look(InputAction.CallbackContext context)
