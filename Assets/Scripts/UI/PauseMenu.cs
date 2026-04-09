@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PauseEvent pauseEvent;
-    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Canvas pauseMenu;
     [SerializeField] private GameObject firstSelected;
     [SerializeField] private GameObject optionsButton;
     [SerializeField] private GameObject optionsMenu;
@@ -50,30 +50,35 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         menus = optionsMenu.GetComponentsInChildren<Menu>(true).Where(menu => menu.gameObject != optionsMenu.gameObject).ToArray();
-        pauseMenu.SetActive(false);
+        pauseMenu.enabled = false;
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void OnPause(PlayerInput playerInput)
     {
         playerInput.SwitchCurrentActionMap("UI");
-        pauseMenu.SetActive(true);
-        return;
-        if (!playerInput.currentControlScheme.ToLower().Contains("keyboard")) // doesnt work atm
+        Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
+        pauseMenu.enabled = true;
+        /*
+
+        if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
         {
             EventSystem.current.SetSelectedGameObject(firstSelected);
         }
+        */
     }
 
     public void OnUnpause(PlayerInput playerInput)
     {
         playerInput.SwitchCurrentActionMap("Player");
+        
         foreach (var menu in menus)
         {
             menu.gameObject.SetActive(false);
         }
         optionsMenu.SetActive(false);
-        pauseMenu.SetActive(false);
+        Debug.Log("unpasue triggeredd" + playerInput.currentActionMap.name);
+        pauseMenu.enabled = false;
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -98,7 +103,7 @@ public class PauseMenu : MonoBehaviour
             optionsMenu.SetActive(false);
             SetSelectedObject();
         }
-        else if (pauseMenu.activeSelf)
+        else if (pauseMenu.enabled)
         {
             OnUnpause(playerInput);
         }

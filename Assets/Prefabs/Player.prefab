@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -558,7 +558,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584259484048358144
+  _initializedTimestamp: -8584258753071367028
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -602,9 +602,9 @@ MonoBehaviour:
   actionReferences:
     move: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     look: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    pause: {fileID: 975916435282271596, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    unpause: {fileID: -4260829745248089425, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    cancel: {fileID: 7727032971491509709, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    pause: {fileID: -7420171985196240918, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    unpause: {fileID: -6857184440973523537, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    cancel: {fileID: 4971023935266359616, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
   pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
