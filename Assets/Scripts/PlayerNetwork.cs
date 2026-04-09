@@ -30,6 +30,7 @@ public class PlayerNetwork : NetworkBehaviour
     
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
+    private Vector3 moveVector;
     
     [SerializeField] private SelectionHandler selectionHandler;
 
@@ -98,6 +99,12 @@ public class PlayerNetwork : NetworkBehaviour
                 SetVelocity();
             }
         }
+        
+        if (moveVector.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveVector);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, 1));
+        }
     }
 
     public void ResumeButton()
@@ -146,7 +153,7 @@ public class PlayerNetwork : NetworkBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        var moveVector = (cameraForward * direction.y + cameraRight * direction.x);
+        moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
     }
 
