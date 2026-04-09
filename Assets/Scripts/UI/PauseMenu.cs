@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PauseEvent pauseEvent;
-    [SerializeField] private Canvas pauseMenu;
+    [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject firstSelected;
     [SerializeField] private GameObject optionsButton;
     [SerializeField] private GameObject optionsMenu;
@@ -50,7 +50,7 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         menus = optionsMenu.GetComponentsInChildren<Menu>(true).Where(menu => menu.gameObject != optionsMenu.gameObject).ToArray();
-        pauseMenu.enabled = false;
+        pauseMenu.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -58,7 +58,7 @@ public class PauseMenu : MonoBehaviour
     {
         playerInput.SwitchCurrentActionMap("UI");
         Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
-        pauseMenu.enabled = true;
+        pauseMenu.SetActive(true);
         /*
 
         if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
@@ -78,7 +78,7 @@ public class PauseMenu : MonoBehaviour
         }
         optionsMenu.SetActive(false);
         Debug.Log("unpasue triggeredd" + playerInput.currentActionMap.name);
-        pauseMenu.enabled = false;
+        pauseMenu.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -103,7 +103,7 @@ public class PauseMenu : MonoBehaviour
             optionsMenu.SetActive(false);
             SetSelectedObject();
         }
-        else if (pauseMenu.enabled)
+        else if (pauseMenu.activeSelf)
         {
             OnUnpause(playerInput);
         }
