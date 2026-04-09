@@ -13,6 +13,7 @@ public class PlayerNetwork : NetworkBehaviour
     public float moveSpeed;
 
     private Vector2 rot;
+    private Vector3 forwardVector;
     private bool looking;
     private Rigidbody rb;
 
@@ -28,6 +29,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     
     private PlayerInput playerInput;
+    private CinemachineCamera cinemachineCamera;
     
     [SerializeField] private SelectionHandler selectionHandler;
 
@@ -50,6 +52,10 @@ public class PlayerNetwork : NetworkBehaviour
         if (GetComponentInChildren<CinemachineCamera>() is CinemachineCamera vcam)
         {
             vcam.enabled = IsOwner;
+            if (IsOwner)
+            {
+                cinemachineCamera = vcam;
+            }
         }
         
         if (GetComponentInChildren<CinemachineInputAxisController>() is CinemachineInputAxisController axisController)
@@ -86,7 +92,14 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (looking)
         {
-            // TODO: Add new camera forward here 
+            forwardVector = cinemachineCamera.transform.forward;
+            if(rb.linearVelocity.sqrMagnitude > 0.01f)
+            {
+                Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
+                if (direction.sqrMagnitude < 0.01) return;
+                var moveVector = cinemachineCamera.transform.forward;
+                rb.linearVelocity = moveVector * moveSpeed;
+            }
         }
     }
 
@@ -118,9 +131,9 @@ public class PlayerNetwork : NetworkBehaviour
         {
             Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
             if (direction.sqrMagnitude < 0.01) return;
-            var scaledMoveSpeed = moveSpeed;
-            var moveVector = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-            rb.linearVelocity = moveVector * scaledMoveSpeed;
+            
+            var moveVector = cinemachineCamera.transform.forward;
+            rb.linearVelocity = moveVector * moveSpeed;
         }
         else if (context.canceled)
         {
