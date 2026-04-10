@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "PlayerGameSettings")]
 public class PlayerGameSettings : ScriptableObject
@@ -11,6 +13,8 @@ public class PlayerGameSettings : ScriptableObject
     [Range(minSensitivity, maxSensitivity)] public float mouseSensitivity;
     public float volume = 1.0f;
     public bool invertMouseY = false;
+    
+    [HideInInspector] public UnityEvent OnSensitivityChanged = new UnityEvent();
 
     private void OnEnable()
     {
@@ -18,6 +22,7 @@ public class PlayerGameSettings : ScriptableObject
         {
             Debug.Log("Set sense to " + PlayerPrefs.GetFloat("MouseSensitivity"));
             mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
+            OnSensitivityChanged.Invoke();
         }
         
         if (PlayerPrefs.HasKey("Volume"))
