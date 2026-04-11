@@ -1,4 +1,6 @@
-﻿namespace BehaviourTree
+﻿using NodeState = BehaviourTree.INode.NodeState;
+
+namespace BehaviourTree
 {
     public class BehaviourTree : Node
     {
@@ -6,7 +8,7 @@
 
         public override NodeState Process()
         {
-            foreach (var child in _children)
+            foreach (INode child in _children)
             {
                 NodeState nodeState = child.Process();
                 if (nodeState != NodeState.Success)
