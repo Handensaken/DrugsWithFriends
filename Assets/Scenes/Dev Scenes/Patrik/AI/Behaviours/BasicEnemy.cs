@@ -23,7 +23,7 @@ namespace BehaviourTree
             _tree.AddChild(new Leaf("Patrol", new PatrolAction(agent, pathPoints)));
         }
 
-        void Update()
+        void Update() //TODO separera visualisering från logik
         {
             if (IsServerInitialized)
             {

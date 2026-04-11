@@ -8,13 +8,13 @@ namespace BehaviourTree
     public class PatrolAction : INodeAction
     {
         private readonly NavMeshAgent _agent;
-        private readonly AgentPathPoints _pathPoints;
+        private readonly IPathPoints _pathPoints;
 
         //Waypoints
         private int _currentPointIndex = 0;
         private bool _isPathDone = true;
 
-        public PatrolAction(NavMeshAgent agent, AgentPathPoints pathPoints)
+        public PatrolAction(NavMeshAgent agent, IPathPoints pathPoints)
         {
             _agent = agent;
             _pathPoints = pathPoints;
@@ -22,13 +22,13 @@ namespace BehaviourTree
         
         public NodeState Process()
         {
-            Vector3 currentWaypoint = _pathPoints.GetWorldPatrolPoints[_currentPointIndex];
+            Vector3 currentWaypoint = _pathPoints.WorldCoordPatrolPoints[_currentPointIndex];
             _agent.SetDestination(currentWaypoint);
             
             if (_agent.remainingDistance <= 0.1f)
             {
                 _currentPointIndex++;
-                if (_currentPointIndex == _pathPoints.GetWorldPatrolPoints.Length)
+                if (_currentPointIndex == _pathPoints.WorldCoordPatrolPoints.Length)
                 {
                     _currentPointIndex = 0;
                 }

@@ -41,7 +41,7 @@ namespace StateMachineScripts.Structure
                 Color.blue,
                 networkAgentBehaviour,
                 agent,
-                agentPathPoints.GetLocalPatrolPoints,
+                agentPathPoints.LocalPatrolPoints,
                 agentData.PatrolSightData,
                 agentData.PatrolMovementData,
                 sightTransform);

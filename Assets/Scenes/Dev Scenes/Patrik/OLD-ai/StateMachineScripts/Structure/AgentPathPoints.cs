@@ -5,19 +5,22 @@ using UnityEngine.Serialization;
 
 namespace StateMachine.Scripts.StateMachine.Structure
 {
-    public class AgentPathPoints : MonoBehaviour
+    public interface IPathPoints
+    {
+        public Vector3[] WorldCoordPatrolPoints { get; }
+
+        //public void UpdateWorldPatrolPoints(Vector3 startPos);
+    }
+    
+    public class AgentPathPoints : MonoBehaviour, IPathPoints
     {
         [SerializeField] private Vector3[] localPatrolPoints;
         private Vector3[] _worldCoordPatrolPoints;
-
-        #region EditorHandlesPatrolPoint
         
         private Vector3 _originPathPosition;
-        public Vector3 GetOriginalPos => _originPathPosition;
-        public Vector3[] GetLocalPatrolPoints => localPatrolPoints;
-        public Vector3[] GetWorldPatrolPoints => _worldCoordPatrolPoints;
-
-        #endregion
+        public Vector3 OriginalPosition => _originPathPosition;
+        public Vector3[] LocalPatrolPoints => localPatrolPoints;
+        public Vector3[] WorldCoordPatrolPoints => _worldCoordPatrolPoints;
 
         private void Awake()
         {
