@@ -1,4 +1,6 @@
-﻿namespace BehaviourTree
+﻿using NodeState = BehaviourTree.INode.NodeState;
+
+namespace BehaviourTree
 {
     public class Leaf : Node
     {

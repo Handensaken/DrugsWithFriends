@@ -1,26 +1,53 @@
 using System;
+using Steamworks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StateMachine.Scripts.StateMachine.Structure
 {
-    public class AgentPathPoints : MonoBehaviour
+    public interface IPathPoints
     {
-        [SerializeField] private Vector3[] patrolPoints;
+        public Vector3[] WorldCoordPatrolPoints { get; }
 
-        #region EditorHandlesPatrolPoint
+        //public void UpdateWorldPatrolPoints(Vector3 startPos);
+    }
+    
+    public class AgentPathPoints : MonoBehaviour, IPathPoints
+    {
+        [SerializeField] private Vector3[] localPatrolPoints;
+        private Vector3[] _worldCoordPatrolPoints;
         
-        private Vector3 originPathPosition;
-        public Vector3[] GetPatrolPoints => patrolPoints;
-        public Vector3 GetOriginPathPosition => originPathPosition;
-
-        #endregion
+        private Vector3 _originPathPosition;
+        public Vector3 OriginalPosition => _originPathPosition;
+        public Vector3[] LocalPatrolPoints => localPatrolPoints;
+        public Vector3[] WorldCoordPatrolPoints => _worldCoordPatrolPoints;
 
         private void Awake()
         {
             //For Visualization
-            originPathPosition = transform.position;
+            _originPathPosition = transform.position;
+            _worldCoordPatrolPoints = new Vector3[localPatrolPoints.Length];
+            UpdateWorldPatrolPoints(_originPathPosition);
+            
         }
 
+        public void UpdateWorldPatrolPoints(Vector3 startPos)
+        {
+            _worldCoordPatrolPoints = new Vector3[localPatrolPoints.Length];
+            for (int i = 0; i < localPatrolPoints.Length; i++)
+            {
+                _worldCoordPatrolPoints[i] = localPatrolPoints[i]+startPos;
+            }
+        }
+        
+        public void UpdateLocalPatrolPoints(Vector3 startPos)
+        {
+            for (int i = 0; i < _worldCoordPatrolPoints.Length; i++)
+            {
+                localPatrolPoints[i] = _worldCoordPatrolPoints[i]-startPos;
+            }
+        }
+        
         private void OnDrawGizmos()
         {
             VisualizePoints();
@@ -28,30 +55,34 @@ namespace StateMachine.Scripts.StateMachine.Structure
         
         private void OnValidate()
         {
-            if (patrolPoints.Length <= 1)
+            if (localPatrolPoints.Length <= 1)
             {
-                throw new Exception($"Missing one or more patrolPoints. Current amount: {patrolPoints.Length}");
+                throw new Exception($"Missing one or more patrolPoints. Current amount: {localPatrolPoints.Length}");
             }
         }
         
         private void VisualizePoints()
         {
-            if (patrolPoints.Length <= 1) throw new Exception($"Missing patrolsPoints. Current amount: {patrolPoints.Length}");
+            if (localPatrolPoints.Length <= 1) throw new Exception($"Missing patrolsPoints. Current amount: {localPatrolPoints.Length}");
         
-            for (int i = 0; i < patrolPoints.Length; i++)
+            if (!Application.isPlaying)
             {
-                if (!Application.isPlaying)
+                for (int i = 0; i < localPatrolPoints.Length; i++)
                 {
-                    Gizmos.DrawCube(transform.position+patrolPoints[i], new Vector3(.5f,.5f,.5f));
-                    Gizmos.DrawLine(transform.position+patrolPoints[i], transform.position+patrolPoints[(i+1)%patrolPoints.Length]);
+                    Gizmos.DrawCube(transform.position+localPatrolPoints[i], new Vector3(.5f,.5f,.5f));
+                    Gizmos.DrawLine(transform.position+localPatrolPoints[i], transform.position+localPatrolPoints[(i+1)%localPatrolPoints.Length]);
                 }
-                else
-                {
-                    Gizmos.DrawCube(originPathPosition+patrolPoints[i], new Vector3(.5f,.5f,.5f));
-                    Gizmos.DrawLine(originPathPosition+patrolPoints[i], originPathPosition+patrolPoints[(i+1)%patrolPoints.Length]);
-                }
-                
             }
+            else
+            {
+                for (int i = 0; i < _worldCoordPatrolPoints.Length; i++)
+                {
+                    Gizmos.DrawCube(_worldCoordPatrolPoints[i], new Vector3(.5f,.5f,.5f));
+                    Gizmos.DrawLine(_worldCoordPatrolPoints[i], _worldCoordPatrolPoints[(i+1)%_worldCoordPatrolPoints.Length]);
+                }
+            }
+            
+            
         }
     }
 }

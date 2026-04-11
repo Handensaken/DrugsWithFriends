@@ -1,27 +1,21 @@
 using System.Collections.Generic;
+using NodeState = BehaviourTree.INode.NodeState;
 
 namespace BehaviourTree
 {
-    public class Node
+    public class Node : INode
     {
-        public enum NodeState
-        {
-            Success,
-            Failure,
-            Processing
-        }
-        
-        protected readonly List<Node> _children = new List<Node>();
+        protected readonly List<INode> _children = new List<INode>();
         protected int currentChildIndex = 0; 
         
-        private string _debugMessage;
+        protected string DebugMessage;
 
         public Node(string debugMessage)
         {
-            _debugMessage = debugMessage;
+            DebugMessage = debugMessage;
         }
     
-        public void AddChild(Node child)
+        public virtual void AddChild(INode child)
         {
             _children.Add(child);
         }

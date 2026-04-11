@@ -1,11 +1,12 @@
 using System;
+using FishNet.Object;
 using StateMachine.Scripts.StateMachine.Structure;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace BehaviourTree
 {
-    public class BasicEnemy : MonoBehaviour
+    public class BasicEnemy : NetworkBehaviour
     {
         private AgentPathPoints pathPoints;
         [SerializeField] private NavMeshAgent agent;
@@ -19,12 +20,16 @@ namespace BehaviourTree
             
             _tree = new BehaviourTree("Tree");
             
-            _tree.AddChild(new Leaf("Patrol", new PatrolAction(agent, pathPoints.GetPatrolPoints)));
+            _tree.AddChild(new Leaf("Patrol", new PatrolAction(agent, pathPoints)));
         }
-        
-        void Update()
+
+        void Update() //TODO separera visualisering från logik
         {
-            _tree.Process();
+            if (IsServerInitialized)
+            {
+                _tree.Process();
+            }
+            
         }
     }
 }
