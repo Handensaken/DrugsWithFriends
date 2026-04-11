@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Paket.Editor
 {
     [CustomEditor(typeof(AgentPathPoints))]
-    public class SolidAgentPathGUI : UnityEditor.Editor
+    public class AgentPathGUI : UnityEditor.Editor
     {
         private void OnSceneGUI()
         {
@@ -17,24 +17,36 @@ namespace Paket.Editor
                 if (!Application.isPlaying)
                 {
                     startPos = behaviour.transform.position;
+                    for (int i = 0; i < behaviour.GetLocalPatrolPoints.Length; i++)
+                    {
+                        EditorGUI.BeginChangeCheck();
+
+                        Vector3 patrolHandlePosition =
+                            Handles.PositionHandle(startPos + behaviour.GetLocalPatrolPoints[i], Quaternion.identity);
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            Undo.RecordObject(behaviour, "Change patrolPoint's position");
+                            behaviour.GetLocalPatrolPoints[i] = patrolHandlePosition - startPos;
+                            behaviour.UpdateWorldPatrolPoints(startPos);
+                        }
+                    }
                 }
                 else
                 {
-                    startPos = behaviour.GetOriginPathPosition;
-                }
-
-
-                for (int i = 0; i < behaviour.GetPatrolPoints.Length; i++)
-                {
-                    EditorGUI.BeginChangeCheck();
-
-                    Vector3 patrolHandlePosition =
-                        Handles.PositionHandle(startPos + behaviour.GetPatrolPoints[i], Quaternion.identity);
-
-                    if (EditorGUI.EndChangeCheck())
+                    for (int i = 0; i < behaviour.GetWorldPatrolPoints.Length; i++)
                     {
-                        Undo.RecordObject(behaviour, "Change patrolPoint's position");
-                        behaviour.GetPatrolPoints[i] = patrolHandlePosition - startPos;
+                        EditorGUI.BeginChangeCheck();
+
+                        Vector3 patrolHandlePosition =
+                            Handles.PositionHandle(behaviour.GetWorldPatrolPoints[i], Quaternion.identity);
+
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            Undo.RecordObject(behaviour, "Change patrolPoint's position");
+                            behaviour.GetWorldPatrolPoints[i] = patrolHandlePosition;
+                            behaviour.UpdateLocalPatrolPoints(behaviour.GetOriginalPos);
+                        }
                     }
                 }
             }

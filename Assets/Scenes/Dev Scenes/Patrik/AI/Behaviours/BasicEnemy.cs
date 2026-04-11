@@ -19,12 +19,13 @@ namespace BehaviourTree
             
             _tree = new BehaviourTree("Tree");
             
-            _tree.AddChild(new Leaf("Patrol", new PatrolAction(agent, pathPoints.GetPatrolPoints)));
+            _tree.AddChild(new Leaf("Patrol", new PatrolAction(agent, pathPoints)));
         }
         
         void Update()
         {
             _tree.Process();
+            
         }
     }
 }
