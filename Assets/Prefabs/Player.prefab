@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2581923254490944402}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15027253, y: -0.7789061, z: 0.20403531, w: 0.5736664}
-  m_LocalPosition: {x: 3.8199446, y: 2.25, z: 1.1866012}
+  m_LocalRotation: {x: 0.24141444, y: 0.29400495, z: -0.077014916, w: 0.9216013}
+  m_LocalPosition: {x: -2.388882, y: 2.3204217, z: -3.363104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,7 +114,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: -107.256516
+    Value: 35.38696
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -124,7 +124,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 45
+    Value: 37.062855
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -539,7 +539,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -574,7 +574,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584258753071367028
+  _initializedTimestamp: -8584255897822680109
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -590,7 +590,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 1
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 2092870565765373345
   SceneId: 0
@@ -616,8 +616,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 2743882322968031957}
   moveSpeed: 10
   actionReferences:
-    move: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    look: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    move: {fileID: -3294628319744290294, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    look: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     pause: {fileID: -7420171985196240918, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     unpause: {fileID: -6857184440973523537, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     cancel: {fileID: 4971023935266359616, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}

@@ -59,13 +59,12 @@ public class PauseMenu : MonoBehaviour
         playerInput.SwitchCurrentActionMap("UI");
         Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
         pauseMenu.SetActive(true);
-        /*
-
+        
         if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
         {
             EventSystem.current.SetSelectedGameObject(firstSelected);
         }
-        */
+        
     }
 
     public void OnUnpause(PlayerInput playerInput)

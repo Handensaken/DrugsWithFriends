@@ -86,6 +86,7 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.pause.action.performed -= Pause;
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
+        playerInput.onControlsChanged -= ControlsChanged;
     }
 
     private void FixedUpdate()
@@ -159,6 +160,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Look(InputAction.CallbackContext context)
     {
+        Debug.Log("trying to rotate");
         if (context.performed)
         {
             looking = true;
