@@ -9,10 +9,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PauseEvent pauseEvent;
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject firstSelected;
-    [SerializeField] private GameObject optionsButton;
-    [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject pauseMenu, firstSelected, optionsMenu, menuButtons;
     private Menu[] menus;
     [SerializeField] private SelectionHandler selectionHandler;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
@@ -49,7 +46,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        menus = optionsMenu.GetComponentsInChildren<Menu>(true).Where(menu => menu.gameObject != optionsMenu.gameObject).ToArray();
+        menus = pauseMenu.GetComponentsInChildren<Menu>(true).ToArray();
         pauseMenu.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -63,6 +60,7 @@ public class PauseMenu : MonoBehaviour
         if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
         {
             EventSystem.current.SetSelectedGameObject(firstSelected);
+            Debug.Log("selected " + EventSystem.current.currentSelectedGameObject.name);
         }
         
     }
@@ -84,25 +82,25 @@ public class PauseMenu : MonoBehaviour
     public void Options()
     {
         optionsMenu.SetActive(!optionsMenu.activeSelf);
+        if (optionsMenu.activeSelf)
+        {
+            menuButtons.SetActive(false);
+        }
     }
 
     private void TryCancel(PlayerInput playerInput)
     {
-        foreach (var menu in menus)
+        for (int i = menus.Length - 1; i >= 0; i--)
         {
-            if (menu.gameObject.activeSelf)
+            if (menus[i].gameObject.activeSelf)
             {
-                menu.gameObject.SetActive(false);
+                Debug.Log(menus[i].gameObject.name + "is active, setting it to false");
+                menus[i].gameObject.SetActive(false);
                 SetSelectedObject();
                 return;
             }
         }
-        if (optionsMenu.activeSelf)
-        {
-            optionsMenu.SetActive(false);
-            SetSelectedObject();
-        }
-        else if (pauseMenu.activeSelf)
+        if (menuButtons.activeSelf)
         {
             OnUnpause(playerInput);
         }

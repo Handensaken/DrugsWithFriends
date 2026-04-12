@@ -160,7 +160,6 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Look(InputAction.CallbackContext context)
     {
-        Debug.Log("trying to rotate");
         if (context.performed)
         {
             looking = true;
