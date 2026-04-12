@@ -86,6 +86,7 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.pause.action.performed -= Pause;
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
+        playerInput.onControlsChanged -= ControlsChanged;
     }
 
     private void FixedUpdate()
