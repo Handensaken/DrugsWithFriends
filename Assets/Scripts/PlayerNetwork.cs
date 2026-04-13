@@ -50,6 +50,8 @@ public class PlayerNetwork : NetworkBehaviour
         if (TryGetComponent(out Animator anim))
         {
             animator = anim;
+            animator.SetFloat("X-Input", 0);
+            animator.SetFloat("Z-Input", 0);
         }
         else
         {
@@ -113,9 +115,8 @@ public class PlayerNetwork : NetworkBehaviour
         
         if (moveVector.sqrMagnitude > 0.01f)
         {
-            return;
             Quaternion targetRotation = Quaternion.LookRotation(moveVector);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, 1));
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, 0.5f));
         }
     }
 
@@ -150,6 +151,8 @@ public class PlayerNetwork : NetworkBehaviour
         else if (context.canceled)
         {
             rb.linearVelocity = new Vector3(0, 0, 0);
+            animator.SetFloat("X-Input", 0);
+            animator.SetFloat("Z-Input", 0);
         }
     }
 
@@ -166,9 +169,9 @@ public class PlayerNetwork : NetworkBehaviour
         cameraRight.Normalize();
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
-        animator.SetFloat("X-Input", direction.x);
-        animator.SetFloat("Z-Input", direction.y);
         rb.linearVelocity = moveVector * moveSpeed;
+        animator.SetFloat("X-Input", -Vector3.Dot(moveVector.normalized, cameraRight));
+        animator.SetFloat("Z-Input", Vector3.Dot(moveVector.normalized, cameraForward));
     }
 
     private void Look(InputAction.CallbackContext context)
