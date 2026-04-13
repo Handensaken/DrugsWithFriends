@@ -3,6 +3,7 @@ using FishNet.Object;
 using StateMachine.Scripts.StateMachine.Structure;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace BehaviourTree
 {
