@@ -27,6 +27,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PauseEvent pauseEvent;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerGameSettings playerSettings;
+    private Animator animator;
     
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -44,6 +45,15 @@ public class PlayerNetwork : NetworkBehaviour
         else
         {
             Debug.LogError("No Rigidbody found on PlayerNetwork object. Please add a Rigidbody component.");
+        }
+
+        if (TryGetComponent(out Animator anim))
+        {
+            animator = anim;
+        }
+        else
+        {
+            Debug.LogError("Couldn't get animator");
         }
     }
 
@@ -103,6 +113,7 @@ public class PlayerNetwork : NetworkBehaviour
         
         if (moveVector.sqrMagnitude > 0.01f)
         {
+            return;
             Quaternion targetRotation = Quaternion.LookRotation(moveVector);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, 1));
         }
@@ -155,6 +166,8 @@ public class PlayerNetwork : NetworkBehaviour
         cameraRight.Normalize();
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
+        animator.SetFloat("X-Input", direction.x);
+        animator.SetFloat("Z-Input", direction.y);
         rb.linearVelocity = moveVector * moveSpeed;
     }
 
