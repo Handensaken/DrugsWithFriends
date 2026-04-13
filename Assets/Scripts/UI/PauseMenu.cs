@@ -68,6 +68,7 @@ public class PauseMenu : MonoBehaviour
     public void OnUnpause(PlayerInput playerInput)
     {
         playerInput.SwitchCurrentActionMap("Player");
+        Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
         
         foreach (var menu in menus)
         {

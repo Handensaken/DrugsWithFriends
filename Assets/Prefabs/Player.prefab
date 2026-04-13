@@ -539,7 +539,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -574,7 +574,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584255897822680109
+  _initializedTimestamp: -8584255309142775215
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -785,6 +785,22 @@ PrefabInstance:
     - target: {fileID: 692724311077871922, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7258965269869749776}
+    - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResumeButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerNetwork, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4794956492959576993, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_Name
