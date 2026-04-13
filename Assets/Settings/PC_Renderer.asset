@@ -31,26 +31,68 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: RenderObjects
+  m_Name: SoftOutline
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: RenderObjects
-    Event: 300
+    passTag: SoftOutline
+    Event: 400
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 64
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 336b6bf9f3b13bd43b5fc2f1d3f84e83, type: 2}
+    overrideMaterial: {fileID: 2100000, guid: 02719b973c19c7d4189ec8568fe182ac, type: 2}
     overrideMaterialPassIndex: 0
     overrideShader: {fileID: 0}
     overrideShaderPassIndex: 0
     overrideMode: 1
     overrideDepthState: 1
-    depthCompareFunction: 4
+    depthCompareFunction: 2
     enableWrite: 0
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &-64346083011171104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: HardOutlineCleanup
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: HardOutlineCleanup
+    Event: 300
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 128
+      PassNames: []
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideShader: {fileID: 0}
+    overrideShaderPassIndex: 0
+    overrideMode: 1
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0
@@ -92,7 +134,9 @@ MonoBehaviour:
   - {fileID: -2402854827169392313}
   - {fileID: -2028700706399267577}
   - {fileID: 695247989093583145}
-  m_RendererFeatureMap: ad6b866f10d7b46c4759bcfb4358a7de07d57cbf749bd8e32949bacc5c04a609
+  - {fileID: 3032811953785024069}
+  - {fileID: -64346083011171104}
+  m_RendererFeatureMap: ad6b866f10d7b46c4759bcfb4358a7de07d57cbf749bd8e32949bacc5c04a609452eea4767b6162ae06c6e1394651bff
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -128,11 +172,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: RenderObjects
+  m_Name: SoftOutlineCleanup
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: RenderObjects
+    passTag: SoftOutlineCleanup
     Event: 450
     filterSettings:
       RenderQueueType: 0
@@ -142,12 +186,54 @@ MonoBehaviour:
       PassNames: []
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
-    overrideShader: {fileID: 0}
+    overrideShader: {fileID: -6465566751694194690, guid: d2ccbc8fb68d948419a15dc0717eca06, type: 3}
     overrideShaderPassIndex: 0
     overrideMode: 1
     overrideDepthState: 0
     depthCompareFunction: 4
-    enableWrite: 1
+    enableWrite: 0
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &3032811953785024069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: HardOutline
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: HardOutline
+    Event: 350
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 128
+      PassNames: []
+    overrideMaterial: {fileID: 2100000, guid: 62b0acdc86937a8428b94167fa72a6df, type: 2}
+    overrideMaterialPassIndex: 0
+    overrideShader: {fileID: 0}
+    overrideShaderPassIndex: 0
+    overrideMode: 1
+    overrideDepthState: 1
+    depthCompareFunction: 2
+    enableWrite: 0
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0
