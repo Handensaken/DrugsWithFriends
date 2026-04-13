@@ -11,11 +11,16 @@ using UnityEngine.InputSystem.Users;
 public class PlayerNetwork : NetworkBehaviour
 {
     public float moveSpeed;
-
+    [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
     private Vector3 forwardVector;
     private bool looking;
     private Rigidbody rb;
+    [SerializeField, Range(0, 10f)] private float range;
+    [SerializeField, Range(0, 4f), Tooltip("Attacks per second")] private float attackSpeed;
+    [SerializeField, Range(0, 4f), Tooltip("Time between attack combo bursts")] private float lightComboAttackCooldown, heavyComboAttackCooldown;
+    [SerializeField, Range(0, 2f), Tooltip("Time before when the next attack can be performed")] private float attackBufferTime;
+    [SerializeField, Range(0, 5), Tooltip("Number of attacks in a combo")] private int maxComboCount;
 
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
@@ -116,7 +121,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (moveVector.sqrMagnitude > 0.01f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveVector);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, 0.5f));
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
         }
     }
 
@@ -170,8 +175,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
-        animator.SetFloat("X-Input", -Vector3.Dot(moveVector.normalized, cameraRight));
-        animator.SetFloat("Z-Input", Vector3.Dot(moveVector.normalized, cameraForward));
+        animator.SetFloat("Z-Input", 1);
     }
 
     private void Look(InputAction.CallbackContext context)
