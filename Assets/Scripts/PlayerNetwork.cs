@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using FishNet.Object;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -34,7 +35,8 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
-    private int cameraIndex;
+    private int cameraIndex, enemyIndex;
+    private List<Transform> enemiesInRange;
     
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -45,6 +47,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void Awake()
     {
         cameraIndex = 0;
+        enemiesInRange = new List<Transform>();
         playerInput = GetComponent<PlayerInput>();
         if (TryGetComponent(out Rigidbody rigidbody))
         {
@@ -205,19 +208,36 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-        cameras[cameraIndex].SetActive(false);
-        cameraIndex = (cameraIndex + 1) % cameras.Length;
-        cameras[cameraIndex].SetActive(true);
+        if (!IsOwner || cameras.Length < 2) return;
+
+        if (enemiesInRange.Count == 0)
+        {
+            SwitchToCamera(0);
+            return;
+        }
+
+        if (cameraIndex == 1)
+        {
+            enemyIndex = (enemyIndex + 1) % enemiesInRange.Count; // Goes back to zero if it's bigger than the list index 
+        }
+        else
+        {
+            SwitchToCamera(1);
+        }
         
+        cinemachineCamera.Target.TrackingTarget = enemiesInRange[enemyIndex];
+    }
+    
+    private void SwitchToCamera(int index)
+    {
+        if (index == cameraIndex) return;
+        cameras[cameraIndex].SetActive(false);
+        cameraIndex = index;
+        cameras[cameraIndex].SetActive(true);
+
         if (cameras[cameraIndex].TryGetComponent(out CinemachineCamera vcam))
         {
             cinemachineCamera = vcam;
-            if (cameraIndex == 1)
-            {
-                // Set camera target to enemy that you want to track
-                //cinemachineCamera.Target = 
-            }
         }
     }
 
