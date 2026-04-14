@@ -16,16 +16,17 @@ public class PlayerNetwork : NetworkBehaviour
     private Vector3 forwardVector;
     private bool looking, attacking;
     private Rigidbody rb;
+    [SerializeField] private GameObject[] cameras;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 4f), Tooltip("Attacks per second")] private float attackSpeed;
-    [SerializeField, Range(0, 4f), Tooltip("Time between attack combo bursts")] private float lightComboAttackCooldown, heavyComboAttackCooldown;
+    [SerializeField, Range(0, 4f), Tooltip("Time between attack chains")] private float lightChainAttackCooldown, heavyChainAttackCooldown;
     [SerializeField, Range(0, 2f), Tooltip("Time before when the next attack can be performed")] private float attackBufferTime;
-    [SerializeField, Range(0, 5), Tooltip("Number of attacks in a combo")] private int maxComboCount;
+    [SerializeField, Range(0, 5), Tooltip("Number of attacks in a chain")] private int maxChainLengthLight, maxChainLengthHeavy;
 
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, look, pause, unpause, cancel, lightAttack, heavyAttack;
+        public InputActionReference move, look, toggleCameraFocus, pause, unpause, cancel, lightAttack, heavyAttack;
     }
     
     [SerializeField] private ActionReferences actionReferences;
@@ -33,6 +34,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
+    private int cameraIndex;
     
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -42,6 +44,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        cameraIndex = 0;
         playerInput = GetComponent<PlayerInput>();
         if (TryGetComponent(out Rigidbody rigidbody))
         {
@@ -88,6 +91,7 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.canceled += Move;
         actionReferences.look.action.performed += Look;
         actionReferences.look.action.canceled += Look;
+        actionReferences.toggleCameraFocus.action.performed += ToggleCameraFocus;
         actionReferences.lightAttack.action.performed += LightAttack;
         actionReferences.heavyAttack.action.performed += HeavyAttack;
         actionReferences.pause.action.performed += Pause;
@@ -102,6 +106,7 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.canceled -= Move;
         actionReferences.look.action.performed -= Look;
         actionReferences.look.action.canceled -= Look;
+        actionReferences.toggleCameraFocus.action.performed -= ToggleCameraFocus;
         actionReferences.lightAttack.action.performed -= LightAttack;
         actionReferences.heavyAttack.action.performed -= HeavyAttack;
         actionReferences.pause.action.performed -= Pause;
@@ -195,6 +200,24 @@ public class PlayerNetwork : NetworkBehaviour
         else if (context.canceled)
         {
             looking = false;
+        }
+    }
+    
+    private void ToggleCameraFocus(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+        cameras[cameraIndex].SetActive(false);
+        cameraIndex = (cameraIndex + 1) % cameras.Length;
+        cameras[cameraIndex].SetActive(true);
+        
+        if (cameras[cameraIndex].TryGetComponent(out CinemachineCamera vcam))
+        {
+            cinemachineCamera = vcam;
+            if (cameraIndex == 1)
+            {
+                // Set camera target to enemy that you want to track
+                //cinemachineCamera.Target = 
+            }
         }
     }
 

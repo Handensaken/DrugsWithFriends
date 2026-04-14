@@ -104,6 +104,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleCameraFocus",
+                    "type": "Button",
+                    "id": "4da94c6a-bcc6-4c2c-9496-12c3b08d1872",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -511,6 +520,28 @@
                     "processors": "",
                     "groups": ";Gamepad;Joystick;XBox;Playstation;NintendoSwitch",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7ea8be34-7993-4da3-8248-a2bb350ba344",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "ToggleCameraFocus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2cb0c180-c703-403e-a07d-e968112cb9af",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Playstation;XBox;NintendoSwitch",
+                    "action": "ToggleCameraFocus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
