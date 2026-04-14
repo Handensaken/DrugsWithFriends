@@ -40,7 +40,7 @@ public class PlayerNetwork : NetworkBehaviour
     private NetworkAnimator networkAnimator;
     private int cameraIndex, enemyIndex;
     private List<Transform> enemiesInRange;
-    
+    private Queue<string> attackQueue;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
     private Vector3 moveVector;
@@ -52,6 +52,7 @@ public class PlayerNetwork : NetworkBehaviour
         freeCamMovement = true;
         cameraIndex = 0;
         enemiesInRange = new List<Transform>();
+        attackQueue = new Queue<string>();
         playerInput = GetComponent<PlayerInput>();
         if (TryGetComponent(out Rigidbody rigidbody))
         {
@@ -134,10 +135,6 @@ public class PlayerNetwork : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
-        if (attacking)
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
         if (looking)
         {
             forwardVector = cinemachineCamera.transform.forward;
@@ -279,7 +276,7 @@ public class PlayerNetwork : NetworkBehaviour
         /*
         if (enemiesInRange.Count == 0)
         {
-            SwitchToCamera(0);
+            SwitchToCamera(0); // Should recenter camera when there is no other camera to switch to 
             freeCamMovement = true;
             return;
         }
@@ -316,7 +313,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            networkAnimator.SetTrigger("Light");
+            QueueLightAttack("Light");
         }
     }
     
@@ -325,17 +322,46 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            networkAnimator.SetTrigger("Heavy");
+            QueueHeavyAttack("Heavy");
+        }
+    }
+
+    private void QueueLightAttack(string attack)
+    {
+        if (!attacking)
+        {
+            networkAnimator.SetTrigger(attack);
+            OnAttackStart();
+        }
+        else if (attackQueue.Count < maxChainLengthLight)
+        {
+            attackQueue.Enqueue(attack);
+        }
+    }
+    
+    private void QueueHeavyAttack(string attack)
+    {
+        if (attackQueue.Count < maxChainLengthHeavy)
+        {
+            attackQueue.Enqueue(attack);
         }
     }
     public void OnAttackStart()
     {
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
+        attacking = true;
     }
     public void OnAttackEnd()
     {
         actionReferences.move.action.Enable();
+        attacking = false;
+        
+        if(attackQueue.Count > 0)
+        {
+            string nextAttack = attackQueue.Dequeue();
+            networkAnimator.SetTrigger(nextAttack);
+        }
     }
     private void ControlsChanged(PlayerInput input)
     {
