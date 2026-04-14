@@ -14,7 +14,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
     private Vector3 forwardVector;
-    private bool looking;
+    private bool looking, attacking;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 4f), Tooltip("Attacks per second")] private float attackSpeed;
@@ -113,6 +113,10 @@ public class PlayerNetwork : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
+        if (attacking)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
         if (looking)
         {
             forwardVector = cinemachineCamera.transform.forward;
@@ -208,6 +212,10 @@ public class PlayerNetwork : NetworkBehaviour
         {
             animator.SetBool("Heavy", true);
         }
+    }
+    public void OnAttackEnd()
+    {
+        attacking = false;
     }
     private void ControlsChanged(PlayerInput input)
     {
