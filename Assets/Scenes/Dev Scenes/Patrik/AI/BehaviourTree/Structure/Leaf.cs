@@ -1,19 +1,22 @@
-﻿using NodeState = BehaviourTree.INode.NodeState;
+﻿using UnityEngine;
+using NodeState = BehaviourTree.INode.NodeState;
 
 namespace BehaviourTree
 {
     public class Leaf : Node
     {
-        private readonly INodeAction _nodeAction;
+        private readonly IProcess _process;
         
-        public Leaf(string debugMessage, INodeAction nodeAction) : base(debugMessage)
+        public Leaf(string debugMessage, IProcess process) : base(debugMessage)
         {
-            _nodeAction = nodeAction;
+            _process = process;
         }
         
         public override NodeState Process()
         {
-            return _nodeAction.Process();
+            NodeState result = _process.Process();
+            Debug.Log(DebugMessage + " : " + result);
+            return result;
         }
     }
 }

@@ -5,7 +5,7 @@ using NodeState = BehaviourTree.INode.NodeState;
 
 namespace BehaviourTree
 {
-    public class PatrolAction : INodeAction
+    public class PatrolProcess : IProcess
     {
         private readonly NavMeshAgent _agent;
         private readonly IPathPoints _pathPoints;
@@ -14,7 +14,7 @@ namespace BehaviourTree
         private int _currentPointIndex = 0;
         private bool _isPathDone = true;
 
-        public PatrolAction(NavMeshAgent agent, IPathPoints pathPoints)
+        public PatrolProcess(NavMeshAgent agent, IPathPoints pathPoints)
         {
             _agent = agent;
             _pathPoints = pathPoints;
@@ -35,7 +35,7 @@ namespace BehaviourTree
                 _isPathDone = false;
             }
             
-            return NodeState.Processing;
+            return NodeState.Success;
         }
 
         public void Reset()

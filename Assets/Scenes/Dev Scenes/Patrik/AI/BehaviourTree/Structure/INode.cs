@@ -9,8 +9,10 @@ namespace BehaviourTree
             Processing
         }
 
-        public abstract void AddChild(INode child);
-
+        public string GetDebugMessage { get; }
+        
+        public void AddChild(Node child);
+        
         public abstract NodeState Process();
     }
 }

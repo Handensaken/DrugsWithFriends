@@ -5,30 +5,32 @@ namespace BehaviourTree
 {
     public class Node : INode
     {
-        protected readonly List<INode> _children = new List<INode>();
-        protected int currentChildIndex = 0; 
+        protected readonly List<Node> Children = new List<Node>();
+        protected int CurrentChildIndex = 0; 
         
-        protected string DebugMessage;
+        protected readonly string DebugMessage;
+
+        public string GetDebugMessage => DebugMessage;
 
         public Node(string debugMessage)
         {
             DebugMessage = debugMessage;
         }
     
-        public virtual void AddChild(INode child)
+        public virtual void AddChild(Node child)
         {
-            _children.Add(child);
+            Children.Add(child);
         }
 
         public virtual NodeState Process()
         {
-            return _children[currentChildIndex].Process();
+            return Children[CurrentChildIndex].Process();
         }
 
-        protected void Reset()
+        public virtual void Reset()
         {
-            currentChildIndex = 0;
-            foreach (Node child in _children)
+            CurrentChildIndex = 0;
+            foreach (var child in Children)
             {
                 child.Reset();
             }

@@ -6,13 +6,13 @@ namespace BehaviourTree
     {
         public Decorator(string debugMessage) : base(debugMessage) {}
 
-        public override void AddChild(INode child)
+        public override void AddChild(Node child)
         {
-            if (_children[0] != null)
+            if (Children[0] != null)
             {
                 Debug.Log( DebugMessage+": - Removed one child to have another" );
             }
-            _children[0] = child;
+            Children[0] = child;
         }
     }
 }

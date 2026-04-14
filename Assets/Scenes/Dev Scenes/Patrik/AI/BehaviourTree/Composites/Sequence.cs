@@ -1,12 +1,10 @@
-using BehaviourTree;
-using UnityEngine;
 using NodeState = BehaviourTree.INode.NodeState;
 
 namespace BehaviourTree
 {
-    public class Selector : Node
+    public class Sequence : Node
     {
-        public Selector(string debugMessage) : base(debugMessage) {}
+        public Sequence(string debugMessage) : base(debugMessage) {}
 
         public override NodeState Process()
         {
@@ -16,9 +14,11 @@ namespace BehaviourTree
                 {
                     case NodeState.Processing:
                         return NodeState.Processing;
-                    case NodeState.Success:
+                    
+                    case NodeState.Failure:
                         Reset();
-                        return NodeState.Success;
+                        return NodeState.Failure;
+                    
                     default:
                         CurrentChildIndex++;
                         return CurrentChildIndex == Children.Count ? NodeState.Success : NodeState.Processing;
@@ -26,8 +26,7 @@ namespace BehaviourTree
             }
 
             Reset();
-            return NodeState.Failure;
+            return NodeState.Success;
         }
     }
 }
-
