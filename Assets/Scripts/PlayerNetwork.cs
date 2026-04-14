@@ -213,6 +213,10 @@ public class PlayerNetwork : NetworkBehaviour
             animator.SetBool("Heavy", true);
         }
     }
+    public void OnAttackStart()
+    {
+        attacking = false;
+    }
     public void OnAttackEnd()
     {
         attacking = false;
