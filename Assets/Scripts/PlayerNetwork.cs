@@ -154,9 +154,13 @@ public class PlayerNetwork : NetworkBehaviour
             {
                 rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
             }
-            else
+            else if(moveVector.sqrMagnitude > 0.01f)
             {
                 rotationTarget = moveVector;
+            }
+            else
+            {
+                return;
             }
     
             Quaternion targetRotation = Quaternion.LookRotation(rotationTarget);
@@ -261,8 +265,18 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
-        if (!IsOwner || cameras.Length < 2) return;
-
+        if (!IsOwner) return;
+        if(cameraIndex == 0)
+        {
+            SwitchToCamera(1);
+            freeCamMovement = false;
+        }
+        else
+        {
+            SwitchToCamera(0);
+            freeCamMovement = true;
+        }
+        /*
         if (enemiesInRange.Count == 0)
         {
             SwitchToCamera(0);
@@ -281,6 +295,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         
         cinemachineCamera.Target.TrackingTarget = enemiesInRange[enemyIndex];
+        */
     }
     
     private void SwitchToCamera(int index)
