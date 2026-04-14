@@ -8,6 +8,9 @@
         },
         {
             "m_Id": "b40e087f321545678da25be982fd24ff"
+        },
+        {
+            "m_Id": "92ffbc5c1f554966ba2b3f69a2978e77"
         }
     ],
     "m_Keywords": [],
@@ -80,6 +83,9 @@
         },
         {
             "m_Id": "79243daa7fd1467fa55b3b0f4e8322f6"
+        },
+        {
+            "m_Id": "57b4fd3ffe464fc98843d1a778375883"
         }
     ],
     "m_GroupDatas": [],
@@ -167,6 +173,20 @@
                     "m_Id": "8066c4fe6b6746f9890ac511b44334b1"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "57b4fd3ffe464fc98843d1a778375883"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "199105ab946f43feb49a99504b272dcf"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -1073,6 +1093,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "516472f47eaa4fb0a1a151bbf59a8dfe",
+    "m_Id": 0,
+    "m_DisplayName": "OutlineColor",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "534588846aea4fbb9decb5929837e89e",
     "m_Id": 4,
@@ -1084,6 +1129,42 @@
     "m_Value": 1.0,
     "m_DefaultValue": 1.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "57b4fd3ffe464fc98843d1a778375883",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -98.44087219238281,
+            "y": 398.8775329589844,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "516472f47eaa4fb0a1a151bbf59a8dfe"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "92ffbc5c1f554966ba2b3f69a2978e77"
+    }
 }
 
 {
@@ -1877,6 +1958,36 @@
 }
 
 {
+    "m_SGVersion": 3,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty",
+    "m_ObjectId": "92ffbc5c1f554966ba2b3f69a2978e77",
+    "m_Guid": {
+        "m_GuidSerialized": "82749556-4932-4e6a-bc38-941bb126ed1e"
+    },
+    "m_Name": "OutlineColor",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "OutlineColor",
+    "m_DefaultReferenceName": "_OutlineColor",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 0.0
+    },
+    "isMainColor": false,
+    "m_ColorMode": 1
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DivideNode",
     "m_ObjectId": "a135eb79f2424536a781c0f60fcebed6",
@@ -2464,6 +2575,9 @@
         },
         {
             "m_Id": "b40e087f321545678da25be982fd24ff"
+        },
+        {
+            "m_Id": "92ffbc5c1f554966ba2b3f69a2978e77"
         }
     ]
 }
