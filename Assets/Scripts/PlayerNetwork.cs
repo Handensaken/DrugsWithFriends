@@ -23,7 +23,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 4f), Tooltip("Attacks per second")] private float attackSpeed;
     [SerializeField, Range(0, 4f), Tooltip("Time between attack chains")] private float lightChainAttackCooldown, heavyChainAttackCooldown;
-    [SerializeField, Range(0, 2f), Tooltip("Time before when the next attack can be performed")] private float attackBufferTime;
+    [SerializeField, Range(0, 1f), Tooltip("Time before when the next attack can be performed")] private float attackBufferTime;
     [SerializeField, Range(0, 5), Tooltip("Number of attacks in a chain")] private int maxChainLengthLight, maxChainLengthHeavy;
 
     [Serializable]
@@ -44,6 +44,7 @@ public class PlayerNetwork : NetworkBehaviour
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
     private Vector3 moveVector;
+    private float attackQueueTimestamp = -1f;
     
     [SerializeField] private SelectionHandler selectionHandler;
 
@@ -333,16 +334,23 @@ public class PlayerNetwork : NetworkBehaviour
             networkAnimator.SetTrigger(attack);
             OnAttackStart();
         }
-        else if (attackQueue.Count < maxChainLengthLight)
+        else
         {
-            attackQueue.Enqueue(attack);
+            attackQueueTimestamp = Time.time; // Record when the input arrived
+            attackQueue.Enqueue(attack);      // Always queue, validate later
         }
     }
     
     private void QueueHeavyAttack(string attack)
     {
-        if (attackQueue.Count < maxChainLengthHeavy)
+        if (!attacking)
         {
+            networkAnimator.SetTrigger(attack);
+            OnAttackStart();
+        }
+        else
+        {
+            attackQueueTimestamp = Time.time;
             attackQueue.Enqueue(attack);
         }
     }
@@ -356,12 +364,27 @@ public class PlayerNetwork : NetworkBehaviour
     {
         actionReferences.move.action.Enable();
         attacking = false;
-        
-        if(attackQueue.Count > 0)
+
+        if (attackQueue.Count > 0)
         {
-            string nextAttack = attackQueue.Dequeue();
-            networkAnimator.SetTrigger(nextAttack);
+            float timeSinceQueued = Time.time - attackQueueTimestamp;
+            float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
+        
+            if (timeSinceQueued <= attackBufferTime)
+            {
+                Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
+                string nextAttack = attackQueue.Dequeue();
+                networkAnimator.SetTrigger(nextAttack);
+                OnAttackStart();
+            }
+            else
+            {
+                Debug.Log($"Attack queued too early! {timeSinceQueued:F2}s ago, needed within {attackBufferTime:F2}s ({percentageOfBuffer:F0}% of buffer, {timeSinceQueued - attackBufferTime:F2}s too early)");
+                attackQueue.Clear();
+            }
         }
+
+        attackQueueTimestamp = -1f;
     }
     private void ControlsChanged(PlayerInput input)
     {
