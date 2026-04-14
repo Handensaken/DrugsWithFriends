@@ -15,6 +15,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
     private Vector3 forwardVector;
+    [SerializeField] private bool freeCamMovement;
     private bool looking, attacking;
     private Rigidbody rb;
     [SerializeField] private GameObject[] cameras;
@@ -46,6 +47,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        freeCamMovement = true;
         cameraIndex = 0;
         enemiesInRange = new List<Transform>();
         playerInput = GetComponent<PlayerInput>();
@@ -136,7 +138,17 @@ public class PlayerNetwork : NetworkBehaviour
         
         if (moveVector.sqrMagnitude > 0.01f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveVector);
+            Vector3 rotationTarget;
+            if (!freeCamMovement)
+            {
+                rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
+            }
+            else
+            {
+                rotationTarget = moveVector;
+            }
+    
+            Quaternion targetRotation = Quaternion.LookRotation(rotationTarget);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
         }
     }
@@ -179,6 +191,18 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void SetVelocity()
     {
+        if(freeCamMovement)
+        {
+            FreeCamMovement();
+        }
+        else
+        {
+            TrackingObjectMovement();
+        }
+    }
+
+    private void FreeCamMovement()
+    {
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
 
@@ -192,6 +216,24 @@ public class PlayerNetwork : NetworkBehaviour
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
         animator.SetFloat("Z-Input", 1);
+    }
+
+    private void TrackingObjectMovement()
+    {
+        Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
+        if (direction.sqrMagnitude < 0.01) return;
+
+        Vector3 cameraForward = cinemachineCamera.transform.forward;
+        Vector3 cameraRight = cinemachineCamera.transform.right;
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        moveVector = (cameraForward * direction.y + cameraRight * direction.x);
+        rb.linearVelocity = moveVector * moveSpeed;
+        animator.SetFloat("Z-Input", direction.y);
+        animator.SetFloat("X-Input", direction.x);
     }
 
     private void Look(InputAction.CallbackContext context)
@@ -213,6 +255,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (enemiesInRange.Count == 0)
         {
             SwitchToCamera(0);
+            freeCamMovement = true;
             return;
         }
 
@@ -223,6 +266,7 @@ public class PlayerNetwork : NetworkBehaviour
         else
         {
             SwitchToCamera(1);
+            freeCamMovement = false;
         }
         
         cinemachineCamera.Target.TrackingTarget = enemiesInRange[enemyIndex];
