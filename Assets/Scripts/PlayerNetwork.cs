@@ -215,11 +215,12 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackStart()
     {
-        attacking = false;
+        actionReferences.move.action.Disable();
+        rb.linearVelocity = Vector3.zero;
     }
     public void OnAttackEnd()
     {
-        attacking = false;
+        actionReferences.move.action.Enable();
     }
     private void ControlsChanged(PlayerInput input)
     {
