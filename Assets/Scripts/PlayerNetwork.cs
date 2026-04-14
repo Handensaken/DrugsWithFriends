@@ -25,7 +25,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, look, pause, unpause, cancel;
+        public InputActionReference move, look, pause, unpause, cancel, lightAttack, heavyAttack;
     }
     
     [SerializeField] private ActionReferences actionReferences;
@@ -88,6 +88,8 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.canceled += Move;
         actionReferences.look.action.performed += Look;
         actionReferences.look.action.canceled += Look;
+        actionReferences.lightAttack.action.performed += LightAttack;
+        actionReferences.heavyAttack.action.performed += HeavyAttack;
         actionReferences.pause.action.performed += Pause;
         actionReferences.cancel.action.performed += Cancel; 
         actionReferences.unpause.action.performed += Unpause;
@@ -100,6 +102,8 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.canceled -= Move;
         actionReferences.look.action.performed -= Look;
         actionReferences.look.action.canceled -= Look;
+        actionReferences.lightAttack.action.performed -= LightAttack;
+        actionReferences.heavyAttack.action.performed -= HeavyAttack;
         actionReferences.pause.action.performed -= Pause;
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
@@ -189,7 +193,22 @@ public class PlayerNetwork : NetworkBehaviour
             looking = false;
         }
     }
+
+    private void LightAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            animator.SetBool("Light", true);
+        }
+    }
     
+    private void HeavyAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            animator.SetBool("Heavy", true);
+        }
+    }
     private void ControlsChanged(PlayerInput input)
     {
         controlSchemeEvent.currentControlScheme = input.currentControlScheme.ToLower();
