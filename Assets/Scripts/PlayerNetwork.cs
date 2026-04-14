@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FishNet.Component.Animating;
 using FishNet.Object;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
+    private NetworkAnimator networkAnimator;
     private int cameraIndex, enemyIndex;
     private List<Transform> enemiesInRange;
     
@@ -65,6 +67,15 @@ public class PlayerNetwork : NetworkBehaviour
             animator = anim;
             animator.SetFloat("X-Input", 0);
             animator.SetFloat("Z-Input", 0);
+        }
+        else
+        {
+            Debug.LogError("Couldn't get animator");
+        }
+        
+        if (TryGetComponent(out NetworkAnimator nAnim))
+        {
+            networkAnimator = nAnim;
         }
         else
         {
@@ -287,17 +298,19 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void LightAttack(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         if (context.performed)
         {
-            animator.SetBool("Light", true);
+            networkAnimator.SetTrigger("Light");
         }
     }
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         if (context.performed)
         {
-            animator.SetBool("Heavy", true);
+            networkAnimator.SetTrigger("Heavy");
         }
     }
     public void OnAttackStart()
