@@ -187,6 +187,7 @@ public class PlayerNetwork : NetworkBehaviour
             rb.linearVelocity = new Vector3(0, 0, 0);
             animator.SetFloat("X-Input", 0);
             animator.SetFloat("Z-Input", 0);
+            animator.SetBool("Running", false);
         }
     }
 
@@ -265,8 +266,8 @@ public class PlayerNetwork : NetworkBehaviour
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
-        animator.SetFloat("Z-Input", direction.y);
-        animator.SetFloat("X-Input", direction.x);
+        animator.SetFloat("combatY", direction.y);
+        animator.SetFloat("combatX", direction.x);
     }
 
     private void Look(InputAction.CallbackContext context)
