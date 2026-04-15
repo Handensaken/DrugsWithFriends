@@ -19,13 +19,21 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
 
         private void Update()
         {
-            UpdateHealth();
-            UpdateHealthBatches();
+            if (healthData.updateData)
+            {
+                int maxHealth = healthData.HealthPerBatch*healthData.AmountOfBatches;
+                if (currentHealth > maxHealth)
+                {
+                    currentHealth = maxHealth;
+                }
+                UpdateHealth();
+                UpdateHealthBatches();
+            }
         }
 
         private void UpdateHealth() //TODO med event
         {
-            float maxHealth = healthData.MaxHealth;
+            float maxHealth = healthData.HealthPerBatch*healthData.AmountOfBatches;
             
             float maxWidth = healthBarUI.rect.width;
             float per = currentHealth / maxHealth;
