@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2303955790482773795}
   - component: {fileID: 5368895684042664391}
   - component: {fileID: 472303871168855331}
-  - component: {fileID: 605534183559461243}
   m_Layer: 0
   m_Name: AttackIsh
   m_TagString: Untagged
@@ -109,15 +108,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &605534183559461243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6731578203208170027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab9b4576666949a4890279a9fd34f8d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
