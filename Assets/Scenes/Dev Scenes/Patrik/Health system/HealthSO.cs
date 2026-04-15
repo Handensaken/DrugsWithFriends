@@ -16,7 +16,7 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
 
         private void OnValidate()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
