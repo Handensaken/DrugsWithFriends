@@ -651,7 +651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8237410667802671908, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_Text
-      value: Hold Triangle
+      value: Hold Y
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1097,7 +1097,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584254504140814826
+  _initializedTimestamp: -8584253596294347388
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -1137,19 +1137,19 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7696538552095724360}
   _networkObjectCache: {fileID: 7696538552095724360}
-  moveSpeed: 5
+  moveSpeed: 4
   rotationSpeed: 0.217
   freeCamMovement: 0
   cameras:
   - {fileID: 9075642670705430114}
   - {fileID: 2312668981729931790}
-  range: 0
-  attackSpeed: 0
-  lightChainAttackCooldown: 0
-  heavyChainAttackCooldown: 0
+  range: 1.29
+  attackSpeed: 0.77
+  lightChainAttackCooldown: 0.57
+  heavyChainAttackCooldown: 0.52
   attackBufferTime: 0.327
-  maxChainLengthLight: 4
-  maxChainLengthHeavy: 4
+  maxChainLengthLight: 3
+  maxChainLengthHeavy: 3
   actionReferences:
     move: {fileID: -3294628319744290294, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     look: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}

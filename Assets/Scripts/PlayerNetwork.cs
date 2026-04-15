@@ -149,22 +149,7 @@ public class PlayerNetwork : NetworkBehaviour
         
         if (moveVector.sqrMagnitude > 0.01f)
         {
-            Vector3 rotationTarget;
-            if (!freeCamMovement)
-            {
-                rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
-            }
-            else if(moveVector.sqrMagnitude > 0.01f)
-            {
-                rotationTarget = moveVector;
-            }
-            else
-            {
-                return;
-            }
-    
-            Quaternion targetRotation = Quaternion.LookRotation(rotationTarget);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
+            HandleRotation();
         }
     }
 
@@ -202,6 +187,38 @@ public class PlayerNetwork : NetworkBehaviour
             animator.SetFloat("X-Input", 0);
             animator.SetFloat("Z-Input", 0);
         }
+    }
+
+    private void HandleRotation()
+    {
+        Vector3 rotationTarget;
+        if (!freeCamMovement)
+        {
+            rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
+        }
+        else if(moveVector.sqrMagnitude > 0.01f)
+        {
+            rotationTarget = moveVector;
+        }
+        else
+        {
+            return;
+        }
+    
+        Quaternion targetRotation = Quaternion.LookRotation(rotationTarget);
+            
+        float angleDifference = Quaternion.Angle(rb.rotation, targetRotation);
+
+        if (angleDifference > 180)
+        {
+            animator.SetBool("isTurning", true);
+        }
+        else
+        {
+            animator.SetBool("isTurning", false);
+        }
+            
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
     }
 
     private void SetVelocity()
@@ -356,6 +373,7 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackStart()
     {
+        HandleRotation();
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
@@ -371,7 +389,7 @@ public class PlayerNetwork : NetworkBehaviour
             float timeSinceQueued = Time.time - attackQueueTimestamp;
             float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
         
-            if (timeSinceQueued <= attackBufferTime && currentChain < maxChainLengthLight)
+            if (timeSinceQueued <= attackBufferTime && currentChain <= maxChainLengthLight)
             {
                 Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
                 string nextAttack = attackQueue.Dequeue();
