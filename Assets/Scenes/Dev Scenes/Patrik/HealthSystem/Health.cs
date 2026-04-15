@@ -1,6 +1,7 @@
 using System;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.Health_system
@@ -19,7 +20,7 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
 
         private void Awake()
         {
-            _currentHealthData.OnChange += HandleHealthChange;
+            //_currentHealthData.OnChange += HandleHealthChange;
         }
 
         private void Update()
@@ -28,7 +29,8 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
             {
                 Debug.Log(simulateHealthChange+ "-"+ simulateBatchChange);
                 HealthPackage healthPackage = new HealthPackage(simulateHealthChange, simulateBatchChange);
-                _currentHealthData.Value = healthPackage;
+                //_currentHealthData.Value = healthPackage;
+                healthData.UpdateHealth(healthPackage);
                 
                 simulateChange = false;
             }
