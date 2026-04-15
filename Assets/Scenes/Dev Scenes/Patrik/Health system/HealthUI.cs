@@ -7,7 +7,6 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
     {
         [SerializeField] private RectTransform healthBarUI;
         [SerializeField] private RectTransform healthUI;
-        [SerializeField] private GameObject markerUI;
 
         [Space]
         [SerializeField] private HealthSO healthData;
@@ -23,14 +22,16 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
             healthData.UpdateHealth -= UpdateHealth;
         }
 
-        private void UpdateHealth(int currentHealth, int currentBatchAmount)
+        private void UpdateHealth(HealthPackage healthPackage)
         {
-            int maxHealth = healthData.HealthPerBatch*currentBatchAmount;
+            int currentHealth = healthPackage.HealthAmount;
+            int currentBatchValue = healthPackage.BatchAmount;
             
+            int maxHealth = healthData.HealthPerBatch*currentBatchValue;
             if (currentHealth > maxHealth)
             {
                 currentHealth = maxHealth;
-                Debug.LogWarning("UpdateHealth exceeded the limited-value but was corrected");
+                Debug.LogWarning("UpdateHealth exceeded the limited-value but was corrected to: "+maxHealth);
             }
             
             float maxWidth = healthBarUI.rect.width;
@@ -38,7 +39,5 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
             float healthWidth = maxWidth * per;
             healthUI.sizeDelta = new Vector2(healthWidth,healthBarUI.rect.height);
         }
-
-        
     }
 }

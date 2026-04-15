@@ -7,44 +7,40 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
 {
     public class Health : NetworkBehaviour
     {
-        private readonly SyncVar<int> _currentHealth = new SyncVar<int>();
-
         [SerializeField, Range(0,250)]private int simulateHealthChange;
+        [SerializeField, Range(1,20)]private int simulateBatchChange;
+        private readonly SyncVar<HealthPackage> _currentHealthData = new SyncVar<HealthPackage>();
         
-        private readonly SyncVar<int> _currentBatchAmount = new SyncVar<int>();
-        [SerializeField, Range(0,20)]private int simulateBatchChange;
-
         [SerializeField] private bool simulateChange;
 
         [Space]
         [SerializeField] private HealthSO healthData;
 
+
         private void Awake()
         {
-            Debug.Log("Awake");
-            _currentHealth.OnChange += HandleHealthChange;
-            _currentBatchAmount.OnChange += HandleBatchChange;
+            _currentHealthData.OnChange += HandleHealthChange;
         }
 
         private void Update()
         {
             if (IsServerInitialized && simulateChange)
             {
-                Debug.Log("Enter");
-                _currentHealth.Value += simulateHealthChange;
-                _currentBatchAmount.Value += simulateBatchChange;
+                Debug.Log(simulateHealthChange+ "-"+ simulateBatchChange);
+                HealthPackage healthPackage = new HealthPackage(simulateHealthChange, simulateBatchChange);
+                _currentHealthData.Value = healthPackage;
+                
                 simulateChange = false;
             }
         }
 
-        private void HandleHealthChange(int prev, int next, bool asServer)
+        private void HandleHealthChange(HealthPackage prev, HealthPackage next, bool asServer)
         {
-            healthData.UpdateHealth(next,_currentBatchAmount.Value);
-        }
-        
-        private void HandleBatchChange(int prev, int next, bool asServer)
-        {
-            healthData.UpdateBatch(next);
+            if (asServer)
+            {
+                Debug.Log("UpdateHealth");
+                healthData.UpdateHealth(next);
+            }
         }
     }
 }
