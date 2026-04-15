@@ -1,18 +1,16 @@
 using System;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using GameInterfaces;
 using UnityEngine;
 
 namespace Paket.StateMachineScripts.Targets
 {
-    public class TargetDummy : NetworkBehaviour, IEnemyTarget
+    public class TargetDummy : NetworkBehaviour
     {
         
         [SerializeField] private Collider targetCollider;
         [SerializeField] private MeshRenderer meshRenderer;
-
-        private IHealth health;
+        
         private readonly SyncVar<bool> isActive = new SyncVar<bool>();
         
         private const float Time = 5f;
