@@ -38,7 +38,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    private int cameraIndex, enemyIndex;
+    private int cameraIndex, enemyIndex, currentChain;
     private List<Transform> enemiesInRange;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
@@ -52,6 +52,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         freeCamMovement = true;
         cameraIndex = 0;
+        currentChain = 0;
         enemiesInRange = new List<Transform>();
         attackQueue = new Queue<string>();
         playerInput = GetComponent<PlayerInput>();
@@ -136,6 +137,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
+        Debug.Log(currentChain);
         if (looking)
         {
             forwardVector = cinemachineCamera.transform.forward;
@@ -332,7 +334,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking)
         {
             networkAnimator.SetTrigger(attack);
-            OnAttackStart();
         }
         else
         {
@@ -346,7 +347,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking)
         {
             networkAnimator.SetTrigger(attack);
-            OnAttackStart();
         }
         else
         {
@@ -359,6 +359,7 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
+        currentChain++;
     }
     public void OnAttackEnd()
     {
@@ -370,16 +371,16 @@ public class PlayerNetwork : NetworkBehaviour
             float timeSinceQueued = Time.time - attackQueueTimestamp;
             float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
         
-            if (timeSinceQueued <= attackBufferTime)
+            if (timeSinceQueued <= attackBufferTime && currentChain < maxChainLengthLight)
             {
                 Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
                 string nextAttack = attackQueue.Dequeue();
                 networkAnimator.SetTrigger(nextAttack);
-                OnAttackStart();
             }
             else
             {
                 Debug.Log($"Attack queued too early! {timeSinceQueued:F2}s ago, needed within {attackBufferTime:F2}s ({percentageOfBuffer:F0}% of buffer, {timeSinceQueued - attackBufferTime:F2}s too early)");
+                currentChain = 0;
                 attackQueue.Clear();
             }
         }
