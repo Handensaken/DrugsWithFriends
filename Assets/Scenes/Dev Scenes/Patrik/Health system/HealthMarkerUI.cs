@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,17 +15,20 @@ namespace Scenes.Dev_Scenes.Patrik.Health_system
         
         private void OnEnable()
         {
-            healthData.UpdateBatch += UpdateHealthBatches;
+            healthData.UpdateHealth += UpdateHealthBatches;
         }
 
         private void OnDisable()
         {
-            healthData.UpdateBatch -= UpdateHealthBatches;
+            healthData.UpdateHealth -= UpdateHealthBatches;
         }
         
-        private void UpdateHealthBatches(int currentBatchAmount)
+        private void UpdateHealthBatches(HealthPackage healthPackage)
         {
             RemoveAllMarkers();
+
+            int currentBatchAmount = healthPackage.BatchAmount;
+            
             if (currentBatchAmount > healthData.MaxAmountBatches)
             {
                 currentBatchAmount = healthData.MaxAmountBatches;
