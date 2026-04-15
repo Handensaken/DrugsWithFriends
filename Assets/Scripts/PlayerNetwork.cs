@@ -185,8 +185,8 @@ public class PlayerNetwork : NetworkBehaviour
         else if (context.canceled)
         {
             rb.linearVelocity = new Vector3(0, 0, 0);
-            animator.SetFloat("X-Input", 0);
-            animator.SetFloat("Z-Input", 0);
+            animator.SetFloat("combatX", 0);
+            animator.SetFloat("combatY", 0);
             animator.SetBool("Running", false);
         }
     }
