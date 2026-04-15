@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using FishNet.Component.Animating;
 using FishNet.Object;
 using Unity.Cinemachine;
@@ -247,7 +248,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
-        animator.SetFloat("Z-Input", 1);
+        animator.SetBool("Running", true);
     }
 
     private void TrackingObjectMovement()
@@ -333,7 +334,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            QueueLightAttack("Light");
+            QueueLightAttack("lightAttack");
         }
     }
     
@@ -342,7 +343,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            QueueHeavyAttack("Heavy");
+            QueueHeavyAttack("heavyAttack");
         }
     }
 
@@ -374,6 +375,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void OnAttackStart()
     {
         HandleRotation();
+        animator.SetBool("ExitCombo", false);
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
@@ -383,13 +385,12 @@ public class PlayerNetwork : NetworkBehaviour
     {
         actionReferences.move.action.Enable();
         attacking = false;
-
         if (attackQueue.Count > 0)
         {
             float timeSinceQueued = Time.time - attackQueueTimestamp;
             float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
         
-            if (timeSinceQueued <= attackBufferTime && currentChain <= maxChainLengthLight)
+            if (timeSinceQueued <= attackBufferTime && currentChain < maxChainLengthLight)
             {
                 Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
                 string nextAttack = attackQueue.Dequeue();
@@ -400,7 +401,12 @@ public class PlayerNetwork : NetworkBehaviour
                 Debug.Log($"Attack queued too early! {timeSinceQueued:F2}s ago, needed within {attackBufferTime:F2}s ({percentageOfBuffer:F0}% of buffer, {timeSinceQueued - attackBufferTime:F2}s too early)");
                 currentChain = 0;
                 attackQueue.Clear();
+                animator.SetBool("ExitCombo", true);
             }
+        }
+        else
+        {
+            animator.SetBool("ExitCombo", true);
         }
 
         attackQueueTimestamp = -1f;
