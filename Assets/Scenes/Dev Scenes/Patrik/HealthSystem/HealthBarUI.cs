@@ -28,7 +28,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private void HandleChanges(HealthPackage healthPackage)
         {
             UpdateHealthBatches(healthPackage.BatchAmount);
-            UpdateHealth();
+            //UpdateHealth();
         }
         
         private void UpdateHealthBatches(int currentBatchAmount)
