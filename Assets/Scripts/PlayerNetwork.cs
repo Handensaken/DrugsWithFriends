@@ -211,13 +211,9 @@ public class PlayerNetwork : NetworkBehaviour
             
         float angleDifference = Quaternion.Angle(rb.rotation, targetRotation);
 
-        if (angleDifference > 180)
+        if (angleDifference > 120)
         {
-            animator.SetBool("isTurning", true);
-        }
-        else
-        {
-            animator.SetBool("isTurning", false);
+            networkAnimator.SetTrigger("TurnAround");
         }
             
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
@@ -289,11 +285,13 @@ public class PlayerNetwork : NetworkBehaviour
         {
             SwitchToCamera(1);
             freeCamMovement = false;
+            animator.SetLayerWeight(1, 1);
         }
         else
         {
             SwitchToCamera(0);
             freeCamMovement = true;
+            animator.SetLayerWeight(1, 0);
         }
         /*
         if (enemiesInRange.Count == 0)
