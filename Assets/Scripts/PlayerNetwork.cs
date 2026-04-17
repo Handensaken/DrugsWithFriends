@@ -138,7 +138,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
-        Debug.Log(currentChain);
+        //Debug.Log(currentChain);
         if (looking)
         {
             forwardVector = cinemachineCamera.transform.forward;
@@ -333,7 +333,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            QueueLightAttack("lightAttack");
+            QueueLightAttack("LightAttackBool");
         }
     }
     
@@ -342,7 +342,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (context.performed)
         {
-            QueueHeavyAttack("heavyAttack");
+            QueueHeavyAttack("HeavyAttackBool");
         }
     }
 
@@ -350,7 +350,8 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!attacking)
         {
-            networkAnimator.SetTrigger(attack);
+            animator.SetBool(attack, true);
+            Debug.Log("attacked");
         }
         else
         {
@@ -363,7 +364,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!attacking)
         {
-            networkAnimator.SetTrigger(attack);
+            animator.SetBool(attack, true);
         }
         else
         {
@@ -373,6 +374,8 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackStart()
     {
+        animator.SetBool("LightAttackBool", false);
+        animator.SetBool("HeavyAttackBool", false);
         HandleRotation();
         animator.SetBool("ExitCombo", false);
         actionReferences.move.action.Disable();
@@ -393,7 +396,8 @@ public class PlayerNetwork : NetworkBehaviour
             {
                 Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
                 string nextAttack = attackQueue.Dequeue();
-                networkAnimator.SetTrigger(nextAttack);
+                Debug.Log("Performing queued attack: " + nextAttack);
+                animator.SetBool(nextAttack, true);
             }
             else
             {
