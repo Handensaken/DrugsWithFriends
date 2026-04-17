@@ -385,8 +385,6 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackEnd()
     {
-        actionReferences.move.action.Enable();
-        attacking = false;
         if (attackQueue.Count > 0)
         {
             float timeSinceQueued = Time.time - attackQueueTimestamp;
@@ -405,11 +403,15 @@ public class PlayerNetwork : NetworkBehaviour
                 currentChain = 0;
                 attackQueue.Clear();
                 animator.SetBool("ExitCombo", true);
+                attacking = false;
+                actionReferences.move.action.Enable();
             }
         }
         else
         {
             animator.SetBool("ExitCombo", true);
+            attacking = false;
+            actionReferences.move.action.Enable();
         }
 
         attackQueueTimestamp = -1f;
