@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Scenes.Dev_Scenes.Patrik.Health_system;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
@@ -30,6 +29,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 
         private void HandleChanges(HealthPackage healthPackage)
         {
+            Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             int currentBatchAmount = healthPackage.BatchAmount;
             
             float maxWidth = healthBarUI.rect.width;

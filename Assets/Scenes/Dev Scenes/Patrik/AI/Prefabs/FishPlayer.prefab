@@ -125,7 +125,6 @@ GameObject:
   - component: {fileID: -5791914153861376787}
   - component: {fileID: -4273187464546556407}
   - component: {fileID: 2100054845111570590}
-  - component: {fileID: -3095092102709690491}
   m_Layer: 0
   m_Name: FishPlayer
   m_TagString: Untagged
@@ -198,7 +197,7 @@ MonoBehaviour:
   - {fileID: -1671740389122586944}
   - {fileID: -4273187464546556407}
   - {fileID: 2100054845111570590}
-  - {fileID: -3095092102709690491}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -344,22 +343,3 @@ MonoBehaviour:
   targetCollider: {fileID: 8401041456882689394}
   meshRenderer: {fileID: 1246121084118179031}
   currentTime: 0
---- !u!114 &-3095092102709690491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8452564711447574715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e3be05b1b00b7345bdd226f771a7642, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 1059897056725544558}
-  _networkObjectCache: {fileID: 1059897056725544558}
-  simulateHealthChange: 10
-  simulateBatchChange: 2
-  simulateChange: 0
-  healthData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
