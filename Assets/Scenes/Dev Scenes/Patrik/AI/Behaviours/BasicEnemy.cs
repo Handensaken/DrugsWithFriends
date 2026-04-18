@@ -1,7 +1,7 @@
 using System;
 using FishNet.Object;
+using Scenes.Dev_Scenes.Patrik.AI;
 using Scenes.Dev_Scenes.Patrik.AI.BehaviourTree.Leafs;
-using StateMachine.Scripts.StateMachine.Structure;
 using UnityEngine;
 using UnityEngine.AI;
 

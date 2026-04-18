@@ -1,4 +1,3 @@
-using StateMachine.Scripts.StateMachine.Structure;
 using UnityEditor;
 using UnityEngine;
 

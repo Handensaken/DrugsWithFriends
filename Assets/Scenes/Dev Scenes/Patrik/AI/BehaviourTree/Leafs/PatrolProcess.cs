@@ -1,4 +1,4 @@
-using StateMachine.Scripts.StateMachine.Structure;
+using Scenes.Dev_Scenes.Patrik.AI;
 using UnityEngine;
 using UnityEngine.AI;
 using NodeState = BehaviourTree.INode.NodeState;

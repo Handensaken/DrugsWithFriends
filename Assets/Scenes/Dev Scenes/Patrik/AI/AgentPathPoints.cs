@@ -1,9 +1,7 @@
 using System;
-using Steamworks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace StateMachine.Scripts.StateMachine.Structure
+namespace Scenes.Dev_Scenes.Patrik.AI
 {
     public interface IPathPoints
     {
