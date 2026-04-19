@@ -23,19 +23,22 @@ namespace BehaviourTree
         public NodeState Process()
         {
             Vector3 currentWaypoint = _pathPoints.WorldCoordPatrolPoints[_currentPointIndex];
-            _agent.SetDestination(currentWaypoint);
+            if (_isPathDone)
+            {
+                _agent.SetDestination(currentWaypoint);
+            }
             
-            if (_agent.remainingDistance <= 0.1f)
+            if (!_agent.pathPending &&_agent.remainingDistance <= _agent.stoppingDistance)
             {
                 _currentPointIndex++;
                 if (_currentPointIndex == _pathPoints.WorldCoordPatrolPoints.Length)
                 {
                     _currentPointIndex = 0;
                 }
-                _isPathDone = false;
+                _isPathDone = true;
             }
             
-            return NodeState.Success;
+            return NodeState.Processing;
         }
 
         public void Reset()

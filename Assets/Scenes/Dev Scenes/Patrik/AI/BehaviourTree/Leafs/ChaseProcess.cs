@@ -9,14 +9,14 @@ namespace Scenes.Dev_Scenes.Patrik.AI.BehaviourTree.Leafs
     /// <summary>
     /// TEMP
     /// </summary>
-    public class ChaseAction : IProcess
+    public class ChaseProcess : IProcess
     {
         private Transform _eyes;
         private NavMeshAgent _agent;
         private readonly float _range;
         private float _angleMax;
         
-        public ChaseAction(Transform eyes, NavMeshAgent agent , float range, float angleMax)
+        public ChaseProcess(Transform eyes, NavMeshAgent agent , float range, float angleMax)
         {
             _eyes = eyes;
             _agent = agent;

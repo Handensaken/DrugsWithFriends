@@ -47,7 +47,7 @@ namespace BehaviourTree
             Leaf inFOVConditionChase = new Leaf("in FOV for chase", new FOVCondition(eyes, enemyData.stateParameters.sightParameters.Angle));
             chaseSequence.AddChild(inFOVConditionChase);*/
 
-            Leaf chaseAction = new Leaf("chase action", new ChaseAction(eyes,agent,enemyData.stateParameters.sightParameters.Range, enemyData.stateParameters.sightParameters.Angle));
+            Leaf chaseAction = new Leaf("chase action", new ChaseProcess(eyes,agent,enemyData.stateParameters.sightParameters.Range, enemyData.stateParameters.sightParameters.Angle));
             _tree.AddChild(chaseAction);
             
             //Patrol
