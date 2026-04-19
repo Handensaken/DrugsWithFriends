@@ -33,14 +33,15 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             int currentBatchAmount = healthPackage.BatchAmount;
             
             float maxWidth = healthBarUI.rect.width;
-            float amountOfGaps = currentBatchAmount - 1;
-            float batchWidth = (maxWidth - amountOfGaps)/currentBatchAmount;
+            float gapSpace = maxWidth*0.01f;
+            float totalGapSpace = gapSpace*(currentBatchAmount - 1);
+            float batchWidth = (maxWidth - totalGapSpace)/currentBatchAmount;
             
-            UpdateHealthBatches(currentBatchAmount, batchWidth);
+            UpdateHealthBatches(currentBatchAmount, batchWidth,gapSpace);
             UpdateHealth(healthPackage, batchWidth);
         }
         
-        private void UpdateHealthBatches(int currentBatchAmount,float batchWidth)
+        private void UpdateHealthBatches(int currentBatchAmount,float batchWidth, float gapSpace)
         {
             RemoveAllMarkers();
             
@@ -58,7 +59,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             {
                 if (!Instantiate(healthBatch,healthBarUI).TryGetComponent<HealthBatch>(out HealthBatch newBatch)) throw new Exception("Missing HealthBatch on prefab for healthBatch");
                 newBatch.BatchRect.sizeDelta = new Vector2(batchWidth,healthBarUI.rect.height);
-                newBatch.BatchRect.anchoredPosition3D = new Vector2(batchWidth*i+i,0);
+
+                Vector2 pos = new Vector2(batchWidth * i + gapSpace*i,0);
+                newBatch.BatchRect.anchoredPosition3D = pos;
+                Debug.Log(batchWidth*i+i);
                 _healthBatches.Add(newBatch);
             }
         }
