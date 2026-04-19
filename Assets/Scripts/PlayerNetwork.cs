@@ -22,6 +22,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Rigidbody rb;
     [SerializeField] private GameObject[] cameras;
     [SerializeField, Range(0, 10f)] private float range;
+    [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
     [SerializeField, Range(0, 4f), Tooltip("Attacks per second")] private float attackSpeed;
     [SerializeField, Range(0, 4f), Tooltip("Time between attack chains")] private float lightChainAttackCooldown, heavyChainAttackCooldown;
     [SerializeField, Range(0, 1f), Tooltip("Time before when the next attack can be performed")] private float attackBufferTime;
@@ -146,6 +147,7 @@ public class PlayerNetwork : NetworkBehaviour
             {
                 SetVelocity();
             }
+            CheckEnemiesOnScreen(); // Temporarily placed here
         }
         
         if (moveVector.sqrMagnitude > 0.01f)
@@ -416,6 +418,42 @@ public class PlayerNetwork : NetworkBehaviour
 
         attackQueueTimestamp = -1f;
     }
+
+    private void CheckEnemiesOnScreen()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            bool onScreen = IsOnScreen(enemy.transform);
+            bool inRange  = IsInRange(enemy.transform);
+
+            if (onScreen && inRange)
+            {
+                Debug.Log($"{enemy.name} is visible and within range!");
+                // Trigger attack, AI behaviour, etc.
+            }
+        }
+    }
+    
+    private bool IsOnScreen(Transform target)
+    {
+        Vector3 vp = Camera.main.WorldToViewportPoint(target.position);
+
+        // z > 0 means the target is in front of the camera
+        return vp.z > 0
+               && vp.x > 0 && vp.x < 1
+               && vp.y > 0 && vp.y < 1;
+    }
+    
+    private bool IsInRange(Transform target)
+    {
+        // sqrMagnitude avoids a sqrt — faster when you only need a comparison
+        float sqrDist  = (target.position - transform.position).sqrMagnitude;
+        float sqrRange = detectEnemiesRange * detectEnemiesRange;
+        return sqrDist < sqrRange;
+    }
+    
     private void ControlsChanged(PlayerInput input)
     {
         controlSchemeEvent.currentControlScheme = input.currentControlScheme.ToLower();
