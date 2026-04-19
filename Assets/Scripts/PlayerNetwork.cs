@@ -47,8 +47,16 @@ public class PlayerNetwork : NetworkBehaviour
     private CinemachineCamera cinemachineCamera;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
+    [SerializeField] private SphereCollider attackRangeCollider;
     
     [SerializeField] private SelectionHandler selectionHandler;
+
+
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+        attackRangeCollider.radius = detectEnemiesRange;
+    }
 
     private void Awake()
     {
@@ -134,6 +142,28 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.unpause.action.performed -= Unpause;
         actionReferences.cancel.action.performed -= Cancel;
         playerInput.onControlsChanged -= ControlsChanged;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            if (!enemiesInRange.Contains(other.transform))
+            {
+                enemiesInRange.Add(other.transform);
+            }
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            if (enemiesInRange.Contains(other.transform))
+            {
+                enemiesInRange.Remove(other.transform);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -421,18 +451,23 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void CheckEnemiesOnScreen()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject enemy in enemies)
+        bool noneInRange = true;
+        foreach (Transform enemy in enemiesInRange)
         {
-            bool onScreen = IsOnScreen(enemy.transform);
-            bool inRange  = IsInRange(enemy.transform);
+            bool onScreen = IsOnScreen(enemy);
 
-            if (onScreen && inRange)
+            if (onScreen)
             {
+                noneInRange = false;
                 Debug.Log($"{enemy.name} is visible and within range!");
                 // Trigger attack, AI behaviour, etc.
+                SwitchToCamera(1);
+                cinemachineCamera.Target.TrackingTarget = enemy;
             }
+        }
+        if(noneInRange)
+        {
+            SwitchToCamera(0);
         }
     }
     
@@ -444,14 +479,6 @@ public class PlayerNetwork : NetworkBehaviour
         return vp.z > 0
                && vp.x > 0 && vp.x < 1
                && vp.y > 0 && vp.y < 1;
-    }
-    
-    private bool IsInRange(Transform target)
-    {
-        // sqrMagnitude avoids a sqrt — faster when you only need a comparison
-        float sqrDist  = (target.position - transform.position).sqrMagnitude;
-        float sqrRange = detectEnemiesRange * detectEnemiesRange;
-        return sqrDist < sqrRange;
     }
     
     private void ControlsChanged(PlayerInput input)

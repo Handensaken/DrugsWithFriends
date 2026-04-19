@@ -255,6 +255,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 6515165083195661982}
   playerGameSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
+--- !u!1 &7232944027165002446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8535816813553439609}
+  - component: {fileID: 2553626066740570996}
+  m_Layer: 0
+  m_Name: SphereColliderObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8535816813553439609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7232944027165002446}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.04, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3508908065246955951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2553626066740570996
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7232944027165002446}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.03
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8161492386765879662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1055,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5734938172382188867}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 94e005be29269734490e74a60b85c673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8535816813553439609}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
@@ -1144,7 +1200,7 @@ MonoBehaviour:
   - {fileID: 9075642670705430114}
   - {fileID: 2312668981729931790}
   range: 1.29
-  detectEnemiesRange: 5.12
+  detectEnemiesRange: 1.03
   attackSpeed: 0.77
   lightChainAttackCooldown: 0.57
   heavyChainAttackCooldown: 0.52
@@ -1163,6 +1219,7 @@ MonoBehaviour:
   pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
+  attackRangeCollider: {fileID: 2553626066740570996}
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
 --- !u!114 &6442288351224345491
 MonoBehaviour:
