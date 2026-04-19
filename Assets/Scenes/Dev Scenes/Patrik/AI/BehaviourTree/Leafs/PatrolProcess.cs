@@ -1,9 +1,9 @@
-using Scenes.Dev_Scenes.Patrik.AI;
+using BehaviourTree;
 using UnityEngine;
 using UnityEngine.AI;
 using NodeState = BehaviourTree.INode.NodeState;
 
-namespace BehaviourTree
+namespace Scenes.Dev_Scenes.Patrik.AI.BehaviourTree.Leafs
 {
     public class PatrolProcess : IProcess
     {
