@@ -41,7 +41,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Animator animator;
     private NetworkAnimator networkAnimator;
     private int cameraIndex, enemyIndex, currentChain;
-    private List<Transform> enemiesInRange;
+    private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -170,7 +170,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         //Debug.Log(currentChain);
-        if (looking)
+        if (looking || !freeCamMovement)
         {
             forwardVector = cinemachineCamera.transform.forward;
             if(rb.linearVelocity.sqrMagnitude > 0.01f)
@@ -180,7 +180,7 @@ public class PlayerNetwork : NetworkBehaviour
             CheckEnemiesOnScreen(); // Temporarily placed here
         }
         
-        if (moveVector.sqrMagnitude > 0.01f)
+        if (moveVector.sqrMagnitude > 0.01f || !freeCamMovement)
         {
             HandleRotation();
         }
@@ -226,9 +226,24 @@ public class PlayerNetwork : NetworkBehaviour
     private void HandleRotation()
     {
         Vector3 rotationTarget;
+        Transform currentTarget = null;
         if (!freeCamMovement)
         {
-            rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
+            if (enemiesOnScreen.Count > 0)
+            {
+                currentTarget = enemiesOnScreen[0];
+            }
+            if (currentTarget != null)
+            {
+                // Rotate toward the locked-on enemy
+                Vector3 toEnemy = currentTarget.position - transform.position;
+                rotationTarget = new Vector3(toEnemy.x, 0f, toEnemy.z).normalized;
+            }
+            else
+            {
+                // Fall back to camera forward when no target
+                rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
+            }
         }
         else if(moveVector.sqrMagnitude > 0.01f)
         {
@@ -315,48 +330,21 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if(cameraIndex == 0)
         {
-            SwitchToCamera(1);
             freeCamMovement = false;
             animator.SetLayerWeight(1, 1);
+            if(enemiesOnScreen.Count > 0)
+            {
+                cinemachineCamera.LookAt = enemiesOnScreen[0];
+            }
+            actionReferences.look.action.Disable();
+            cameraIndex = 1;
         }
         else
         {
-            SwitchToCamera(0);
+            cameraIndex = 0;
             freeCamMovement = true;
             animator.SetLayerWeight(1, 0);
-        }
-        /*
-        if (enemiesInRange.Count == 0)
-        {
-            SwitchToCamera(0); // Should recenter camera when there is no other camera to switch to 
-            freeCamMovement = true;
-            return;
-        }
-
-        if (cameraIndex == 1)
-        {
-            enemyIndex = (enemyIndex + 1) % enemiesInRange.Count; // Goes back to zero if it's bigger than the list index 
-        }
-        else
-        {
-            SwitchToCamera(1);
-            freeCamMovement = false;
-        }
-        
-        cinemachineCamera.Target.TrackingTarget = enemiesInRange[enemyIndex];
-        */
-    }
-    
-    private void SwitchToCamera(int index)
-    {
-        if (index == cameraIndex) return;
-        cameras[cameraIndex].SetActive(false);
-        cameraIndex = index;
-        cameras[cameraIndex].SetActive(true);
-
-        if (cameras[cameraIndex].TryGetComponent(out CinemachineCamera vcam))
-        {
-            cinemachineCamera = vcam;
+            actionReferences.look.action.Enable();
         }
     }
 
@@ -452,6 +440,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void CheckEnemiesOnScreen()
     {
         bool noneInRange = true;
+        enemiesOnScreen = new List<Transform>();
         foreach (Transform enemy in enemiesInRange)
         {
             bool onScreen = IsOnScreen(enemy);
@@ -460,14 +449,12 @@ public class PlayerNetwork : NetworkBehaviour
             {
                 noneInRange = false;
                 Debug.Log($"{enemy.name} is visible and within range!");
-                // Trigger attack, AI behaviour, etc.
-                SwitchToCamera(1);
-                cinemachineCamera.Target.TrackingTarget = enemy;
+                enemiesOnScreen.Add(enemy);
             }
         }
         if(noneInRange)
         {
-            SwitchToCamera(0);
+            //SwitchToCamera(0);
         }
     }
     
