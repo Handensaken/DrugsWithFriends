@@ -51,7 +51,6 @@ public class PlayerNetwork : NetworkBehaviour
     
     [SerializeField] private SelectionHandler selectionHandler;
 
-
     protected override void OnValidate()
     {
         base.OnValidate();
@@ -328,16 +327,19 @@ public class PlayerNetwork : NetworkBehaviour
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        if(cameraIndex == 0)
+        if(cameraIndex == 0 && enemiesOnScreen.Count > 0)
         {
+            enemyIndex = 0;
             freeCamMovement = false;
             animator.SetLayerWeight(1, 1);
-            if(enemiesOnScreen.Count > 0)
-            {
-                cinemachineCamera.LookAt = enemiesOnScreen[0];
-            }
+            cinemachineCamera.LookAt = enemiesOnScreen[enemyIndex];
             actionReferences.look.action.Disable();
             cameraIndex = 1;
+        }
+        else if (enemyIndex < enemiesOnScreen.Count - 1  && enemiesOnScreen.Count > 0)
+        {
+            enemyIndex++;
+            cinemachineCamera.LookAt = enemiesOnScreen[enemyIndex];
         }
         else
         {
@@ -345,6 +347,7 @@ public class PlayerNetwork : NetworkBehaviour
             freeCamMovement = true;
             animator.SetLayerWeight(1, 0);
             actionReferences.look.action.Enable();
+            cinemachineCamera.LookAt = cinemachineCamera.Target.TrackingTarget;
         }
     }
 
@@ -439,7 +442,6 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void CheckEnemiesOnScreen()
     {
-        bool noneInRange = true;
         enemiesOnScreen = new List<Transform>();
         foreach (Transform enemy in enemiesInRange)
         {
@@ -447,14 +449,9 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (onScreen)
             {
-                noneInRange = false;
                 Debug.Log($"{enemy.name} is visible and within range!");
                 enemiesOnScreen.Add(enemy);
             }
-        }
-        if(noneInRange)
-        {
-            //SwitchToCamera(0);
         }
     }
     
