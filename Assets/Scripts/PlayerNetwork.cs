@@ -161,6 +161,10 @@ public class PlayerNetwork : NetworkBehaviour
             if (enemiesInRange.Contains(other.transform))
             {
                 enemiesInRange.Remove(other.transform);
+                if(other.transform == cinemachineCamera.LookAt)
+                {
+                    FocusOnPlayer();
+                }
             }
         }
     }
@@ -343,12 +347,17 @@ public class PlayerNetwork : NetworkBehaviour
         }
         else
         {
-            cameraIndex = 0;
-            freeCamMovement = true;
-            animator.SetLayerWeight(1, 0);
-            actionReferences.look.action.Enable();
-            cinemachineCamera.LookAt = cinemachineCamera.Target.TrackingTarget;
+            FocusOnPlayer();
         }
+    }
+
+    private void FocusOnPlayer()
+    {
+        cameraIndex = 0;
+        freeCamMovement = true;
+        animator.SetLayerWeight(1, 0);
+        actionReferences.look.action.Enable();
+        cinemachineCamera.LookAt = cinemachineCamera.Target.TrackingTarget;
     }
 
     private void LightAttack(InputAction.CallbackContext context)
