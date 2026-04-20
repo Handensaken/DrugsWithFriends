@@ -1,20 +1,25 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using Scenes.Dev_Scenes.Patrik.Health_system;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
      public class HealthManager : NetworkBehaviour //TODO make total control over clients health
      {
-          [SerializeField, Range(0,250)]private int simulateHealthChange0;
-          [SerializeField, Range(0,250)]private int simulateHealthChange1;
+          [SerializeField]private int simulateHealthChange0;
+          [SerializeField]private int simulateBatchChange0;
+          [SerializeField]private int simulateHealthChange1;
+          [SerializeField]private int simulateBatchChange1;
           
           [SerializeField] private HealthSO healthSo;
           [SerializeField] private bool simulateChange;
 
-          private readonly SyncDictionary<int, int> _clientsHealth = new SyncDictionary<int, int>(){{0,100},{1,50}};
+          private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>()
+          {
+               {0,new HealthPackage(10,2)},
+               {1,new HealthPackage(5,1)}
+          };
           
           public void OnEnable()
           {
@@ -26,7 +31,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                _clientsHealth.OnChange -= SetValues;
           }
 
-          private void SetValues(SyncDictionaryOperation op, int key, int value, bool asServer)
+          private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
           {
                if (!asServer) return;
                Debug.Log("Now");
@@ -48,20 +53,22 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           private void ChangeValues()
           {
                Debug.Log("ChangeValues");
-               _clientsHealth[0] = simulateHealthChange0;
-               _clientsHealth[1] = simulateHealthChange1;
+               HealthPackage healthPackageC1 = new HealthPackage(simulateHealthChange0, simulateBatchChange0);
+               _clientsHealth[0] = healthPackageC1;
+               HealthPackage healthPackageC2 = new HealthPackage(simulateHealthChange1, simulateBatchChange1);
+               _clientsHealth[1] = healthPackageC2;
+               
                Debug.Log(_clientsHealth);
           }
           
           [TargetRpc]
-          private void SendHealth(NetworkConnection conn, int health)
+          private void SendHealth(NetworkConnection conn, HealthPackage healthPackage)
           {
-               Debug.Log("ClientID: "+conn.ClientId + " - " + health);
-               HealthPackage currentHealthData = new HealthPackage(health,health);
+               int health = healthPackage.HealthAmount;
+               int batch = healthPackage.BatchAmount;
+               Debug.Log("ClientID: "+conn.ClientId + " - H: " + health + " - B: " + batch);
+               HealthPackage currentHealthData = new HealthPackage(health,batch);
                healthSo.UpdateHealth(currentHealthData);
           }
-          
-          
-          
      }
 }

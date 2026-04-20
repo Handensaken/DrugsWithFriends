@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Scenes.Dev_Scenes.Patrik.Health_system;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
@@ -62,7 +61,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 
                 Vector2 pos = new Vector2(batchWidth * i + gapSpace*i,0);
                 newBatch.BatchRect.anchoredPosition3D = pos;
-                Debug.Log(batchWidth*i+i);
                 _healthBatches.Add(newBatch);
             }
         }

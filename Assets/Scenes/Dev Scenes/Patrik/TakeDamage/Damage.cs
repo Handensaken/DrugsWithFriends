@@ -1,7 +1,6 @@
 using FishNet.Component.Prediction;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using Scenes.Dev_Scenes.Patrik.Health_system;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
 

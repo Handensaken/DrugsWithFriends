@@ -1,5 +1,9 @@
-namespace Scenes.Dev_Scenes.Patrik.Health_system
+using System;
+using UnityEngine;
+
+namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
+    [Serializable]
     public struct HealthPackage
     {
         public HealthPackage(int healthAmount, int batchAmount)

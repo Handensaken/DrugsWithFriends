@@ -1,4 +1,3 @@
-using Scenes.Dev_Scenes.Patrik.Health_system;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
