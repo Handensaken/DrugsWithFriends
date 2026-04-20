@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using FishNet.Component.Animating;
 using FishNet.Object;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.Users;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerNetwork : NetworkBehaviour
@@ -16,7 +13,6 @@ public class PlayerNetwork : NetworkBehaviour
     public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
-    private Vector3 forwardVector;
     [SerializeField] private bool freeCamMovement;
     private bool looking, attacking;
     private Rigidbody rb;
@@ -175,7 +171,6 @@ public class PlayerNetwork : NetworkBehaviour
         //Debug.Log(currentChain);
         if (looking || !freeCamMovement)
         {
-            forwardVector = cinemachineCamera.transform.forward;
             if(rb.linearVelocity.sqrMagnitude > 0.01f)
             {
                 SetVelocity();
@@ -238,13 +233,11 @@ public class PlayerNetwork : NetworkBehaviour
             }
             if (currentTarget != null)
             {
-                // Rotate toward the locked-on enemy
                 Vector3 toEnemy = currentTarget.position - transform.position;
                 rotationTarget = new Vector3(toEnemy.x, 0f, toEnemy.z).normalized;
             }
             else
             {
-                // Fall back to camera forward when no target
                 rotationTarget = new Vector3(cinemachineCamera.transform.forward.x, 0f, cinemachineCamera.transform.forward.z).normalized;
             }
         }
