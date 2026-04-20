@@ -16,7 +16,6 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private bool freeCamMovement;
     private bool looking, attacking;
     private Rigidbody rb;
-    [SerializeField] private GameObject[] cameras;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
     [SerializeField, Range(0, 4f), Tooltip("Attacks per second")] private float attackSpeed;
@@ -373,15 +372,14 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void QueueLightAttack(string attack)
     {
-        if (!attacking)
+        if (!attacking) // If not currently attacking, perform the attack immediately
         {
             animator.SetBool(attack, true);
-            Debug.Log("attacked");
         }
         else
         {
-            attackQueueTimestamp = Time.time; // Record when the input arrived
-            attackQueue.Enqueue(attack);      // Always queue, validate later
+            attackQueueTimestamp = Time.time;
+            attackQueue.Enqueue(attack);
         }
     }
     
