@@ -168,17 +168,13 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         //Debug.Log(currentChain);
-        if (!freeCamMovement)
-        {
-            CheckEnemiesOnScreen();
-        }
-        
-        if (looking) // 
+        if (looking || !freeCamMovement)
         {
             if(rb.linearVelocity.sqrMagnitude > 0.01f)
             {
                 SetVelocity();
             }
+            CheckEnemiesOnScreen(); // Temporarily placed here
         }
         
         if (moveVector.sqrMagnitude > 0.01f || !freeCamMovement)
