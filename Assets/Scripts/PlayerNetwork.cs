@@ -423,21 +423,24 @@ public class PlayerNetwork : NetworkBehaviour
             else
             {
                 Debug.Log($"Attack queued too early! {timeSinceQueued:F2}s ago, needed within {attackBufferTime:F2}s ({percentageOfBuffer:F0}% of buffer, {timeSinceQueued - attackBufferTime:F2}s too early)");
-                currentChain = 0;
                 attackQueue.Clear();
-                animator.SetBool("ExitCombo", true);
-                attacking = false;
-                actionReferences.move.action.Enable();
+                ExitCombo();
             }
         }
         else
         {
-            animator.SetBool("ExitCombo", true);
-            attacking = false;
-            actionReferences.move.action.Enable();
+            ExitCombo();
         }
 
         attackQueueTimestamp = -1f;
+    }
+
+    private void ExitCombo()
+    {
+        currentChain = 0;
+        animator.SetBool("ExitCombo", true);
+        attacking = false;
+        actionReferences.move.action.Enable();
     }
 
     private void CheckEnemiesOnScreen()
