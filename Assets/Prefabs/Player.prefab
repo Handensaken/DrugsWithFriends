@@ -1080,6 +1080,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4336244197981315170}
+    - targetCorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2634556739951376808}
+    - targetCorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4654537695947910726}
+    - targetCorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2130466159283627140}
   m_SourcePrefab: {fileID: 100100000, guid: 94e005be29269734490e74a60b85c673, type: 3}
 --- !u!4 &3508908065246955951 stripped
 Transform:
@@ -1196,9 +1205,6 @@ MonoBehaviour:
   moveSpeed: 4
   rotationSpeed: 0.217
   freeCamMovement: 0
-  cameras:
-  - {fileID: 9075642670705430114}
-  - {fileID: 2312668981729931790}
   range: 1.29
   detectEnemiesRange: 2.64
   attackSpeed: 0.77
@@ -1220,6 +1226,7 @@ MonoBehaviour:
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
   attackRangeCollider: {fileID: 2553626066740570996}
+  attackHitboxCollider: {fileID: 2634556739951376808}
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
 --- !u!114 &6442288351224345491
 MonoBehaviour:
@@ -1274,10 +1281,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4321755693150114581}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1338,3 +1345,64 @@ MonoBehaviour:
   _interpolation: 2
   _clientAuthoritative: 1
   _sendToOwner: 0
+--- !u!1 &5065054076565641154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
+  m_PrefabInstance: {fileID: 3979102027131203140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2634556739951376808
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065054076565641154}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.42, y: 0.42, z: 0.42}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4654537695947910726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065054076565641154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122301fafa1b4329b7287dfd1ce36ff6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.BasicWeapon
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7696538552095724360}
+  _networkObjectCache: {fileID: 0}
+--- !u!114 &2130466159283627140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065054076565641154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bcde17fa5e03f44b87f9963ac281b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkCollision
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7696538552095724360}
+  _networkObjectCache: {fileID: 0}
+  MaximumSimultaneousHits: 16
+  AdditionalSize: 0.1
+  Layers:
+    serializedVersion: 2
+    m_Bits: 1

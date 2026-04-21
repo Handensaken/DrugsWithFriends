@@ -43,6 +43,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
+    [SerializeField] private BoxCollider attackHitboxCollider;
     
     [SerializeField] private SelectionHandler selectionHandler;
 
@@ -54,6 +55,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        attackHitboxCollider.enabled = false;
         freeCamMovement = true;
         cameraIndex = 0;
         currentChain = 0;
@@ -397,6 +399,7 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackStart()
     {
+        attackHitboxCollider.enabled = true;
         animator.SetBool("LightAttackBool", false);
         animator.SetBool("HeavyAttackBool", false);
         HandleRotation();
@@ -408,6 +411,7 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackEnd()
     {
+        attackHitboxCollider.enabled = false;
         if (attackQueue.Count > 0)
         {
             float timeSinceQueued = Time.time - attackQueueTimestamp;
