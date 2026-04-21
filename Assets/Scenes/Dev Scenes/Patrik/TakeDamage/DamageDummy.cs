@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
      //TODO Have blackboard in use for controlling health 
-     public class Damage : NetworkBehaviour
+     public class DamageDummy : Damage
      {
           [SerializeField] private HealthSO healthData;
           [SerializeField] private NetworkTrigger networkTrigger;
@@ -15,31 +15,21 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           
           public override void OnStartServer()
           {
-               networkTrigger.OnEnter += TriggerDamage;
-               healthData.UpdateHealth(new HealthPackage(_healthCounter.Value, 2));
+               base.OnStartServer();
           }
 
           public override void OnStartClient()
           {
-               if (IsServerInitialized)
-               {
-                    Debug.Log("Skipped server");
-               }
                base.OnStartClient();
-               _healthCounter.OnChange += UpdateUI;
           }
 
           [Server]
           protected void TriggerDamage(Collider collider)
           {
-               if (collider.TryGetComponent<IWeapon>(out IWeapon t))
-               {
-                    Debug.Log($"Hit: {_healthCounter}");
-                    _healthCounter.Value--;
-               }
+               base.TriggerDamage(collider);
           }
 
-          protected void UpdateUI(int prev, int next, bool asServer)
+          private void UpdateUI(int prev, int next, bool asServer)
           {
                if (asServer) return;
                Debug.Log("Only clients");
