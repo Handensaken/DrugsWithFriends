@@ -32,7 +32,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           [Server]
           protected virtual void TriggerDamage(Collider collider)
           {
-               if (collider.TryGetComponent(out Weapon t))
+               if (collider.TryGetComponent(out IEffectData t))
                {
                     Debug.Log($"Hit: {_healthCounter}");
                     _healthCounter.Value--;

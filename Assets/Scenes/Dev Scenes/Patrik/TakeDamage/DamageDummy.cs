@@ -11,6 +11,8 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      public class DamageDummy : Damage
      {
           private Rigidbody rb;
+          [SerializeField] private float resetDelay = 2f;
+          private Vector3 startPos;
           public override void OnStartServer()
           {
                base.OnStartServer();
@@ -22,6 +24,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                {
                     Debug.LogError("Couldn't get rigidbody");
                }
+               startPos = rb.position;
           }
 
           public override void OnStartClient()
@@ -32,10 +35,25 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           [Server]
           protected override void TriggerDamage(Collider collider)
           {
-               if (collider.TryGetComponent(out Weapon w))
+               if (collider.TryGetComponent(out IEffectData effect))
                {
-                    Debug.Log("dummy got hit");
+                    switch (effect)
+                    {
+                         case Sword sword:
+                              sword.ApplyEffect(rb, collider);
+                              break;  
+                    }
                }
+          }
+
+          [Server]
+          System.Collections.IEnumerator ResetAfterDelay()
+          {
+               yield return new WaitForSeconds(resetDelay);
+               
+               rb.linearVelocity = Vector3.zero;
+               rb.angularVelocity = Vector3.zero;
+               transform.position = startPos;
           }
 
           protected override void UpdateUI(int prev, int next, bool asServer)
