@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Unity.Behavior;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.AI
@@ -27,6 +29,8 @@ namespace Scenes.Dev_Scenes.Patrik.AI
             _worldCoordPatrolPoints = new Vector3[localPatrolPoints.Length];
             UpdateWorldPatrolPoints(_originPathPosition);
             
+            BlackboardReference blackboard = GetComponent<BehaviorGraphAgent>().BlackboardReference;
+            blackboard.SetVariableValue("Waypoints",WorldCoordPatrolPoints.ToList());
         }
 
         public void UpdateWorldPatrolPoints(Vector3 startPos)
