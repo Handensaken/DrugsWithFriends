@@ -30,8 +30,8 @@ namespace BehaviourTree
             //Attack Tree
             Sequence attackSequence = new Sequence("Sequencer for Attack");
             
-            Leaf inRangeConditionAttack = new Leaf("In range for attack",new InRangeCondition(eyes,2f)); //TODO fix values
-            attackSequence.AddChild(inRangeConditionAttack);
+            //Leaf inRangeConditionAttack = new Leaf("In range for attack",new InRangeCondition(eyes,2f)); //TODO fix values
+            //attackSequence.AddChild(inRangeConditionAttack);
 
             Leaf attackAction = new Leaf("AttackAction",new AttackProcess(attack, attackPoint));
             attackSequence.AddChild(attackAction);

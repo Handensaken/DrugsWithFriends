@@ -7,7 +7,6 @@ namespace Paket.StateMachineScripts.Targets
 {
     public class TargetDummy : NetworkBehaviour
     {
-        
         [SerializeField] private Collider targetCollider;
         [SerializeField] private MeshRenderer meshRenderer;
         
