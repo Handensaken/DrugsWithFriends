@@ -1,34 +1,26 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace BehaviourTree
+namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
 {
-    public class VisualisationEnemyAI : VisualisationAI
+    [Serializable]
+    public class SightVisualization : IVisualization
     {
-        [SerializeField] private Transform eyes;
-        [SerializeField] protected EnemyData enemyData;
-        
-        public void OnDrawGizmos()
+        [SerializeField] Transform eyes;
+        [SerializeField] SightInfo sightInfo;
+        [SerializeField] public bool onlySelectedGizmos;
+    
+        public void Visualize()
         {
-            if (!settings.gizmosAlways) return;
-            
-            HandleGizmoColor();
+            ValidateData();
             SightArea();
         }
 
-        public void OnDrawGizmosSelected()
+        private void ValidateData()
         {
-            if (!settings.gizmosOnSelected) return;
-            
-            HandleGizmoColor();
-            SightArea();
-        }
-
-        private void HandleGizmoColor()
-        {
-            Color color = enemyData.stateParameters.StateColor;
-            color.a = 1;
-            Gizmos.color = color;
+            if (sightInfo.angle <= 0) sightInfo.angle = 1;
+            if (sightInfo.range <= 0) sightInfo.range = .1f;
         }
         
         private void SightArea()
@@ -39,7 +31,7 @@ namespace BehaviourTree
 
         private void SightRange()
         {
-            Gizmos.DrawWireSphere(eyes.position,enemyData.stateParameters.sightParameters.Range);
+            Gizmos.DrawWireSphere(eyes.position,sightInfo.range);
         }
         
         private void SightAngle() //Shame
@@ -48,8 +40,8 @@ namespace BehaviourTree
             Vector3 worldPos = eyes.position;
             Vector3 forward = eyes.forward;
 
-            float sightRange = enemyData.stateParameters.sightParameters.Range;
-            float sightAngle = enemyData.stateParameters.sightParameters.Angle;
+            float sightRange = sightInfo.range;
+            float sightAngle = sightInfo.angle;
 
             //LeftSide
             Vector2 valuesForLeftSide = RotateVectorCounter(new Vector2(forward.x,forward.z), sightAngle);
@@ -91,5 +83,12 @@ namespace BehaviourTree
 
             return new Vector2(vectorX, vectorY);
         }
+    }
+
+    [Serializable]
+    public struct SightInfo
+    {
+        public float range;
+        public int angle;
     }
 }

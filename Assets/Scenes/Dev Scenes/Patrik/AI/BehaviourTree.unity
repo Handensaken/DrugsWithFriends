@@ -250,6 +250,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 72733161}
   _networkObjectCache: {fileID: 0}
+  weaponBehaviourSO: {fileID: 0}
 --- !u!114 &72733161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,7 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
   m_AgentTypeID: 0
-  m_CollectObjects: 0
+  m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
@@ -1156,6 +1157,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3971814950544373570, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4151203290589200980, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.1
@@ -1200,6 +1205,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI
       objectReference: {fileID: 0}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'managedReferences[4732781217515832039]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.Transform,
+        UnityEngine.CoreModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[4732781217515832039].Name
+      value: Eyes
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: m_BlackboardVariableOverridesList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[4732781217515832039].m_Value
+      value: 
+      objectReference: {fileID: 5696293391785975728}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[1]'
+      value: 4732781217515832039
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[4732781217515832039].GUID.m_Value0
+      value: 17861391957965050541
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804421886001762004, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[4732781217515832039].GUID.m_Value1
+      value: 16946465001168074037
+      objectReference: {fileID: 0}
     - target: {fileID: 5823507896419894986, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1216,11 +1250,58 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1044143885876162630, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+    - {fileID: 3971814950544373570, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4610599413651435080, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5696293391785975730}
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+--- !u!1 &5696293391785975727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4610599413651435080, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 5696293391785975726}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5696293391785975728 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4708528377787603160, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 5696293391785975726}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5696293391785975729 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9211497591864984976, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 5696293391785975726}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696293391785975727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5696293391785975730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5696293391785975727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09493de45cd41e14b93cb1a8c1091da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.SightBehaviour
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5696293391785975729}
+  _networkObjectCache: {fileID: 0}
+  visualization:
+    eyes: {fileID: 5696293391785975728}
+    sightInfo:
+      range: 6.79
+      angle: 2
+    onlySelectedGizmos: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
