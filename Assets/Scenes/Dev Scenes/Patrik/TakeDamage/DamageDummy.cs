@@ -41,6 +41,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                     {
                          case Sword sword:
                               sword.ApplyEffect(rb, collider);
+                              StartCoroutine(ResetAfterDelay());
                               break;  
                     }
                }
