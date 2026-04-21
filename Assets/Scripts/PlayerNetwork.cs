@@ -35,11 +35,12 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    private int cameraIndex, enemyIndex, currentChain;
+    [SerializeField] private int cameraIndex, enemyIndex, currentChain;
     private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
+    [SerializeField] private List<GameObject> cameras;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
@@ -158,7 +159,7 @@ public class PlayerNetwork : NetworkBehaviour
             if (enemiesInRange.Contains(other.transform))
             {
                 enemiesInRange.Remove(other.transform);
-                if(other.transform == cinemachineCamera.LookAt)
+                if(other.transform == cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt)
                 {
                     FocusOnPlayer();
                 }
@@ -330,24 +331,40 @@ public class PlayerNetwork : NetworkBehaviour
             enemyIndex = 0;
             freeCamMovement = false;
             animator.SetLayerWeight(1, 1);
-            cinemachineCamera.LookAt = enemiesOnScreen[enemyIndex];
             actionReferences.look.action.Disable();
             cameraIndex = 1;
+            cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
         }
         else if (enemyIndex < enemiesOnScreen.Count - 1  && enemiesOnScreen.Count > 0)
         {
             enemyIndex++;
-            cinemachineCamera.LookAt = enemiesOnScreen[enemyIndex];
+            cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
         }
         else
         {
             FocusOnPlayer();
+        }
+        SetCamera();
+    }
+
+    private void SetCamera()
+    {
+        if (cameraIndex == 0)
+        {
+            cameras[0].SetActive(true);
+            cameras[1].SetActive(false);
+        }
+        else
+        {
+            cameras[0].SetActive(false);
+            cameras[1].SetActive(true);
         }
     }
 
     private void FocusOnPlayer()
     {
         cameraIndex = 0;
+        SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691378431527592474}
   - component: {fileID: 6515165083195661982}
-  - component: {fileID: 2277723457463052785}
+  - component: {fileID: 7155027229293485966}
   - component: {fileID: 2624695642363393018}
   - component: {fileID: 3548260413214258364}
   - component: {fileID: 2184148031444917535}
@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2312668981729931790}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00526883, y: -2.2929918e-10, z: -1.2081562e-12, w: 0.9999861}
-  m_LocalPosition: {x: 0, y: 1.5456792, z: -3.3517199}
+  m_LocalRotation: {x: 0.09853761, y: 0, z: 0, w: 0.99513334}
+  m_LocalPosition: {x: 0, y: 1.981, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -80,7 +80,7 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &2277723457463052785
+--- !u!114 &7155027229293485966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,60 +89,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2312668981729931790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 625c14eee3ad46c99df7c7c891ef668a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  TargetOffset: {x: 0, y: 0.14, z: 0}
-  TrackerSettings:
-    BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
-    AngularDampingMode: 0
-    RotationDamping: {x: 1, y: 1, z: 1}
-    QuaternionDamping: 1
-  OrbitStyle: 1
-  Radius: 3.86
-  Orbits:
-    Top:
-      Radius: 3.25
-      Height: -0.17
-    Center:
-      Radius: 3.25
-      Height: -0.17
-    Bottom:
-      Radius: 3.25
-      Height: -0.17
-    SplineCurvature: 0.5
-  RecenteringTarget: 2
-  HorizontalAxis:
-    Value: 0
-    Center: 0
-    Range: {x: -180, y: 180}
-    Wrap: 1
-    Recentering:
-      Enabled: 0
-      Wait: 1
-      Time: 2
-    Restrictions: 0
-  VerticalAxis:
-    Value: 37.062855
-    Center: 17.5
-    Range: {x: -10, y: 45}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 1
-      Time: 2
-    Restrictions: 0
-  RadialAxis:
-    Value: 1
-    Center: 1
-    Range: {x: 1, y: 1}
-    Wrap: 0
-    Recentering:
-      Enabled: 0
-      Wait: 1
-      Time: 2
-    Restrictions: 0
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineThirdPersonFollow
+  Damping: {x: 0.1, y: 0.5, z: 0.3}
+  ShoulderOffset: {x: 0, y: 0, z: 0}
+  VerticalArmLength: 0.4
+  CameraSide: 1
+  CameraDistance: 2
+  AvoidObstacles:
+    Enabled: 0
+    CollisionFilter:
+      serializedVersion: 2
+      m_Bits: 1
+    IgnoreTag: 
+    CameraRadius: 0.2
+    DampingIntoCollision: 0
+    DampingFromCollision: 0.5
 --- !u!114 &2624695642363393018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,40 +168,7 @@ MonoBehaviour:
   SuppressInputWhileBlending: 1
   IgnoreTimeScale: 0
   m_ControllerManager:
-    Controllers:
-    - Name: Look Orbit X
-      Owner: {fileID: 2277723457463052785}
-      Enabled: 0
-      Input:
-        InputAction: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-        Gain: 6
-        CancelDeltaTime: 0
-      InputValue: 0
-      Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
-    - Name: Look Orbit Y
-      Owner: {fileID: 2277723457463052785}
-      Enabled: 0
-      Input:
-        InputAction: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-        Gain: 6
-        CancelDeltaTime: 0
-      InputValue: 0
-      Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
-    - Name: Orbit Scale
-      Owner: {fileID: 2277723457463052785}
-      Enabled: 0
-      Input:
-        InputAction: {fileID: -423771258819551211, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
-        Gain: -1
-        CancelDeltaTime: 0
-      InputValue: -0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
+    Controllers: []
   PlayerIndex: -1
   AutoEnableInputs: 0
 --- !u!114 &2407089734755201368
@@ -306,7 +236,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2.64
+  m_Radius: 3.67
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8161492386765879662
 GameObject:
@@ -1206,7 +1136,7 @@ MonoBehaviour:
   rotationSpeed: 0.217
   freeCamMovement: 0
   range: 1.29
-  detectEnemiesRange: 2.64
+  detectEnemiesRange: 3.67
   attackSpeed: 0.77
   lightChainAttackCooldown: 0.57
   heavyChainAttackCooldown: 0.52
@@ -1225,6 +1155,9 @@ MonoBehaviour:
   pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
+  cameras:
+  - {fileID: 9075642670705430114}
+  - {fileID: 2312668981729931790}
   attackRangeCollider: {fileID: 2553626066740570996}
   attackHitboxCollider: {fileID: 2634556739951376808}
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
