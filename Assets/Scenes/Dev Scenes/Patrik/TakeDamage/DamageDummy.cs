@@ -7,15 +7,24 @@ using UnityEngine;
 namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
      //TODO Have blackboard in use for controlling health 
+     [RequireComponent(typeof(Rigidbody))]
      public class DamageDummy : Damage
      {
           [SerializeField] private HealthSO healthData;
           [SerializeField] private NetworkTrigger networkTrigger;
           private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
-          
+          private Rigidbody rb;
           public override void OnStartServer()
           {
                base.OnStartServer();
+               if (TryGetComponent(out Rigidbody rigidbody))
+               {
+                    rb = rigidbody;
+               }
+               else
+               {
+                    Debug.LogError("Couldn't get rigidbody");
+               }
           }
 
           public override void OnStartClient()
@@ -24,17 +33,18 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           }
 
           [Server]
-          protected void TriggerDamage(Collider collider)
+          private void TriggerDamage(Collider collider)
           {
-               base.TriggerDamage(collider);
+               if (collider.TryGetComponent(out IWeapon w))
+               {
+                    Debug.Log("dummy got hit");
+                    
+               }
           }
 
           private void UpdateUI(int prev, int next, bool asServer)
           {
-               if (asServer) return;
-               Debug.Log("Only clients");
-               
-               healthData.UpdateHealth(new HealthPackage(_healthCounter.Value, 2));
+               base.UpdateUI(prev, next, asServer);
           }
      }
 }
