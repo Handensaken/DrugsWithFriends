@@ -10,9 +10,6 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      [RequireComponent(typeof(Rigidbody))]
      public class DamageDummy : Damage
      {
-          [SerializeField] private HealthSO healthData;
-          [SerializeField] private NetworkTrigger networkTrigger;
-          private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
           private Rigidbody rb;
           public override void OnStartServer()
           {
@@ -33,16 +30,15 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           }
 
           [Server]
-          private void TriggerDamage(Collider collider)
+          protected override void TriggerDamage(Collider collider)
           {
-               if (collider.TryGetComponent(out IWeapon w))
+               if (collider.TryGetComponent(out Weapon w))
                {
                     Debug.Log("dummy got hit");
-                    
                }
           }
 
-          private void UpdateUI(int prev, int next, bool asServer)
+          protected override void UpdateUI(int prev, int next, bool asServer)
           {
                base.UpdateUI(prev, next, asServer);
           }

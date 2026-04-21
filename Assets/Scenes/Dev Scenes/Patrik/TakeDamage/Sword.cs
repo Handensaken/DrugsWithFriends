@@ -1,6 +1,10 @@
 using FishNet.Object;
+using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
-    public class BasicWeapon : NetworkBehaviour, IWeapon {}
+    public class Sword : Weapon
+    {
+        
+    }
 }

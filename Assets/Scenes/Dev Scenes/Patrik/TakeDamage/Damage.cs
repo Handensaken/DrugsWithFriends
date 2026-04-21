@@ -30,16 +30,16 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           }
 
           [Server]
-          protected void TriggerDamage(Collider collider)
+          protected virtual void TriggerDamage(Collider collider)
           {
-               if (collider.TryGetComponent<IWeapon>(out IWeapon t))
+               if (collider.TryGetComponent(out Weapon t))
                {
                     Debug.Log($"Hit: {_healthCounter}");
                     _healthCounter.Value--;
                }
           }
 
-          protected void UpdateUI(int prev, int next, bool asServer)
+          protected virtual void UpdateUI(int prev, int next, bool asServer)
           {
                if (asServer) return;
                Debug.Log("Only clients");

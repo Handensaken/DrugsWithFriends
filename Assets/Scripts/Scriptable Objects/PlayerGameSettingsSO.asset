@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8e2f5378ab1f264ab5020c4f4c59af2, type: 3}
-  m_Name: SelectionHandler
+  m_Script: {fileID: 11500000, guid: 625591ce5a0c8e74ba8c2c68a087922e, type: 3}
+  m_Name: PlayerGameSettingsSO
   m_EditorClassIdentifier: 
-  selectedObjects: []
+  mouseSensitivity: 2.81
+  volume: 1
+  invertMouseY: 0
+  OnSensitivityChanged:
+    m_PersistentCalls:
+      m_Calls: []

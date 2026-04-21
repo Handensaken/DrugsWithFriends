@@ -1085,7 +1085,7 @@ PrefabInstance:
       addedObject: {fileID: 2634556739951376808}
     - targetCorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4654537695947910726}
+      addedObject: {fileID: 3043812342392740624}
     - targetCorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2130466159283627140}
@@ -1371,7 +1371,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.42, y: 0.42, z: 0.42}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4654537695947910726
+--- !u!114 &3043812342392740624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1380,12 +1380,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5065054076565641154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 122301fafa1b4329b7287dfd1ce36ff6, type: 3}
+  m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.BasicWeapon
+  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7696538552095724360}
   _networkObjectCache: {fileID: 0}
+  weaponBehaviourSO: {fileID: 11400000, guid: 3cc828c01d374fd4f897ff9a208aaa06, type: 2}
 --- !u!114 &2130466159283627140
 MonoBehaviour:
   m_ObjectHideFlags: 0
