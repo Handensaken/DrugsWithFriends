@@ -15,6 +15,7 @@ public struct StateParameters
     [SerializeField] private string stateName;
     [SerializeField] private Color stateColor;
     [SerializeField] public SightParameters sightParameters;
+    [SerializeField] public MovementParameters movementParameters;
 
     public Color StateColor => stateColor;
 }
@@ -27,5 +28,15 @@ public struct SightParameters
 
     public float Range => range;
     public float Angle => angle;
+}
+
+[Serializable]
+public struct MovementParameters
+{
+    [SerializeField] private float speed;
+    [SerializeField] private float stoppingDistance;
+
+    public float Speed => speed;
+    public float StoppingDistance => stoppingDistance;
 }
 
