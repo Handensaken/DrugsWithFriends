@@ -25,9 +25,11 @@ public partial class ChaseAction : Action
     private bool firstRunFlag = true;
     protected override Status OnStart() //Tested --> Reduced calls
     {
-        Debug.Log("Chase Start");
-        _agent ??= Self.Value.GetComponent<NavMeshAgent>();
-
+        //Validate
+        if (InvalidParameters()) return Status.Failure;
+        
+        Initialize();
+        
         if(IsFirstRun()) return Status.Running;
         if(!IsUpdatingLatestPosition()) return Status.Success; //No need to handle the same value again
         return Status.Running;
@@ -35,6 +37,9 @@ public partial class ChaseAction : Action
     
     protected override Status OnUpdate() //TODO
     {
+        //Validate
+        if (InvalidParameters()) return Status.Failure;
+        
         //Stoppingdistance
         
         //SetDestination med olika parametrar //TODO in i patrolering
@@ -44,8 +49,18 @@ public partial class ChaseAction : Action
        return Status.Success;
     }
 
-    protected override void OnEnd() {}
+    //TODO - reset
+    protected override void OnEnd()
+    {
+        _agent = null;
+    }
 
+    private void Initialize()
+    {
+        _agent ??= Self.Value.GetComponent<NavMeshAgent>();
+        //TODO values
+    }
+    
     private bool IsFirstRun()
     {
         if (firstRunFlag) //otherwise v(0,0,0)
@@ -70,14 +85,10 @@ public partial class ChaseAction : Action
         return !Mathf.Approximately(a.x, b.x) || !Mathf.Approximately(a.y, b.y) || !Mathf.Approximately(a.z, b.z);
     }
 
-    private void ValidateParameters()
+    private bool InvalidParameters()
     {
-        
-    }
+        return (!Self.Value || !Target.Value);
 
-    private void Reset()
-    {
-        
     }
 }
 

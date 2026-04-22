@@ -55,7 +55,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
         [Server]
         private Transform[] FindAllTargets()
         {
-            Debug.Log("FindAllTargets");
+            //Debug.Log("FindAllTargets");
             NetworkConnection[] allTargets = ServerManager.Clients.Values.ToArray();
             
             List<Transform> result = new List<Transform>();
