@@ -35,6 +35,8 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           [Server]
           protected override void TriggerDamage(Collider collider)
           {
+               Debug.Log("HIT");
+               //base.TriggerDamage(collider);
                if (collider.TryGetComponent(out IEffectData effect))
                {
                     switch (effect)

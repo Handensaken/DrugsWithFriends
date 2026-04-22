@@ -10,7 +10,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      public class Damage : NetworkBehaviour
      {
           [SerializeField] private HealthSO healthData;
-          [SerializeField] private NetworkTrigger networkTrigger;
+          [SerializeField] protected NetworkTrigger networkTrigger;
           private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
           
           public override void OnStartServer()
