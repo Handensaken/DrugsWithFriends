@@ -21,10 +21,6 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 
           public override void OnStartClient()
           {
-               if (IsServerInitialized)
-               {
-                    Debug.Log("Skipped server");
-               }
                base.OnStartClient();
                _healthCounter.OnChange += UpdateUI;
           }
