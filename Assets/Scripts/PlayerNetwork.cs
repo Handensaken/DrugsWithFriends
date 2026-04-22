@@ -124,37 +124,56 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
     
-    
-
-    private void OnEnable()
+    private void SubscribeActions(bool register)
     {
-        actionReferences.move.action.performed += Move;
-        actionReferences.move.action.canceled += Move;
-        actionReferences.look.action.performed += Look;
-        actionReferences.look.action.canceled += Look;
-        actionReferences.toggleCameraFocus.action.performed += ToggleCameraFocus;
-        actionReferences.lightAttack.action.performed += LightAttack;
-        actionReferences.heavyAttack.action.performed += HeavyAttack;
-        actionReferences.pause.action.performed += Pause;
-        actionReferences.cancel.action.performed += Cancel; 
-        actionReferences.unpause.action.performed += Unpause;
-        playerInput.onControlsChanged += ControlsChanged;
+        void Performed(InputActionReference r, Action<InputAction.CallbackContext> cb)
+        {
+            if (register)
+            {
+                r.action.performed += cb;
+            }
+            else
+            {
+                r.action.performed -= cb;
+            }
+        }
+ 
+        void Canceled(InputActionReference r, Action<InputAction.CallbackContext> cb)
+        {
+            if (register)
+            {
+                r.action.canceled += cb;
+            }
+            else
+            {
+                r.action.canceled -= cb;
+            }
+        }
+        Performed(actionReferences.move, Move);
+        Canceled (actionReferences.move, Move);
+ 
+        Performed(actionReferences.look, Look);
+        Canceled (actionReferences.look, Look);
+ 
+        Performed(actionReferences.toggleCameraFocus, ToggleCameraFocus);
+        Performed(actionReferences.lightAttack, LightAttack);
+        Performed(actionReferences.heavyAttack, HeavyAttack);
+        Performed(actionReferences.pause, Pause);
+        Performed(actionReferences.unpause, Unpause);
+        Performed(actionReferences.cancel, Cancel);
+
+        if (register)
+        {
+            playerInput.onControlsChanged += ControlsChanged;
+        }
+        else
+        {
+            playerInput.onControlsChanged -= ControlsChanged;
+        }
     }
 
-    private void OnDisable()
-    {
-        actionReferences.move.action.performed -= Move;
-        actionReferences.move.action.canceled -= Move;
-        actionReferences.look.action.performed -= Look;
-        actionReferences.look.action.canceled -= Look;
-        actionReferences.toggleCameraFocus.action.performed -= ToggleCameraFocus;
-        actionReferences.lightAttack.action.performed -= LightAttack;
-        actionReferences.heavyAttack.action.performed -= HeavyAttack;
-        actionReferences.pause.action.performed -= Pause;
-        actionReferences.unpause.action.performed -= Unpause;
-        actionReferences.cancel.action.performed -= Cancel;
-        playerInput.onControlsChanged -= ControlsChanged;
-    }
+    private void OnEnable()  => SubscribeActions(true);
+    private void OnDisable() => SubscribeActions(false);
 
     private void OnTriggerEnter(Collider other)
     {
