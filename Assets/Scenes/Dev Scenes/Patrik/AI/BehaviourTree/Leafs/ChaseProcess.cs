@@ -41,7 +41,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.BehaviourTree.Leafs
             Vector3 forward = _eyes.forward;
             for (int i = 0; i < t.Length; i++)
             {
-                if (t[i] == null) continue;
+                if (!t[i]) continue;
                 
                 Vector3 dirToTarget = (t[i].Position - _eyes.position).normalized;
                 float currentAngle = Vector3.Angle(forward, dirToTarget);

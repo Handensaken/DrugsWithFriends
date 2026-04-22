@@ -28,28 +28,34 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _blackboard = _behaviorGraphAgent.BlackboardReference;
         }
-        
-        private void Update()
-        {
-            if (IsServerInitialized)
-            {
-                Debug.Log(IsClientInitialized);
-                
-                Transform[] all = FindAllTargets();
-                Transform[] inSightRange = AllTargetsInRange(all, 5);
 
-                if (inSightRange.Length > 0)
-                {
-                    _blackboard.SetVariableValue("Chase", true);
-                }
-                
-                Transform[] inAttackRange = AllTargetsInRange(inSightRange, 2);
-                _blackboard.SetVariableValue("Attack", inAttackRange.Length > 0);
-            }
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+            if (!IsServerInitialized) enabled = false;
         }
 
+        [Server]
+        private void Update()
+        {
+            Transform[] all = FindAllTargets();
+            Transform[] inSightRange = AllTargetsInRange(all, 5);
+
+            if (inSightRange.Length > 0)
+            {
+                _blackboard.SetVariableValue("Aggressive", true);
+                _blackboard.SetVariableValue("targetPoint", inSightRange[0]);
+                Debug.Log("chase active");
+            }
+                
+            Transform[] inAttackRange = AllTargetsInRange(inSightRange, 2);
+            _blackboard.SetVariableValue("Attack", inAttackRange.Length > 0);
+        }
+
+        [Server]
         private Transform[] FindAllTargets()
         {
+            Debug.Log("FindAllTargets");
             NetworkConnection[] allTargets = ServerManager.Clients.Values.ToArray();
             
             List<Transform> result = new List<Transform>();
@@ -62,6 +68,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             return result.ToArray();
         }
         
+        [Server]
         private Transform[] AllTargetsInRange(Transform[] samples ,float range)
         {
             List<Transform> result = new List<Transform>();
@@ -73,12 +80,14 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             return result.ToArray();
         }
 
+        [Server]
         private void OnDrawGizmos()
         {
             if(visualization.onlySelectedGizmos) return;
             visualization.Visualize();
         }
 
+        [Server]
         private void OnDrawGizmosSelected()
         {
             if(!visualization.onlySelectedGizmos) return;

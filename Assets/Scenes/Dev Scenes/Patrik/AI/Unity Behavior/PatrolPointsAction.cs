@@ -47,7 +47,7 @@ public partial class PatrolPointsAction : Action
             _isPathDone = true;
         }
         
-        return Status.Running;
+        return Status.Success;
     }
     protected override void OnEnd() {}
     private bool ValidateOnStart()
