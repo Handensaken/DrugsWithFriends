@@ -334,6 +334,8 @@ public class PlayerNetwork : NetworkBehaviour
             actionReferences.look.action.Disable();
             cameraIndex = 1;
             cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
+            cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position =
+                cameras[0].GetComponent<CinemachineCamera>().transform.position;
         }
         else if (enemyIndex < enemiesOnScreen.Count - 1  && enemiesOnScreen.Count > 0)
         {
@@ -364,11 +366,13 @@ public class PlayerNetwork : NetworkBehaviour
     private void FocusOnPlayer()
     {
         cameraIndex = 0;
+        cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position =
+            cameras[1].GetComponent<CinemachineCamera>().transform.position;
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
-        cinemachineCamera.LookAt = cinemachineCamera.Target.TrackingTarget;
+        //cinemachineCamera.LookAt = cinemachineCamera.Target.TrackingTarget;
     }
 
     private void LightAttack(InputAction.CallbackContext context)
