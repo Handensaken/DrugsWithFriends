@@ -57,7 +57,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI
         
         private void OnValidate()
         {
-            if (localPatrolPoints.Length <= 1)
+            if (localPatrolPoints.Length < 1)
             {
                 throw new Exception($"Missing one or more patrolPoints. Current amount: {localPatrolPoints.Length}");
             }
@@ -65,22 +65,37 @@ namespace Scenes.Dev_Scenes.Patrik.AI
         
         private void VisualizePoints()
         {
-            if (localPatrolPoints.Length <= 1) throw new Exception($"Missing patrolsPoints. Current amount: {localPatrolPoints.Length}");
+            if (localPatrolPoints.Length < 1) throw new Exception($"Missing patrolsPoints. Current amount: {localPatrolPoints.Length}");
+            
         
             if (!Application.isPlaying)
             {
-                for (int i = 0; i < localPatrolPoints.Length; i++)
+                if (localPatrolPoints.Length == 1)
                 {
-                    Gizmos.DrawCube(transform.position+localPatrolPoints[i], new Vector3(.5f,.5f,.5f));
-                    Gizmos.DrawLine(transform.position+localPatrolPoints[i], transform.position+localPatrolPoints[(i+1)%localPatrolPoints.Length]);
+                    Gizmos.DrawCube(transform.position+localPatrolPoints[0], new Vector3(.5f,.5f,.5f));
+                }
+                else
+                {
+                    for (int i = 0; i < localPatrolPoints.Length; i++)
+                    {
+                        Gizmos.DrawCube(transform.position+localPatrolPoints[i], new Vector3(.5f,.5f,.5f));
+                        Gizmos.DrawLine(transform.position+localPatrolPoints[i], transform.position+localPatrolPoints[(i+1)%localPatrolPoints.Length]);
+                    }
                 }
             }
             else
             {
-                for (int i = 0; i < _worldCoordPatrolPoints.Length; i++)
+                if (localPatrolPoints.Length == 1)
                 {
-                    Gizmos.DrawCube(_worldCoordPatrolPoints[i], new Vector3(.5f,.5f,.5f));
-                    Gizmos.DrawLine(_worldCoordPatrolPoints[i], _worldCoordPatrolPoints[(i+1)%_worldCoordPatrolPoints.Length]);
+                    Gizmos.DrawCube(_worldCoordPatrolPoints[0], new Vector3(.5f,.5f,.5f));
+                }
+                else
+                {
+                    for (int i = 0; i < _worldCoordPatrolPoints.Length; i++)
+                    {
+                        Gizmos.DrawCube(_worldCoordPatrolPoints[i], new Vector3(.5f,.5f,.5f));
+                        Gizmos.DrawLine(_worldCoordPatrolPoints[i], _worldCoordPatrolPoints[(i+1)%_worldCoordPatrolPoints.Length]);
+                    }
                 }
             }
             

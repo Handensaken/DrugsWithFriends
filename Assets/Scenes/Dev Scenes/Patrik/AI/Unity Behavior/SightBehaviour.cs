@@ -16,6 +16,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
       FOV
       attackFOV (range)
       */
+        [SerializeField] public Transform eyes;
         [SerializeField] public SightVisualization visualization;
 
         [SerializeField] public EnemyData enemyData;
@@ -27,27 +28,49 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _blackboard = _behaviorGraphAgent.BlackboardReference;
         }
-
+        
         private void Update()
         {
             if (IsServerInitialized)
             {
-                AllTargetsInRange();
+                Debug.Log(IsClientInitialized);
+                
+                Transform[] all = FindAllTargets();
+                Transform[] inSightRange = AllTargetsInRange(all, 5);
+
+                if (inSightRange.Length > 0)
+                {
+                    _blackboard.SetVariableValue("Chase", true);
+                }
+                
+                Transform[] inAttackRange = AllTargetsInRange(inSightRange, 2);
+                _blackboard.SetVariableValue("Attack", inAttackRange.Length > 0);
             }
         }
 
-        private void AllTargetsInRange()
+        private Transform[] FindAllTargets()
         {
-            NetworkConnection[] targets = ServerManager.Clients.Values.ToArray();
-
-            //float range = _blackboard.GetVariable()
+            NetworkConnection[] allTargets = ServerManager.Clients.Values.ToArray();
+            
             List<Transform> result = new List<Transform>();
-            for (int i = 0; i < targets.Length; i++)
+            foreach (var target in allTargets)
             {
-                
+                if (!target.FirstObject || !target.FirstObject.IsSpawned) continue;
+                result.Add(target.FirstObject?.transform);
             }
-            //Transform t = targets[0]?.FirstObject.transform;
-            //_blackboard.SetVariableValue("targetPoint", t);
+            
+            return result.ToArray();
+        }
+        
+        private Transform[] AllTargetsInRange(Transform[] samples ,float range)
+        {
+            List<Transform> result = new List<Transform>();
+            foreach (var sample in samples)
+            {
+                if (Vector3.Distance(sample.position, eyes.position) <= range) result.Add(sample);
+            }
+            
+            return result.ToArray();
         }
 
         private void OnDrawGizmos()
