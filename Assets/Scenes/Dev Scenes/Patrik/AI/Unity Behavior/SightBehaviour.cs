@@ -46,8 +46,8 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             {
                 
             }
-            Transform t = targets[0]?.FirstObject.transform;
-            _blackboard.SetVariableValue("targetPoint", t);
+            //Transform t = targets[0]?.FirstObject.transform;
+            //_blackboard.SetVariableValue("targetPoint", t);
         }
 
         private void OnDrawGizmos()
