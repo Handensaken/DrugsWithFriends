@@ -13,10 +13,15 @@ public class PauseMenu : MonoBehaviour
     private Menu[] menus;
     [SerializeField] private SelectionHandler selectionHandler;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private InputActionReference pause, unpause, cancel;
 
     private void OnEnable()
     {
         selectionHandler.selectedObjects.Add(firstSelected);
+        unpause.action.performed += OnUnpause;
+        cancel.action.performed += TryCancel;
+        pause.action.performed -= OnPause;
     }
     
     private void OnDisable()
@@ -35,13 +40,9 @@ public class PauseMenu : MonoBehaviour
         catch
         {
         }
-    }
-
-    private void Awake()
-    {
-        pauseEvent.OnPause.AddListener(OnPause);
-        pauseEvent.OnUnpause.AddListener(OnUnpause);
-        pauseEvent.OnCancel.AddListener(TryCancel);
+        unpause.action.performed -= OnUnpause;
+        cancel.action.performed -= TryCancel;
+        pause.action.performed += OnPause;
     }
 
     private void Start()
@@ -51,7 +52,7 @@ public class PauseMenu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void OnPause(PlayerInput playerInput)
+    public void OnPause(InputAction.CallbackContext context)
     {
         playerInput.SwitchCurrentActionMap("UI");
         Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
@@ -62,10 +63,9 @@ public class PauseMenu : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(firstSelected);
             Debug.Log("selected " + EventSystem.current.currentSelectedGameObject.name);
         }
-        
     }
 
-    public void OnUnpause(PlayerInput playerInput)
+    public void OnUnpause(InputAction.CallbackContext context)
     {
         playerInput.SwitchCurrentActionMap("Player");
         Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
@@ -89,7 +89,7 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    private void TryCancel(PlayerInput playerInput)
+    private void TryCancel(InputAction.CallbackContext context)
     {
         for (int i = menus.Length - 1; i >= 0; i--)
         {
@@ -103,7 +103,7 @@ public class PauseMenu : MonoBehaviour
         }
         if (menuButtons.activeSelf)
         {
-            OnUnpause(playerInput);
+            OnUnpause(new InputAction.CallbackContext());
         }
     }
 

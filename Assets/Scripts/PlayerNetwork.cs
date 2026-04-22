@@ -155,9 +155,6 @@ public class PlayerNetwork : NetworkBehaviour
         Performed(actionReferences.toggleCameraFocus, ToggleCameraFocus);
         Performed(actionReferences.lightAttack, LightAttack);
         Performed(actionReferences.heavyAttack, HeavyAttack);
-        Performed(actionReferences.pause, Pause);
-        Performed(actionReferences.unpause, Unpause);
-        Performed(actionReferences.cancel, Cancel);
 
         if (register)
         {
@@ -215,27 +212,6 @@ public class PlayerNetwork : NetworkBehaviour
         {
             HandleRotation();
         }
-    }
-
-    public void ResumeButton()
-    {
-        Unpause(new InputAction.CallbackContext());
-    }
-
-    private void Pause(InputAction.CallbackContext context)
-    {
-        pauseEvent.OnPause?.Invoke(playerInput);
-    }
-
-    private void Unpause(InputAction.CallbackContext context)
-    {
-        if (actionReferences.cancel.action.triggered) return; // Prevent unpausing when cancel is pressed in case cancel is bound to the same key as pause
-        pauseEvent.OnUnpause?.Invoke(playerInput);
-    }
-
-    private void Cancel(InputAction.CallbackContext context)
-    {
-        pauseEvent.OnCancel?.Invoke(playerInput);
     }
 
     private void Move(InputAction.CallbackContext context)

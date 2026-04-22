@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu]
 public class PauseEvent : ScriptableObject
 {
-    [HideInInspector] public UnityEvent<PlayerInput> OnPause = new UnityEvent<PlayerInput>();
+    [HideInInspector] public UnityEvent OnPause = new UnityEvent();
 
-    [HideInInspector] public UnityEvent<PlayerInput> OnUnpause = new UnityEvent<PlayerInput>();
+    [HideInInspector] public UnityEvent OnUnpause = new UnityEvent();
     
-    [HideInInspector] public UnityEvent<PlayerInput> OnCancel = new UnityEvent<PlayerInput>();
+    [HideInInspector] public UnityEvent OnCancel = new UnityEvent();
 }

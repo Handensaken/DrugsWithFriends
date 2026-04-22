@@ -612,6 +612,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 795329919868385679, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: pause
+      value: 
+      objectReference: {fileID: -7420171985196240918, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    - target: {fileID: 795329919868385679, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: cancel
+      value: 
+      objectReference: {fileID: 4971023935266359616, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    - target: {fileID: 795329919868385679, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: unpause
+      value: 
+      objectReference: {fileID: -6857184440973523537, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    - target: {fileID: 795329919868385679, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 4813627358408976386}
     - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -634,7 +650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8237410667802671908, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_Text
-      value: Hold Y
+      value: Hold Triangle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1156,9 +1172,6 @@ MonoBehaviour:
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
   freeCam: {fileID: 7434779505794564936}
   lockOnCam: {fileID: 6515165083195661982}
-  cameras:
-  - {fileID: 9075642670705430114}
-  - {fileID: 2312668981729931790}
   attackRangeCollider: {fileID: 2553626066740570996}
   attackHitboxCollider: {fileID: 2634556739951376808}
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
