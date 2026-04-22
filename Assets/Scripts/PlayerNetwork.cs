@@ -53,7 +53,6 @@ public class PlayerNetwork : NetworkBehaviour
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
     [SerializeField] private CinemachineCamera freeCam, lockOnCam;
-    [SerializeField] private List<GameObject> cameras;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
@@ -308,17 +307,23 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    private (Vector3 forward, Vector3 right) SetCameraVectors(CinemachineCamera cam)
+    {
+        Vector3 forward = cam.transform.forward;
+        Vector3 right = cam.transform.right;
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+        return (forward, right);
+    }
+
     private void FreeCamMovement()
     {
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
 
-        Vector3 cameraForward = freeCam.transform.forward;
-        Vector3 cameraRight = freeCam.transform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
+        var (cameraForward, cameraRight) = SetCameraVectors(freeCam);
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
@@ -330,12 +335,7 @@ public class PlayerNetwork : NetworkBehaviour
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
 
-        Vector3 cameraForward = lockOnCam.transform.forward;
-        Vector3 cameraRight = lockOnCam.transform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
+        var (cameraForward, cameraRight) = SetCameraVectors(lockOnCam);
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
