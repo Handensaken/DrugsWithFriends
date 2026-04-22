@@ -17,7 +17,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
       attackFOV (range)
       */
         [SerializeField] public Transform eyes;
-        [SerializeField] public SightVisualization visualization;
+        //[SerializeField] public SightVisualization visualization;
 
         [SerializeField] public EnemyData enemyData;
         private BehaviorGraphAgent _behaviorGraphAgent;
@@ -80,7 +80,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             return result.ToArray();
         }
 
-        [Server]
+        /*[Server]
         private void OnDrawGizmos()
         {
             if(visualization.onlySelectedGizmos) return;
@@ -92,6 +92,6 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
         {
             if(!visualization.onlySelectedGizmos) return;
             visualization.Visualize();
-        }
+        }*/
     }
 }
