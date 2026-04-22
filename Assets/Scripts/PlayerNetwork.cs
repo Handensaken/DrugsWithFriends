@@ -13,8 +13,7 @@ public class PlayerNetwork : NetworkBehaviour
     public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
-    [SerializeField] private bool freeCamMovement;
-    private bool looking, attacking;
+    private bool freeCamMovement, looking, attacking, isCameraLockedOn;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -48,17 +47,16 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    [SerializeField] private int cameraIndex, enemyIndex, currentChain;
+    private int enemyIndex, currentChain;
     private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
-    private CinemachineCamera cinemachineCamera;
+    private CinemachineCamera cinemachineCamera, freeCam, lockOnCam;
     [SerializeField] private List<GameObject> cameras;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
     [SerializeField] private BoxCollider attackHitboxCollider;
-    
     [SerializeField] private SelectionHandler selectionHandler;
 
     protected override void OnValidate()
@@ -69,9 +67,11 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        freeCam = cameras[0].GetComponent<CinemachineCamera>();
+        lockOnCam = cameras[1].GetComponent<CinemachineCamera>();
+        
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
-        cameraIndex = 0;
         currentChain = 0;
         enemiesInRange = new List<Transform>();
         attackQueue = new Queue<string>();
@@ -193,7 +193,7 @@ public class PlayerNetwork : NetworkBehaviour
             if (enemiesInRange.Contains(other.transform))
             {
                 enemiesInRange.Remove(other.transform);
-                if(other.transform == cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt)
+                if(other.transform == lockOnCam.LookAt) // Focus on player if exiting the area where enemy is focused 
                 {
                     FocusOnPlayer();
                 }
@@ -251,9 +251,9 @@ public class PlayerNetwork : NetworkBehaviour
         else if (context.canceled)
         {
             rb.linearVelocity = new Vector3(0, 0, 0);
-            animator.SetFloat("combatX", 0);
-            animator.SetFloat("combatY", 0);
-            animator.SetBool("Running", false);
+            animator.SetFloat(AnimationParameters.CombatX, 0);
+            animator.SetFloat(AnimationParameters.CombatY, 0);
+            animator.SetBool(AnimationParameters.Running, false);
         }
     }
 
@@ -360,51 +360,54 @@ public class PlayerNetwork : NetworkBehaviour
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        if(cameraIndex == 0 && enemiesOnScreen.Count > 0)
+
+        if (!isCameraLockedOn && enemiesOnScreen.Count > 0)
         {
-            enemyIndex = 0;
-            freeCamMovement = false;
-            animator.SetLayerWeight(1, 1);
-            actionReferences.look.action.Disable();
-            cameraIndex = 1;
-            cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
-            cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position =
-                cameras[0].GetComponent<CinemachineCamera>().transform.position;
+            LockOnToEnemy(0);
         }
-        else if (enemyIndex < enemiesOnScreen.Count - 1  && enemiesOnScreen.Count > 0)
+        else if (isCameraLockedOn && enemyIndex < enemiesOnScreen.Count - 1)
         {
-            enemyIndex++;
-            cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
+            CycleTarget();
         }
         else
         {
             FocusOnPlayer();
         }
+        
         SetCamera();
+    }
+    
+    private void CycleTarget()
+    {
+        enemyIndex++;
+        lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
     }
 
     private void SetCamera()
     {
-        if (cameraIndex == 0)
-        {
-            cameras[0].SetActive(true);
-            cameras[1].SetActive(false);
-        }
-        else
-        {
-            cameras[0].SetActive(false);
-            cameras[1].SetActive(true);
-        }
+        cameras[0].SetActive(!isCameraLockedOn);
+        cameras[1].SetActive(isCameraLockedOn);
     }
 
     private void FocusOnPlayer()
     {
-        cameraIndex = 0;
-        cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position = cameras[1].GetComponent<CinemachineCamera>().transform.position;
+        isCameraLockedOn = false;
+        freeCam.transform.position = lockOnCam.transform.position;
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
+    }
+    
+    private void LockOnToEnemy(int index)
+    {
+        enemyIndex = index;
+        isCameraLockedOn = true;
+        freeCamMovement = false;
+        animator.SetLayerWeight(1, 1);
+        actionReferences.look.action.Disable();
+        lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
+        lockOnCam.transform.position = freeCam.transform.position;
     }
 
     private void LightAttack(InputAction.CallbackContext context)
@@ -451,16 +454,23 @@ public class PlayerNetwork : NetworkBehaviour
  
         if (attackQueue.Count > 0 && withinBuffer && chainNotMaxed)
         {
-            float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
-            Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
- 
-            string nextAttack = attackQueue.Dequeue();
-            SetAnimatorBool(AnimationParameters.ExitCombo, false);
-            SetAnimatorBool(nextAttack, true);
-            return;
+            string nextAttack = attackQueue.Peek();
+            int maxChain = nextAttack == AnimationParameters.LightAttack ? maxChainLengthLight : maxChainLengthHeavy;
+
+            if (currentChain < maxChain)
+            {
+                attackQueue.Dequeue();
+                float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
+                Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
+                
+                SetAnimatorBool(AnimationParameters.ExitCombo, false);
+                SetAnimatorBool(nextAttack, true);
+                return;
+            }
         }
  
         attackQueueTimestamp = -1f;
+        attackQueue.Clear();
         ExitCombo();
     }
 
@@ -472,6 +482,24 @@ public class PlayerNetwork : NetworkBehaviour
         SetAnimatorBool(AnimationParameters.HeavyAttack, false);
         attacking = false;
         actionReferences.move.action.Enable();
+    }
+    
+    private void SetAnimatorBool(string param, bool value)
+    {
+        animator.SetBool(param, value);
+        ServerSetAnimatorBool(param, value);
+    }
+    
+    [ServerRpc]
+    private void ServerSetAnimatorBool(string param, bool value)
+    {
+        ObserversSetAnimatorBool(param, value);
+    }
+
+    [ObserversRpc(ExcludeOwner = true)] // Owner already set it locally
+    private void ObserversSetAnimatorBool(string param, bool value)
+    {
+        animator.SetBool(param, value);
     }
 
     private void CheckEnemiesOnScreen()
@@ -495,24 +523,6 @@ public class PlayerNetwork : NetworkBehaviour
 
         // z > 0 means the target is in front of the camera
         return vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1;
-    }
-    
-    private void SetAnimatorBool(string param, bool value)
-    {
-        animator.SetBool(param, value);
-        ServerSetAnimatorBool(param, value);
-    }
-    
-    [ServerRpc]
-    private void ServerSetAnimatorBool(string param, bool value)
-    {
-        ObserversSetAnimatorBool(param, value);
-    }
-
-    [ObserversRpc(ExcludeOwner = true)] // Owner already set it locally
-    private void ObserversSetAnimatorBool(string param, bool value)
-    {
-        animator.SetBool(param, value);
     }
     
     private void ControlsChanged(PlayerInput input)
