@@ -366,13 +366,11 @@ public class PlayerNetwork : NetworkBehaviour
     private void FocusOnPlayer()
     {
         cameraIndex = 0;
-        cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position =
-            cameras[1].GetComponent<CinemachineCamera>().transform.position;
+        cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position = cameras[1].GetComponent<CinemachineCamera>().transform.position;
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
-        //cinemachineCamera.LookAt = cinemachineCamera.Target.TrackingTarget;
     }
 
     private void LightAttack(InputAction.CallbackContext context)
