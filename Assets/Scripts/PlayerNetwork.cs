@@ -29,6 +29,19 @@ public class PlayerNetwork : NetworkBehaviour
         public InputActionReference move, look, toggleCameraFocus, pause, unpause, cancel, lightAttack, heavyAttack;
     }
     
+    private static class AnimationParameters
+    {
+        public const string LightAttack = "LightAttackBool";
+        public const string HeavyAttack = "HeavyAttackBool";
+        public const string ExitCombo = "ExitCombo";
+        public const string Running = "Running";
+        public const string TurnAround  = "TurnAround";
+        public const string CombatX     = "combatX";
+        public const string CombatY     = "combatY";
+        public const string XInput      = "X-Input";
+        public const string ZInput      = "Z-Input";
+    }
+    
     [SerializeField] private ActionReferences actionReferences;
     [SerializeField] private PauseEvent pauseEvent;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
@@ -75,8 +88,8 @@ public class PlayerNetwork : NetworkBehaviour
         if (TryGetComponent(out Animator anim))
         {
             animator = anim;
-            animator.SetFloat("X-Input", 0);
-            animator.SetFloat("Z-Input", 0);
+            animator.SetFloat(AnimationParameters.XInput, 0);
+            animator.SetFloat(AnimationParameters.ZInput, 0);
         }
         else
         {
@@ -110,6 +123,8 @@ public class PlayerNetwork : NetworkBehaviour
             axisController.enabled = IsOwner;
         }
     }
+    
+    
 
     private void OnEnable()
     {
@@ -375,42 +390,21 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void LightAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-        if (context.performed)
-        {
-            QueueLightAttack("LightAttackBool");
-        }
+        if (!IsOwner || !context.performed) return;
+        QueueAttack(AnimationParameters.LightAttack);
     }
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-        if (context.performed)
-        {
-            QueueHeavyAttack("HeavyAttackBool");
-        }
-    }
-
-    private void QueueLightAttack(string attack)
-    {
-        if (!attacking) // If not currently attacking, perform the attack immediately
-        {
-            animator.SetBool(attack, true);
-            ServerSetAnimatorBool(attack, true);
-        }
-        else
-        {
-            attackQueueTimestamp = Time.time;
-            attackQueue.Enqueue(attack);
-        }
+        if (!IsOwner || !context.performed) return;
+        QueueAttack(AnimationParameters.HeavyAttack);
     }
     
-    private void QueueHeavyAttack(string attack)
+    private void QueueAttack(string attack)
     {
         if (!attacking)
         {
-            animator.SetBool(attack, true);
-            ServerSetAnimatorBool(attack, true);
+            SetAnimatorBool(attack, true);
         }
         else
         {
@@ -422,7 +416,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         attackHitboxCollider.enabled = true;
         HandleRotation();
-        animator.SetBool("ExitCombo", false);
+        SetAnimatorBool(AnimationParameters.ExitCombo, false);
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
@@ -431,23 +425,22 @@ public class PlayerNetwork : NetworkBehaviour
     public void OnAttackEnd()
     {
         attackHitboxCollider.enabled = false;
-        if (attackQueue.Count > 0)
+ 
+        float timeSinceQueued = Time.time - attackQueueTimestamp;
+        bool withinBuffer = timeSinceQueued <= attackBufferTime;
+        bool chainNotMaxed = currentChain < maxChainLengthLight;
+ 
+        if (attackQueue.Count > 0 && withinBuffer && chainNotMaxed)
         {
-            float timeSinceQueued = Time.time - attackQueueTimestamp;
             float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
-        
-            if (timeSinceQueued <= attackBufferTime && currentChain < maxChainLengthLight)
-            {
-                Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
-                string nextAttack = attackQueue.Dequeue();
-                animator.SetBool("ExitCombo", false);
-                animator.SetBool(nextAttack, true);
-                ServerSetAnimatorBool("ExitCombo", false); // keep clients in sync
-                ServerSetAnimatorBool(nextAttack, true);   // ← this is the missing piece
-                return;
-            }
+            Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
+ 
+            string nextAttack = attackQueue.Dequeue();
+            SetAnimatorBool(AnimationParameters.ExitCombo, false);
+            SetAnimatorBool(nextAttack, true);
+            return;
         }
-
+ 
         attackQueueTimestamp = -1f;
         ExitCombo();
     }
@@ -455,12 +448,9 @@ public class PlayerNetwork : NetworkBehaviour
     private void ExitCombo()
     {
         currentChain = 0;
-        animator.SetBool("ExitCombo", true);
-        animator.SetBool("LightAttackBool", false);
-        animator.SetBool("HeavyAttackBool", false);
-        ServerSetAnimatorBool("ExitCombo", true);
-        ServerSetAnimatorBool("LightAttackBool", false);
-        ServerSetAnimatorBool("HeavyAttackBool", false);
+        SetAnimatorBool(AnimationParameters.ExitCombo,   true);
+        SetAnimatorBool(AnimationParameters.LightAttack, false);
+        SetAnimatorBool(AnimationParameters.HeavyAttack, false);
         attacking = false;
         actionReferences.move.action.Enable();
     }
@@ -485,9 +475,13 @@ public class PlayerNetwork : NetworkBehaviour
         Vector3 vp = Camera.main.WorldToViewportPoint(target.position);
 
         // z > 0 means the target is in front of the camera
-        return vp.z > 0
-               && vp.x > 0 && vp.x < 1
-               && vp.y > 0 && vp.y < 1;
+        return vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1;
+    }
+    
+    private void SetAnimatorBool(string param, bool value)
+    {
+        animator.SetBool(param, value);
+        ServerSetAnimatorBool(param, value);
     }
     
     [ServerRpc]
