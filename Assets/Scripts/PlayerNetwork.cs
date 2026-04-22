@@ -14,7 +14,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
     [SerializeField] private bool freeCamMovement;
-    private bool looking, attacking;
+    private bool looking, attacking, isCameraLockedOn;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -52,7 +52,7 @@ public class PlayerNetwork : NetworkBehaviour
     private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
-    private CinemachineCamera cinemachineCamera;
+    private CinemachineCamera cinemachineCamera, freeCam, lockOnCam;
     [SerializeField] private List<GameObject> cameras;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
@@ -69,6 +69,9 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        freeCam = cameras[0].GetComponent<CinemachineCamera>();
+        lockOnCam = cameras[1].GetComponent<CinemachineCamera>();
+        
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
         cameraIndex = 0;
@@ -193,7 +196,7 @@ public class PlayerNetwork : NetworkBehaviour
             if (enemiesInRange.Contains(other.transform))
             {
                 enemiesInRange.Remove(other.transform);
-                if(other.transform == cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt)
+                if(other.transform == lockOnCam.LookAt) // Focus on player if exiting the area where enemy is focused 
                 {
                     FocusOnPlayer();
                 }
@@ -360,51 +363,54 @@ public class PlayerNetwork : NetworkBehaviour
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        if(cameraIndex == 0 && enemiesOnScreen.Count > 0)
+
+        if (!isCameraLockedOn && enemiesOnScreen.Count > 0)
         {
-            enemyIndex = 0;
-            freeCamMovement = false;
-            animator.SetLayerWeight(1, 1);
-            actionReferences.look.action.Disable();
-            cameraIndex = 1;
-            cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
-            cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position =
-                cameras[0].GetComponent<CinemachineCamera>().transform.position;
+            LockOnToEnemy(0);
         }
-        else if (enemyIndex < enemiesOnScreen.Count - 1  && enemiesOnScreen.Count > 0)
+        else if (isCameraLockedOn && enemyIndex < enemiesOnScreen.Count - 1)
         {
-            enemyIndex++;
-            cameras[cameraIndex].GetComponent<CinemachineCamera>().LookAt = enemiesOnScreen[enemyIndex];
+            CycleTarget();
         }
         else
         {
             FocusOnPlayer();
         }
+        
         SetCamera();
+    }
+    
+    private void CycleTarget()
+    {
+        enemyIndex++;
+        lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
     }
 
     private void SetCamera()
     {
-        if (cameraIndex == 0)
-        {
-            cameras[0].SetActive(true);
-            cameras[1].SetActive(false);
-        }
-        else
-        {
-            cameras[0].SetActive(false);
-            cameras[1].SetActive(true);
-        }
+        cameras[0].SetActive(!isCameraLockedOn);
+        cameras[1].SetActive(isCameraLockedOn);
     }
 
     private void FocusOnPlayer()
     {
-        cameraIndex = 0;
-        cameras[cameraIndex].GetComponent<CinemachineCamera>().transform.position = cameras[1].GetComponent<CinemachineCamera>().transform.position;
+        isCameraLockedOn = false;
+        freeCam.transform.position = lockOnCam.transform.position;
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
+    }
+    
+    private void LockOnToEnemy(int index)
+    {
+        enemyIndex = index;
+        isCameraLockedOn = true;
+        freeCamMovement = false;
+        animator.SetLayerWeight(1, 1);
+        actionReferences.look.action.Disable();
+        lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
+        lockOnCam.transform.position = freeCam.transform.position;
     }
 
     private void LightAttack(InputAction.CallbackContext context)
