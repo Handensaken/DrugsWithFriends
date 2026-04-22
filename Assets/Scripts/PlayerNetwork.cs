@@ -13,8 +13,7 @@ public class PlayerNetwork : NetworkBehaviour
     public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
-    [SerializeField] private bool freeCamMovement;
-    private bool looking, attacking, isCameraLockedOn;
+    private bool freeCamMovement, looking, attacking, isCameraLockedOn;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -58,7 +57,6 @@ public class PlayerNetwork : NetworkBehaviour
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
     [SerializeField] private BoxCollider attackHitboxCollider;
-    
     [SerializeField] private SelectionHandler selectionHandler;
 
     protected override void OnValidate()
@@ -253,9 +251,9 @@ public class PlayerNetwork : NetworkBehaviour
         else if (context.canceled)
         {
             rb.linearVelocity = new Vector3(0, 0, 0);
-            animator.SetFloat("combatX", 0);
-            animator.SetFloat("combatY", 0);
-            animator.SetBool("Running", false);
+            animator.SetFloat(AnimationParameters.CombatX, 0);
+            animator.SetFloat(AnimationParameters.CombatY, 0);
+            animator.SetBool(AnimationParameters.Running, false);
         }
     }
 
@@ -456,16 +454,23 @@ public class PlayerNetwork : NetworkBehaviour
  
         if (attackQueue.Count > 0 && withinBuffer && chainNotMaxed)
         {
-            float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
-            Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
- 
-            string nextAttack = attackQueue.Dequeue();
-            SetAnimatorBool(AnimationParameters.ExitCombo, false);
-            SetAnimatorBool(nextAttack, true);
-            return;
+            string nextAttack = attackQueue.Peek();
+            int maxChain = nextAttack == AnimationParameters.LightAttack ? maxChainLengthLight : maxChainLengthHeavy;
+
+            if (currentChain < maxChain)
+            {
+                attackQueue.Dequeue();
+                float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
+                Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
+                
+                SetAnimatorBool(AnimationParameters.ExitCombo, false);
+                SetAnimatorBool(nextAttack, true);
+                return;
+            }
         }
  
         attackQueueTimestamp = -1f;
+        attackQueue.Clear();
         ExitCombo();
     }
 
