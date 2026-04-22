@@ -394,6 +394,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking) // If not currently attacking, perform the attack immediately
         {
             animator.SetBool(attack, true);
+            ServerSetAnimatorBool(attack, true);
         }
         else
         {
@@ -407,6 +408,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking)
         {
             animator.SetBool(attack, true);
+            ServerSetAnimatorBool(attack, true);
         }
         else
         {
@@ -417,8 +419,6 @@ public class PlayerNetwork : NetworkBehaviour
     public void OnAttackStart()
     {
         attackHitboxCollider.enabled = true;
-        animator.SetBool("LightAttackBool", false);
-        animator.SetBool("HeavyAttackBool", false);
         HandleRotation();
         animator.SetBool("ExitCombo", false);
         actionReferences.move.action.Disable();
@@ -438,28 +438,27 @@ public class PlayerNetwork : NetworkBehaviour
             {
                 Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
                 string nextAttack = attackQueue.Dequeue();
-                Debug.Log("Performing queued attack: " + nextAttack);
+                animator.SetBool("ExitCombo", false);
                 animator.SetBool(nextAttack, true);
+                ServerSetAnimatorBool("ExitCombo", false); // keep clients in sync
+                ServerSetAnimatorBool(nextAttack, true);   // ← this is the missing piece
+                return;
             }
-            else
-            {
-                Debug.Log($"Attack queued too early! {timeSinceQueued:F2}s ago, needed within {attackBufferTime:F2}s ({percentageOfBuffer:F0}% of buffer, {timeSinceQueued - attackBufferTime:F2}s too early)");
-                attackQueue.Clear();
-                ExitCombo();
-            }
-        }
-        else
-        {
-            ExitCombo();
         }
 
         attackQueueTimestamp = -1f;
+        ExitCombo();
     }
 
     private void ExitCombo()
     {
         currentChain = 0;
         animator.SetBool("ExitCombo", true);
+        animator.SetBool("LightAttackBool", false);
+        animator.SetBool("HeavyAttackBool", false);
+        ServerSetAnimatorBool("ExitCombo", true);
+        ServerSetAnimatorBool("LightAttackBool", false);
+        ServerSetAnimatorBool("HeavyAttackBool", false);
         attacking = false;
         actionReferences.move.action.Enable();
     }
@@ -487,6 +486,18 @@ public class PlayerNetwork : NetworkBehaviour
         return vp.z > 0
                && vp.x > 0 && vp.x < 1
                && vp.y > 0 && vp.y < 1;
+    }
+    
+    [ServerRpc]
+    private void ServerSetAnimatorBool(string param, bool value)
+    {
+        ObserversSetAnimatorBool(param, value);
+    }
+
+    [ObserversRpc(ExcludeOwner = true)] // Owner already set it locally
+    private void ObserversSetAnimatorBool(string param, bool value)
+    {
+        animator.SetBool(param, value);
     }
     
     private void ControlsChanged(PlayerInput input)
