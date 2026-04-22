@@ -265,6 +265,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &343023435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &557824389
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +741,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
   m_PrefabInstance: {fileID: 2140728614}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1346745053 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343023435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+--- !u!114 &1346745057 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5101672761553250479, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343023435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+--- !u!114 &1346745063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343023435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f37030fc7dacd46a6e3a7ee0c8a4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ComponentController
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1346745057}
+  _networkObjectCache: {fileID: 0}
+  components:
+  - {fileID: 1346745053}
 --- !u!1 &1557263041
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,7 +948,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1140070518207162077, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: localPatrolPoints.Array.size
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140070518207162077, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140070518207162077, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
@@ -969,7 +1021,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1346745063}
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
