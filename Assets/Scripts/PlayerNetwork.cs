@@ -48,7 +48,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    [SerializeField] private int cameraIndex, enemyIndex, currentChain;
+    private int enemyIndex, currentChain;
     private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
@@ -74,7 +74,6 @@ public class PlayerNetwork : NetworkBehaviour
         
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
-        cameraIndex = 0;
         currentChain = 0;
         enemiesInRange = new List<Transform>();
         attackQueue = new Queue<string>();
@@ -479,6 +478,24 @@ public class PlayerNetwork : NetworkBehaviour
         attacking = false;
         actionReferences.move.action.Enable();
     }
+    
+    private void SetAnimatorBool(string param, bool value)
+    {
+        animator.SetBool(param, value);
+        ServerSetAnimatorBool(param, value);
+    }
+    
+    [ServerRpc]
+    private void ServerSetAnimatorBool(string param, bool value)
+    {
+        ObserversSetAnimatorBool(param, value);
+    }
+
+    [ObserversRpc(ExcludeOwner = true)] // Owner already set it locally
+    private void ObserversSetAnimatorBool(string param, bool value)
+    {
+        animator.SetBool(param, value);
+    }
 
     private void CheckEnemiesOnScreen()
     {
@@ -501,24 +518,6 @@ public class PlayerNetwork : NetworkBehaviour
 
         // z > 0 means the target is in front of the camera
         return vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1;
-    }
-    
-    private void SetAnimatorBool(string param, bool value)
-    {
-        animator.SetBool(param, value);
-        ServerSetAnimatorBool(param, value);
-    }
-    
-    [ServerRpc]
-    private void ServerSetAnimatorBool(string param, bool value)
-    {
-        ObserversSetAnimatorBool(param, value);
-    }
-
-    [ObserversRpc(ExcludeOwner = true)] // Owner already set it locally
-    private void ObserversSetAnimatorBool(string param, bool value)
-    {
-        animator.SetBool(param, value);
     }
     
     private void ControlsChanged(PlayerInput input)
