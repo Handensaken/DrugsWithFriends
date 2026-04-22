@@ -236,7 +236,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3.67
+  m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8161492386765879662
 GameObject:
@@ -1134,9 +1134,8 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 7696538552095724360}
   moveSpeed: 4
   rotationSpeed: 0.217
-  freeCamMovement: 0
   range: 1.29
-  detectEnemiesRange: 3.67
+  detectEnemiesRange: 4
   attackSpeed: 0.77
   lightChainAttackCooldown: 0.57
   heavyChainAttackCooldown: 0.52
@@ -1155,9 +1154,8 @@ MonoBehaviour:
   pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
-  cameraIndex: 0
-  enemyIndex: 0
-  currentChain: 0
+  freeCam: {fileID: 7434779505794564936}
+  lockOnCam: {fileID: 6515165083195661982}
   cameras:
   - {fileID: 9075642670705430114}
   - {fileID: 2312668981729931790}

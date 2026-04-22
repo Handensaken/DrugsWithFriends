@@ -51,7 +51,8 @@ public class PlayerNetwork : NetworkBehaviour
     private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
-    private CinemachineCamera cinemachineCamera, freeCam, lockOnCam;
+    private CinemachineCamera cinemachineCamera;
+    [SerializeField] private CinemachineCamera freeCam, lockOnCam;
     [SerializeField] private List<GameObject> cameras;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
@@ -67,9 +68,6 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
-        freeCam = cameras[0].GetComponent<CinemachineCamera>();
-        lockOnCam = cameras[1].GetComponent<CinemachineCamera>();
-        
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
         currentChain = 0;
@@ -315,8 +313,8 @@ public class PlayerNetwork : NetworkBehaviour
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
 
-        Vector3 cameraForward = cinemachineCamera.transform.forward;
-        Vector3 cameraRight = cinemachineCamera.transform.right;
+        Vector3 cameraForward = freeCam.transform.forward;
+        Vector3 cameraRight = freeCam.transform.right;
         cameraForward.y = 0f;
         cameraRight.y = 0f;
         cameraForward.Normalize();
@@ -332,8 +330,8 @@ public class PlayerNetwork : NetworkBehaviour
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
 
-        Vector3 cameraForward = cinemachineCamera.transform.forward;
-        Vector3 cameraRight = cinemachineCamera.transform.right;
+        Vector3 cameraForward = lockOnCam.transform.forward;
+        Vector3 cameraRight = lockOnCam.transform.right;
         cameraForward.y = 0f;
         cameraRight.y = 0f;
         cameraForward.Normalize();
@@ -385,8 +383,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void SetCamera()
     {
-        cameras[0].SetActive(!isCameraLockedOn);
-        cameras[1].SetActive(isCameraLockedOn);
+        freeCam.gameObject.SetActive(!isCameraLockedOn);
+        lockOnCam.gameObject.SetActive(isCameraLockedOn);
     }
 
     private void FocusOnPlayer()
