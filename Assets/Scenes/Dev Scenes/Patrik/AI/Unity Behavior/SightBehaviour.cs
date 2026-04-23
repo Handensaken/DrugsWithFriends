@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FishNet.Connection;
 using FishNet.Object;
+using JetBrains.Annotations;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -11,11 +12,9 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
     public class SightBehaviour : NetworkBehaviour
     {
         /*TODO -
-      Endast server
-      Alla klienter
-      FOV
-      attackFOV (range)
-      */
+        FOV
+        attackFOV (range)
+        */
         [SerializeField] public Transform eyes;
         //[SerializeField] public SightVisualization visualization;
 
@@ -36,7 +35,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
         }
 
         [Server]
-        private void Update()
+        private void Update() //TODO Behaviour tree can disable this component
         {
             Transform[] all = FindAllTargets();
             Transform[] inSightRange = AllTargetsInRange(all, 5);
@@ -44,8 +43,9 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             if (inSightRange.Length > 0)
             {
                 _blackboard.SetVariableValue("Aggressive", true);
-                _blackboard.SetVariableValue("targetPoint", inSightRange[0]);
-                Debug.Log("chase active");
+                Vector3 targetPosition = AdjustmentOfTargetPositionXZ(inSightRange[0]);
+                _blackboard.SetVariableValue("TargetPoint", targetPosition);
+                Debug.Log(Vector3.Distance(targetPosition, eyes.position));
             }
                 
             Transform[] inAttackRange = AllTargetsInRange(inSightRange, 2);
@@ -80,13 +80,21 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             return result.ToArray();
         }
 
-        /*[Server]
+        private Vector3 AdjustmentOfTargetPositionXZ(Transform target)
+        {
+            Vector3 dirToTarget = (target.position-eyes.position);
+            dirToTarget.y = 0;
+            dirToTarget.Normalize();
+            return dirToTarget*3;
+        }
+        
         private void OnDrawGizmos()
         {
-            if(visualization.onlySelectedGizmos) return;
-            visualization.Visualize();
+            /*if(visualization.onlySelectedGizmos) return;
+            visualization.Visualize();*/
         }
 
+        /*
         [Server]
         private void OnDrawGizmosSelected()
         {
