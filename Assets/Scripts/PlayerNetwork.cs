@@ -67,6 +67,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        enemiesOnScreen = new List<Transform>();
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
         currentChain = 0;
@@ -334,6 +335,8 @@ public class PlayerNetwork : NetworkBehaviour
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
+
+        enemyIndex = Mathf.Clamp(enemyIndex, 0, Mathf.Max(0, enemiesOnScreen.Count - 1));
 
         if (!isCameraLockedOn && enemiesOnScreen.Count > 0)
         {
