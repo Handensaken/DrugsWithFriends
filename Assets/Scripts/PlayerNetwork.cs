@@ -25,7 +25,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, look, toggleCameraFocus, pause, unpause, cancel, lightAttack, heavyAttack;
+        public InputActionReference move, look, toggleCameraFocus, lightAttack, heavyAttack;
     }
     
     private static class AnimationParameters
@@ -34,11 +34,11 @@ public class PlayerNetwork : NetworkBehaviour
         public const string HeavyAttack = "HeavyAttackBool";
         public const string ExitCombo = "ExitCombo";
         public const string Running = "Running";
-        public const string TurnAround  = "TurnAround";
-        public const string CombatX     = "combatX";
-        public const string CombatY     = "combatY";
-        public const string XInput      = "X-Input";
-        public const string ZInput      = "Z-Input";
+        public const string TurnAround = "TurnAround";
+        public const string CombatX = "combatX";
+        public const string CombatY = "combatY";
+        public const string XInput = "X-Input";
+        public const string ZInput = "Z-Input";
     }
     
     [SerializeField] private ActionReferences actionReferences;
@@ -148,10 +148,10 @@ public class PlayerNetwork : NetworkBehaviour
             }
         }
         Performed(actionReferences.move, Move);
-        Canceled (actionReferences.move, Move);
+        Canceled(actionReferences.move, Move);
  
         Performed(actionReferences.look, Look);
-        Canceled (actionReferences.look, Look);
+        Canceled(actionReferences.look, Look);
  
         Performed(actionReferences.toggleCameraFocus, ToggleCameraFocus);
         Performed(actionReferences.lightAttack, LightAttack);
@@ -172,6 +172,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsOwner) return;
         if (other.CompareTag("Enemy"))
         {
             if (!enemiesInRange.Contains(other.transform))
@@ -183,6 +184,7 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void OnTriggerExit(Collider other)
     {
+        if (!IsOwner) return;
         if (other.CompareTag("Enemy"))
         {
             if (enemiesInRange.Contains(other.transform))

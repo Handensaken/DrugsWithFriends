@@ -1162,14 +1162,13 @@ MonoBehaviour:
     move: {fileID: -3294628319744290294, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     look: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     toggleCameraFocus: {fileID: 7347064979651339959, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-    pause: {fileID: -7420171985196240918, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-    unpause: {fileID: -6857184440973523537, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-    cancel: {fileID: 4971023935266359616, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     lightAttack: {fileID: -2377209859967132474, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     heavyAttack: {fileID: -1555395443974306601, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
   pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
+  enemyIndex: 0
+  currentChain: 0
   enemiesInRange: []
   enemiesOnScreen: []
   freeCam: {fileID: 7434779505794564936}
@@ -1338,6 +1337,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 5
   knockbackTime: 0.355
+  swordCollider: {fileID: 2634556739951376808}
 --- !u!114 &2130466159283627140
 MonoBehaviour:
   m_ObjectHideFlags: 0
