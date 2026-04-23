@@ -8,7 +8,7 @@ using Debug = UnityEngine.Debug;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Attack Target", story: "Attack with [Collider]", category: "Action/Interaction", id: "38191b92b81f9f5926eba4942ce86359")]
-public partial class AttackTargetAction : Action
+public partial class AttackAction : Action
 {
     [SerializeReference] public BlackboardVariable<GameObject> collider;
     [SerializeReference] public BlackboardVariable<float> time;
