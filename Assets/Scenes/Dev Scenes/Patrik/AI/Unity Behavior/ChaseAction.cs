@@ -48,8 +48,8 @@ public partial class ChaseAction : Action
         {
             return Status.Success;
         }
-        
-        Vector3 targetPosition = AdjustmentOfTargetPositionXZ(Target.Value.position);
+
+        Vector3 targetPosition = Target.Value.position;//AdjustmentOfTargetPositionXZ(Target.Value.position);
         _agent.SetDestination(targetPosition); 
         return Status.Running;
     }
@@ -59,8 +59,7 @@ public partial class ChaseAction : Action
     {
         if (_agent != null)
         {
-            Debug.Log(_agent);
-            _agent.ResetPath();
+            //_agent.ResetPath();
         }
 
         _agent = null;
@@ -71,13 +70,13 @@ public partial class ChaseAction : Action
         return Vector3.Distance(Target.Value.position,eyes.Value.position) <= 3; 
     }
     
-    private Vector3 AdjustmentOfTargetPositionXZ(Vector3 targetPos)
+    /*private Vector3 AdjustmentOfTargetPositionXZ(Vector3 targetPos)
     {
         Vector3 dirToTarget = (targetPos-eyes.Value.position);
         dirToTarget.y = 0;
         dirToTarget.Normalize();
         return dirToTarget*3;
-    }
+    }*/
     
     private void Initialize() //TODO in patrol
     {
