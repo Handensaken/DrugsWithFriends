@@ -9,7 +9,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      //TODO Have blackboard in use for controlling health 
      public class Damage : NetworkBehaviour
      {
-          [SerializeField] private HealthSO healthData;
+          public HealthSO healthData;
           [SerializeField] protected NetworkTrigger networkTrigger;
           private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
           

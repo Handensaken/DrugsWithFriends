@@ -19,6 +19,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                 if(other.TryGetComponent(out Rigidbody rb))
                 {
                     ApplyEffect(rb, swordCollider);
+                    //other.gameObject.GetComponent<Damage>().healthData update hgealth here alter
                 }
             }
         }

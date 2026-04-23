@@ -305,7 +305,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
-        animator.SetBool("Running", true);
+        animator.SetBool(AnimationParameters.Running, true);
     }
 
     private void TrackingObjectMovement()
@@ -515,8 +515,9 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void ControlsChanged(PlayerInput input)
     {
+        if (controlSchemeEvent.currentControlScheme is null) return;
         controlSchemeEvent.currentControlScheme = input.currentControlScheme.ToLower();
-        if(!controlSchemeEvent.currentControlScheme.Contains("keyboard") && controlSchemeEvent.currentControlScheme is not null)
+        if(!controlSchemeEvent.currentControlScheme.Contains("keyboard"))
         {
             // Set selected eventsystem object to the last position of the selection handler
             var selectedObjects = selectionHandler.selectedObjects;
