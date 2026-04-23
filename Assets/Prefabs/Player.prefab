@@ -236,7 +236,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 4
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8161492386765879662
 GameObject:
@@ -650,7 +650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8237410667802671908, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_Text
-      value: Hold Triangle
+      value: Hold Y
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1151,7 +1151,7 @@ MonoBehaviour:
   moveSpeed: 4
   rotationSpeed: 0.217
   range: 1.29
-  detectEnemiesRange: 4
+  detectEnemiesRange: 5
   attackSpeed: 0.77
   lightChainAttackCooldown: 0.57
   heavyChainAttackCooldown: 0.52
@@ -1170,6 +1170,8 @@ MonoBehaviour:
   pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
+  enemiesInRange: []
+  enemiesOnScreen: []
   freeCam: {fileID: 7434779505794564936}
   lockOnCam: {fileID: 6515165083195661982}
   attackRangeCollider: {fileID: 2553626066740570996}
