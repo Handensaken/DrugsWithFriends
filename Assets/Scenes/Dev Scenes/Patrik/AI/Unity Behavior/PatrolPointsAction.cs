@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Codice.Client.BaseCommands.CheckIn;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 [Serializable, GeneratePropertyBag]
 [NodeDescription(name: "Patrol Points", story: "[Self] patrol along [Waypoints]", category: "Action/Navigation", id: "61c37b860a3276e02325e083e03653a3")]

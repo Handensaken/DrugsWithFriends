@@ -66,7 +66,7 @@ public partial class ChaseAction : Action
 
     private bool CloseEnough() //TODO fix parameter for "number"
     {
-        return Vector3.Distance(Target.Value.position,eyes.Value.position) <= 3; 
+        return _agent.remainingDistance <= 0.2f;
     }
 
     private void HandleTargetPosition()
@@ -77,7 +77,9 @@ public partial class ChaseAction : Action
         
         _agent.transform.forward = dirToTarget;
         
-        Vector3 targetPosition = Target.Value.position - dirToTarget * 3; //TODO variable
+        Vector3 targetPosition = Target.Value.position - dirToTarget * 2f; //TODO variable
+        Debug.Log("Handle - Pos: "+targetPosition +" : D"+Vector3.Distance(targetPosition,eyes.Value.position));
+        
         _agent.SetDestination(targetPosition); 
     }
     
@@ -88,16 +90,6 @@ public partial class ChaseAction : Action
         _agent.stoppingDistance = dataSO.Value.stateParameters.movementParameters.StoppingDistance;
         _agent.angularSpeed = 0;
     }
-    
-    /*private bool IsUpdatingLatestPosition()
-    {
-        if (IsPositionDifferent((Vector3)_latestTargetPosition, Target.Value.position))
-        {
-            _latestTargetPosition = Target.Value.position;
-            return true;
-        }
-        return false;
-    }*/
     
     private bool IsPositionDifferent(Vector3 a, Vector3 b)
     {
