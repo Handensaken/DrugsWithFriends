@@ -1064,7 +1064,16 @@ PrefabInstance:
         UnityEngine.CoreModule]]'
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'managedReferences[1121488099021947662]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.GameObject,
+        UnityEngine.CoreModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[1121488099021947383].Name
+      value: AttackCollider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[1121488099021947662].Name
       value: AttackCollider
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
@@ -1076,8 +1085,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2101906500}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[1121488099021947662].m_Value
+      value: 
+      objectReference: {fileID: 2101906500}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: 'm_BlackboardVariableOverridesList.Array.data[3]'
-      value: 1121488099021947383
+      value: 1121488099021947662
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[1121488099021947383].GUID.m_Value0
@@ -1086,6 +1099,14 @@ PrefabInstance:
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[1121488099021947383].GUID.m_Value1
       value: 12469055542243617924
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[1121488099021947662].GUID.m_Value0
+      value: 8152995919541757894
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[1121488099021947662].GUID.m_Value1
+      value: 5521148227214889805
       objectReference: {fileID: 0}
     - target: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Name
