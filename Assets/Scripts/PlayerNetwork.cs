@@ -48,7 +48,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Animator animator;
     private NetworkAnimator networkAnimator;
     private int enemyIndex, currentChain;
-    private List<Transform> enemiesInRange, enemiesOnScreen;
+    [SerializeField] private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -206,13 +206,13 @@ public class PlayerNetwork : NetworkBehaviour
             {
                 SetVelocity();
             }
-            CheckEnemiesOnScreen(); // Temporarily placed here
         }
         
         if (moveVector.sqrMagnitude > 0.01f || !freeCamMovement)
         {
             HandleRotation();
         }
+        CheckEnemiesOnScreen(); // Temporarily placed here
     }
 
     private void Move(InputAction.CallbackContext context)
@@ -492,6 +492,13 @@ public class PlayerNetwork : NetworkBehaviour
                 enemiesOnScreen.Add(enemy);
             }
         }
+        enemiesOnScreen.Sort((a, b) => // Sort enemies by distance to center of screen
+        {
+            Vector2 center = new Vector2(0.5f, 0.5f);
+            Vector2 vpA = Camera.main.WorldToViewportPoint(a.position);
+            Vector2 vpB = Camera.main.WorldToViewportPoint(b.position);
+            return Vector2.Distance(vpA, center).CompareTo(Vector2.Distance(vpB, center));
+        });
     }
     
     private bool IsOnScreen(Transform target)
