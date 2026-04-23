@@ -190,7 +190,7 @@ public class PlayerNetwork : NetworkBehaviour
             if (enemiesInRange.Contains(other.transform))
             {
                 enemiesInRange.Remove(other.transform);
-                if(other.transform == lockOnCam.LookAt) // Focus on player if exiting the area where enemy is focused 
+                if(other.transform == lockOnCam.LookAt) // Focus on player if removed enemy was the locked on target 
                 {
                     FocusOnPlayer();
                 }
@@ -201,7 +201,6 @@ public class PlayerNetwork : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsOwner) return;
-        //Debug.Log(currentChain);
         if (looking || !freeCamMovement)
         {
             if(rb.linearVelocity.sqrMagnitude > 0.01f)
@@ -268,7 +267,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (angleDifference > 120)
         {
-            networkAnimator.SetTrigger("TurnAround");
+            networkAnimator.SetTrigger(AnimationParameters.TurnAround);
         }
             
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
@@ -318,8 +317,8 @@ public class PlayerNetwork : NetworkBehaviour
 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
-        animator.SetFloat("combatY", direction.y);
-        animator.SetFloat("combatX", direction.x);
+        animator.SetFloat(AnimationParameters.CombatY, direction.y);
+        animator.SetFloat(AnimationParameters.CombatX, direction.x);
     }
 
     private void Look(InputAction.CallbackContext context)
@@ -347,7 +346,6 @@ public class PlayerNetwork : NetworkBehaviour
         else if (isCameraLockedOn && enemyIndex < enemiesOnScreen.Count - 1)
         {
             CycleTarget();
-            Debug.Log("cycled target");
         }
         else
         {
@@ -393,13 +391,13 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void LightAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner || !context.performed) return;
+        if (!IsOwner) return;
         QueueAttack(AnimationParameters.LightAttack);
     }
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner || !context.performed) return;
+        if (!IsOwner) return;
         QueueAttack(AnimationParameters.HeavyAttack);
     }
     
@@ -420,6 +418,8 @@ public class PlayerNetwork : NetworkBehaviour
         attackHitboxCollider.enabled = true;
         HandleRotation();
         SetAnimatorBool(AnimationParameters.ExitCombo, false);
+        SetAnimatorBool(AnimationParameters.LightAttack, false);
+        SetAnimatorBool(AnimationParameters.HeavyAttack, false);
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
