@@ -47,7 +47,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    private int enemyIndex, currentChain;
+    [SerializeField] private int enemyIndex, currentChain;
     [SerializeField] private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
@@ -345,6 +345,7 @@ public class PlayerNetwork : NetworkBehaviour
         else if (isCameraLockedOn && enemyIndex < enemiesOnScreen.Count - 1)
         {
             CycleTarget();
+            Debug.Log("cycled target");
         }
         else
         {
@@ -369,6 +370,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void FocusOnPlayer()
     {
         isCameraLockedOn = false;
+        enemyIndex = 0;
         freeCam.transform.position = lockOnCam.transform.position;
         SetCamera();
         freeCamMovement = true;
