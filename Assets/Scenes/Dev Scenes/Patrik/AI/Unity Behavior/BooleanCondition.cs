@@ -13,12 +13,4 @@ public partial class BooleanCondition : Condition
     {
         return Boolean.Value == TargetValue.Value;
     }
-
-    public override void OnStart()
-    {
-    }
-
-    public override void OnEnd()
-    {
-    }
 }

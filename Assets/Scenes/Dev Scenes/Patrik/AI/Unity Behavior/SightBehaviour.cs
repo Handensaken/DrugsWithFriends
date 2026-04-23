@@ -42,14 +42,13 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
 
             if (inSightRange.Length > 0)
             {
-                _blackboard.SetVariableValue("Aggressive", true);
-                Vector3 targetPosition = AdjustmentOfTargetPositionXZ(inSightRange[0]);
-                _blackboard.SetVariableValue("TargetPoint", targetPosition);
-                Debug.Log(Vector3.Distance(targetPosition, eyes.position));
+                _blackboard.SetVariableValue("Target", inSightRange[0]);
             }
                 
+            /* TODO - Make into node ish
             Transform[] inAttackRange = AllTargetsInRange(inSightRange, 2);
             _blackboard.SetVariableValue("Attack", inAttackRange.Length > 0);
+            */
         }
 
         [Server]
@@ -78,14 +77,6 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
             }
             
             return result.ToArray();
-        }
-
-        private Vector3 AdjustmentOfTargetPositionXZ(Transform target)
-        {
-            Vector3 dirToTarget = (target.position-eyes.position);
-            dirToTarget.y = 0;
-            dirToTarget.Normalize();
-            return dirToTarget*3;
         }
         
         private void OnDrawGizmos()

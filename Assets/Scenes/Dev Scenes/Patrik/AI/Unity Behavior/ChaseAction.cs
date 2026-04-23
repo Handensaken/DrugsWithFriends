@@ -18,13 +18,12 @@ public partial class ChaseAction : Action
     [SerializeReference] public BlackboardVariable<Transform> eyes;
 
     private NavMeshAgent _agent;
-    private Vector3? _latestTargetPosition = null;
     
     //todo -
     //Kontrollera om distansen är tillräcklig för fortsatt körning
     //Stoppingdistance
     
-    protected override Status OnStart() //Tested --> Reduced calls
+    protected override Status OnStart()
     {
         //Validate
         if (InvalidParameters())
@@ -33,15 +32,7 @@ public partial class ChaseAction : Action
         }
         
         Initialize();
-
-        if (_latestTargetPosition == null)
-        {
-            _latestTargetPosition = Target.Value.position;
-            return Status.Running;
-        }
-        if(!IsUpdatingLatestPosition((Vector3)_latestTargetPosition, Target.Value.position)){
-            return Status.Success; //No need to handle the same value again
-}
+        
         return Status.Running;
     }
     
@@ -58,38 +49,52 @@ public partial class ChaseAction : Action
             return Status.Success;
         }
         
-        //Continue
-        _agent.SetDestination(Target.Value.position); 
+        Vector3 targetPosition = AdjustmentOfTargetPositionXZ(Target.Value.position);
+        _agent.SetDestination(targetPosition); 
         return Status.Running;
     }
 
     //TODO - reset
     protected override void OnEnd()
     {
-        _agent.ResetPath();
+        if (_agent != null)
+        {
+            Debug.Log(_agent);
+            _agent.ResetPath();
+        }
+
+        _agent = null;
     }
 
     private bool CloseEnough() //TODO fix parameter for "number"
     {
-        return Vector3.Distance((Vector3)_latestTargetPosition,eyes.Value.position) <= 3; 
+        return Vector3.Distance(Target.Value.position,eyes.Value.position) <= 3; 
+    }
+    
+    private Vector3 AdjustmentOfTargetPositionXZ(Vector3 targetPos)
+    {
+        Vector3 dirToTarget = (targetPos-eyes.Value.position);
+        dirToTarget.y = 0;
+        dirToTarget.Normalize();
+        return dirToTarget*3;
     }
     
     private void Initialize() //TODO in patrol
     {
-        _agent ??= Self.Value.GetComponent<NavMeshAgent>();
+        _agent = Self.Value.GetComponent<NavMeshAgent>();
         _agent.speed = dataSO.Value.stateParameters.movementParameters.Speed;
         _agent.stoppingDistance = dataSO.Value.stateParameters.movementParameters.StoppingDistance;
     }
     
-    private bool IsUpdatingLatestPosition(Vector3 latestTargetPosition, Vector3 newPosition)
+    /*private bool IsUpdatingLatestPosition()
     {
-        if (!IsPositionDifferent(latestTargetPosition, newPosition))
+        if (IsPositionDifferent((Vector3)_latestTargetPosition, Target.Value.position))
         {
-            return false;
+            _latestTargetPosition = Target.Value.position;
+            return true;
         }
-        _latestTargetPosition = newPosition;
-        return true;
-    }
+        return false;
+    }*/
     
     private bool IsPositionDifferent(Vector3 a, Vector3 b)
     {
@@ -98,7 +103,7 @@ public partial class ChaseAction : Action
     
     private bool InvalidParameters()
     {
-        return (!Self.Value || !dataSO.Value);
+        return (!Self.Value || !Target.Value || !dataSO.Value || !eyes.Value);
     }
 }
 
