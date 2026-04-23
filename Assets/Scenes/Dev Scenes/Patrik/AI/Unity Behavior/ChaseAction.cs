@@ -81,11 +81,12 @@ public partial class ChaseAction : Action
         _agent.SetDestination(targetPosition); 
     }
     
-    private void Initialize() //TODO in patrol
+    private void Initialize()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
         _agent.speed = dataSO.Value.stateParameters.movementParameters.Speed;
         _agent.stoppingDistance = dataSO.Value.stateParameters.movementParameters.StoppingDistance;
+        _agent.angularSpeed = 0;
     }
     
     /*private bool IsUpdatingLatestPosition()

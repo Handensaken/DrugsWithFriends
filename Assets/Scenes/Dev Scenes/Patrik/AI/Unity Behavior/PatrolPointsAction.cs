@@ -12,17 +12,20 @@ using UnityEngine.Serialization;
 [NodeDescription(name: "Patrol Points", story: "[Self] patrol along [Waypoints]", category: "Action/Navigation", id: "61c37b860a3276e02325e083e03653a3")]
 public partial class PatrolPointsAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> self;
-    [SerializeReference] public BlackboardVariable<List<Vector3>> waypoints;
+    [SerializeReference] public BlackboardVariable<GameObject> Self;
+    [SerializeReference] public BlackboardVariable<List<Vector3>> Waypoints;
+    
+    [SerializeReference] public BlackboardVariable<EnemyData> dataSO;
 
-    private NavMeshAgent _navMeshAgent;
+    private NavMeshAgent _agent;
     //Waypoints
     private int _currentPointIndex = 0;
     private bool _isPathDone = true;
     
     protected override Status OnStart()
     {
-        if(!ValidateOnStart()) return Status.Failure;
+        if(InvalidParameters()) return Status.Failure;
+        Initialize();
         
         return Status.Running;
     }
@@ -31,16 +34,16 @@ public partial class PatrolPointsAction : Action
         //Debug.Log("Update trots att onstart fail");
         //Validation --> failure
         
-        Vector3 currentWaypoint = waypoints.Value[_currentPointIndex];
+        Vector3 currentWaypoint = Waypoints.Value[_currentPointIndex];
         if (_isPathDone)
         {
-            _navMeshAgent.SetDestination(currentWaypoint);
+            _agent.SetDestination(currentWaypoint);
         }
             
-        if (!_navMeshAgent.pathPending &&_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+        if (!_agent.pathPending &&_agent.remainingDistance <= _agent.stoppingDistance)
         {
             _currentPointIndex++;
-            if (_currentPointIndex == waypoints.Value.Count)
+            if (_currentPointIndex == Waypoints.Value.Count)
             {
                 _currentPointIndex = 0;
             }
@@ -50,28 +53,18 @@ public partial class PatrolPointsAction : Action
         return Status.Success;
     }
     protected override void OnEnd() {}
-    private bool ValidateOnStart()
+    
+    private void Initialize()
     {
-        bool result = true;
-        if (!self.Value)
-        {   
-            result = false;
-            Debug.Log("Action must have a self");
-        }
-
-        if (waypoints.Value.Count <= 0)
-        {
-            result = false;
-            Debug.Log("Action must have at least one waypoint");
-        }
-
-        if (!self.Value.TryGetComponent(out _navMeshAgent))
-        {
-            result = false;
-            Debug.Log("NavMeshAgent missing for action");
-        }
-        
-        return result;
+        _agent = Self.Value.GetComponent<NavMeshAgent>();
+        _agent.speed = dataSO.Value.stateParameters.movementParameters.Speed;
+        _agent.stoppingDistance = dataSO.Value.stateParameters.movementParameters.StoppingDistance;
+        _agent.angularSpeed = 600;
+    }
+    
+    private bool InvalidParameters()
+    {
+        return (!Self.Value || !dataSO.Value || Waypoints.Value == null);
     }
 }
 
