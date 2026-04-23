@@ -64,6 +64,11 @@ public class PauseMenu : MonoBehaviour
             Debug.Log("selected " + EventSystem.current.currentSelectedGameObject.name);
         }
     }
+    
+    public void Resume()
+    {
+        OnUnpause(new InputAction.CallbackContext());
+    }
 
     public void OnUnpause(InputAction.CallbackContext context)
     {
