@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using FishNet.Connection;
 using FishNet.Object;
-using JetBrains.Annotations;
 using Unity.Behavior;
 using UnityEngine;
 
-namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
+namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
 {
     public class SightBehaviour : NetworkBehaviour
     {

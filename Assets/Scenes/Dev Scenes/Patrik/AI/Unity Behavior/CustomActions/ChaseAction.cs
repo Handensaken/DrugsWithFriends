@@ -78,7 +78,6 @@ public partial class ChaseAction : Action
         _agent.transform.forward = dirToTarget;
         
         Vector3 targetPosition = Target.Value.position - dirToTarget * 2f; //TODO variable
-        Debug.Log("Handle - Pos: "+targetPosition +" : D"+Vector3.Distance(targetPosition,eyes.Value.position));
         
         _agent.SetDestination(targetPosition); 
     }
