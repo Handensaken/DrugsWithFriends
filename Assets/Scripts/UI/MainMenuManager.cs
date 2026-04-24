@@ -44,9 +44,9 @@ public class MainMenuManager : MonoBehaviour
         
     }
 
-    public void StartGame()
+    public void StartLobby()
     {
-        string[] scenesToClose = { "InsertMainMenuNameHereLater" };
-        BootstrapNetworkManager.ChangeNetworkScene("InsertGameSceneNameHereLater", scenesToClose);
+        string[] scenesToClose = { "Main Menu" };
+        BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
     }
 }
