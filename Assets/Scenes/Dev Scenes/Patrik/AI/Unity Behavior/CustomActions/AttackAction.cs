@@ -23,6 +23,11 @@ public partial class AttackAction : Action
     protected override Status OnUpdate()
     {
         _currentTime += Time.deltaTime;
+        if (_currentTime >= time)
+        {
+            collider.Value.SetActive(false); 
+            return Status.Success;
+        }
         return Status.Running;
     }
 
