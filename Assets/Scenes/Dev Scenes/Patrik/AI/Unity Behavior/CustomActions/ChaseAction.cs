@@ -18,6 +18,7 @@ public partial class ChaseAction : Action
     [SerializeReference] public BlackboardVariable<Transform> eyes;
 
     private NavMeshAgent _agent;
+    private bool _latestCheck4CloseEnough = false;
     
     //todo -
     //Kontrollera om distansen är tillräcklig för fortsatt körning
@@ -58,7 +59,7 @@ public partial class ChaseAction : Action
     {
         if (_agent != null)
         {
-            //_agent.ResetPath();
+            _agent.ResetPath();
         }
 
         _agent = null;
@@ -66,7 +67,15 @@ public partial class ChaseAction : Action
 
     private bool CloseEnough() //TODO fix parameter for "number"
     {
-        return _agent.remainingDistance <= 0.2f;
+        if (_latestCheck4CloseEnough) 
+        {
+            _latestCheck4CloseEnough = false;
+            return false;
+        }
+        
+        bool result = _agent.remainingDistance <= 0.2f;
+        _latestCheck4CloseEnough = result;
+        return result;
     }
 
     private void HandleTargetPosition()
