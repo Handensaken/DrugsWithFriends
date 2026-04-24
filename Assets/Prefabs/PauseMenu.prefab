@@ -2103,6 +2103,7 @@ GameObject:
   - component: {fileID: 6635585882215908155}
   - component: {fileID: 3768632075580906097}
   - component: {fileID: 3813960408675495733}
+  - component: {fileID: 1450083016255992287}
   m_Layer: 5
   m_Name: Video_Panel
   m_TagString: Untagged
@@ -2170,6 +2171,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1450083016255992287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390410853360082139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610c3c21a7a15d946b72b41da993f304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Menu
+  firstSelected: {fileID: 997362928669328678}
+  controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
+  selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
 --- !u!1 &1410643415083739000
 GameObject:
   m_ObjectHideFlags: 0
@@ -4375,6 +4391,7 @@ GameObject:
   - component: {fileID: 4844062653846994373}
   - component: {fileID: 3044289059707060816}
   - component: {fileID: 3624887210475031343}
+  - component: {fileID: 2337711128131017474}
   m_Layer: 5
   m_Name: Audio_Panel
   m_TagString: Untagged
@@ -4443,6 +4460,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2337711128131017474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580483335598717299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610c3c21a7a15d946b72b41da993f304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Menu
+  firstSelected: {fileID: 3616402428372025037}
+  controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
+  selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
 --- !u!1 &3582391598636840485
 GameObject:
   m_ObjectHideFlags: 0
@@ -5380,6 +5412,7 @@ GameObject:
   - component: {fileID: 4205155859026218441}
   - component: {fileID: 7464156377692133593}
   - component: {fileID: 2865928012180259875}
+  - component: {fileID: 3758259612549793629}
   m_Layer: 5
   m_Name: Accessibility_Panel
   m_TagString: Untagged
@@ -5446,6 +5479,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3758259612549793629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4517531979808653631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610c3c21a7a15d946b72b41da993f304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Menu
+  firstSelected: {fileID: 7641617217661337431}
+  controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
+  selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
 --- !u!1 &4533699540846076567
 GameObject:
   m_ObjectHideFlags: 0
@@ -11197,6 +11245,7 @@ GameObject:
   - component: {fileID: 4353300978181758066}
   - component: {fileID: 713208241669539431}
   - component: {fileID: 2008424909034259733}
+  - component: {fileID: 4192430395876221432}
   m_Layer: 5
   m_Name: Keybinds_Panel
   m_TagString: Untagged
@@ -11264,6 +11313,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4192430395876221432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8405737455402868497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610c3c21a7a15d946b72b41da993f304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Menu
+  firstSelected: {fileID: 7661408646098473601}
+  controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
+  selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
 --- !u!1 &8468271058832165503
 GameObject:
   m_ObjectHideFlags: 0
@@ -12176,9 +12240,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Colourblind Mode
-
-'
+  m_text: Option A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
