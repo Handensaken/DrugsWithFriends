@@ -12,6 +12,11 @@ public class MainMenuManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI lobbyIDText;
     private void Awake() => instance = this;
+    
+    public void PlayButton(GameObject screenToClose)
+    {
+        screenToClose.SetActive(false);
+    }
 
     public void CreateLobby()
     {
