@@ -43,7 +43,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           public override void OnStartClient()
           {
                base.OnStartClient();
-               if (IsServerInitialized) return;
 
                healthSo.UpdateHealth(_clientsHealth[ClientManager.Connection.ClientId]);
                Debug.Log("Update on spawn");

@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4252963657483202503}
   - component: {fileID: 6007298086680157045}
   m_Layer: 0
-  m_Name: AI
+  m_Name: BasicAI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,6 +247,7 @@ MonoBehaviour:
   - {fileID: 5388911886747884455}
   - {fileID: 1188335933818503543}
   - {fileID: 4252963657483202503}
+  - {fileID: 6007298086680157045}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -257,7 +258,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584246747868640387
+  _initializedTimestamp: -8584244927281636968
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -273,9 +274,9 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 8
+  <PrefabId>k__BackingField: 11
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 12270038943094515502
+  <AssetPathHash>k__BackingField: 11838986806363856119
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0.35355, y: 1.37, z: 0.35355}
@@ -297,7 +298,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5101672761553250479}
   _networkObjectCache: {fileID: 5101672761553250479}
-  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  healthSo: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
   networkTrigger: {fileID: 1188335933818503543}
 --- !u!114 &1140070518207162077
 MonoBehaviour:
@@ -410,9 +411,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f37030fc7dacd46a6e3a7ee0c8a4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ComponentController
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 5101672761553250479}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5101672761553250479}
   components:
   - {fileID: 4943264456987591253}
 --- !u!1001 &2408645691671992274
@@ -426,6 +427,10 @@ PrefabInstance:
     - target: {fileID: 5394137536691435912, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
       propertyPath: m_Name
       value: HealthCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5394137536691435912, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7365885935714440640, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
       propertyPath: m_Pivot.x

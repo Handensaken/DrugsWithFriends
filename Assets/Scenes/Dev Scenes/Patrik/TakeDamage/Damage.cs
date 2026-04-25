@@ -16,18 +16,34 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           
           public override void OnStartServer()
           {
+               base.OnStartServer();
                networkTrigger.OnEnter += TriggerDamage;
+          }
+
+          public override void OnStopServer()
+          {
+               base.OnStopServer();
+               networkTrigger.OnEnter -= TriggerDamage;
+          }
+
+          public void OnEnable()
+          {
+               _healthCounter.OnChange += UpdateUI;
+          }
+
+          public void OnDisable()
+          {
+               _healthCounter.OnChange -= UpdateUI;
+          }
+          
+          public override void OnStartClient()
+          {
+               base.OnStartClient();
                healthSo.UpdateHealth(new HealthPackage()
                {
                     HealthAmount = _healthCounter.Value,
                     BatchAmount = 2
                });
-          }
-
-          public override void OnStartClient()
-          {
-               base.OnStartClient();
-               _healthCounter.OnChange += UpdateUI;
           }
 
           [Server]
