@@ -2,6 +2,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
@@ -12,15 +13,19 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [SerializeField]private int simulateHealthChange1;
           [SerializeField]private int simulateBatchChange1;
           
-          [SerializeField] private HealthSO healthSo;
+          [FormerlySerializedAs("healthData")] [SerializeField] private HealthSO healthSo;
           [SerializeField] private bool simulateChange;
 
           private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>()
           {
-               {0,new HealthPackage(10,2)},
-               {1,new HealthPackage(5,1)}
+               {0,new HealthPackage()
+               {
+                    HealthAmount = 10,
+                    BatchAmount = 2
+               }},
+               //{1,new HealthPackage(5,1)}
           };
-          
+
           public void OnEnable()
           {
                _clientsHealth.OnChange += SetValues;
@@ -34,9 +39,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
           {
                if (!asServer) return;
-               Debug.Log("Now");
                foreach (var client in ServerManager.Clients)
                {
+                    Debug.Log("SendHealth: "+ "ClientID: "+client.Value.ClientId +" - "+_clientsHealth[client.Value.ClientId].HealthAmount +" : "+ _clientsHealth[client.Value.ClientId].BatchAmount);
                     SendHealth(client.Value, _clientsHealth[client.Value.ClientId]);
                }
           }
@@ -53,12 +58,16 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           private void ChangeValues()
           {
                Debug.Log("ChangeValues");
-               HealthPackage healthPackageC1 = new HealthPackage(simulateHealthChange0, simulateBatchChange0);
+               HealthPackage healthPackageC1 = new HealthPackage()
+               {
+                    HealthAmount = simulateHealthChange0,
+                    BatchAmount = simulateBatchChange0
+               };
                _clientsHealth[0] = healthPackageC1;
-               HealthPackage healthPackageC2 = new HealthPackage(simulateHealthChange1, simulateBatchChange1);
-               _clientsHealth[1] = healthPackageC2;
+               /*HealthPackage healthPackageC2 = new HealthPackage(simulateHealthChange1, simulateBatchChange1);
+               _clientsHealth[1] = healthPackageC2;*/
                
-               Debug.Log(_clientsHealth);
+               Debug.Log(_clientsHealth[0].HealthAmount +" : "+ _clientsHealth[0].BatchAmount);
           }
           
           [TargetRpc]
@@ -67,7 +76,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                int health = healthPackage.HealthAmount;
                int batch = healthPackage.BatchAmount;
                Debug.Log("ClientID: "+conn.ClientId + " - H: " + health + " - B: " + batch);
-               HealthPackage currentHealthData = new HealthPackage(health,batch);
+               HealthPackage currentHealthData = new HealthPackage()
+               {
+                    HealthAmount = health,
+                    BatchAmount = batch
+               };
                healthSo.UpdateHealth(currentHealthData);
           }
      }

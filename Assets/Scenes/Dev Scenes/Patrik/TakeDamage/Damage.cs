@@ -3,20 +3,25 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
      //TODO Have blackboard in use for controlling health 
      public class Damage : NetworkBehaviour
      {
-          public HealthSO healthData;
+          [FormerlySerializedAs("healthData")] public HealthSO healthSo;
           [SerializeField] protected NetworkTrigger networkTrigger;
           private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
           
           public override void OnStartServer()
           {
                networkTrigger.OnEnter += TriggerDamage;
-               healthData.UpdateHealth(new HealthPackage(_healthCounter.Value, 2));
+               healthSo.UpdateHealth(new HealthPackage()
+               {
+                    HealthAmount = _healthCounter.Value,
+                    BatchAmount = 2
+               });
           }
 
           public override void OnStartClient()
@@ -40,7 +45,11 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                if (asServer) return;
                Debug.Log("Only clients");
                
-               healthData.UpdateHealth(new HealthPackage(_healthCounter.Value, 2));
+               healthSo.UpdateHealth(new HealthPackage()
+               {
+                    HealthAmount = _healthCounter.Value,
+                    BatchAmount = 2
+               });
           }
      }
 }
