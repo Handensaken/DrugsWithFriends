@@ -51,15 +51,16 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 Debug.LogWarning("UpdateHealthBatches exceeded the limited-value but was corrected");
             }
             
-            if (currentBatchAmount == 1) return;
-            
-             //TODO include variation in padding
+            //TODO include variation in padding
             
             for (int i = 0; i < currentBatchAmount; i++)
             {
-                if (!Instantiate(healthBatch,healthBarUI).TryGetComponent<HealthBatch>(out HealthBatch newBatch)) throw new Exception("Missing HealthBatch on prefab for healthBatch");
+                if (!Instantiate(healthBatch, healthBarUI).TryGetComponent<HealthBatch>(out HealthBatch newBatch))
+                {
+                    throw new Exception("Missing HealthBatch on prefab for healthBatch");
+                }
+                
                 newBatch.BatchRect.sizeDelta = new Vector2(batchWidth,healthBarUI.rect.height);
-
                 Vector2 pos = new Vector2(batchWidth * i + gapSpace*i,0);
                 newBatch.BatchRect.anchoredPosition3D = pos;
                 _healthBatches.Add(newBatch);

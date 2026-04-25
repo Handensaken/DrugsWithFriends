@@ -13,7 +13,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [SerializeField]private int simulateHealthChange1;
           [SerializeField]private int simulateBatchChange1;
           
-          [FormerlySerializedAs("healthData")] [SerializeField] private HealthSO healthSo;
+          [SerializeField] private HealthSO healthSo;
           [SerializeField] private bool simulateChange;
 
           private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>()
@@ -23,7 +23,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     HealthAmount = 10,
                     BatchAmount = 2
                }},
-               //{1,new HealthPackage(5,1)}
+               {1,new HealthPackage()
+               {
+                    HealthAmount = 5,
+                    BatchAmount = 1
+               }},
           };
 
           public void OnEnable()
@@ -36,12 +40,20 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                _clientsHealth.OnChange -= SetValues;
           }
 
+          public override void OnStartClient()
+          {
+               base.OnStartClient();
+               if (IsServerInitialized) return;
+
+               healthSo.UpdateHealth(_clientsHealth[ClientManager.Connection.ClientId]);
+               Debug.Log("Update on spawn");
+          }
+
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
           {
                if (!asServer) return;
                foreach (var client in ServerManager.Clients)
                {
-                    Debug.Log("SendHealth: "+ "ClientID: "+client.Value.ClientId +" - "+_clientsHealth[client.Value.ClientId].HealthAmount +" : "+ _clientsHealth[client.Value.ClientId].BatchAmount);
                     SendHealth(client.Value, _clientsHealth[client.Value.ClientId]);
                }
           }
@@ -64,10 +76,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     BatchAmount = simulateBatchChange0
                };
                _clientsHealth[0] = healthPackageC1;
-               /*HealthPackage healthPackageC2 = new HealthPackage(simulateHealthChange1, simulateBatchChange1);
-               _clientsHealth[1] = healthPackageC2;*/
                
-               Debug.Log(_clientsHealth[0].HealthAmount +" : "+ _clientsHealth[0].BatchAmount);
+               HealthPackage healthPackageC2 = new HealthPackage()
+               {
+                    HealthAmount = simulateHealthChange1,
+                    BatchAmount = simulateBatchChange1
+               };
+               _clientsHealth[1] = healthPackageC2;
           }
           
           [TargetRpc]
