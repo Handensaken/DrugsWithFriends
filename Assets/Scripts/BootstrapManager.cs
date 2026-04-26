@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using FishNet.Managing;
 using FishNet.Managing.Transporting;
+using FishNet.Transporting;
 using FishNet.Transporting.Tugboat;
 using UnityEngine;
 using Steamworks;
@@ -106,8 +107,19 @@ public class BootstrapManager : MonoBehaviour
             tugboat.StartConnection(true);
             tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
+            instance.networkManager.ClientManager.OnClientConnectionState += StartLobbyTugboat;
         }
     }
+
+    private static void StartLobbyTugboat(ClientConnectionStateArgs t)
+    {
+        if(t.ConnectionState == LocalConnectionState.Started)
+        {
+            MainMenuManager.StartLobby();
+            instance.networkManager.ClientManager.OnClientConnectionState -= StartLobbyTugboat;
+        }
+    }
+    
 
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
@@ -122,6 +134,7 @@ public class BootstrapManager : MonoBehaviour
         fishySteamworks.SetClientAddress(SteamUser.GetSteamID().ToString());
         fishySteamworks.StartConnection(true);
         Debug.Log("Lobby creation was successful");
+        MainMenuManager.StartLobby();
     }
     
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
@@ -133,9 +146,7 @@ public class BootstrapManager : MonoBehaviour
     {
         Debug.Log("lobby entered");
         currentLobbyID = callback.m_ulSteamIDLobby;
-
         MainMenuManager.LobbyEntered(SteamMatchmaking.GetLobbyData(new CSteamID(currentLobbyID), "name"), true);
-        
         fishySteamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(currentLobbyID), "HostAddress"));
         fishySteamworks.StartConnection(false);
     }
