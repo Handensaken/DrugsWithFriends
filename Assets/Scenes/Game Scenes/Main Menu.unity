@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 100654192}
   - component: {fileID: 100654191}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: BootstrapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,8 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 7696538552095724360, guid: 4f8b102cd97b5ef459172a92c66d8b16, type: 3}
   _addToDefaultScene: 1
-  Spawns:
-  - {fileID: 0}
+  Spawns: []
 --- !u!114 &100654197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,10 +609,10 @@ MonoBehaviour:
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
-  _isSpawnable: 1
+  _isSpawnable: 0
   _isGlobal: 0
   _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
+  _preventDespawnOnDisconnect: 1
   _defaultDespawnType: 0
   _initializedTimestamp: 0
   NetworkObserver: {fileID: 0}

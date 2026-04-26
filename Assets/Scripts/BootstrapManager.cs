@@ -6,6 +6,7 @@ using FishNet.Transporting.Tugboat;
 using UnityEngine;
 using Steamworks;
 using UnityEditor.Scripting;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class BootstrapManager : MonoBehaviour
@@ -42,6 +43,7 @@ public class BootstrapManager : MonoBehaviour
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
+        SceneManager.LoadScene("Main Menu", LoadSceneMode.Additive);
     }
 
     private void Update()

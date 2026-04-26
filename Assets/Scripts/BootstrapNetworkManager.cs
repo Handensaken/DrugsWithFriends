@@ -8,7 +8,10 @@ public class BootstrapNetworkManager : NetworkBehaviour
 {
     private static BootstrapNetworkManager instance;
     
-    private void Awake() => instance = this;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public static void ChangeNetworkScene(string sceneName, string[] scenesToClose)
     {
