@@ -26,10 +26,10 @@ public class BootstrapNetworkManager : NetworkBehaviour
     {
         CloseScenesObserver(scenesToClose);
     }
-
-    [ObserversRpc]
+    
     private void CloseScenesObserver(string[] scenesToClose)
     {
+        Debug.Log("closing scenes");
         foreach (var scene in scenesToClose)
         {
             UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(scene);
