@@ -15,7 +15,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
         
         [Space]
-        [SerializeField] private HealthSO healthData;
+        [SerializeField] private HealthData healthData;
 
         private void OnEnable()
         {

@@ -30,15 +30,8 @@ public partial class PatrolPointsAction : Action
     }
     protected override Status OnUpdate()
     {
-        //Debug.Log("Update trots att onstart fail");
-        //Validation --> failure
-        
         Vector3 currentWaypoint = Waypoints.Value[_currentPointIndex];
-        if (_isPathDone)
-        {
-            _agent.SetDestination(currentWaypoint);
-        }
-            
+        
         if (!_agent.pathPending &&_agent.remainingDistance <= _agent.stoppingDistance)
         {
             _currentPointIndex++;
@@ -49,6 +42,12 @@ public partial class PatrolPointsAction : Action
             _isPathDone = true;
         }
         
+        if (_isPathDone)
+        {
+            _agent.SetDestination(currentWaypoint);
+            _isPathDone = false;
+        }
+        
         return Status.Success;
     }
     protected override void OnEnd() {}
@@ -56,8 +55,8 @@ public partial class PatrolPointsAction : Action
     private void Initialize()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.speed = dataSO.Value.patrol.movementParameters.Speed;
-        _agent.stoppingDistance = dataSO.Value.patrol.movementParameters.StoppingDistance;
+        _agent.speed = dataSO.Value.patrolPackage.movementParameters.Speed;
+        _agent.stoppingDistance = dataSO.Value.patrolPackage.movementParameters.StoppingDistance;
         _agent.angularSpeed = 600;
     }
     

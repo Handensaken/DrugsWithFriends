@@ -13,7 +13,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [SerializeField]private int simulateHealthChange1;
           [SerializeField]private int simulateBatchChange1;
           
-          [SerializeField] private HealthSO healthSo;
+          [FormerlySerializedAs("healthSo")] [SerializeField] private HealthData healthData;
           [SerializeField] private bool simulateChange;
 
           private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>()
@@ -44,7 +44,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                base.OnStartClient();
 
-               healthSo.UpdateHealth(_clientsHealth[ClientManager.Connection.ClientId]);
+               healthData.UpdateHealth(_clientsHealth[ClientManager.Connection.ClientId]);
                Debug.Log("Update on spawn");
           }
 
@@ -95,7 +95,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     HealthAmount = health,
                     BatchAmount = batch
                };
-               healthSo.UpdateHealth(currentHealthData);
+               healthData.UpdateHealth(currentHealthData);
           }
      }
 }

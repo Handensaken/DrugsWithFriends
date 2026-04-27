@@ -95,8 +95,8 @@ public partial class ChaseAction : Action
     private void Initialize()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.speed = dataSO.Value.chase.movementParameters.Speed;
-        _agent.stoppingDistance = dataSO.Value.chase.movementParameters.StoppingDistance;
+        _agent.speed = dataSO.Value.chasePackage.movementParameters.Speed;
+        _agent.stoppingDistance = dataSO.Value.chasePackage.movementParameters.StoppingDistance;
         _agent.angularSpeed = 0;
     }
     
