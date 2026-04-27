@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 791919764}
   - component: {fileID: 791919763}
   - component: {fileID: 791919769}
+  - component: {fileID: 791919770}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -265,6 +266,18 @@ MonoBehaviour:
     _latency: 100
     _outOfOrder: 0
     _packetLoss: 0
+--- !u!114 &791919770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 791919759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SteamManager
 --- !u!1 &1282869788
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +288,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1282869790}
   - component: {fileID: 1282869789}
-  - component: {fileID: 1282869792}
   m_Layer: 0
   m_Name: BootstrapManager
   m_TagString: Untagged
@@ -315,18 +327,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1282869792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282869788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SteamManager
 --- !u!1 &1393194248
 GameObject:
   m_ObjectHideFlags: 0
