@@ -11,6 +11,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TMP_InputField lobbyInput;
 
     [SerializeField] private TextMeshProUGUI lobbyIDText;
+    [SerializeField] private GameObject startLobbyButton;
     private void Awake() => instance = this;
     
     public void PlayButton(GameObject screenToClose)
@@ -21,6 +22,7 @@ public class MainMenuManager : MonoBehaviour
     public void CreateLobby()
     {
         BootstrapManager.CreateLobby();
+        startLobbyButton.SetActive(true);
     }
 
     public static void LobbyEntered(string lobbyName, bool isHost)

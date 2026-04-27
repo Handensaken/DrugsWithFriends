@@ -107,7 +107,6 @@ public class BootstrapManager : MonoBehaviour
             tugboat.StartConnection(true);
             tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
-            instance.networkManager.ClientManager.OnClientConnectionState += StartLobbyTugboat;
         }
     }
 
@@ -115,6 +114,7 @@ public class BootstrapManager : MonoBehaviour
     {
         if(t.ConnectionState == LocalConnectionState.Started)
         {
+            Debug.Log("starting lobby with tugboat");
             MainMenuManager.StartLobby();
             instance.networkManager.ClientManager.OnClientConnectionState -= StartLobbyTugboat;
         }
@@ -196,4 +196,6 @@ public class BootstrapManager : MonoBehaviour
             instance.fishySteamworks.StopConnection(true);
         }
     }
+    
+    
 }

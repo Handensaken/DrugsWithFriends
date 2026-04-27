@@ -15,6 +15,7 @@ public class BootstrapNetworkManager : NetworkBehaviour
 
     public static void ChangeNetworkScene(string sceneName, string[] scenesToClose)
     {
+        Debug.Log("Changing scene");
         instance.CloseScenes(scenesToClose);
         SceneLoadData sld = new SceneLoadData(sceneName);
         NetworkConnection[] conns = instance.ServerManager.Clients.Values.ToArray();
