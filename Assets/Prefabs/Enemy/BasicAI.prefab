@@ -259,7 +259,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584244927281636968
+  _initializedTimestamp: -8584243139944957721
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -275,9 +275,9 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 11
+  <PrefabId>k__BackingField: 10
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 11838986806363856119
+  <AssetPathHash>k__BackingField: 15029000048171213655
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0.35355, y: 1.37, z: 0.35355}
@@ -299,7 +299,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5101672761553250479}
   _networkObjectCache: {fileID: 5101672761553250479}
-  healthSo: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
   networkTrigger: {fileID: 1188335933818503543}
 --- !u!114 &1140070518207162077
 MonoBehaviour:
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_BlackboardVariableOverridesList:
   - rid: 1121488072912404560
   - rid: 6640463714539536857
-  - rid: 6640463714539536963
+  - rid: 6640463715029221910
   - rid: 6640463714539537101
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
@@ -376,14 +376,6 @@ MonoBehaviour:
           m_Value1: 14528759553908475019
         Name: AttackCollider
         m_Value: {fileID: 5300104887457091863}
-    - rid: 6640463714539536963
-      type: {class: 'BlackboardVariable`1[[Scenes.Dev_Scenes.Patrik.AI.Extra.EnemyData, AIAssembly]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 9489385805397522423
-          m_Value1: 7166425522117385142
-        Name: EnemyData
-        m_Value: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
     - rid: 6640463714539537101
       type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -392,6 +384,14 @@ MonoBehaviour:
           m_Value1: 14336511855605817431
         Name: Eyes
         m_Value: {fileID: 8580333982635928111}
+    - rid: 6640463715029221910
+      type: {class: 'BlackboardVariable`1[[Scenes.Dev_Scenes.Patrik.AI.Extra.EnemyData, AIAssembly]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 10622359892537340055
+          m_Value1: 4517502438940315820
+        Name: EnemySO
+        m_Value: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
 --- !u!114 &4252963657483202503
 MonoBehaviour:
   m_ObjectHideFlags: 0
