@@ -265,6 +265,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &241867386 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8580333982635928111, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &557824389
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,6 +902,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: attack.eyes
+      value: 
+      objectReference: {fileID: 241867386}
+    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: attackRange.eyes
+      value: 
+      objectReference: {fileID: 241867386}
+    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: attack._typeOfVisualization
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: attackRange._typeOfVisualization
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: patrolSight._typeOfVisualization
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

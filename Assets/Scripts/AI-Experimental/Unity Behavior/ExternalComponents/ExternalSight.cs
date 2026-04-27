@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace AI_Experimental.Unity_Behavior.ExternalComponents
 {
+    //TODO fix Utility AI
     public class ExternalSight : NetworkBehaviour
     {
         [SerializeField] public Transform eyes;
@@ -56,7 +57,6 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
                 if (!target.FirstObject || !target.FirstObject.IsSpawned) continue;
                 result.Add(target.FirstObject?.transform);
             }
-            
             return result.ToArray();
         }
         
@@ -71,7 +71,6 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
                     result.Add(sample);
                 }
             }
-            
             return result.ToArray();
         }
         [Server]
@@ -91,7 +90,6 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
                     result.Add(sample);
                 }
             }
-            
             return result.ToArray();
         }
     }

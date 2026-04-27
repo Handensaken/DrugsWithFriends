@@ -24,7 +24,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
 
         private void ColorWarning()
         {
-            if (patrolPackage.StateColor.a < 255)
+            if (patrolPackage.stateColor.a < 255)
             {
                 Debug.Log("PatrolColor cant have alfa value lower then 255");
                 patrolPackage.stateColor.a = 255;

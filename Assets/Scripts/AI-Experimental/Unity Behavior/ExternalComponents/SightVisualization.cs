@@ -6,13 +6,9 @@ using UnityEngine.Serialization;
 namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
 {
     [Serializable]
-    public class SightVisualization : IVisualization
+    public class SightVisualization : Visualization
     {
-        //TODO flags
         [SerializeField] private Transform eyes;
-        [SerializeField, Tooltip("How the visualization should occur")] private Visualization visualization;
-
-        public Visualization GetVisualization => visualization;
         
         public void Visualize(Color gizmoColor, SightPackage sightPackage)
         {

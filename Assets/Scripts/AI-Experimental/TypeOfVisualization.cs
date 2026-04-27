@@ -1,4 +1,4 @@
-public enum Visualization
+public enum TypeOfVisualization
 {
     Off,
     Always,

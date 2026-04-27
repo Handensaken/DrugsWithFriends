@@ -11,7 +11,5 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         [SerializeField] public Color stateColor;
         [SerializeField] public SightPackage sightPackage;
         [SerializeField] public MovementPackage movementPackage;
-
-        public Color StateColor => stateColor;
     }
 }

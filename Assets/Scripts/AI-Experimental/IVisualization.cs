@@ -1,4 +1,4 @@
 public interface IVisualization
 {
-    public Visualization GetVisualization{ get;}
+    public TypeOfVisualization GetTypeOfVisualization{ get;}
 }
