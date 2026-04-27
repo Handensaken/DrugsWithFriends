@@ -13,8 +13,8 @@ using Random = UnityEngine.Random;
 public class BootstrapManager : MonoBehaviour
 {
     private static BootstrapManager instance;
-    private static TransportManager transportManager;
-    private static Tugboat tugboat;
+    [SerializeField] private TransportManager transportManager;
+    [SerializeField] private Tugboat tugboat;
     [SerializeField] private bool useSteam;
     
     [SerializeField] private NetworkManager networkManager;
@@ -54,29 +54,17 @@ public class BootstrapManager : MonoBehaviour
 
     private void CheckTransport()
     {
-        if (TryGetComponent(out TransportManager manager))
+        if(useSteam)
         {
-            transportManager = manager;
-            if(useSteam)
-            {
-                transportManager.Transport = fishySteamworks;
-                fishySteamworks.enabled = true;
-            }
-            else
-            {
-                if (TryGetComponent(out Tugboat tb))
-                {
-                    tugboat = tb;
-                    transportManager.Transport = tugboat;
-                }
-                fishySteamworks.enabled = false;
-            }
-            Debug.Log("using" + transportManager.Transport);
+            transportManager.Transport = fishySteamworks;
+            fishySteamworks.enabled = true;
         }
         else
         {
-            Debug.LogError("Couldn't get transportmanager");
+            transportManager.Transport = tugboat;
+            fishySteamworks.enabled = false;
         }
+        Debug.Log("using" + transportManager.Transport);
     }
     
     private string GenerateLobbyCode()
@@ -104,8 +92,8 @@ public class BootstrapManager : MonoBehaviour
         else
         {
             Debug.Log("creating lobby with tugboat");
-            tugboat.StartConnection(true);
-            tugboat.StartConnection(false);
+            instance.tugboat.StartConnection(true);
+            instance.tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
         }
     }
@@ -155,7 +143,7 @@ public class BootstrapManager : MonoBehaviour
     {
         if (!instance.useSteam)
         {
-            tugboat.StartConnection(false);
+            instance.tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
         }
         else
