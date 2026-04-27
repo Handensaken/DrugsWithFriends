@@ -6,9 +6,9 @@ using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Unity.Behavior;
 using UnityEngine;
 
-namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
+namespace AI_Experimental.Unity_Behavior.ExternalComponents
 {
-    public class SightBehaviour : NetworkBehaviour
+    public class ExternalSight : NetworkBehaviour
     {
         [SerializeField] public Transform eyes;
 
@@ -16,10 +16,14 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
         private BehaviorGraphAgent _behaviorGraphAgent;
         private BlackboardReference _blackboard;
 
+        private SightPackage _sightPackage;
+
         private void Awake()
         {
             _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
             _blackboard = _behaviorGraphAgent.BlackboardReference;
+
+            _sightPackage = enemyData.patrolPackage.sightPackage;
         }
 
         public override void OnStartClient()
@@ -32,23 +36,18 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
         private void Update() //TODO Behaviour tree can disable this component
         {
             Transform[] all = FindAllTargets();
-            Transform[] inSightRange = AllTargetsInRange(all, 5);
+            Transform[] inSightRange = AllTargetsInRange(all, _sightPackage.FOVRange);
+            Transform[] inFOV = AllTargetsInAngle(inSightRange, _sightPackage.FOVAngle);
 
-            if (inSightRange.Length > 0)
+            if (inFOV.Length > 0)
             {
-                _blackboard.SetVariableValue("Target", inSightRange[0]);
+                _blackboard.SetVariableValue("Target", inFOV[0]);
             }
-                
-            /* TODO - Make into node ish
-            Transform[] inAttackRange = AllTargetsInRange(inSightRange, 2);
-            _blackboard.SetVariableValue("Attack", inAttackRange.Length > 0);
-            */
         }
 
         [Server]
         private Transform[] FindAllTargets()
         {
-            //Debug.Log("FindAllTargets");
             NetworkConnection[] allTargets = ServerManager.Clients.Values.ToArray();
             
             List<Transform> result = new List<Transform>();
@@ -67,7 +66,30 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
             List<Transform> result = new List<Transform>();
             foreach (var sample in samples)
             {
-                if (Vector3.Distance(sample.position, eyes.position) <= range) result.Add(sample);
+                if (Vector3.Distance(sample.position, eyes.position) <= range)
+                {
+                    result.Add(sample);
+                }
+            }
+            
+            return result.ToArray();
+        }
+        [Server]
+        private Transform[] AllTargetsInAngle(Transform[] samples ,float angle)
+        {
+            List<Transform> result = new List<Transform>();
+            foreach (var sample in samples)
+            {
+                Vector3 samplePos = sample.position;
+                Vector3 eyesPos = eyes.position;
+                Vector2 dirToSample = new Vector2(samplePos.x-eyesPos.x,samplePos.z-eyesPos.z);
+
+                Vector2 forward = new Vector2(eyes.forward.x,eyes.forward.z);
+                
+                if (Vector2.Angle(dirToSample, forward) <= angle)
+                {
+                    result.Add(sample);
+                }
             }
             
             return result.ToArray();

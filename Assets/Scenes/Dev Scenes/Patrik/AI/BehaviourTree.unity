@@ -119,11 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &63956713 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &118894313
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,11 +265,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &241867386 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8580333982635928111, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &557824389
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,22 +889,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!114 &2100116907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63956713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af3e62ecef7dcdf4687ce45786a5ebff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AIAssembly::EnemyVisualization
-  enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
-  patrolSight:
-    eyes: {fileID: 241867386}
-    visualization: 1
 --- !u!1001 &2140728614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -975,21 +949,10 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6007298086680157045, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: components.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6007298086680157045, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: 'components.Array.data[1]'
-      value: 
-      objectReference: {fileID: 2100116907}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2100116907}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
