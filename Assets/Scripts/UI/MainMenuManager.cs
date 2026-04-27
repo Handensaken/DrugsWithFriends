@@ -28,6 +28,8 @@ public class MainMenuManager : MonoBehaviour
     public static void LobbyEntered(string lobbyName, bool isHost)
     {
         instance.lobbyIDText.text = BootstrapManager.currentLobbyID.ToString();
+        
+        StartLobby();
     }
 
     public static void CloseAllScreens()
