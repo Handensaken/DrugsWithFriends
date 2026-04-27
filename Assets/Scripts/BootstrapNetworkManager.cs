@@ -21,8 +21,7 @@ public class BootstrapNetworkManager : NetworkBehaviour
         NetworkConnection[] conns = instance.ServerManager.Clients.Values.ToArray();
         instance.SceneManager.LoadConnectionScenes(conns, sld);
     }
-
-    [ServerRpc(RequireOwnership = false)]
+    
     private void CloseScenes(string[] scenesToClose)
     {
         CloseScenesObserver(scenesToClose);
