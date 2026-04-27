@@ -14,6 +14,7 @@ public partial class NullCheckCondition : Condition
 
     public override bool IsTrue()
     {
-        return inverse ? !Variable.ObjectValue.Equals(null) || !Variable.Equals(null) : Variable.ObjectValue.Equals(null) || Variable.Equals(null);
+        bool check = (Variable.ObjectValue is null || Variable.ObjectValue.Equals(null));
+        return inverse ? !check : check;
     }
 }
