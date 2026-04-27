@@ -265,11 +265,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &241867386 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8580333982635928111, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &557824389
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,26 +897,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: attack.eyes
+    - target: {fileID: 121713909896038513, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: _addedNetworkObject
       value: 
-      objectReference: {fileID: 241867386}
-    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: attackRange.eyes
+      objectReference: {fileID: 2140728625}
+    - target: {fileID: 2218079657594921333, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: _addedNetworkObject
       value: 
-      objectReference: {fileID: 241867386}
-    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: attack._typeOfVisualization
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: attackRange._typeOfVisualization
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846452445194520332, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: patrolSight._typeOfVisualization
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2140728625}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -966,19 +949,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI
       objectReference: {fileID: 0}
-    - target: {fileID: 5101672761553250479, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+    - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: SceneId
-      value: 3977247727
+      value: 3677159213
       objectReference: {fileID: 0}
-    - target: {fileID: 5101672761553250479, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+    - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5865814228308469736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 2140728625}
+    - target: {fileID: 6007298086680157045, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 2140728625}
+    - target: {fileID: 8513608233697118439, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 2140728625}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+--- !u!114 &2140728625 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

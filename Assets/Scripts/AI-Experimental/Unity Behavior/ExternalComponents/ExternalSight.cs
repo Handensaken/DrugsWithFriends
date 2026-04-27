@@ -5,6 +5,7 @@ using FishNet.Object;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AI_Experimental.Unity_Behavior.ExternalComponents
 {
@@ -14,15 +15,14 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
         [SerializeField] public Transform eyes;
 
         [SerializeField] public EnemyData enemyData;
-        private BehaviorGraphAgent _behaviorGraphAgent;
+        [SerializeField] private BehaviorGraphAgent behaviorGraphAgent;
         private BlackboardReference _blackboard;
 
         private SightPackage _sightPackage;
 
         private void Awake()
         {
-            _behaviorGraphAgent = GetComponent<BehaviorGraphAgent>();
-            _blackboard = _behaviorGraphAgent.BlackboardReference;
+            _blackboard = behaviorGraphAgent.BlackboardReference;
 
             _sightPackage = enemyData.patrolPackage.sightPackage;
         }

@@ -5,15 +5,9 @@ using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.AI
 {
-    public interface IPathPoints
+    public class AgentPathPoints : MonoBehaviour
     {
-        public Vector3[] WorldCoordPatrolPoints { get; }
-
-        //public void UpdateWorldPatrolPoints(Vector3 startPos);
-    }
-    
-    public class AgentPathPoints : MonoBehaviour, IPathPoints
-    {
+        [SerializeField] private BehaviorGraphAgent agent;
         [SerializeField] private Vector3[] localPatrolPoints;
         private Vector3[] _worldCoordPatrolPoints;
         
@@ -28,9 +22,12 @@ namespace Scenes.Dev_Scenes.Patrik.AI
             _originPathPosition = transform.position;
             _worldCoordPatrolPoints = new Vector3[localPatrolPoints.Length];
             UpdateWorldPatrolPoints(_originPathPosition);
-            
-            BlackboardReference blackboard = GetComponent<BehaviorGraphAgent>().BlackboardReference;
-            blackboard.SetVariableValue("Waypoints",WorldCoordPatrolPoints.ToList());
+
+            if (agent != null)
+            {
+                BlackboardReference blackboard = agent.BlackboardReference;
+                blackboard.SetVariableValue("Waypoints",WorldCoordPatrolPoints.ToList());
+            }
         }
 
         public void UpdateWorldPatrolPoints(Vector3 startPos)

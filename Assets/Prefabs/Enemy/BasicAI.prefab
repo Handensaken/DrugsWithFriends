@@ -1,5 +1,150 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &163048553723082101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7657480413914017129}
+  - component: {fileID: 3157360777225388573}
+  - component: {fileID: 5865814228308469736}
+  - component: {fileID: 8513608233697118439}
+  m_Layer: 0
+  m_Name: DamageCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7657480413914017129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163048553723082101}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4094507991667084450}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &3157360777225388573
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163048553723082101}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5865814228308469736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163048553723082101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6c52b6dc9a38f42b81fdce546b29a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Damage
+  _componentIndexCache: 3
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
+  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  networkTrigger: {fileID: 8513608233697118439}
+--- !u!114 &8513608233697118439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163048553723082101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc97a8b9e628044e83004c93095c14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
+  _componentIndexCache: 4
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
+  MaximumSimultaneousHits: 16
+  AdditionalSize: 0.1
+  Layers:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!1 &1320020916023172601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2955173688990743176}
+  - component: {fileID: 166976938981996354}
+  m_Layer: 0
+  m_Name: VisualizationObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2955173688990743176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320020916023172601}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4094507991667084450}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &166976938981996354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320020916023172601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af3e62ecef7dcdf4687ce45786a5ebff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AIAssembly::EnemyVisualization
+  enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
+  patrolSight:
+    _typeOfVisualization: 1
+    eyes: {fileID: 8580333982635928111}
+  attackRange:
+    _typeOfVisualization: 1
+    eyes: {fileID: 8580333982635928111}
 --- !u!1 &3129089411942311774
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8580333982635928111}
+  - component: {fileID: 2218079657594921333}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Untagged
@@ -31,6 +177,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4094507991667084450}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2218079657594921333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3129089411942311774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09493de45cd41e14b93cb1a8c1091da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.SightBehaviour
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
+  eyes: {fileID: 8580333982635928111}
+  enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
+  behaviorGraphAgent: {fileID: 4943264456987591253}
+--- !u!1 &4293041846045067323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8017073527980166699}
+  - component: {fileID: 1824923390422600614}
+  m_Layer: 0
+  m_Name: PathPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8017073527980166699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4293041846045067323}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4094507991667084450}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1824923390422600614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4293041846045067323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c00fa25a6517057408b4beb758d5b692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.AgentPathPoints
+  agent: {fileID: 4943264456987591253}
+  localPatrolPoints:
+  - {x: 4.71, y: 0, z: 5.09}
+  - {x: 5.7, y: 0, z: 0}
+  - {x: -2.9, y: 0, z: -0.45}
 --- !u!1 &5027146694817819949
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,17 +255,11 @@ GameObject:
   - component: {fileID: 4094507991667084450}
   - component: {fileID: 4677855744265835638}
   - component: {fileID: 8640281572336784780}
-  - component: {fileID: 5631612030919222043}
   - component: {fileID: 4868335839143244014}
   - component: {fileID: 121713909896038513}
-  - component: {fileID: 5101672761553250479}
-  - component: {fileID: 5388911886747884455}
-  - component: {fileID: 1140070518207162077}
-  - component: {fileID: 1188335933818503543}
   - component: {fileID: 4943264456987591253}
-  - component: {fileID: 4252963657483202503}
   - component: {fileID: 6007298086680157045}
-  - component: {fileID: 3846452445194520332}
+  - component: {fileID: 5599575656561588736}
   m_Layer: 0
   m_Name: BasicAI
   m_TagString: Untagged
@@ -76,6 +283,9 @@ Transform:
   - {fileID: 5140252343927587346}
   - {fileID: 8580333982635928111}
   - {fileID: 1377100148970861323}
+  - {fileID: 2955173688990743176}
+  - {fileID: 7657480413914017129}
+  - {fileID: 8017073527980166699}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4677855744265835638
@@ -135,29 +345,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5631612030919222043
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &4868335839143244014
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -193,8 +380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 5101672761553250479}
-  _networkObjectCache: {fileID: 5101672761553250479}
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -226,117 +413,6 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
---- !u!114 &5101672761553250479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
-  <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 0
-  WasActiveDuringEdit_Set1: 1
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: 121713909896038513}
-  - {fileID: 5388911886747884455}
-  - {fileID: 1188335933818503543}
-  - {fileID: 4252963657483202503}
-  - {fileID: 6007298086680157045}
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedTimestamp: -8584243040645517403
-  NetworkObserver: {fileID: 0}
-  _enablePrediction: 0
-  _predictionType: 0
-  _localReconcileCorrectionType: 2
-  _graphicalObject: {fileID: 0}
-  _detachGraphicalObject: 0
-  _enableStateForwarding: 1
-  _networkTransform: {fileID: 0}
-  _ownerInterpolation: 1
-  _ownerSmoothedProperties: 255
-  _adaptiveInterpolation: 3
-  _spectatorSmoothedProperties: 255
-  _spectatorInterpolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  <PrefabId>k__BackingField: 10
-  <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 15029000048171213655
-  SceneId: 0
-  SerializedTransformProperties:
-    Position: {x: 0.35355, y: 1.37, z: 0.35355}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 1, y: 1, z: 1}
-    IsValid: 1
---- !u!114 &5388911886747884455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6c52b6dc9a38f42b81fdce546b29a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Damage
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 5101672761553250479}
-  _networkObjectCache: {fileID: 5101672761553250479}
-  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
-  networkTrigger: {fileID: 1188335933818503543}
---- !u!114 &1140070518207162077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00fa25a6517057408b4beb758d5b692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.AgentPathPoints
-  localPatrolPoints:
-  - {x: 1.1284859, y: 0, z: 0.75415695}
-  - {x: 4.498156, y: 0, z: -1.7032692}
---- !u!114 &1188335933818503543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dc97a8b9e628044e83004c93095c14d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 5101672761553250479}
-  _networkObjectCache: {fileID: 5101672761553250479}
-  MaximumSimultaneousHits: 16
-  AdditionalSize: 0.1
-  Layers:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &4943264456987591253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,23 +469,6 @@ MonoBehaviour:
           m_Value1: 4517502438940315820
         Name: EnemySO
         m_Value: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
---- !u!114 &4252963657483202503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09493de45cd41e14b93cb1a8c1091da2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.SightBehaviour
-  _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 5101672761553250479}
-  _networkObjectCache: {fileID: 5101672761553250479}
-  eyes: {fileID: 8580333982635928111}
-  enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
 --- !u!114 &6007298086680157045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,13 +481,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f37030fc7dacd46a6e3a7ee0c8a4cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ComponentController
-  _componentIndexCache: 4
-  _addedNetworkObject: {fileID: 5101672761553250479}
-  _networkObjectCache: {fileID: 5101672761553250479}
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
   components:
   - {fileID: 4943264456987591253}
-  - {fileID: 3846452445194520332}
---- !u!114 &3846452445194520332
+  - {fileID: 0}
+--- !u!114 &5599575656561588736
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,13 +496,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 5027146694817819949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af3e62ecef7dcdf4687ce45786a5ebff, type: 3}
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: AIAssembly::EnemyVisualization
-  enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
-  patrolSight:
-    eyes: {fileID: 8580333982635928111}
-    visualization: 1
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _localReconcileCorrectionType: 2
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 15029000048171213655
+  SceneId: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1 &5300104887457091863
 GameObject:
   m_ObjectHideFlags: 0
