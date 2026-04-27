@@ -8,13 +8,15 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
     [Serializable]
     public class SightVisualization : IVisualization
     {
-        [SerializeField] Transform eyes;
-        [SerializeField] public bool onlySelectedGizmos;
+        //TODO flags
+        [SerializeField] private Transform eyes;
+        [SerializeField, Tooltip("How the visualization should occur")] private Visualization visualization;
 
-        public void Visualize(Color gizmoColor, ParameterPackage parameterPackage)
+        public Visualization GetVisualization => visualization;
+        
+        public void Visualize(Color gizmoColor, SightPackage sightPackage)
         {
             Gizmos.color = gizmoColor;
-            SightPackage sightPackage = parameterPackage.sightPackage;
             DrawFOV(sightPackage.FOVRange, sightPackage.FOVAngle);
             SightRange(sightPackage.InstantInRange);
         }

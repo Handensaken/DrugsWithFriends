@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
@@ -16,13 +17,28 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         [Space, Header("Refs")]
         [SerializeField] public HealthData healthData;
 
-        public SightPackage[] GetALlSightData()
+        private void OnValidate()
         {
-            List<SightPackage> result = new List<SightPackage>();
-            
-            result.Add(patrolPackage.sightPackage);
+            ColorWarning();
+        }
 
-            return result.ToArray();
+        private void ColorWarning()
+        {
+            if (patrolPackage.StateColor.a < 255)
+            {
+                Debug.Log("PatrolColor cant have alfa value lower then 255");
+                patrolPackage.stateColor.a = 255;
+            }
+            if (chasePackage.stateColor.a < 255)
+            {
+                Debug.Log("chaseColor cant have alfa value lower then 255");
+                chasePackage.stateColor.a = 255;
+            }
+            if (attackPackage.stateColor.a < 255)
+            {
+                Debug.Log("attackColor cant have alfa value lower then 255");
+                attackPackage.stateColor.a = 255;
+            }
         }
     }
 }

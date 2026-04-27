@@ -270,6 +270,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &241867386 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8580333982635928111, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &557824389
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,6 +911,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3e62ecef7dcdf4687ce45786a5ebff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: AIAssembly::EnemyVisualization
+  enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
+  patrolSight:
+    eyes: {fileID: 241867386}
+    visualization: 1
 --- !u!1001 &2140728614
 PrefabInstance:
   m_ObjectHideFlags: 0

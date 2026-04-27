@@ -8,7 +8,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
     public struct PatrolPackage
     {
         [SerializeField] private string stateName;
-        [SerializeField] private Color stateColor;
+        [SerializeField] public Color stateColor;
         [SerializeField] public SightPackage sightPackage;
         [SerializeField] public MovementPackage movementPackage;
 

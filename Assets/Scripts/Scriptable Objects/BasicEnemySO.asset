@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolPackage:
     stateName: 
-    stateColor: {r: 0, g: 0, b: 0, a: 0}
-    sightParameters:
-      fovRange: 0
-      fovAngle: 0
-      instantInRange: 0
-    movementParameters:
-      speed: 3
+    stateColor: {r: 0.10065861, g: 0.19394049, b: 0.735849, a: 255}
+    sightPackage:
+      fovRange: 5
+      fovAngle: 50
+      instantInRange: 1
+    movementPackage:
+      speed: 4
       stoppingDistance: 0.2
   chasePackage:
     stateName: 
-    stateColor: {r: 0, g: 0, b: 0, a: 0}
-    movementParameters:
+    stateColor: {r: 0.86946917, g: 0.8962264, b: 0.25787643, a: 255}
+    movementPackage:
       speed: 6
       stoppingDistance: 0.2
   attackPackage:
     stateName: 
-    stateColor: {r: 0, g: 0, b: 0, a: 0}
-    minRange: 0
-    maxRange: 0
+    stateColor: {r: 0.7830189, g: 0.13665895, b: 0.13665895, a: 255}
+    minRange: 0.5
+    maxRange: 1
   healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
