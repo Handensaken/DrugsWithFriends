@@ -6,7 +6,7 @@ using FishNet.Transporting;
 using FishNet.Transporting.Tugboat;
 using UnityEngine;
 using Steamworks;
-using UnityEditor.Scripting;
+//using UnityEditor.Scripting;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
