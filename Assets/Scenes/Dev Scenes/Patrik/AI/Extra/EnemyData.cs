@@ -6,10 +6,13 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
     [CreateAssetMenu(menuName = "AI/Enemy/EnemyData")]
     public class EnemyData : ScriptableObject
     {
-        [SerializeField] public HealthSO healthData;
-    
-        [Space,Header("Behaviours and corresponding stats")]
-        [SerializeField] public Patrol patrol;
-        [SerializeField] public Chase chase;
+        [Header("Behaviours and corresponding stats")]
+        [SerializeField] public PatrolPackage patrolPackage;
+        [SerializeField] public ChasePackage chasePackage;
+        [SerializeField] public AttackPackage attackPackage;
+        
+        [Space, Header("Refs")]
+        [SerializeField] public HealthData healthData;
+        
     }
 }

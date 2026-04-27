@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e6ad41bb3e2114289bc335e4f1fd93, type: 3}
+  m_Name: BasicEnemySO
+  m_EditorClassIdentifier: 
+  patrolPackage:
+    stateName: 
+    stateColor: {r: 0, g: 0, b: 0, a: 0}
+    sightParameters:
+      fovRange: 0
+      fovAngle: 0
+      instantInRange: 0
+    movementParameters:
+      speed: 5
+      stoppingDistance: 0.2
+  chasePackage:
+    stateName: 
+    stateColor: {r: 0, g: 0, b: 0, a: 0}
+    movementParameters:
+      speed: 0.1
+      stoppingDistance: 0.2
+  attackPackage:
+    stateName: 
+    stateColor: {r: 0, g: 0, b: 0, a: 0}
+    minRange: 0
+    maxRange: 0
+  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
