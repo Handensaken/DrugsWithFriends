@@ -55,8 +55,8 @@ public partial class PatrolPointsAction : Action
     private void Initialize()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.speed = dataSO.Value.patrolPackage.movementParameters.Speed;
-        _agent.stoppingDistance = dataSO.Value.patrolPackage.movementParameters.StoppingDistance;
+        _agent.speed = dataSO.Value.patrolPackage.movementPackage.Speed;
+        _agent.stoppingDistance = dataSO.Value.patrolPackage.movementPackage.StoppingDistance;
         _agent.angularSpeed = 600;
     }
     

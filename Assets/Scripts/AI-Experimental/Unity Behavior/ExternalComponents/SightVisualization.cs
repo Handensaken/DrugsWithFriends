@@ -1,4 +1,5 @@
 using System;
+using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,40 +9,35 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
     public class SightVisualization : IVisualization
     {
         [SerializeField] Transform eyes;
-        [SerializeField] SightInfo sightInfo;
         [SerializeField] public bool onlySelectedGizmos;
-    
-        public void Visualize()
+
+        public void Visualize(Color gizmoColor, ParameterPackage parameterPackage)
         {
-            ValidateData();
-            SightArea();
+            Gizmos.color = gizmoColor;
+            SightPackage sightPackage = parameterPackage.sightPackage;
+            DrawFOV(sightPackage.FOVRange, sightPackage.FOVAngle);
+            SightRange(sightPackage.InstantInRange);
         }
 
-        private void ValidateData()
+        private void DrawFOV(float range, float angle)
         {
-            if (sightInfo.angle <= 0) sightInfo.angle = 1;
-            if (sightInfo.range <= 0) sightInfo.range = .1f;
+            SightRange(range);
+            SightAngle(range,angle);
         }
         
-        private void SightArea()
+        private void SightRange(float range)
         {
-            SightRange();
-            SightAngle();
-        }
-
-        private void SightRange()
-        {
-            Gizmos.DrawWireSphere(eyes.position,sightInfo.range);
+            Gizmos.DrawWireSphere(eyes.position,range);
         }
         
-        private void SightAngle() //Shame
+        private void SightAngle(float range, float angle) //Shame
         {
             //Only need x, z
             Vector3 worldPos = eyes.position;
             Vector3 forward = eyes.forward;
 
-            float sightRange = sightInfo.range;
-            float sightAngle = sightInfo.angle;
+            float sightRange = range;
+            float sightAngle = angle;
 
             //LeftSide
             Vector2 valuesForLeftSide = RotateVectorCounter(new Vector2(forward.x,forward.z), sightAngle);
@@ -83,12 +79,5 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
 
             return new Vector2(vectorX, vectorY);
         }
-    }
-
-    [Serializable]
-    public struct SightInfo
-    {
-        public float range;
-        public int angle;
     }
 }

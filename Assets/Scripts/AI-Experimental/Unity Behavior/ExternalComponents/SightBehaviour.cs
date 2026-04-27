@@ -10,12 +10,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
 {
     public class SightBehaviour : NetworkBehaviour
     {
-        /*TODO -
-        FOV
-        attackFOV (range)
-        */
         [SerializeField] public Transform eyes;
-        //[SerializeField] public SightVisualization visualization;
 
         [SerializeField] public EnemyData enemyData;
         private BehaviorGraphAgent _behaviorGraphAgent;
@@ -77,19 +72,5 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ExternalComponents
             
             return result.ToArray();
         }
-        
-        private void OnDrawGizmos()
-        {
-            /*if(visualization.onlySelectedGizmos) return;
-            visualization.Visualize();*/
-        }
-
-        /*
-        [Server]
-        private void OnDrawGizmosSelected()
-        {
-            if(!visualization.onlySelectedGizmos) return;
-            visualization.Visualize();
-        }*/
     }
 }

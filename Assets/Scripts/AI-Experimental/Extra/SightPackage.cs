@@ -1,10 +1,11 @@
 using System;
+using Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.AI.Extra
 {
     [Serializable]
-    public struct SightParameters
+    public struct SightPackage
     {
         [SerializeField, Min(.1f)] private float fovRange;
         [SerializeField, Min(.1f)] private float fovAngle;

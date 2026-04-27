@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
 
@@ -13,6 +15,14 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         
         [Space, Header("Refs")]
         [SerializeField] public HealthData healthData;
-        
+
+        public SightPackage[] GetALlSightData()
+        {
+            List<SightPackage> result = new List<SightPackage>();
+            
+            result.Add(patrolPackage.sightPackage);
+
+            return result.ToArray();
+        }
     }
 }
