@@ -19,7 +19,7 @@ MonoBehaviour:
   m_Blackboard:
     m_Variables:
     - rid: 8899842322646171853
-    - rid: 4732781219849175127
+    - rid: -2
     - rid: 4732781217515831476
     - rid: 1121488095237898868
     - rid: 1121488051499171923
@@ -30,6 +30,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1121488051499171923
       type: {class: 'BlackboardVariable`1[[System.Collections.Generic.List`1[[UnityEngine.Vector3, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -78,14 +80,6 @@ MonoBehaviour:
           m_Value1: 2401578879654636996
         Name: Aggressive
         m_Value: 0
-    - rid: 4732781219849175127
-      type: {class: 'BlackboardVariable`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 4666700170736671892
-          m_Value1: 1709546694754057601
-        Name: EnemyData
-        m_Value: {fileID: 0}
     - rid: 8899842322646171853
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -124,7 +118,7 @@ MonoBehaviour:
     m_Value1: 1346009338050187371
   m_Variables:
   - rid: 8899842322646171854
-  - rid: 4732781219849175126
+  - rid: -2
   - rid: 4732781217515831475
   - rid: 1121488095237898867
   - rid: 1121488051499171922
@@ -138,6 +132,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1121488051499171922
       type: {class: 'TypedVariableModel`1[[System.Collections.Generic.List`1[[UnityEngine.Vector3, UnityEngine.CoreModule]], mscorlib]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -198,16 +194,6 @@ MonoBehaviour:
         IsExposed: 1
         m_IsShared: 0
         m_Value: 0
-    - rid: 4732781219849175126
-      type: {class: 'TypedVariableModel`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 4666700170736671892
-          m_Value1: 1709546694754057601
-        Name: EnemyData
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
     - rid: 8899842322646171854
       type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -253,7 +239,7 @@ MonoBehaviour:
   - rid: 6640463712012730844
   - rid: 6640463712012730845
   - rid: 6640463712012730846
-  m_VersionTimestamp: 639128874377315815
+  m_VersionTimestamp: 639128890582489541
   m_SerializedVersion: 2
   m_DebugInfo: {fileID: -7666743848244429993}
   m_RuntimeGraph: {fileID: 7143411873627992934}
@@ -296,8 +282,8 @@ MonoBehaviour:
       Tooltip: 
     - Name: dataSO
       Type:
-        m_SerializableType: EnemyData, AIAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
+        m_SerializableType: Scenes.Dev_Scenes.Patrik.AI.Extra.EnemyData, AIAssembly,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
@@ -331,8 +317,8 @@ MonoBehaviour:
       Tooltip: 
     - Name: dataSO
       Type:
-        m_SerializableType: EnemyData, AIAssembly, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
+        m_SerializableType: Scenes.Dev_Scenes.Patrik.AI.Extra.EnemyData, AIAssembly,
+          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Tooltip: 
     - Name: eyes
       Type:
@@ -465,7 +451,7 @@ MonoBehaviour:
   m_SubgraphsInfo: []
   m_BlackboardMissingManagedRef: 0
   m_GraphMissingManagedRef: 0
-  m_HasMissingTypeInManagedRef: 0
+  m_HasMissingTypeInManagedRef: 1
   references:
     version: 2
     RefIds:
@@ -589,27 +575,9 @@ MonoBehaviour:
           m_SerializableType: EnemyData, AIAssembly, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
         LocalValue:
-          rid: 1121488077232013659
+          rid: -2
         LinkedVariable:
-          rid: 1121488077232013661
-    - rid: 1121488077232013659
-      type: {class: 'BlackboardVariable`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 1121488077232013661
-      type: {class: 'TypedVariableModel`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 4666700170736671892
-          m_Value1: 1709546694754057601
-        Name: EnemyData
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
+          rid: -2
     - rid: 1121488095237898561
       type: {class: FloatingPortNodeModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1523,9 +1491,9 @@ MonoBehaviour:
           m_SerializableType: EnemyData, AIAssembly, Version=0.0.0.0, Culture=neutral,
             PublicKeyToken=null
         LocalValue:
-          rid: 3864233049855361366
+          rid: -2
         LinkedVariable:
-          rid: 3864233049855361437
+          rid: -2
     - rid: 3864233049855361364
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -1542,14 +1510,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: []
-    - rid: 3864233049855361366
-      type: {class: 'BlackboardVariable`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
     - rid: 3864233049855361367
       type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1570,16 +1530,6 @@ MonoBehaviour:
         IsExposed: 1
         m_IsShared: 0
         m_Value: []
-    - rid: 3864233049855361437
-      type: {class: 'TypedVariableModel`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 4666700170736671892
-          m_Value1: 1709546694754057601
-        Name: EnemyData
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 0}
     - rid: 4732781217515831595
       type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1972,14 +1922,6 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 0}
-    - rid: 6640463712658391418
-      type: {class: 'BlackboardVariable`1[[EnemyData, AIAssembly]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 4666700170736671892
-          m_Value1: 1709546694754057601
-        Name: EnemyData
-        m_Value: {fileID: 0}
     - rid: 6640463712658391419
       type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -2270,7 +2212,7 @@ MonoBehaviour:
         Target:
           rid: 6640463712658391420
         dataSO:
-          rid: 6640463712658391418
+          rid: -2
         eyes:
           rid: 6640463712658391419
     - rid: 6640463712658391617
@@ -2300,7 +2242,7 @@ MonoBehaviour:
         Waypoints:
           rid: 6640463712658391421
         dataSO:
-          rid: 6640463712658391418
+          rid: -2
     - rid: 6640463712658391619
       type: {class: VariableComparisonCondition, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -2428,7 +2370,7 @@ MonoBehaviour:
       data:
         m_Variables:
         - rid: 6640463712658391417
-        - rid: 6640463712658391418
+        - rid: -2
         - rid: 6640463712658391419
         - rid: 6640463712658391420
         - rid: 6640463712658391421

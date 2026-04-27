@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -55,8 +56,8 @@ public partial class PatrolPointsAction : Action
     private void Initialize()
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
-        _agent.speed = dataSO.Value.stateParameters.movementParameters.Speed;
-        _agent.stoppingDistance = dataSO.Value.stateParameters.movementParameters.StoppingDistance;
+        _agent.speed = dataSO.Value.patrol.movementParameters.Speed;
+        _agent.stoppingDistance = dataSO.Value.patrol.movementParameters.StoppingDistance;
         _agent.angularSpeed = 600;
     }
     
