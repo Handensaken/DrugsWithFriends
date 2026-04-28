@@ -44,8 +44,11 @@ public class BootstrapManager : MonoBehaviour
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
-        SceneManager.LoadScene("Main Menu", LoadSceneMode.Additive);
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (SceneManager.GetActiveScene().name == "Bootstrap")
+        {
+            SceneManager.LoadScene("Main Menu", LoadSceneMode.Additive);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
     }
     
     private void OnDestroy()
