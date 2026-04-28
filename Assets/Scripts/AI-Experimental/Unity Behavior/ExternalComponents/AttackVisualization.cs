@@ -8,12 +8,12 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
     [Serializable]
     public class AttackVisualization : Visualization
     {
-        [SerializeField] private Transform eyes;
+        [SerializeField] private ExternalSight sight;
         public void Visualize(Color gizmoColor, AttackPackage attackPackage)
         {
             Gizmos.color = gizmoColor;
-            Gizmos.DrawWireSphere(eyes.position,attackPackage.minRange);
-            Gizmos.DrawWireSphere(eyes.position,attackPackage.maxRange);
+            Gizmos.DrawWireSphere(sight.eyes.position,attackPackage.minRange);
+            Gizmos.DrawWireSphere(sight.eyes.position,attackPackage.maxRange);
         }
     }
 }

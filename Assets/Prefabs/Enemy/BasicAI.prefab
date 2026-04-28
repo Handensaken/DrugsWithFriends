@@ -141,10 +141,10 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
   patrolSight:
     _typeOfVisualization: 1
-    eyes: {fileID: 8580333982635928111}
+    sight: {fileID: 2218079657594921333}
   attackRange:
     _typeOfVisualization: 0
-    eyes: {fileID: 8580333982635928111}
+    sight: {fileID: 2218079657594921333}
 --- !u!1 &3129089411942311774
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 8580333982635928111}
   - component: {fileID: 2218079657594921333}
   m_Layer: 0
-  m_Name: Eyes
+  m_Name: Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 3129089411942311774}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -192,7 +192,7 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 5599575656561588736}
   _networkObjectCache: {fileID: 5599575656561588736}
-  eyes: {fileID: 8580333982635928111}
+  eyes: {fileID: 5861539463263161060}
   enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
   behaviorGraphAgent: {fileID: 4943264456987591253}
 --- !u!1 &4293041846045067323
@@ -723,6 +723,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4094507991667084450}
     m_Modifications:
+    - target: {fileID: 1636186934614017747, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_Name
+      value: Head:Eyes
+      objectReference: {fileID: 0}
     - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -765,7 +769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9021509488193026278, guid: aaeed9182f2222b42931f7917b760655, type: 3}
       propertyPath: m_Name
-      value: EnemyVisual
+      value: Graphics
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -774,6 +778,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9021509488193026278, guid: aaeed9182f2222b42931f7917b760655, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2881763288383015292}
+    - targetCorrespondingSourceObject: {fileID: 9021509488193026278, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2913929410699709528}
   m_SourcePrefab: {fileID: 100100000, guid: aaeed9182f2222b42931f7917b760655, type: 3}
 --- !u!4 &519266223770900583 stripped
 Transform:
@@ -807,3 +814,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2913929410699709528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900470669211943645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0245a6858cdbf72409b242370dee5463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Scenes.Dev_Scenes.Patrik._4Animations.NavMeshAnimationMovement
+  agent: {fileID: 4868335839143244014}
+  animator: {fileID: 2881763288383015292}
+--- !u!4 &5861539463263161060 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2311918151672721631, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+  m_PrefabInstance: {fileID: 8164404184645827131}
+  m_PrefabAsset: {fileID: 0}

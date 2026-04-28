@@ -1,4 +1,5 @@
 using System;
+using AI_Experimental.Unity_Behavior.ExternalComponents;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,7 +9,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
     [Serializable]
     public class SightVisualization : Visualization
     {
-        [SerializeField] private Transform eyes;
+        [SerializeField] private ExternalSight sight;
         
         public void Visualize(Color gizmoColor, SightPackage sightPackage)
         {
@@ -25,14 +26,14 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
         
         private void SightRange(float range)
         {
-            Gizmos.DrawWireSphere(eyes.position,range);
+            Gizmos.DrawWireSphere(sight.eyes.position,range);
         }
         
         private void SightAngle(float range, float angle) //Shame
         {
             //Only need x, z
-            Vector3 worldPos = eyes.position;
-            Vector3 forward = eyes.forward;
+            Vector3 worldPos = sight.eyes.position;
+            Vector3 forward = sight.eyes.forward;
 
             float sightRange = range;
             float sightAngle = angle;
