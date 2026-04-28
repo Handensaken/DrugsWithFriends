@@ -2,43 +2,45 @@ using System.Linq;
 using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
 using UnityEngine;
 
 public class BootstrapNetworkManager : NetworkBehaviour
 {
     private static BootstrapNetworkManager instance;
-    private static string _currentGameScene = "";
+    private readonly SyncVar<string> _currentGameScene = new SyncVar<string>("");
 
     private void Awake()
     {
         instance = this;
     }
+    
 
-    public override void OnStartServer()
+    public override void OnSpawnServer(NetworkConnection connection)
     {
-        base.OnStartServer();
-        ServerManager.OnRemoteConnectionState += OnClientConnected;
-    }
+        base.OnSpawnServer(connection);
 
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-        ServerManager.OnRemoteConnectionState -= OnClientConnected;
-    }
-
-    private void OnClientConnected(NetworkConnection conn, RemoteConnectionStateArgs args)
-    {
-        if (args.ConnectionState == RemoteConnectionState.Started)
+        if (!string.IsNullOrEmpty(_currentGameScene.Value))
         {
-            if (!string.IsNullOrEmpty(_currentGameScene))
-            {
-                SceneLoadData sld = new SceneLoadData(_currentGameScene);
-                sld.ReplaceScenes = ReplaceOption.All;
-                SceneManager.LoadConnectionScenes(conn, sld);
-            }
+            Debug.Log($"Client {connection.ClientId} spawned — sending to scene: {_currentGameScene.Value}");
+
+            SceneLoadData sld = new SceneLoadData(_currentGameScene.Value);
+            sld.ReplaceScenes = ReplaceOption.None;
+            SceneManager.LoadConnectionScenes(connection, sld);
+
+            SceneManager.OnLoadEnd += OnSceneLoadedForClient;
         }
     }
+    
+    private void OnSceneLoadedForClient(SceneLoadEndEventArgs args)
+    {
+        SceneManager.OnLoadEnd -= OnSceneLoadedForClient;
+
+        SceneUnloadData sud = new SceneUnloadData(new string[] { "MainMenuScene" });
+        SceneManager.UnloadConnectionScenes(args.QueueData.Connections, sud);
+    }
+    
     public static void ChangeNetworkScene(string sceneName, string[] scenesToClose)
     {
         if (instance == null)
@@ -72,7 +74,7 @@ public class BootstrapNetworkManager : NetworkBehaviour
     private void ServerChangeScene(string sceneName, string[] scenesToClose)
     {
         Debug.Log("Server changing scene to: " + sceneName);
-        _currentGameScene = sceneName;
+        _currentGameScene.Value = sceneName;
 
         NetworkConnection[] conns = ServerManager.Clients.Values.ToArray();
 
