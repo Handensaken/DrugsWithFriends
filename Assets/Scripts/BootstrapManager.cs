@@ -45,11 +45,28 @@ public class BootstrapManager : MonoBehaviour
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         LobbyMatchList = CallResult<LobbyMatchList_t>.Create(OnLobbyMatchList);
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Update()
     {
         //Debug.Log(networkManager.TimeManager.RoundTripTime);
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Main Menu") return;
+
+        var mainMenu = SceneManager.GetSceneByName("Main Menu");
+        if (mainMenu.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(mainMenu);
+        }
     }
 
     private void CheckTransport()
@@ -145,6 +162,7 @@ public class BootstrapManager : MonoBehaviour
         {
             instance.tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
+            MainMenuManager.StartLobby();
         }
         else
         {

@@ -16,7 +16,6 @@ public class BootstrapNetworkManager : NetworkBehaviour
         instance = this;
     }
     
-
     public override void OnSpawnServer(NetworkConnection connection)
     {
         base.OnSpawnServer(connection);
@@ -24,23 +23,12 @@ public class BootstrapNetworkManager : NetworkBehaviour
         if (!string.IsNullOrEmpty(_currentGameScene.Value))
         {
             Debug.Log($"Client {connection.ClientId} spawned — sending to scene: {_currentGameScene.Value}");
-
+            
             SceneLoadData sld = new SceneLoadData(_currentGameScene.Value);
             sld.ReplaceScenes = ReplaceOption.None;
             SceneManager.LoadConnectionScenes(connection, sld);
-
-            SceneManager.OnLoadEnd += OnSceneLoadedForClient;
         }
     }
-    
-    private void OnSceneLoadedForClient(SceneLoadEndEventArgs args)
-    {
-        SceneManager.OnLoadEnd -= OnSceneLoadedForClient;
-
-        SceneUnloadData sud = new SceneUnloadData(new string[] { "MainMenuScene" });
-        SceneManager.UnloadConnectionScenes(args.QueueData.Connections, sud);
-    }
-    
     public static void ChangeNetworkScene(string sceneName, string[] scenesToClose)
     {
         if (instance == null)
