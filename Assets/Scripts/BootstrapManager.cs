@@ -112,6 +112,7 @@ public class BootstrapManager : MonoBehaviour
             instance.tugboat.StartConnection(true);
             instance.tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
+            instance.tugboat.OnClientConnectionState += StartLobbyTugboat;
         }
     }
 
@@ -162,7 +163,7 @@ public class BootstrapManager : MonoBehaviour
         {
             instance.tugboat.StartConnection(false);
             MainMenuManager.CloseAllScreens();
-            MainMenuManager.StartLobby();
+            instance.tugboat.OnClientConnectionState += JoinLobbyTugboat;
         }
         else
         {
@@ -171,6 +172,16 @@ public class BootstrapManager : MonoBehaviour
             SteamAPICall_t lobbyList = SteamMatchmaking.RequestLobbyList();
             instance.LobbyMatchList.Set(lobbyList);
             MainMenuManager.CloseAllScreens();
+        }
+    }
+    
+    private static void JoinLobbyTugboat(ClientConnectionStateArgs t)
+    {
+        if(t.ConnectionState == LocalConnectionState.Started)
+        {
+            Debug.Log("starting lobby with tugboat");
+            MainMenuManager.JoinStartedLobby();
+            instance.networkManager.ClientManager.OnClientConnectionState -= JoinLobbyTugboat;
         }
     }
     

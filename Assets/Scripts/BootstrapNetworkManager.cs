@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using FishNet.Connection;
 using FishNet.Managing.Scened;
@@ -10,6 +11,7 @@ public class BootstrapNetworkManager : NetworkBehaviour
 {
     private static BootstrapNetworkManager instance;
     private readonly SyncVar<string> _currentGameScene = new SyncVar<string>("");
+    private readonly HashSet<int> _loadedConnections = new HashSet<int>();
 
     private void Awake()
     {
@@ -19,7 +21,7 @@ public class BootstrapNetworkManager : NetworkBehaviour
     public override void OnSpawnServer(NetworkConnection connection)
     {
         base.OnSpawnServer(connection);
-
+        if (connection.ClientId == 0) return;
         if (!string.IsNullOrEmpty(_currentGameScene.Value))
         {
             Debug.Log($"Client {connection.ClientId} spawned — sending to scene: {_currentGameScene.Value}");
