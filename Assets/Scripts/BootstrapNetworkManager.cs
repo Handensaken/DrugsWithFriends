@@ -39,8 +39,6 @@ public class BootstrapNetworkManager : NetworkBehaviour
             }
         }
     }
-
-    // Called from anywhere — routes correctly depending on who's calling
     public static void ChangeNetworkScene(string sceneName, string[] scenesToClose)
     {
         if (instance == null)
@@ -49,12 +47,10 @@ public class BootstrapNetworkManager : NetworkBehaviour
             return;
         }
 
-        // If this is the server (or host), run directly
         if (instance.IsServerStarted)
         {
             instance.ServerChangeScene(sceneName, scenesToClose);
         }
-        // If this is a client, ask the server to do it via ServerRpc
         else if (instance.IsClientStarted)
         {
             instance.RequestSceneChangeSrpc(sceneName, scenesToClose);
@@ -87,5 +83,10 @@ public class BootstrapNetworkManager : NetworkBehaviour
 
         SceneManager.LoadConnectionScenes(conns, sld);
         SceneManager.UnloadConnectionScenes(conns, sud);
+
+        foreach (var scene in scenesToClose)
+        {
+            UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(scene);
+        }
     }
 }
