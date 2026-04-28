@@ -18,38 +18,48 @@ public partial class AttackAction : Action
 
     private float _startColliderTime;
     private float _endColliderTime;
-    private float _totTime = 2;
-    private float _currentTime = 0;
-    private bool _activeCollider = false;
+    private float _totTime;
+    private float _currentTime;
+    
+    private bool _activeCollider;
     protected override Status OnStart()
     {
-        //TODO activate trigger animation
+        AttackPackage attackPackage = enemyData.Value.attackPackage;
+        _totTime = attackPackage.attackAnimation.length;
+        _startColliderTime = _totTime * attackPackage.percentageOfStart;
+        _endColliderTime = _totTime * (1-attackPackage.percentageOfEnd);
+        
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
         _currentTime += Time.deltaTime;
-        if (!_activeCollider && _currentTime <= _endColliderTime)
+        //Collider on
+        if (!_activeCollider && _currentTime >= _startColliderTime)
         {
             collider.Value.SetActive(true); 
             _activeCollider = true;
         }
+        //collider off
         else if (_activeCollider && _currentTime >= _endColliderTime)
         {
             collider.Value.SetActive(false); 
         }
+
+        //Animation done
+        if (_currentTime >=_totTime)
+        {
+            return Status.Success;
+        }
         
-        /*
-         * Animation done --> return succesfull
-         */
         return Status.Running;
     }
 
     protected override void OnEnd()
     {
-        collider.Value.SetActive(false); 
         _currentTime = 0;
+        _activeCollider = false;
     }
 }
 

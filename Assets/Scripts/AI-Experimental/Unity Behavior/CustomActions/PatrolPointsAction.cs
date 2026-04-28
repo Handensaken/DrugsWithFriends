@@ -5,6 +5,7 @@ using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
 using Unity.Properties;
+using UnityEditor.Animations;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
@@ -15,6 +16,7 @@ public partial class PatrolPointsAction : Action
     [SerializeReference] public BlackboardVariable<List<Vector3>> Waypoints;
     
     [SerializeReference] public BlackboardVariable<EnemyData> dataSO;
+    [SerializeReference] public BlackboardVariable<Animator> animator;
 
     private NavMeshAgent _agent;
     //Waypoints
@@ -25,7 +27,7 @@ public partial class PatrolPointsAction : Action
     {
         if(InvalidParameters()) return Status.Failure;
         Initialize();
-        
+        animator.Value.SetBool("Moving", true); //TODO change
         return Status.Running;
     }
     protected override Status OnUpdate()

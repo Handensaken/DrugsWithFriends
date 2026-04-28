@@ -53,10 +53,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.26
+  m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!114 &5865814228308469736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Damage
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
   networkTrigger: {fileID: 8513608233697118439}
 --- !u!114 &8513608233697118439
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
   _componentIndexCache: 4
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   MaximumSimultaneousHits: 16
   AdditionalSize: 0.1
   Layers:
@@ -143,7 +143,7 @@ MonoBehaviour:
     _typeOfVisualization: 1
     eyes: {fileID: 8580333982635928111}
   attackRange:
-    _typeOfVisualization: 1
+    _typeOfVisualization: 0
     eyes: {fileID: 8580333982635928111}
 --- !u!1 &3129089411942311774
 GameObject:
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.SightBehaviour
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   eyes: {fileID: 8580333982635928111}
   enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
   behaviorGraphAgent: {fileID: 4943264456987591253}
@@ -253,8 +253,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4094507991667084450}
-  - component: {fileID: 4677855744265835638}
-  - component: {fileID: 8640281572336784780}
   - component: {fileID: 4868335839143244014}
   - component: {fileID: 121713909896038513}
   - component: {fileID: 4943264456987591253}
@@ -286,65 +284,9 @@ Transform:
   - {fileID: 2955173688990743176}
   - {fileID: 7657480413914017129}
   - {fileID: 8017073527980166699}
+  - {fileID: 519266223770900583}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4677855744265835638
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8640281572336784780
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5027146694817819949}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!195 &4868335839143244014
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -364,7 +306,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &121713909896038513
@@ -381,7 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Transforming.NetworkTransform
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -431,6 +373,7 @@ MonoBehaviour:
   - rid: 6640463714539536857
   - rid: 6640463715029221910
   - rid: 6640463714539537101
+  - rid: 3332841387919409423
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -445,6 +388,14 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 5027146694817819949}
+    - rid: 3332841387919409423
+      type: {class: 'BlackboardVariable`1[[UnityEngine.Animator, UnityEngine.AnimationModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15961791107648973234
+          m_Value1: 9890575146696260877
+        Name: Animator
+        m_Value: {fileID: 2881763288383015292}
     - rid: 6640463714539536857
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -483,7 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.ComponentController
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   components:
   - {fileID: 4943264456987591253}
   - {fileID: 0}
@@ -505,7 +456,12 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 121713909896038513}
+  - {fileID: 6007298086680157045}
+  - {fileID: 2218079657594921333}
+  - {fileID: 5865814228308469736}
+  - {fileID: 8513608233697118439}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -516,7 +472,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: 0
+  _initializedTimestamp: -8584242377972093388
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -532,15 +488,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 10
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15029000048171213655
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Position: {x: 0.35355, y: 1.37, z: 0.35355}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!1 &5300104887457091863
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +525,7 @@ Transform:
   m_GameObject: {fileID: 5300104887457091863}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.52}
+  m_LocalPosition: {x: 0, y: 1.042, z: 0.978}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -735,7 +691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7365885935714440640, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.42
+      value: 2.122
       objectReference: {fileID: 0}
     - target: {fileID: 7365885935714440640, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -759,3 +715,95 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7365885935714440640, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
   m_PrefabInstance: {fileID: 2408645691671992274}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8164404184645827131
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4094507991667084450}
+    m_Modifications:
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021509488193026278, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      propertyPath: m_Name
+      value: EnemyVisual
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9021509488193026278, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2881763288383015292}
+  m_SourcePrefab: {fileID: 100100000, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+--- !u!4 &519266223770900583 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8536863056708231772, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+  m_PrefabInstance: {fileID: 8164404184645827131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &900470669211943645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9021509488193026278, guid: aaeed9182f2222b42931f7917b760655, type: 3}
+  m_PrefabInstance: {fileID: 8164404184645827131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2881763288383015292
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900470669211943645}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 554c5e998b0bc5843b7a2c4a2b09ae58, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

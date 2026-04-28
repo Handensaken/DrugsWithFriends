@@ -14,7 +14,8 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         [SerializeField, Min(.1f)] public float maxRange;
 
         [Space, SerializeField, Range(0, 100)] public int percentageOfStart;
-        [Space, SerializeField, Range(0, 100)] public int percentageOfEnd;
+        [SerializeField, Range(0, 100)] public int percentageOfEnd;
+        [SerializeField] public AnimationClip attackAnimation;
 
         public void OnValidate()
         {
