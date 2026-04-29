@@ -24,31 +24,61 @@ namespace Scenes.Dev_Scenes.Patrik._4Animations
         private void HandleMovementValues()
         {
             Vector3 forward = agent.transform.forward;
-            Vector3 movementDirection = agent.velocity.normalized;
-            
-            float proportionalForwardToMovementDirection = Vector3.Dot(movementDirection, forward);
-            
             Vector3 right = agent.transform.right;
-            float rightOrLeftValue = Vector3.Dot(right, movementDirection);
+            Vector3 velocityDirection = agent.velocity.normalized;
+            
+            float dotVelocityAndForward = Vector3.Dot(velocityDirection, forward);
+            HandleReciprocateValue(dotVelocityAndForward);
+            HandleStrafingValue(dotVelocityAndForward, velocityDirection, right);
+        }
 
-            //Mapping to certain values: Most right = 1.0
-            if (rightOrLeftValue >= 0)
+        private void HandleReciprocateValue(float dotVelocityAndForward)
+        {
+            float reciprocateValue;
+            if (dotVelocityAndForward > 0)
             {
-                
+                reciprocateValue = MappingValue(dotVelocityAndForward);
             }
-            else //Mapping to certain values: Most left = 0.0
+            else if (dotVelocityAndForward < 0)
             {
-                
+                reciprocateValue = MappingValue(dotVelocityAndForward);
+            }
+            else
+            {
+                //Velocity is only right or left, neither back nor forward => 0% reciprocate
+                reciprocateValue = MappingValue(0);
             }
             
+            //Debug.Log(reciprocateValue);
+            animator.SetFloat(reciprocateParameterName, reciprocateValue);
+        }
+        
+        private void HandleStrafingValue(float dotVelocityAndForward, Vector3 velocityDirection, Vector3 right)
+        {
+            float leftOrRightDot = Vector3.Dot(velocityDirection, right);
+            float strafingValue;
+            if (leftOrRightDot > 0) //Right
+            {
+                strafingValue = MappingValue(dotVelocityAndForward);
+            }
+            else if (leftOrRightDot < 0) //Left
+            {
+                strafingValue = MappingValue(-dotVelocityAndForward);
+            }
+            else
+            {
+                //Velocity is only backward or forward, neither left nor right => 0% strafing
+                strafingValue = MappingValue(0);
+            }
             
-            Debug.Log($"Movement:Forward - Fram - {Vector3.Dot(Vector3.forward, Vector3.forward)}" +
-                      $"\n Back - {Vector3.Dot(Vector3.forward, -Vector3.forward)}" +
-                      $"\n Rätvinklig - {Vector3.Dot(Vector3.forward, Vector3.right)}"+
-                      $"\n Rätvinklig - {Vector3.Dot(Vector3.forward, Vector3.left)}" +
-                      $"\n Delvis - {Vector3.Dot(Vector3.forward, (Vector3.left+Vector3.forward+Vector3.forward).normalized)}"+
-                      $"\n Delvis - {Vector3.Dot(Vector3.forward, (Vector3.right+Vector3.forward).normalized)}");
-            //animator.SetFloat(reciprocateParameterName, agent.velocity.magnitude);
+            //Debug.Log(strafingValue);
+            animator.SetFloat(strafingParameterName, strafingValue);
+        }
+        
+        private float MappingValue(float value)
+        {
+            //TODO change 0.5 to parameters
+            return .5f + .5f * value;
         }
     }
 }
