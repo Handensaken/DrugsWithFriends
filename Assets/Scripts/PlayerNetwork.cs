@@ -392,7 +392,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        QueueAttack(AnimationParameters.LightAttack);
+        networkAnimator.SetTrigger("lightAttack");
     }
     
     private void HeavyAttack(InputAction.CallbackContext context)
@@ -405,7 +405,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!attacking)
         {
-            SetAnimatorBool(attack, true);
+            networkAnimator.SetTrigger(attack);
         }
         else
         {
@@ -417,70 +417,51 @@ public class PlayerNetwork : NetworkBehaviour
     {
         attackHitboxCollider.enabled = true;
         HandleRotation();
-        SetAnimatorBool(AnimationParameters.ExitCombo, false);
-        SetAnimatorBool(AnimationParameters.LightAttack, false);
-        SetAnimatorBool(AnimationParameters.HeavyAttack, false);
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
         currentChain++;
+        ServerOnAttackStart();
     }
     public void OnAttackEnd()
     {
         attackHitboxCollider.enabled = false;
- 
-        float timeSinceQueued = Time.time - attackQueueTimestamp;
-        bool withinBuffer = timeSinceQueued <= attackBufferTime;
-        bool chainNotMaxed = currentChain < maxChainLengthLight;
- 
-        if (attackQueue.Count > 0 && withinBuffer && chainNotMaxed)
-        {
-            string nextAttack = attackQueue.Peek();
-            int maxChain = nextAttack == AnimationParameters.LightAttack ? maxChainLengthLight : maxChainLengthHeavy;
-
-            if (currentChain < maxChain)
-            {
-                attackQueue.Dequeue();
-                float percentageOfBuffer = (timeSinceQueued / attackBufferTime) * 100f;
-                Debug.Log($"Attack queued valid! {timeSinceQueued:F2}s ago ({percentageOfBuffer:F0}% of buffer used)");
-                
-                SetAnimatorBool(AnimationParameters.ExitCombo, false);
-                SetAnimatorBool(nextAttack, true);
-                return;
-            }
-        }
- 
-        attackQueueTimestamp = -1f;
-        attackQueue.Clear();
         ExitCombo();
     }
 
     private void ExitCombo()
     {
         currentChain = 0;
-        SetAnimatorBool(AnimationParameters.ExitCombo,   true);
-        SetAnimatorBool(AnimationParameters.LightAttack, false);
-        SetAnimatorBool(AnimationParameters.HeavyAttack, false);
         attacking = false;
         actionReferences.move.action.Enable();
     }
     
-    private void SetAnimatorBool(string param, bool value)
-    {
-        animator.SetBool(param, value);
-        ServerSetAnimatorBool(param, value);
-    }
-    
     [ServerRpc]
-    private void ServerSetAnimatorBool(string param, bool value)
+    private void ServerOnAttackStart()
     {
-        ObserversSetAnimatorBool(param, value);
+        ObserversOnAttackStart();
     }
 
-    [ObserversRpc(ExcludeOwner = true)] // Owner already set it locally
-    private void ObserversSetAnimatorBool(string param, bool value)
+    [ObserversRpc(ExcludeOwner = true)]
+    private void ObserversOnAttackStart()
     {
-        animator.SetBool(param, value);
+        animator.SetBool(AnimationParameters.ExitCombo, false);
+        animator.SetBool(AnimationParameters.LightAttack, false);
+        animator.SetBool(AnimationParameters.HeavyAttack, false);
+    }
+
+    [ServerRpc]
+    private void ServerOnAttackEnd()
+    {
+        ObserversOnAttackEnd();
+    }
+
+    [ObserversRpc(ExcludeOwner = true)]
+    private void ObserversOnAttackEnd()
+    {
+        animator.SetBool(AnimationParameters.ExitCombo, true);
+        animator.SetBool(AnimationParameters.LightAttack, false);
+        animator.SetBool(AnimationParameters.HeavyAttack, false);
     }
 
     private void CheckEnemiesOnScreen()
