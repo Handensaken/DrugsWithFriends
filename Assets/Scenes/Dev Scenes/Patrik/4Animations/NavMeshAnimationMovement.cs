@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik._4Animations
 {
+    //TODO inkludera hastigheten också för att få en uppfattning av styrka
     //TODO utveckla med struct & generic types
     public class NavMeshAnimationMovement : MonoBehaviour
     {
@@ -34,44 +35,31 @@ namespace Scenes.Dev_Scenes.Patrik._4Animations
 
         private void HandleReciprocateValue(float dotVelocityAndForward)
         {
-            float reciprocateValue;
-            if (dotVelocityAndForward > 0)
-            {
-                reciprocateValue = MappingValue(dotVelocityAndForward);
-            }
-            else if (dotVelocityAndForward < 0)
-            {
-                reciprocateValue = MappingValue(dotVelocityAndForward);
-            }
-            else
-            {
-                //Velocity is only right or left, neither back nor forward => 0% reciprocate
-                reciprocateValue = MappingValue(0);
-            }
-            
-            //Debug.Log(reciprocateValue);
+            float reciprocateValue = MappingValue(dotVelocityAndForward);
             animator.SetFloat(reciprocateParameterName, reciprocateValue);
         }
         
         private void HandleStrafingValue(float dotVelocityAndForward, Vector3 velocityDirection, Vector3 right)
         {
-            float leftOrRightDot = Vector3.Dot(velocityDirection, right);
+            float absDotConvertedToStrafing = 1-Mathf.Abs(dotVelocityAndForward);
             float strafingValue;
+            float leftOrRightDot = Vector3.Dot(velocityDirection, right);
+            
             if (leftOrRightDot > 0) //Right
             {
-                strafingValue = MappingValue(dotVelocityAndForward);
+                strafingValue = absDotConvertedToStrafing;
             }
             else if (leftOrRightDot < 0) //Left
             {
-                strafingValue = MappingValue(-dotVelocityAndForward);
+                strafingValue = -absDotConvertedToStrafing;
             }
             else
             {
                 //Velocity is only backward or forward, neither left nor right => 0% strafing
-                strafingValue = MappingValue(0);
+                strafingValue = 0;
             }
-            
-            //Debug.Log(strafingValue);
+
+            strafingValue = MappingValue(strafingValue);
             animator.SetFloat(strafingParameterName, strafingValue);
         }
         
