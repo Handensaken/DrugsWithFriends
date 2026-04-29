@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using FishNet.Component.Animating;
 using FishNet.Object;
@@ -13,7 +14,7 @@ public class PlayerNetwork : NetworkBehaviour
     public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
-    private bool freeCamMovement, looking, attacking, isCameraLockedOn;
+    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -392,13 +393,27 @@ public class PlayerNetwork : NetworkBehaviour
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        networkAnimator.SetTrigger("lightAttack");
+        if (!attacking)
+        {
+            networkAnimator.SetTrigger("lightAttack");
+            attacking = true;
+        }
+        else
+        {
+            attackBuffered = true;
+        }
     }
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
         QueueAttack(AnimationParameters.HeavyAttack);
+    }
+    
+    IEnumerator AttackBufferCoroutine(string nextAttack)
+    {
+        yield return new WaitForSeconds(attackBufferTime);
+        networkAnimator.SetTrigger(nextAttack);
     }
     
     private void QueueAttack(string attack)
@@ -415,6 +430,8 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackStart()
     {
+        attackBuffered = false;
+        animator.SetBool(AnimationParameters.ExitCombo, false);
         attackHitboxCollider.enabled = true;
         HandleRotation();
         actionReferences.move.action.Disable();
@@ -425,6 +442,11 @@ public class PlayerNetwork : NetworkBehaviour
     }
     public void OnAttackEnd()
     {
+        if (attackBuffered)
+        {
+            networkAnimator.SetTrigger("lightAttack");
+            return;
+        }
         attackHitboxCollider.enabled = false;
         ExitCombo();
     }
@@ -434,6 +456,7 @@ public class PlayerNetwork : NetworkBehaviour
         currentChain = 0;
         attacking = false;
         actionReferences.move.action.Enable();
+        animator.SetBool(AnimationParameters.ExitCombo, true);
     }
     
     [ServerRpc]
