@@ -59,6 +59,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private SphereCollider attackRangeCollider;
     [SerializeField] private BoxCollider attackHitboxCollider;
     [SerializeField] private SelectionHandler selectionHandler;
+    private string queuedAttack = "";
 
     protected override void OnValidate()
     {
@@ -401,31 +402,24 @@ public class PlayerNetwork : NetworkBehaviour
         else
         {
             attackBuffered = true;
+            attackQueueTimestamp = Time.time;
+            queuedAttack = "lightAttack";
         }
     }
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        QueueAttack(AnimationParameters.HeavyAttack);
-    }
-    
-    IEnumerator AttackBufferCoroutine(string nextAttack)
-    {
-        yield return new WaitForSeconds(attackBufferTime);
-        networkAnimator.SetTrigger(nextAttack);
-    }
-    
-    private void QueueAttack(string attack)
-    {
         if (!attacking)
         {
-            networkAnimator.SetTrigger(attack);
+            networkAnimator.SetTrigger("heavyAttack");
+            attacking = true;
         }
         else
         {
+            attackBuffered = true;
             attackQueueTimestamp = Time.time;
-            attackQueue.Enqueue(attack);
+            queuedAttack = "heavyAttack";
         }
     }
     public void OnAttackStart()
@@ -433,16 +427,15 @@ public class PlayerNetwork : NetworkBehaviour
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
         attackHitboxCollider.enabled = true;
-        HandleRotation();
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
         currentChain++;
-        ServerOnAttackStart();
     }
     public void OnAttackEnd()
     {
-        if (attackBuffered)
+        float timeSinceQueued = Time.time - attackQueueTimestamp;
+        if (attackBuffered && timeSinceQueued <= attackBufferTime && currentChain < 3)
         {
             networkAnimator.SetTrigger("lightAttack");
             return;
@@ -457,34 +450,6 @@ public class PlayerNetwork : NetworkBehaviour
         attacking = false;
         actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
-    }
-    
-    [ServerRpc]
-    private void ServerOnAttackStart()
-    {
-        ObserversOnAttackStart();
-    }
-
-    [ObserversRpc(ExcludeOwner = true)]
-    private void ObserversOnAttackStart()
-    {
-        animator.SetBool(AnimationParameters.ExitCombo, false);
-        animator.SetBool(AnimationParameters.LightAttack, false);
-        animator.SetBool(AnimationParameters.HeavyAttack, false);
-    }
-
-    [ServerRpc]
-    private void ServerOnAttackEnd()
-    {
-        ObserversOnAttackEnd();
-    }
-
-    [ObserversRpc(ExcludeOwner = true)]
-    private void ObserversOnAttackEnd()
-    {
-        animator.SetBool(AnimationParameters.ExitCombo, true);
-        animator.SetBool(AnimationParameters.LightAttack, false);
-        animator.SetBool(AnimationParameters.HeavyAttack, false);
     }
 
     private void CheckEnemiesOnScreen()
