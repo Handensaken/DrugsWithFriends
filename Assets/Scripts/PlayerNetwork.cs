@@ -31,8 +31,8 @@ public class PlayerNetwork : NetworkBehaviour
     
     private static class AnimationParameters
     {
-        public const string LightAttack = "LightAttackBool";
-        public const string HeavyAttack = "HeavyAttackBool";
+        public const string LightAttack = "lightAttack";
+        public const string HeavyAttack = "heavyAttack";
         public const string ExitCombo = "ExitCombo";
         public const string Running = "Running";
         public const string TurnAround = "TurnAround";
@@ -396,14 +396,14 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (!attacking)
         {
-            networkAnimator.SetTrigger("lightAttack");
+            networkAnimator.SetTrigger(AnimationParameters.LightAttack);
             attacking = true;
         }
         else
         {
             attackBuffered = true;
             attackQueueTimestamp = Time.time;
-            queuedAttack = "lightAttack";
+            queuedAttack = AnimationParameters.LightAttack;
         }
     }
     
@@ -412,14 +412,14 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
         if (!attacking)
         {
-            networkAnimator.SetTrigger("heavyAttack");
+            networkAnimator.SetTrigger(AnimationParameters.HeavyAttack);
             attacking = true;
         }
         else
         {
             attackBuffered = true;
             attackQueueTimestamp = Time.time;
-            queuedAttack = "heavyAttack";
+            queuedAttack = AnimationParameters.HeavyAttack;
         }
     }
     public void OnAttackStart()
@@ -437,7 +437,7 @@ public class PlayerNetwork : NetworkBehaviour
         float timeSinceQueued = Time.time - attackQueueTimestamp;
         if (attackBuffered && timeSinceQueued <= attackBufferTime && currentChain < 3)
         {
-            networkAnimator.SetTrigger("lightAttack");
+            networkAnimator.SetTrigger(queuedAttack);
             return;
         }
         attackHitboxCollider.enabled = false;
