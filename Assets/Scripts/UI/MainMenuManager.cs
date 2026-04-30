@@ -52,12 +52,12 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log("STRARTING LOBBY");
         string[] scenesToClose = { "Main Menu" };
-        BootstrapNetworkManager.ChangeNetworkScene("HannesScene", scenesToClose);
+        BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
     }
 
     public static void JoinStartedLobby()
     {
         string[] scenesToClose = { "Main Menu" };
-        BootstrapNetworkManager.ChangeNetworkScene("HannesScene", scenesToClose);
+        BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
     }
 }
