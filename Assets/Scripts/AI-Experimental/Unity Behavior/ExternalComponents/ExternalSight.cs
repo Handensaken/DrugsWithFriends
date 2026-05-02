@@ -9,6 +9,8 @@ using UnityEngine;
 namespace AI_Experimental.Unity_Behavior.ExternalComponents
 {
     //TODO fix Utility AI
+    //Performance Client send if they seem to be in sight while server confirms
+    //Declare only for server 4 now
     public class ExternalSight : NetworkBehaviour
     {
         [SerializeField] public Transform eyes;
@@ -30,6 +32,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
         {
             base.OnStartClient();
             if (!IsServerInitialized) enabled = false;
+            else enabled = true;
         }
 
         [Server]

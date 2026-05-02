@@ -18,6 +18,13 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior
                          component.enabled = false;
                     }
                }
+               else
+               {
+                    foreach (var component in components)
+                    {
+                         component.enabled = true;
+                    }
+               }
                
           }
      }
