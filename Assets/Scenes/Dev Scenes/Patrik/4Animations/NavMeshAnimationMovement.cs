@@ -10,8 +10,8 @@ namespace Scenes.Dev_Scenes.Patrik._4Animations
     //TODO utveckla med struct & generic types
     public class NavMeshAnimationMovement : MonoBehaviour
     {
-        [SerializeField, Tooltip("Backward = 0.0, None = 0.5, Forward = 1.0")] private string reciprocateParameterName;
-        [SerializeField, Tooltip("Left = 0.0, None = 0.5, Right = 1.0")] private string strafingParameterName;
+        [SerializeField] private Parameter reciprocateParameter;
+        [SerializeField] private Parameter strafingParameter;
         
         [Space,Header("References"),SerializeField] private NavMeshAgent agent;
         [SerializeField] private Animator animator;
@@ -35,8 +35,8 @@ namespace Scenes.Dev_Scenes.Patrik._4Animations
 
         private void HandleReciprocateValue(float dotVelocityAndForward)
         {
-            float reciprocateValue = MappingValue(dotVelocityAndForward);
-            animator.SetFloat(reciprocateParameterName, reciprocateValue);
+            float reciprocateValue = MappingValue(dotVelocityAndForward, reciprocateParameter);
+            animator.SetFloat(reciprocateParameter.animationParameterName, reciprocateValue);
         }
         
         private void HandleStrafingValue(float dotVelocityAndForward, Vector3 velocityDirection, Vector3 right)
@@ -59,14 +59,21 @@ namespace Scenes.Dev_Scenes.Patrik._4Animations
                 strafingValue = 0;
             }
 
-            strafingValue = MappingValue(strafingValue);
-            animator.SetFloat(strafingParameterName, strafingValue);
+            strafingValue = MappingValue(strafingValue, strafingParameter);
+            animator.SetFloat(strafingParameter.animationParameterName, strafingValue);
         }
         
-        private float MappingValue(float value)
+        private float MappingValue(float value, Parameter parameter)
         {
-            //TODO change 0.5 to parameters
-            return .5f + .5f * value;
+            return parameter.baseValue + parameter.maxValueChange * value;
+        }
+        
+        [Serializable]
+        private struct Parameter
+        {
+            public string animationParameterName;
+            public float baseValue;
+            public float maxValueChange;
         }
     }
 }

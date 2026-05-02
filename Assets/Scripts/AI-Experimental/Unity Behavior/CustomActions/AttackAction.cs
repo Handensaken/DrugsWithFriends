@@ -15,6 +15,7 @@ public partial class AttackAction : Action
     [SerializeReference] public BlackboardVariable<GameObject> collider;
     
     [SerializeReference] public BlackboardVariable<EnemyData> enemyData;
+    //TODO handle if less points then or more then 2
     [SerializeReference] public BlackboardVariable<List<GameObject>> attackPoints;
 
     //Markers for when certain event should happen
@@ -59,8 +60,10 @@ public partial class AttackAction : Action
 
         if (currentFrame >= _startColliderFrame)
         {
-            float t = (float)(currentFrame - _startColliderFrame) / (_endColliderFrame - _startColliderFrame);
-            Vector3 newPos = Vector3.Lerp(attackPoints.Value[0].transform.position,attackPoints.Value[1].transform.position,t);
+            float time = (float)(currentFrame - _startColliderFrame) / (_endColliderFrame - _startColliderFrame);
+            Vector3 startPoint = attackPoints.Value[0].transform.position;
+            Vector3 endPoint = attackPoints.Value[1].transform.position;
+            Vector3 newPos = Vector3.Lerp(startPoint,endPoint,time);
             collider.Value.transform.position = newPos;
         }
         

@@ -21,10 +21,6 @@ public partial class ChaseAction : Action
     private NavMeshAgent _agent;
     private bool _latestCheck4CloseEnough = false;
     
-    //todo -
-    //Kontrollera om distansen är tillräcklig för fortsatt körning
-    //Stoppingdistance
-    
     protected override Status OnStart()
     {
         //Validate
@@ -66,7 +62,7 @@ public partial class ChaseAction : Action
         _agent = null;
     }
 
-    private bool CloseEnough() //TODO fix parameter for "number"
+    private bool CloseEnough()
     {
         if (_latestCheck4CloseEnough) 
         {
@@ -74,7 +70,7 @@ public partial class ChaseAction : Action
             return false;
         }
         
-        bool result = _agent.remainingDistance <= 0.2f;
+        bool result = _agent.remainingDistance <= dataSO.Value.attackPackage.maxRange;
         _latestCheck4CloseEnough = result;
         return result;
     }
@@ -87,7 +83,7 @@ public partial class ChaseAction : Action
         
         _agent.transform.forward = dirToTarget;
         
-        Vector3 targetPosition = Target.Value.position - dirToTarget * 2f; //TODO variable
+        Vector3 targetPosition = Target.Value.position - dirToTarget * dataSO.Value.attackPackage.minRange;
         
         _agent.SetDestination(targetPosition); 
     }

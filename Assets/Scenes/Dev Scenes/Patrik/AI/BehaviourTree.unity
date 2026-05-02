@@ -997,6 +997,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 166976938981996354, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: attackRange._typeOfVisualization
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1198973978086477534, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Radius
       value: 0.5
@@ -1030,11 +1034,47 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: strafingParameterName
       value: Strafing
       objectReference: {fileID: 0}
     - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: reciprocateParameterName
+      value: Forward
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: strafingParameter.baseValue
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: reciprocateParameter.baseValue
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: strafingParameter.parameterName
+      value: Strafing
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: strafingParameter.maxValueChange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: reciprocateParameter.parameterName
+      value: Forward
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: reciprocateParameter.maxValueChange
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: strafingParameter.animationParameterName
+      value: Strafing
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913929410699709528, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: reciprocateParameter.animationParameterName
       value: Forward
       objectReference: {fileID: 0}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
