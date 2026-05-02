@@ -158,7 +158,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 55037834}
   _networkObjectCache: {fileID: 0}
-  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
   networkTrigger: {fileID: 55037833}
   resetDelay: 2
 --- !u!114 &55037831
@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
   <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 0
+  WasActiveDuringEdit: 1
   WasActiveDuringEdit_Set1: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
@@ -1964,7 +1964,7 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 1298185266}
   _networkObjectCache: {fileID: 0}
-  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
   networkTrigger: {fileID: 1298185265}
   resetDelay: 2
 --- !u!1 &1428374135
