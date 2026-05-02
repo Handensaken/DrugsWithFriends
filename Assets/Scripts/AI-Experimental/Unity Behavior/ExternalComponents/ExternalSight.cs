@@ -5,7 +5,6 @@ using FishNet.Object;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Unity.Behavior;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AI_Experimental.Unity_Behavior.ExternalComponents
 {

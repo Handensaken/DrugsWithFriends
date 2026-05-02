@@ -10,7 +10,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      //TODO Have blackboard in use for controlling health 
      public class Damage : NetworkBehaviour
      {
-          [FormerlySerializedAs("healthSo")] public HealthData healthData;
+          [SerializeField] protected HealthRuleData healthRuleData;
           [SerializeField] protected NetworkTrigger networkTrigger;
           private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
           
@@ -39,7 +39,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           public override void OnStartClient()
           {
                base.OnStartClient();
-               healthData.UpdateHealth(new HealthPackage()
+               healthRuleData.UpdateHealth(new HealthPackage()
                {
                     HealthAmount = _healthCounter.Value,
                     BatchAmount = 2
@@ -61,7 +61,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                if (asServer) return;
                Debug.Log("Only clients");
                
-               healthData.UpdateHealth(new HealthPackage()
+               healthRuleData.UpdateHealth(new HealthPackage()
                {
                     HealthAmount = _healthCounter.Value,
                     BatchAmount = 2

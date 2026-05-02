@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.AI.Extra
 {
@@ -14,8 +15,9 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         [SerializeField] public ChasePackage chasePackage;
         [SerializeField] public AttackPackage attackPackage;
         
+        [FormerlySerializedAs("healthData")]
         [Space, Header("Refs")]
-        [SerializeField] public HealthData healthData;
+        [SerializeField] public HealthRuleData healthRuleData;
 
         private void OnValidate()
         {

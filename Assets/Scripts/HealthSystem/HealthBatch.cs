@@ -8,7 +8,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [SerializeField] private RectTransform batchRect;
         [SerializeField] private RectTransform healthRect;
 
-        [FormerlySerializedAs("healthSo")] [Space] [SerializeField] private HealthData healthData;
+        [FormerlySerializedAs("healthData")] [FormerlySerializedAs("healthSo")] [Space] [SerializeField] private HealthRuleData healthRuleData;
 
         public RectTransform BatchRect => batchRect;
         public RectTransform HealthRect => healthRect;

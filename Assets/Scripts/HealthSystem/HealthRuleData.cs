@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
     [CreateAssetMenu(menuName = "Health System/HealthSO")]
-    public class HealthData : ScriptableObject
+    public class HealthRuleData : ScriptableObject
     {
         public UnityAction<HealthPackage> UpdateHealth = delegate(HealthPackage healthPackage) {};
         

@@ -128,7 +128,6 @@ GameObject:
   - component: {fileID: -1671740389122586944}
   - component: {fileID: -5791914153861376787}
   - component: {fileID: -4273187464546556407}
-  - component: {fileID: 2100054845111570590}
   m_Layer: 0
   m_Name: FishPlayer
   m_TagString: Untagged
@@ -200,7 +199,7 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: -1671740389122586944}
   - {fileID: -4273187464546556407}
-  - {fileID: 2100054845111570590}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -211,7 +210,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584243159492172815
+  _initializedTimestamp: -8584238865612245117
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -227,7 +226,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 9
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 14853331766861771272
   SceneId: 0
@@ -328,21 +327,3 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1059897056725544558}
   _networkObjectCache: {fileID: 1059897056725544558}
   MoveSpeed: 5
---- !u!114 &2100054845111570590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8452564711447574715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c166bd673eedee49aaa8a98d9ce899a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 1059897056725544558}
-  _networkObjectCache: {fileID: 1059897056725544558}
-  targetCollider: {fileID: 8401041456882689394}
-  meshRenderer: {fileID: 1246121084118179031}
-  currentTime: 0

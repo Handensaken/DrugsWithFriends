@@ -14,17 +14,18 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [SerializeField] private GameObject healthBatch;
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
         
+        [FormerlySerializedAs("healthData")]
         [Space]
-        [SerializeField] private HealthData healthData;
+        [SerializeField] private HealthRuleData healthRuleData;
 
         private void OnEnable()
         {
-            healthData.UpdateHealth += HandleChanges;
+            healthRuleData.UpdateHealth += HandleChanges;
         }
 
         private void OnDisable()
         {
-            healthData.UpdateHealth -= HandleChanges;
+            healthRuleData.UpdateHealth -= HandleChanges;
         }
 
         private void HandleChanges(HealthPackage healthPackage)
@@ -45,9 +46,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         {
             RemoveAllMarkers();
             
-            if (currentBatchAmount > healthData.MaxAmountBatches)
+            if (currentBatchAmount > healthRuleData.MaxAmountBatches)
             {
-                currentBatchAmount = healthData.MaxAmountBatches;
+                currentBatchAmount = healthRuleData.MaxAmountBatches;
                 Debug.LogWarning("UpdateHealthBatches exceeded the limited-value but was corrected");
             }
             
@@ -82,14 +83,14 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             int currentHealth = healthPackage.HealthAmount;
             int currentBatchValue = healthPackage.BatchAmount;
             
-            int maxHealth = healthData.HealthPerBatch*currentBatchValue;
+            int maxHealth = healthRuleData.HealthPerBatch*currentBatchValue;
             if (currentHealth > maxHealth)
             {
                 currentHealth = maxHealth;
                 Debug.LogWarning("UpdateHealth exceeded the limited-value but was corrected to: "+maxHealth);
             }
 
-            int limitIndex4FullHealth = currentHealth / healthData.HealthPerBatch;
+            int limitIndex4FullHealth = currentHealth / healthRuleData.HealthPerBatch;
             float height = healthBarUI.rect.height;
             for (int i = 0; i < _healthBatches.Count; i++)
             {
@@ -99,7 +100,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 }
                 else if (i == limitIndex4FullHealth)
                 {
-                    float per = (currentHealth%healthData.HealthPerBatch) / (float)healthData.HealthPerBatch;
+                    float per = (currentHealth%healthRuleData.HealthPerBatch) / (float)healthRuleData.HealthPerBatch;
                     float healthWidth = batchWidth * per;
                     _healthBatches[i].HealthRect.sizeDelta = new Vector2(healthWidth,height);
                 }
