@@ -48,9 +48,18 @@ public partial class PatrolPointsAction : Action
             _isPathDone = false;
         }
         
-        return Status.Success;
+        return Status.Running;
     }
-    protected override void OnEnd() {}
+    protected override void OnEnd()
+    {
+        if (_agent != null)
+        {
+            _agent.velocity = Vector3.zero;
+            _agent.ResetPath();
+        }
+
+        _agent = null;
+    }
     
     private void Initialize()
     {

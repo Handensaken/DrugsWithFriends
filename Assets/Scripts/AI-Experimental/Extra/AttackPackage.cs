@@ -12,7 +12,8 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         
         [Space,Header("AttackRange")]
         [SerializeField, Min(.01f), Tooltip("Mainly used for targeted range to attack from")] public float minRange;
-        [SerializeField, Min(.01f), Tooltip("Mainly used for actual attack-range-condition")] public float maxRange;
+        [SerializeField, Min(.01f), Tooltip("Mainly used for targeted range to attack from")] public float rangeTolerance;
+        //[SerializeField, Min(.01f), Tooltip("Mainly used for actual attack-range-condition")] public float maxRange;
 
         [Space, SerializeField, Range(0, 100)] public uint frameOfStart;
         [SerializeField, Range(0, 100)] public uint frameOfEnd;

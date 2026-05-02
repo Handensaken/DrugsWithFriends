@@ -19,7 +19,7 @@ public partial class ChaseAction : Action
     [SerializeReference] public BlackboardVariable<Transform> eyes;
 
     private NavMeshAgent _agent;
-    private bool _latestCheck4CloseEnough = false;
+    private bool _latestCheck4CloseEnough = true;
     
     protected override Status OnStart()
     {
@@ -42,7 +42,7 @@ public partial class ChaseAction : Action
             return Status.Failure;
         }
         
-        if (CloseEnough())
+        if (!_agent.pathPending && CloseEnough())
         {
             return Status.Success;
         }
@@ -56,6 +56,7 @@ public partial class ChaseAction : Action
     {
         if (_agent != null)
         {
+            _agent.velocity = Vector3.zero;
             _agent.ResetPath();
         }
 
@@ -70,8 +71,9 @@ public partial class ChaseAction : Action
             return false;
         }
         
-        bool result = _agent.remainingDistance <= dataSO.Value.attackPackage.maxRange;
+        bool result = _agent.remainingDistance <= dataSO.Value.attackPackage.rangeTolerance;
         _latestCheck4CloseEnough = result;
+        Debug.Log("remainingDistance: "+_agent.remainingDistance+" - maxRange: "+dataSO.Value.attackPackage.rangeTolerance);
         return result;
     }
 
@@ -85,6 +87,8 @@ public partial class ChaseAction : Action
         
         Vector3 targetPosition = Target.Value.position - dirToTarget * dataSO.Value.attackPackage.minRange;
         
+        Debug.Log("targetPos: "+Target.Value.position+" - calculatedPos: "+targetPosition+" - AgentPos: "+eyes.Value.position);
+        Vector3.Distance(targetPosition,eyes.Value.position);
         _agent.SetDestination(targetPosition); 
     }
     

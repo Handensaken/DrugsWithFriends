@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 154389238077587808, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: healthRuleData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
     - target: {fileID: 2394859627615464011, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -16,9 +20,13 @@ PrefabInstance:
       propertyPath: healthData
       value: 
       objectReference: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+    - target: {fileID: 2846255547510937208, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: healthRuleData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
     - target: {fileID: 5156850383231471644, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_Name
-      value: HealthCanvas Variant
+      value: EnemyHealthCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 7733156740362327507, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_RenderMode
@@ -116,6 +124,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8820858243750575749, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8980709914479145577, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -149,7 +161,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3546031069147052364, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
