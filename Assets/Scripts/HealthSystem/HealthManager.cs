@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using FishNet.Transporting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,22 +14,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [SerializeField]private int simulateHealthChange1;
           [SerializeField]private int simulateBatchChange1;
           
-          [FormerlySerializedAs("healthData")] [FormerlySerializedAs("healthSo")] [SerializeField] private HealthRuleData healthRuleData;
+          [SerializeField] private HealthRuleData healthRuleData;
           [SerializeField] private bool simulateChange;
 
-          private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>()
-          {
-               {0,new HealthPackage()
-               {
-                    HealthAmount = 10,
-                    BatchAmount = 2
-               }},
-               {1,new HealthPackage()
-               {
-                    HealthAmount = 5,
-                    BatchAmount = 1
-               }},
-          };
+          private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>();
 
           public void OnEnable()
           {
@@ -39,22 +28,60 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                _clientsHealth.OnChange -= SetValues;
           }
+          
+          public override void OnStartServer()
+          {
+               base.OnStartServer();
+               //ServerManager.OnRemoteConnectionState += HandleClientChange;
+          }
 
           public override void OnStartClient()
           {
                base.OnStartClient();
-
-               healthRuleData.UpdateHealth(_clientsHealth[ClientManager.Connection.ClientId]);
-               Debug.Log("Update on spawn");
+               RequestHealth(ClientManager.Connection.ClientId);
           }
 
+          private void HandleClientChange(NetworkConnection networkConnection, RemoteConnectionStateArgs remoteConnectionStateArgs)
+          {
+               Debug.Log(networkConnection.ClientId);
+               int clientID = networkConnection.ClientId;
+               if (remoteConnectionStateArgs.ConnectionState == RemoteConnectionState.Started && !_clientsHealth.ContainsKey(clientID))
+               {
+                    HealthPackage healthPackage = new HealthPackage()
+                    {
+                         HealthAmount = 10,
+                         BatchAmount = 2
+                    };
+                    _clientsHealth[clientID] = healthPackage;
+               }
+               else if (remoteConnectionStateArgs.ConnectionState == RemoteConnectionState.Stopped)
+               {
+                    _clientsHealth.Remove(0);
+               }
+          }
+          
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
           {
                if (!asServer) return;
-               foreach (var client in ServerManager.Clients)
+
+               switch (op)
                {
-                    SendHealth(client.Value, _clientsHealth[client.Value.ClientId]);
+                    case SyncDictionaryOperation.Add:
+                    {
+                         foreach (var client in ServerManager.Clients)
+                         {
+                              SendHealth(client.Value, _clientsHealth[client.Value.ClientId]);
+                         }
+                         break;
+                    }
+                    case SyncDictionaryOperation.Remove:
+                    {
+                         break;
+                    }
+                    default:
+                         break;
                }
+               
           }
           private void Update()
           {
@@ -65,6 +92,17 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                }
           }
 
+          [ServerRpc(RequireOwnership = false)]
+          private void RequestHealth(int clientId)
+          {
+               HealthPackage healthPackage = new HealthPackage()
+               {
+                    HealthAmount = 10,
+                    BatchAmount = 2
+               };
+               _clientsHealth[clientId] = healthPackage;
+          }
+          
           [ServerRpc(RequireOwnership = false)]
           private void ChangeValues()
           {

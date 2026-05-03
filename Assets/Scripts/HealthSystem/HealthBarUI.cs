@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,8 +11,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
     /// </summary>
     public class HealthBarUI : MonoBehaviour
     {
+        [SerializeField] public int ID;
         [SerializeField] private RectTransform healthBarUI;
-        [SerializeField] private GameObject healthBatch;
+        //[SerializeField] private TextMeshPro clientName;
+        
+        [Space,SerializeField] private GameObject healthBatch;
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
         
         [FormerlySerializedAs("healthData")]

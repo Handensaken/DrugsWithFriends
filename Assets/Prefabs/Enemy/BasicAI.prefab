@@ -72,7 +72,7 @@ MonoBehaviour:
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 5599575656561588736}
   _networkObjectCache: {fileID: 5599575656561588736}
-  healthData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  healthRuleData: {fileID: 0}
   networkTrigger: {fileID: 8513608233697118439}
 --- !u!114 &8513608233697118439
 MonoBehaviour:
@@ -463,7 +463,8 @@ MonoBehaviour:
   - {fileID: 5865814228308469736}
   - {fileID: 8513608233697118439}
   InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
+  InitializedNestedNetworkObjects:
+  - {fileID: 1139840281718044452}
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
@@ -472,7 +473,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584242377972093388
+  _initializedTimestamp: -8584237797043820142
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -488,7 +489,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 10
+  <PrefabId>k__BackingField: 13
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15029000048171213655
   SceneId: 0
@@ -617,6 +618,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4094507991667084450}
     m_Modifications:
+    - target: {fileID: 573046036346337587, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 573046036346337587, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
+      objectReference: {fileID: -3010417698504750523}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: <IsNested>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[0]'
+      value: 
+      objectReference: {fileID: -3010417698504750523}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
+      objectReference: {fileID: 121713909896038513}
+    - target: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      propertyPath: SerializedTransformProperties.Position.y
+      value: 2.122
+      objectReference: {fileID: 0}
     - target: {fileID: 5394137536691435912, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
       propertyPath: m_Name
       value: HealthCanvas
@@ -708,13 +745,47 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5394137536691435912, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3010417698504750523}
   m_SourcePrefab: {fileID: 100100000, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+--- !u!114 &1139840281718044452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3367774209175347446, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+  m_PrefabInstance: {fileID: 2408645691671992274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7761648276796190298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!224 &5140252343927587346 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7365885935714440640, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
   m_PrefabInstance: {fileID: 2408645691671992274}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7761648276796190298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5394137536691435912, guid: 99b0bc606dc9de545813f1fdc09d7549, type: 3}
+  m_PrefabInstance: {fileID: 2408645691671992274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3010417698504750523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7761648276796190298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.EmptyNetworkBehaviour
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 1139840281718044452}
+  _networkObjectCache: {fileID: 1139840281718044452}
 --- !u!1001 &8164404184645827131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -826,8 +897,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0245a6858cdbf72409b242370dee5463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Scenes.Dev_Scenes.Patrik._4Animations.NavMeshAnimationMovement
+  reciprocateParameter:
+    animationParameterName: 
+    baseValue: 0
+    maxValueChange: 0
+  strafingParameter:
+    animationParameterName: 
+    baseValue: 0
+    maxValueChange: 0
   agent: {fileID: 4868335839143244014}
   animator: {fileID: 2881763288383015292}
+  enemyData: {fileID: 0}
 --- !u!4 &5861539463263161060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2311918151672721631, guid: aaeed9182f2222b42931f7917b760655, type: 3}
