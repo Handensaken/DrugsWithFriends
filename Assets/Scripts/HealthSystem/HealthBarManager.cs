@@ -96,24 +96,26 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 
           private void RemoveHealthBars(int clientID)
           {
-              foreach (HealthBarUI healthBar in healthBarUis)
+              for (int i = 0; i < healthBarUis.Count; i++)
               {
-                  if (healthBar.ID == clientID)
+                  HealthBarUI currentHealthBar = healthBarUis[^(i+1)];
+                  if (currentHealthBar.ID == clientID)
                   {
-                      healthBarUis.Remove(healthBar);
-                      Destroy(healthBar.gameObject);
+                      healthBarUis.Remove(currentHealthBar);
+                      Destroy(currentHealthBar.gameObject);
+                      return;
                   }
               }
           }
           
-          [ObserversRpc(BufferLast = true)]
+          [ObserversRpc]
           private void HandleAddingBar(int clientID)
           {
               CreateBars(new []{clientID});
               MoveHealthBars();
           }
           
-          [ObserversRpc(BufferLast = true)]
+          [ObserversRpc]
           private void HandleRemovalOfBar(int clientID)
           {
               RemoveHealthBars(clientID);
