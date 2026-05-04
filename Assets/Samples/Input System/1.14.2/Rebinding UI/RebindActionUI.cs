@@ -262,7 +262,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 m_RebindOperation?.Dispose();
                 m_RebindOperation = null;
 
-                action.actionMap.Enable();
+                //action.actionMap.Enable(); // If this is enabled then you would be able to walk while paused after
                 m_UIInputActionMap?.Enable();
             }
 
