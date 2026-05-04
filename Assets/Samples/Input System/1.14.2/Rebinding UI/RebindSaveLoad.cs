@@ -9,7 +9,10 @@ public class RebindSaveLoad : MonoBehaviour
     {
         var rebinds = PlayerPrefs.GetString("rebinds");
         if (!string.IsNullOrEmpty(rebinds))
+        {
+            Debug.Log("Loading rebinds: " + rebinds);
             actions.LoadBindingOverridesFromJson(rebinds);
+        }
     }
 
     public void OnDisable()
