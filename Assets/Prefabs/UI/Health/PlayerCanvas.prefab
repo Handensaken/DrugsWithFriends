@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2394859627615464011}
   - component: {fileID: 7552109524542628638}
   - component: {fileID: 3798075602117044919}
+  - component: {fileID: 154498725950627151}
   m_Layer: 5
   m_Name: PlayerCanvas
   m_TagString: Untagged
@@ -116,8 +117,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.EmptyNetworkBehaviour
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
+  _addedNetworkObject: {fileID: 154498725950627151}
   _networkObjectCache: {fileID: 0}
+--- !u!114 &154498725950627151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156850383231471644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _localReconcileCorrectionType: 2
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 8427667831022364929
+  SceneId: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1001 &1620158137677773191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,31 +184,15 @@ PrefabInstance:
     - target: {fileID: 732391026409357108, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
       propertyPath: _addedNetworkObject
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 732391026409357108, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
-      propertyPath: _networkObjectCache
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 732391026409357108, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
-      propertyPath: _componentIndexCache
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1876497238910733489, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
+      objectReference: {fileID: 154498725950627151}
+    - target: {fileID: 2072545265518979360, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
       propertyPath: WasActiveDuringEdit
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2560093495914073618, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
       propertyPath: _addedNetworkObject
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2560093495914073618, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
-      propertyPath: _networkObjectCache
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2560093495914073618, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
-      propertyPath: _componentIndexCache
-      value: 2
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 154498725950627151}
     - target: {fileID: 3757922011888822656, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
       propertyPath: m_Name
       value: Health
@@ -238,8 +277,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1876497238910733489, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
