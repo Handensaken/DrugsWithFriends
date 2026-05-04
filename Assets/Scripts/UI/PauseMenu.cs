@@ -22,6 +22,7 @@ public class PauseMenu : MonoBehaviour
         unpause.action.performed += OnUnpause;
         cancel.action.performed += TryCancel;
         pause.action.performed -= OnPause;
+        playerInput.SwitchCurrentActionMap("UI");
     }
     
     private void OnDisable()
@@ -43,6 +44,7 @@ public class PauseMenu : MonoBehaviour
         unpause.action.performed -= OnUnpause;
         cancel.action.performed -= TryCancel;
         pause.action.performed += OnPause;
+        playerInput.SwitchCurrentActionMap("Player");
     }
 
     private void Start()
@@ -54,8 +56,6 @@ public class PauseMenu : MonoBehaviour
 
     public void OnPause(InputAction.CallbackContext context)
     {
-        playerInput.SwitchCurrentActionMap("UI");
-        Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
         pauseMenu.SetActive(true);
         
         if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
@@ -72,7 +72,6 @@ public class PauseMenu : MonoBehaviour
 
     public void OnUnpause(InputAction.CallbackContext context)
     {
-        playerInput.SwitchCurrentActionMap("Player");
         Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
         
         foreach (var menu in menus)
