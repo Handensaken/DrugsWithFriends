@@ -39,7 +39,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           public override void OnStartClient()
           {
                base.OnStartClient();
-               healthRuleData.UpdateHealth(new HealthPackage()
+               healthRuleData.UpdateHealth(ClientManager.Connection.ClientId,new HealthPackage()
                {
                     HealthAmount = _healthCounter.Value,
                     BatchAmount = 2
@@ -61,7 +61,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                if (asServer) return;
                Debug.Log("Only clients");
                
-               healthRuleData.UpdateHealth(new HealthPackage()
+               healthRuleData.UpdateHealth(ClientManager.Connection.ClientId,new HealthPackage()
                {
                     HealthAmount = _healthCounter.Value,
                     BatchAmount = 2
