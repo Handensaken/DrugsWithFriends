@@ -24,6 +24,7 @@ public partial class TryGetTargetAction : Action
 
         if (AllTargets.Value.Count <= 0)
         {
+            Debug.Log("No targets found - Start");
             return Status.Failure;
         }
 
@@ -54,7 +55,7 @@ public partial class TryGetTargetAction : Action
 
         if (path.status == NavMeshPathStatus.PathComplete)
         {
-            Debug.Log(_agent.remainingDistance);
+            //Debug.Log(_agent.remainingDistance);
         }
 
         return 0;

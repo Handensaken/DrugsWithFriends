@@ -73,7 +73,6 @@ public partial class ChaseAction : Action
         
         bool result = _agent.remainingDistance <= dataSO.Value.attackPackage.rangeTolerance;
         _latestCheck4CloseEnough = result;
-        Debug.Log("remainingDistance: "+_agent.remainingDistance+" - maxRange: "+dataSO.Value.attackPackage.rangeTolerance);
         return result;
     }
 
@@ -87,7 +86,6 @@ public partial class ChaseAction : Action
         
         Vector3 targetPosition = Target.Value.position - dirToTarget * dataSO.Value.attackPackage.minRange;
         
-        Debug.Log("targetPos: "+Target.Value.position+" - calculatedPos: "+targetPosition+" - AgentPos: "+eyes.Value.position);
         Vector3.Distance(targetPosition,eyes.Value.position);
         _agent.SetDestination(targetPosition); 
     }
