@@ -43,11 +43,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
                     }  
                     result.Add(netConn.FirstObject.gameObject);
                }
-               GameObject[] targets = GameObject.FindGameObjectsWithTag("Player"); //TODO May have problems in the future 
-               
-               
-               Debug.Log(result.Count);
-
+               Debug.Log("Current amount of targets: "+result.Count);
                _blackboard.SetVariableValue("AllTargets", result);
           }
      

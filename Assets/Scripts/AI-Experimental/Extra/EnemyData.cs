@@ -15,6 +15,9 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
         [SerializeField] public ChasePackage chasePackage;
         [SerializeField] public AttackPackage attackPackage;
         
+        [Space,Header("Utility AI - Target")]
+        [SerializeField] public UtilityAITarget prioritiesAITarget;
+        
         [FormerlySerializedAs("healthData")]
         [Space, Header("Refs")]
         [SerializeField] public HealthRuleData healthRuleData;

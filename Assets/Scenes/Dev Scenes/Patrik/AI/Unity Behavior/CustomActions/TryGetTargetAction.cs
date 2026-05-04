@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -15,6 +16,7 @@ public partial class TryGetTargetAction : Action
     [SerializeReference] public BlackboardVariable<List<GameObject>> AllTargets;
 
     [SerializeReference] public BlackboardVariable<GameObject> self;
+    [SerializeReference] public EnemyData enemySO;
 
     private NavMeshAgent _agent;
 
@@ -53,12 +55,13 @@ public partial class TryGetTargetAction : Action
         NavMeshPath path = new NavMeshPath();
         _agent.CalculatePath(targetPosition, path); //TODO can be heavy on performance
 
+        float result = 0;
         if (path.status == NavMeshPathStatus.PathComplete)
         {
-            //Debug.Log(_agent.remainingDistance);
+            
         }
 
-        return 0;
+        return result;
     }
 
     private float UtilityMaxHealthValue()

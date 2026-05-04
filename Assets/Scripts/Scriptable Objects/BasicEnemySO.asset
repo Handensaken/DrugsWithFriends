@@ -36,4 +36,66 @@ MonoBehaviour:
     frameOfStart: 25
     frameOfEnd: 35
     attackAnimation: {fileID: 7400000, guid: 69ca488e1e599894ea661f56e190d846, type: 2}
+  prioritiesAITarget:
+    distance:
+      curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.99166465
+          value: 0.46428528
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      weight: 0.237
+    maxHealth:
+      curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: -0.016673028
+          value: 1.0023776
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.4753749
+          value: 0.48580065
+          inSlope: -1.4267404
+          outSlope: -1.4267404
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1.0291708
+          value: -0.011906058
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 0
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      weight: 0.521
   healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
