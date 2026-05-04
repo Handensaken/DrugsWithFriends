@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using FishNet.Connection;
 using FishNet.Object;
@@ -33,10 +34,21 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           [Server]
           private void SetAllTargets(NetworkConnection networkConnection, RemoteConnectionStateArgs remoteConnectionStateArgs)
           {
+               List<GameObject> result = new List<GameObject>();
+               foreach (var netConn in ServerManager.Clients.Values)
+               {
+                    if (netConn.ClientId == networkConnection.ClientId)
+                    {
+                         continue;
+                    }  
+                    result.Add(netConn.FirstObject.gameObject);
+               }
                GameObject[] targets = GameObject.FindGameObjectsWithTag("Player"); //TODO May have problems in the future 
-               Debug.Log(targets.Length);
+               
+               
+               Debug.Log(result.Count);
 
-               _blackboard.SetVariableValue("AllTargets", targets.ToList());
+               _blackboard.SetVariableValue("AllTargets", result);
           }
      
      
