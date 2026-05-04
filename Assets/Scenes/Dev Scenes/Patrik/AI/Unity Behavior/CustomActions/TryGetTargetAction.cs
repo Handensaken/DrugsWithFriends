@@ -16,7 +16,7 @@ public partial class TryGetTargetAction : Action
     [SerializeReference] public BlackboardVariable<List<GameObject>> AllTargets;
 
     [SerializeReference] public BlackboardVariable<GameObject> self;
-    [SerializeReference] public EnemyData enemySO;
+    [SerializeReference] public BlackboardVariable<EnemyData> enemySO;
 
     private NavMeshAgent _agent;
 
@@ -48,20 +48,24 @@ public partial class TryGetTargetAction : Action
         _agent = null;
     }
 
-    private float UtilityDistanceValue(Vector3 targetPosition)
+    private float UtilityDistanceValue(Vector3 targetPosition, ValuePackage distanceValuePackage)
     {
         _agent.SetDestination(targetPosition);
 
         NavMeshPath path = new NavMeshPath();
         _agent.CalculatePath(targetPosition, path); //TODO can be heavy on performance
-
-        float result = 0;
+        
         if (path.status == NavMeshPathStatus.PathComplete)
         {
-            
+            float currentDistance = _agent.remainingDistance;
+            float startValue = distanceValuePackage.startValue;
+            float endValue = distanceValuePackage.endValue;
+            float t = (currentDistance-startValue) / (endValue-startValue);
+            float curveValue = distanceValuePackage.curve.Evaluate(t);
+            return curveValue * distanceValuePackage.weight;
         }
 
-        return result;
+        return 0;
     }
 
     private float UtilityMaxHealthValue()
@@ -78,13 +82,16 @@ public partial class TryGetTargetAction : Action
     {
         List<Tuple<float, Transform>> evaluationValueAndTransform = new List<Tuple<float, Transform>>();
 
+        
+        UtilityAITarget prioritiesAITarget = enemySO.Value.prioritiesAITarget; 
         foreach (var target in AllTargets.Value)
         {
             float sum = 0;
-            sum += UtilityDistanceValue(target.transform.position);
+            sum += UtilityDistanceValue(target.transform.position,prioritiesAITarget.distance);
             sum += UtilityMaxHealthValue();
             sum += UtilityCurrentHealthValue();
 
+            Debug.Log(sum);
             evaluationValueAndTransform.Add(new Tuple<float, Transform>(sum, target.transform));
         }
 
