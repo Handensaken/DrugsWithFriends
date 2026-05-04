@@ -24,11 +24,11 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
         private void Awake()
         {
             _blackboard = behaviorGraphAgent.BlackboardReference;
-
+            
             _sightPackage = enemyData.patrolPackage.sightPackage;
         }
 
-        public override void OnStartClient()
+        public override void OnStartClient() //TODO only server run
         {
             base.OnStartClient();
             if (!IsServerInitialized) enabled = false;
