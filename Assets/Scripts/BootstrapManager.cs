@@ -70,6 +70,14 @@ public class BootstrapManager : MonoBehaviour
         {
             SceneManager.UnloadSceneAsync(mainMenu);
         }
+        
+        if(scene.name == "Game Lobby") return;
+        
+        var gameLobby = SceneManager.GetSceneByName("Game Lobby");
+        if (gameLobby.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(gameLobby);
+        }
     }
 
     private void CheckTransport()

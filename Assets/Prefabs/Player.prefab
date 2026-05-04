@@ -1030,6 +1030,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4336244197981315170}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94e005be29269734490e74a60b85c673, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1129577557312603329}
     - targetCorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2634556739951376808}
@@ -1102,6 +1105,8 @@ MonoBehaviour:
   - {fileID: 7265315666039459179}
   - {fileID: 6442288351224345491}
   - {fileID: 4336244197981315170}
+  - {fileID: 3043812342392740624}
+  - {fileID: 2130466159283627140}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -1112,7 +1117,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584252754265247398
+  _initializedTimestamp: -8584237205721537175
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -1128,7 +1133,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 1
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 2092870565765373345
   SceneId: 0
@@ -1248,7 +1253,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -1297,6 +1302,27 @@ MonoBehaviour:
   _interpolation: 2
   _clientAuthoritative: 1
   _sendToOwner: 0
+--- !u!65 &1129577557312603329
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4321755693150114581}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.43, z: 1}
+  m_Center: {x: 0, y: 1.22, z: 0}
 --- !u!1 &5065054076565641154 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1048718661937268346, guid: 94e005be29269734490e74a60b85c673, type: 3}
@@ -1335,9 +1361,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 7696538552095724360}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7696538552095724360}
   damage: 5
   knockbackForce: 5
   knockbackTime: 0.355
@@ -1354,9 +1380,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bcde17fa5e03f44b87f9963ac281b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkCollision
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 7696538552095724360}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7696538552095724360}
   MaximumSimultaneousHits: 16
   AdditionalSize: 0.1
   Layers:

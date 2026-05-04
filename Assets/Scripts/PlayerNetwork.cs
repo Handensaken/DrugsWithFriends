@@ -214,6 +214,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (moveVector.sqrMagnitude > 0.01f || !freeCamMovement)
         {
             HandleRotation();
+            SetVelocity();
         }
         CheckEnemiesOnScreen(); // Temporarily placed here
     }
@@ -397,6 +398,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
+            Debug.Log("set light attack trigger");
             attacking = true;
         }
         else
