@@ -6500,7 +6500,6 @@ GameObject:
   - component: {fileID: 5189220551951772460}
   - component: {fileID: 3826519645976654541}
   - component: {fileID: 4198718668008801910}
-  - component: {fileID: 526332077835731963}
   m_Layer: 5
   m_Name: SettingsCanvas
   m_TagString: Untagged
@@ -6599,19 +6598,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuToEnable: {fileID: 7411556346594221480}
---- !u!114 &526332077835731963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4225331557967109278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b6c2da2db9374dada6761b5e35121c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem.RebindingUI::RebindSaveLoad
-  actions: {fileID: -944628639613478452, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
 --- !u!1 &4247016924742950620
 GameObject:
   m_ObjectHideFlags: 0
@@ -14202,6 +14188,7 @@ GameObject:
   - component: {fileID: 713208241669539431}
   - component: {fileID: 2008424909034259733}
   - component: {fileID: 4192430395876221432}
+  - component: {fileID: 5238656384673356668}
   m_Layer: 5
   m_Name: RebindPanel
   m_TagString: Untagged
@@ -14285,6 +14272,19 @@ MonoBehaviour:
   firstSelected: {fileID: 1020514718062106568}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
+--- !u!114 &5238656384673356668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8405737455402868497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6c2da2db9374dada6761b5e35121c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem.RebindingUI::RebindSaveLoad
+  actions: {fileID: -944628639613478452, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
 --- !u!1 &8468271058832165503
 GameObject:
   m_ObjectHideFlags: 0
