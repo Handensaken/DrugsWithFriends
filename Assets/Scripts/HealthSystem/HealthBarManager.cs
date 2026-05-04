@@ -11,9 +11,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
     public class HealthBarManager : NetworkBehaviour
     {
-          [SerializeField] private GameObject healthBar;
+          [SerializeField] private GameObject healthBarForOtherPlayers;
 
-          [SerializeField] private HealthBarUI clientHealthBarUI;
+          [SerializeField] private HealthBarUI playerHealthBarUI;
           [SerializeField] private List<HealthBarUI> healthBarUis = new List<HealthBarUI>();
 
           public override void OnStartServer()
@@ -24,7 +24,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           public override void OnStartClient()
           {
               base.OnStartClient();
-              clientHealthBarUI.ID = ClientManager.Connection.ClientId;
+              playerHealthBarUI.ID = ClientManager.Connection.ClientId;
               SetUpAllExtraBars();
           }
 
@@ -78,7 +78,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
               for (int i = 0; i < amountOfBars; i++)
               {
                   Debug.Log("Add: "+i);
-                  HealthBarUI test = Instantiate(healthBar,gameObject.GetComponent<RectTransform>()).GetComponent<HealthBarUI>();
+                  HealthBarUI test = Instantiate(healthBarForOtherPlayers,gameObject.GetComponent<RectTransform>()).GetComponent<HealthBarUI>();
                   
                   test.ID = barAndClientID[i];
                   healthBarUis.Add(test);
@@ -90,7 +90,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
               for (int i = 0; i < healthBarUis.Count; i++)
               {
                   RectTransform rectTransform = healthBarUis[i].GetComponent<RectTransform>();
-                  rectTransform.anchoredPosition = clientHealthBarUI.GetComponent<RectTransform>().anchoredPosition + new Vector2(0,40*(i+1));
+                  rectTransform.anchoredPosition = playerHealthBarUI.GetComponent<RectTransform>().anchoredPosition + new Vector2(0,40*(i+1));
               }
           }
 

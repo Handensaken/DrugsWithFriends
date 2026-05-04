@@ -499,6 +499,10 @@ PrefabInstance:
     - target: {fileID: 3890180193796683669, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: clientHealthBarUI
       value: 
+      objectReference: {fileID: 799506589126808851, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
+    - target: {fileID: 3890180193796683669, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: playerHealthBarUI
+      value: 
       objectReference: {fileID: 270173450}
     - target: {fileID: 3890180193796683669, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: _addedNetworkObject
@@ -508,6 +512,10 @@ PrefabInstance:
       propertyPath: _networkObjectCache
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3890180193796683669, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: healthBarForOtherPlayers
+      value: 
+      objectReference: {fileID: 2314158460644769034, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
     - target: {fileID: 5156850383231471644, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_Name
       value: PlayerCanvas
