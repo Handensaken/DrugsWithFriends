@@ -32,8 +32,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             healthRuleData.UpdateHealth -= HandleChanges;
         }
 
-        private void HandleChanges(HealthPackage healthPackage)
+        private void HandleChanges(int index, HealthPackage healthPackage)
         {
+            if (index != ID)
+            {
+                return;
+            }
+            
             Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             int currentBatchAmount = healthPackage.BatchAmount;
             

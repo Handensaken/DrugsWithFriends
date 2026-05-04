@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -64,24 +65,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                if (!asServer) return;
 
-               switch (op)
+               if (op == SyncDictionaryOperation.Add || op == SyncDictionaryOperation.Set)
                {
-                    case SyncDictionaryOperation.Add:
+                    foreach (var keyValues in _clientsHealth)
                     {
-                         foreach (var client in ServerManager.Clients)
-                         {
-                              SendHealth(client.Value, _clientsHealth[client.Value.ClientId]);
-                         }
-                         break;
+                         SendHealth(keyValues.Key, keyValues.Value);
                     }
-                    case SyncDictionaryOperation.Remove:
-                    {
-                         break;
-                    }
-                    default:
-                         break;
                }
-               
           }
           private void Update()
           {
@@ -122,18 +112,18 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                _clientsHealth[1] = healthPackageC2;
           }
           
-          [TargetRpc]
-          private void SendHealth(NetworkConnection conn, HealthPackage healthPackage)
+          [ObserversRpc]
+          private void SendHealth(int index, HealthPackage healthPackage)
           {
                int health = healthPackage.HealthAmount;
                int batch = healthPackage.BatchAmount;
-               Debug.Log("ClientID: "+conn.ClientId + " - H: " + health + " - B: " + batch);
+               Debug.Log("ClientID: "+index + " - H: " + health + " - B: " + batch);
                HealthPackage currentHealthData = new HealthPackage()
                {
                     HealthAmount = health,
                     BatchAmount = batch
                };
-               healthRuleData.UpdateHealth(currentHealthData);
+               healthRuleData.UpdateHealth(index,currentHealthData);
           }
      }
 }
