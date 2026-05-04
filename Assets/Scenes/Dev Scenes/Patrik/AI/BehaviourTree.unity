@@ -619,27 +619,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1101167467 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4747539358362009898, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1101167469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101167467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecbb1da00a9cb940840b5045cfd1c60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AIAssembly::ExternalTargetHandler
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 1894878833}
-  _networkObjectCache: {fileID: 0}
-  behaviorGraphAgent: {fileID: 1957437847}
 --- !u!1 &1160757292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,39 +1201,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!114 &1776863709 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 420708119996327095, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
---- !u!114 &1894878833 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
---- !u!114 &1957437847 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-  m_PrefabInstance: {fileID: 2140728614}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
 --- !u!1001 &2140728614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1303,35 +1249,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: 'managedReferences[5095583388595388830]'
-      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[FishNet.Component.Animating.NetworkAnimator,
-        FishNet.Runtime]]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: managedReferences[5095583388595388830].Name
-      value: NetworkAnimator
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: managedReferences[5095583388595388830].m_Value
-      value: 
-      objectReference: {fileID: 1776863709}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[7]'
-      value: 5095583388595388830
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: managedReferences[5095583388595388830].GUID.m_Value0
-      value: 14855843358536761879
-      objectReference: {fileID: 0}
-    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: managedReferences[5095583388595388830].GUID.m_Value1
-      value: 6491195593660234002
-      objectReference: {fileID: 0}
     - target: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Name
       value: AI
@@ -1347,10 +1264,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4747539358362009898, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1101167469}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
