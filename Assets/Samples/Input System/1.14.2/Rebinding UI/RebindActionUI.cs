@@ -337,6 +337,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         protected void OnEnable()
         {
+            UpdateBindingDisplay();
             if (s_RebindActionUIs == null)
                 s_RebindActionUIs = new List<RebindActionUI>();
             s_RebindActionUIs.Add(this);

@@ -6500,6 +6500,7 @@ GameObject:
   - component: {fileID: 5189220551951772460}
   - component: {fileID: 3826519645976654541}
   - component: {fileID: 4198718668008801910}
+  - component: {fileID: 526332077835731963}
   m_Layer: 5
   m_Name: SettingsCanvas
   m_TagString: Untagged
@@ -6598,6 +6599,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuToEnable: {fileID: 7411556346594221480}
+--- !u!114 &526332077835731963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225331557967109278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6c2da2db9374dada6761b5e35121c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem.RebindingUI::RebindSaveLoad
+  actions: {fileID: -944628639613478452, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
 --- !u!1 &4247016924742950620
 GameObject:
   m_ObjectHideFlags: 0
