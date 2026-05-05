@@ -6,33 +6,26 @@ namespace AI_Experimental.Unity_Behavior.CustomActions
 {
     public static class UtilityAIEvaluations
     {
-        public static float DistanceValue(NavMeshAgent agent,Vector3 targetPosition, ValuePackage distanceValuePackage) //Make to interface //TODO make use of distance
+        public static float DistanceValue(float distance, DistanceValuePackage distanceDistanceValuePackage) //Make to interface //TODO make use of distance
         {
-            agent.SetDestination(targetPosition);
-
-            NavMeshPath path = new NavMeshPath();
-            agent.CalculatePath(targetPosition, path); //TODO can be heavy on performance
-        
-            if (path.status == NavMeshPathStatus.PathComplete)
-            {
-                float currentDistance = agent.remainingDistance;
-                float startValue = distanceValuePackage.startValue;
-                float endValue = distanceValuePackage.endValue;
-                float t = (currentDistance-startValue) / (endValue-startValue);
-                float curveValue = distanceValuePackage.curve.Evaluate(t);
-                Debug.Log($"Distance: {currentDistance}" +
-                          $"\nt: {t}" +
-                          $"\ncurveValue: {curveValue}" +
-                          $"\nresult: {curveValue * distanceValuePackage.weight}");
-                return curveValue * distanceValuePackage.weight;
-            }
-
-            return 0;
+            float refinedCurrentValue = distance-distanceDistanceValuePackage.startValue;
+            float refinedEndValue = distanceDistanceValuePackage.endValue-distanceDistanceValuePackage.startValue;
+            float proportionalValue = refinedCurrentValue / refinedEndValue;
+            
+            float curveValue = distanceDistanceValuePackage.curve.Evaluate(proportionalValue);
+            
+            return curveValue * distanceDistanceValuePackage.weight;
         }
-
-        public static float MaxHealthValue()
+        
+        public static float MaxBatchValue(int currentBatchAmount,int maxValue, HealthValuePackage healthDistanceValuePackage)
         {
-            return 0;
+            float refinedCurrentValue = currentBatchAmount-healthDistanceValuePackage.startValue;
+            float refinedEndValue = maxValue-healthDistanceValuePackage.startValue;
+            float proportionalValue = refinedCurrentValue / refinedEndValue;
+            
+            float curveValue = healthDistanceValuePackage.curve.Evaluate(proportionalValue);
+            
+            return curveValue * healthDistanceValuePackage.weight;
         }
 
         public static float CurrentHealthValue()

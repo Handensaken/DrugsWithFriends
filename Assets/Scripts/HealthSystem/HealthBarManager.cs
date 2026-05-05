@@ -34,7 +34,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
               
             for (int i = 0; i < healthBarUis.Count; i++)
             {
-                Debug.Log("Remove: "+i);
+                //Debug.Log("Remove: "+i);
                 Destroy(healthBarUis[^(i+1)].gameObject);
             }
             healthBarUis.Clear();

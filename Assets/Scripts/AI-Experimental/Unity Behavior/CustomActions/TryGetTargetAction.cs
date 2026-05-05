@@ -52,27 +52,35 @@ public partial class TryGetTargetAction : Action
     private Transform EvaluateAll()
     {
         List<Tuple<float, Transform>> evaluationValueAndTransform = new List<Tuple<float, Transform>>();
-
-        
+        CalculateAllTargetsValues(ref evaluationValueAndTransform);
+        Transform bestTarget = CompareForBestTarget(evaluationValueAndTransform);
+        return bestTarget;
+    }
+    
+    private void CalculateAllTargetsValues(ref List<Tuple<float, Transform>> evaluationValueAndTransform)
+    {
         UtilityAITarget prioritiesAITarget = enemySO.Value.prioritiesAITarget; 
         foreach (var target in AllTargets.Value)
         {
-            _agent.SetDestination(target.transform.position);
-
-            NavMeshPath path = new NavMeshPath();
-            _agent.CalculatePath(target.transform.position, path); 
+            float distanceValue = EvaluateDistance(target.transform.position, prioritiesAITarget.distance);
             
-            Debug.Log(_agent.remainingDistance);
+            //TODO Get current lvls maxHP
+            Debug.LogWarning("Current value for maxBatchAmount acts as a placeholder where a global variant is needed");
+            float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(1,2,prioritiesAITarget.maxHealth);
             
-            float sum = 0;
-            sum += UtilityAIEvaluations.DistanceValue(_agent,target.transform.position,prioritiesAITarget.distance);
-            sum += UtilityAIEvaluations.MaxHealthValue();
-            sum += UtilityAIEvaluations.CurrentHealthValue();
-
-            Debug.Log(sum);
+            float currentHealthValue = UtilityAIEvaluations.CurrentHealthValue();
+            
+            float sum = distanceValue+maxHealthValue+currentHealthValue;
+            Debug.Log("Distance:"+ distanceValue +
+                      "\nMaxHealth:"+ maxHealthValue +
+                      "\nCurrentHealth:"+ currentHealthValue +
+                      "\nSum: "+sum);
             evaluationValueAndTransform.Add(new Tuple<float, Transform>(sum, target.transform));
         }
+    }
 
+    private Transform CompareForBestTarget(List<Tuple<float, Transform>> evaluationValueAndTransform>)
+    {
         Tuple<float, Transform> currentBest = null;
         foreach (var valueTransform in evaluationValueAndTransform)
         {
@@ -88,10 +96,18 @@ public partial class TryGetTargetAction : Action
             if (nextEvaluationValue > currentEvaluationValue)
             {
                 currentBest = valueTransform;
-                continue;
             }
         }
 
         return currentBest.Item2;
+    }
+    
+    private float EvaluateDistance(Vector3 targetPosition, DistanceValuePackage distancePackage)
+    {
+        NavMeshPath path = new NavMeshPath();
+        _agent.CalculatePath(targetPosition, path); 
+        _agent.path = path;
+            
+        return UtilityAIEvaluations.DistanceValue(_agent.remainingDistance, distancePackage);
     }
 }
