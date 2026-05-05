@@ -79,7 +79,7 @@ public partial class TryGetTargetAction : Action
         }
     }
 
-    private Transform CompareForBestTarget(List<Tuple<float, Transform>> evaluationValueAndTransform>)
+    private Transform CompareForBestTarget(List<Tuple<float, Transform>> evaluationValueAndTransform)
     {
         Tuple<float, Transform> currentBest = null;
         foreach (var valueTransform in evaluationValueAndTransform)
