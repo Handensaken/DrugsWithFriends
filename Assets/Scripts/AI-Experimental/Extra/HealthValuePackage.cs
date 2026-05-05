@@ -7,10 +7,12 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
     public struct HealthValuePackage
     {
         [SerializeField] public AnimationCurve curve;
-        [SerializeField,
+        [SerializeField, Min(1),
          Tooltip("Parameter acts as a startingPoint for the curve" +
                  "\n Ex: for distance - 0 is a suitable startValue")]
         public float startValue;
         [SerializeField] public float weight;
+        
+        
     }
 }

@@ -27,7 +27,7 @@ public partial class TryGetTargetAction : Action
 
         if (AllTargets.Value.Count <= 0)
         {
-            Debug.Log("No targets found - Start");
+            //Debug.Log("No targets found");
             return Status.Failure;
         }
 
@@ -66,6 +66,8 @@ public partial class TryGetTargetAction : Action
             
             //TODO Get current lvls maxHP
             Debug.LogWarning("Current value for maxBatchAmount acts as a placeholder where a global variant is needed");
+            
+            //Get reference to playerHealth
             float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(1,2,prioritiesAITarget.maxHealth);
             
             float currentHealthValue = UtilityAIEvaluations.CurrentHealthValue();
