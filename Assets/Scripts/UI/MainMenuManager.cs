@@ -10,10 +10,16 @@ public class MainMenuManager : MonoBehaviour
     public GameObject menuScreen;
     [SerializeField] private TMP_InputField lobbyInput;
 
-    [SerializeField] private TextMeshProUGUI lobbyIDText;
+    [SerializeField] private TextMeshProUGUI lobbyIDText, lobbyCodeText;
+    
     [SerializeField] private GameObject startLobbyButton;
     private void Awake() => instance = this;
-    
+
+    private void Start()
+    {
+        DisplayLobbyCode();
+    }
+
     public void PlayButton(GameObject screenToClose)
     {
         screenToClose.SetActive(false);
@@ -23,6 +29,12 @@ public class MainMenuManager : MonoBehaviour
     {
         BootstrapManager.CreateLobby();
         startLobbyButton.SetActive(true);
+    }
+
+    private void DisplayLobbyCode()
+    {
+        if (lobbyCodeText is null) return;
+        lobbyCodeText.text = "Lobby Code: " + BootstrapManager.lobbyCode;
     }
 
     public static void LobbyEntered(string lobbyName, bool isHost)

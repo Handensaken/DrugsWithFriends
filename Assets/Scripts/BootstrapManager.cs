@@ -25,7 +25,8 @@ public class BootstrapManager : MonoBehaviour
     protected CallResult<LobbyMatchList_t> LobbyMatchList;
 
     public static ulong currentLobbyID;
-    private string lobbyCode;
+    public static string lobbyCode;
+    public static bool isHost;
 
     private void OnValidate()
     {
@@ -40,6 +41,7 @@ public class BootstrapManager : MonoBehaviour
     
     private void Start()
     {
+        isHost = false;
         LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
@@ -125,6 +127,9 @@ public class BootstrapManager : MonoBehaviour
             MainMenuManager.CloseAllScreens();
             instance.tugboat.OnClientConnectionState += StartLobbyTugboat;
         }
+        lobbyCode = instance.GenerateLobbyCode();
+        Debug.Log("lobbycode is " + lobbyCode);
+        isHost = true;
     }
 
     private static void StartLobbyTugboat(ClientConnectionStateArgs t)
@@ -145,8 +150,8 @@ public class BootstrapManager : MonoBehaviour
         currentLobbyID = callback.m_ulSteamIDLobby;
         SteamMatchmaking.SetLobbyData(new CSteamID(currentLobbyID), "HostAddress", SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(new CSteamID(currentLobbyID), "name", SteamFriends.GetPersonaName().ToString() + "'s Lobby");
-        lobbyCode = GenerateLobbyCode();
-        Debug.Log("lobbycode is " + lobbyCode);
+        //lobbyCode = GenerateLobbyCode();
+        //Debug.Log("lobbycode is " + lobbyCode);
         SteamMatchmaking.SetLobbyData(new CSteamID(currentLobbyID), "lobbyCode", lobbyCode);
         fishySteamworks.SetClientAddress(SteamUser.GetSteamID().ToString());
         fishySteamworks.StartConnection(true);
