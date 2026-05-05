@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AI_Experimental.Unity_Behavior.CustomActions;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Unity.Behavior;
 using UnityEngine;
@@ -48,36 +49,6 @@ public partial class TryGetTargetAction : Action
         _agent = null;
     }
 
-    private float UtilityDistanceValue(Vector3 targetPosition, ValuePackage distanceValuePackage)
-    {
-        _agent.SetDestination(targetPosition);
-
-        NavMeshPath path = new NavMeshPath();
-        _agent.CalculatePath(targetPosition, path); //TODO can be heavy on performance
-        
-        if (path.status == NavMeshPathStatus.PathComplete)
-        {
-            float currentDistance = _agent.remainingDistance;
-            float startValue = distanceValuePackage.startValue;
-            float endValue = distanceValuePackage.endValue;
-            float t = (currentDistance-startValue) / (endValue-startValue);
-            float curveValue = distanceValuePackage.curve.Evaluate(t);
-            return curveValue * distanceValuePackage.weight;
-        }
-
-        return 0;
-    }
-
-    private float UtilityMaxHealthValue()
-    {
-        return 0;
-    }
-
-    private float UtilityCurrentHealthValue()
-    {
-        return 0;
-    }
-
     private Transform EvaluateAll()
     {
         List<Tuple<float, Transform>> evaluationValueAndTransform = new List<Tuple<float, Transform>>();
@@ -87,9 +58,9 @@ public partial class TryGetTargetAction : Action
         foreach (var target in AllTargets.Value)
         {
             float sum = 0;
-            sum += UtilityDistanceValue(target.transform.position,prioritiesAITarget.distance);
-            sum += UtilityMaxHealthValue();
-            sum += UtilityCurrentHealthValue();
+            sum += UtilityAIEvaluations.DistanceValue(_agent,target.transform.position,prioritiesAITarget.distance);
+            sum += UtilityAIEvaluations.MaxHealthValue();
+            sum += UtilityAIEvaluations.CurrentHealthValue();
 
             Debug.Log(sum);
             evaluationValueAndTransform.Add(new Tuple<float, Transform>(sum, target.transform));

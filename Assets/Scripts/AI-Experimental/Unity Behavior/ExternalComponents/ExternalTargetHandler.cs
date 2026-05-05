@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using FishNet.Component.Animating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Transporting;
@@ -43,8 +44,10 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
                     }  
                     result.Add(netConn.FirstObject.gameObject);
                }
+
+               //GameObject[] result = GameObject.FindGameObjectsWithTag("Player");
                Debug.Log("Current amount of targets: "+result.Count);
-               _blackboard.SetVariableValue("AllTargets", result);
+               _blackboard.SetVariableValue("AllTargets", result.ToList());
           }
      
      
