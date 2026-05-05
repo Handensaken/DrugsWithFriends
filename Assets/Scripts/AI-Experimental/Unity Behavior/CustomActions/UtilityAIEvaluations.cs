@@ -6,7 +6,7 @@ namespace AI_Experimental.Unity_Behavior.CustomActions
 {
     public static class UtilityAIEvaluations
     {
-        public static float DistanceValue(NavMeshAgent agent,Vector3 targetPosition, ValuePackage distanceValuePackage) //Make to interface
+        public static float DistanceValue(NavMeshAgent agent,Vector3 targetPosition, ValuePackage distanceValuePackage) //Make to interface //TODO make use of distance
         {
             agent.SetDestination(targetPosition);
 

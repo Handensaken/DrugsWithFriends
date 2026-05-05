@@ -57,6 +57,13 @@ public partial class TryGetTargetAction : Action
         UtilityAITarget prioritiesAITarget = enemySO.Value.prioritiesAITarget; 
         foreach (var target in AllTargets.Value)
         {
+            _agent.SetDestination(target.transform.position);
+
+            NavMeshPath path = new NavMeshPath();
+            _agent.CalculatePath(target.transform.position, path); 
+            
+            Debug.Log(_agent.remainingDistance);
+            
             float sum = 0;
             sum += UtilityAIEvaluations.DistanceValue(_agent,target.transform.position,prioritiesAITarget.distance);
             sum += UtilityAIEvaluations.MaxHealthValue();
