@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using AI_Experimental.Unity_Behavior.CustomActions;
+using FishNet.Object;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
+using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -18,6 +20,7 @@ public partial class TryGetTargetAction : Action
 
     [SerializeReference] public BlackboardVariable<GameObject> self;
     [SerializeReference] public BlackboardVariable<EnemyData> enemySO;
+    [SerializeReference] public BlackboardVariable<HealthManager> healthManager;
 
     private NavMeshAgent _agent;
 
@@ -67,8 +70,17 @@ public partial class TryGetTargetAction : Action
             //TODO Get current lvls maxHP
             Debug.LogWarning("Current value for maxBatchAmount acts as a placeholder where a global variant is needed");
             
-            //Get reference to playerHealth
-            float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(1,2,prioritiesAITarget.maxHealth);
+            
+            //Få tag i spelarens ID
+            int clientID = target.GetComponent<NetworkBehaviour>().OwnerId;
+            Debug.Log($"Current clientID {clientID}");
+            
+            //Få tag i spelarens maxLiv
+            HealthPackage currentHealthStatus = healthManager.Value.ReadHealth(clientID);
+            Debug.Log($"Current batch: {currentHealthStatus}");
+            //TODO catch up!
+            
+            float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(currentHealthStatus.BatchAmount,2,prioritiesAITarget.maxHealth);
             
             float currentHealthValue = UtilityAIEvaluations.CurrentHealthValue();
             
