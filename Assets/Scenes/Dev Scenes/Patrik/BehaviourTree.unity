@@ -800,12 +800,34 @@ Transform:
   m_GameObject: {fileID: 1160757292}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.16, y: 0, z: 2.41}
+  m_LocalPosition: {x: 5.16, y: 0.437, z: 2.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314602032 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+--- !u!114 &1314602034 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
 --- !u!1001 &1328728319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1201,6 +1223,40 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1797394201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 163048553723082101, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1797394202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8513608233697118439, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797394201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc97a8b9e628044e83004c93095c14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
+--- !u!114 &1797394205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797394201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cfc2f3bee14d5a8c75dfcb25d7c362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.NPCDamage
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1314602032}
+  _networkObjectCache: {fileID: 0}
+  healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  networkTrigger: {fileID: 1797394202}
+  behaviorAgent: {fileID: 1314602034}
 --- !u!1001 &2140728614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1209,6 +1265,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3157360777225388573, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1261,10 +1321,14 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5865814228308469736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 163048553723082101, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1797394205}
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

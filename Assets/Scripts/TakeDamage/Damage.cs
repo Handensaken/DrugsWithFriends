@@ -7,7 +7,6 @@ using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
-     //TODO Have blackboard in use for controlling health 
      public class Damage : NetworkBehaviour
      {
           [SerializeField] protected HealthRuleData healthRuleData;
@@ -45,7 +44,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                     BatchAmount = 2
                });
           }
-
+          
           [Server]
           protected virtual void TriggerDamage(Collider collider)
           {
