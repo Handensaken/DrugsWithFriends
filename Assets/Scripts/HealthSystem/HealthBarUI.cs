@@ -32,15 +32,23 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             healthRuleData.UpdateHealth -= HandleChanges;
         }
 
-        private void HandleChanges(int index, HealthPackage healthPackage)
+        private void HandleChanges(int clientID, HealthPackage healthPackage)
         {
-            if (index != ID)
+            if (clientID == ID)
             {
-                return;
+                HandleUI(healthPackage);
             }
-            
+        }
+
+        private void HandleUI(HealthPackage healthPackage)
+        {
             Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             uint currentBatchAmount = healthPackage.BatchAmount;
+            if (currentBatchAmount > healthRuleData.InitialMaxAmountForBatches)
+            {
+                currentBatchAmount = healthRuleData.InitialMaxAmountForBatches;
+                Debug.LogWarning("UpdateHealthBatches exceeded the limited-value but was corrected");
+            }
             
             float maxWidth = healthBarUI.rect.width;
             float gapSpace = maxWidth*0.01f;
@@ -55,12 +63,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         {
             RemoveAllMarkers();
             
-            if (currentBatchAmount > healthRuleData.InitialMaxAmountForBatches)
-            {
-                currentBatchAmount = healthRuleData.InitialMaxAmountForBatches;
-                Debug.LogWarning("UpdateHealthBatches exceeded the limited-value but was corrected");
-            }
-            
             //TODO include variation in padding
             
             for (int i = 0; i < currentBatchAmount; i++)
@@ -74,6 +76,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 Vector2 pos = new Vector2(batchWidth * i + gapSpace*i,0);
                 newBatch.BatchRect.anchoredPosition3D = pos;
                 _healthBatches.Add(newBatch);
+                Debug.Log("Batch: "+i);
             }
         }
 

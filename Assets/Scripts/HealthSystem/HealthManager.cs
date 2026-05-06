@@ -119,7 +119,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                HealthPackage healthPackage = new HealthPackage()
                {
                     HealthAmount = 10,
-                    BatchAmount = 2
+                    BatchAmount = 3
                };
                _clientsHealth[clientId] = healthPackage;
           }
