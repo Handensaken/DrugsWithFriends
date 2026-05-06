@@ -49,7 +49,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Animator animator;
     private NetworkAnimator networkAnimator;
     [SerializeField] private int enemyIndex, currentChain;
-    [SerializeField] private List<Transform> enemiesInRange, enemiesOnScreen;
+    private List<Transform> enemiesInRange, enemiesOnScreen;
     private Queue<string> attackQueue;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -60,6 +60,16 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private BoxCollider attackHitboxCollider;
     [SerializeField] private SelectionHandler selectionHandler;
     private string queuedAttack = "";
+    
+    [Serializable]
+    struct DashParameters
+    {
+        [Range(0, 10f), Tooltip("")] public float dashForce; 
+        [Range(0, 5f), Tooltip("")] public float dashCooldown;
+        [Range(0, 2f), Tooltip("")] public float invincibilityDuration;
+    }
+    
+    [SerializeField] private DashParameters dashParameters;
 
     protected override void OnValidate()
     {
