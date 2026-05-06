@@ -56,59 +56,24 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                return _clientsHealth[clientID];
           }
           
-          private uint HandleClientHealthChange(int clientID, int healthChange)
-          {
-               HealthPackage clientHealthPackage = _clientsHealth[clientID];
-               int potentialNewHealth = (int)clientHealthPackage.HealthAmount + healthChange;
-               uint maxHealth = clientHealthPackage.BatchAmount * healthRuleData.HealthPerBatch;
-               
-               if (potentialNewHealth < 0)
-               {
-                    return 0;
-               }
-               
-               if (potentialNewHealth > maxHealth)
-               {
-                    return maxHealth;
-               }
-               
-               return (uint)potentialNewHealth;
-          }
-          
-          private bool HandleClientBatchChange(int clientID, int batchChange, out uint resultBatchAmount)
-          {
-               int possibleBatchAmount = (int)_clientsHealth[clientID].BatchAmount + batchChange;
-               uint lowestAmount = 1;
-               uint maxAmount = _currentMaxBatchAmountPerPlayer.Value;
-               
-               if (possibleBatchAmount < lowestAmount)
-               {
-                    resultBatchAmount = lowestAmount;
-                    return false;
-               }
-               
-               if (possibleBatchAmount > maxAmount)
-               {
-                    resultBatchAmount = maxAmount;
-                    return false;
-               }
-               
-               resultBatchAmount = (uint)possibleBatchAmount;
-               return true;
-          }
-          
           [ServerRpc(RequireOwnership = false)]
-          private void StoreHealthChanges(int clientID, HealthPackage package)
+          private void StoreHealthChanges(int clientID, int health, int batchAmount)
           {
-               //uint currentBatchAmount =
+               uint currentBatchAmount = ValidateValue(batchAmount, 1, _currentMaxBatchAmountPerPlayer.Value);
                
-               uint maxHealth = package.BatchAmount * healthRuleData.HealthPerBatch;
-               uint currentHealth = ValidateValue(package.HealthAmount,0,maxHealth);
+               uint maxHealth = currentBatchAmount * healthRuleData.HealthPerBatch;
+               uint currentHealth = ValidateValue(health,0,maxHealth);
+
+               HealthPackage package = new HealthPackage()
+               {
+                    HealthAmount = currentHealth,
+                    BatchAmount = currentBatchAmount
+               };
                
                _clientsHealth[clientID] = package;
           }
 
-          private uint ValidateValue(uint current, uint minimum, uint maximum)
+          private uint ValidateValue(int current, uint minimum, uint maximum)
           {
                if (current < minimum)
                {
@@ -120,7 +85,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     return maximum;
                }
                
-               return current;
+               return (uint)current;
           }
           
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
@@ -140,25 +105,18 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                if (simulateSet)
                {
-                    HealthPackage healthPackage = new HealthPackage()
-                    {
-                         HealthAmount = setHealth,
-                         BatchAmount = setBatch
-                    };
-                    StoreHealthChanges(setOnClient, healthPackage);
+                    StoreHealthChanges(setOnClient, (int)setHealth, (int)setBatch);
                     simulateSet = false;
                }
+               
                if (simulateChange)
                {
                     HealthPackage healthPackage = _clientsHealth[simulateClient];
+
+                    int currentHealth = (int)healthPackage.HealthAmount + simulateHealthValues;
+                    int currentBatchAmount = (int)healthPackage.BatchAmount + simulateBatchValues;
                     
-                    healthPackage.HealthAmount = HandleClientHealthChange(simulateClient,simulateHealthValues);
-                    if (HandleClientBatchChange(simulateClient,simulateBatchValues, out uint amount))
-                    {
-                         healthPackage.BatchAmount = amount;
-                    }
-                    
-                    StoreHealthChanges(simulateClient, healthPackage);
+                    StoreHealthChanges(simulateClient, currentHealth, currentBatchAmount);
                     simulateChange = false;
                }
           }
