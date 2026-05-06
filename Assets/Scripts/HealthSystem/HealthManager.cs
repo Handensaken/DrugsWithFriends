@@ -10,14 +10,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
      public class HealthManager : NetworkBehaviour //TODO make total control over clients health
      {
-          [SerializeField]private int simulateHealthChange0;
-          [SerializeField]private int simulateBatchChange0;
-          [SerializeField]private int simulateHealthChange1;
-          [SerializeField]private int simulateBatchChange1;
-          
-          [SerializeField] private HealthRuleData healthRuleData;
+          [SerializeField]private int simulateClient;
+          [SerializeField] private uint simulateHealthValues;
+          [SerializeField] private uint simulateBatchValues;
           [SerializeField] private bool simulateChange;
-
+          
+          [Space,SerializeField] private HealthRuleData healthRuleData;
+          
           private readonly SyncVar<uint> _currentMaxBatchAmountPerPlayer = new SyncVar<uint>();
           private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>();
 
@@ -50,9 +49,47 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                return _clientsHealth[clientID];
           }
 
-          public void HandleClientHealthChange()
+          public void HandleClientHealthChange(int clientID, int healthChange)
           {
+               HealthPackage clientHealthPackage = _clientsHealth[clientID];
+               int newHealth = (int)clientHealthPackage.HealthAmount + healthChange;
+               uint maxHealth = clientHealthPackage.BatchAmount * healthRuleData.HealthPerBatch;
                
+               if (newHealth < 0)
+               {
+                    clientHealthPackage.HealthAmount = 0;
+               }
+               else if (newHealth > maxHealth)
+               {
+                    clientHealthPackage.HealthAmount = maxHealth;
+               }
+               else
+               {
+                    clientHealthPackage.HealthAmount = (uint)newHealth;
+               }
+          }
+          
+          public bool HandleClientBatchChange(int clientID, int batchChange)
+          {
+               HealthPackage clientHealthPackage = _clientsHealth[clientID];
+               int newBatchAmount = (int)clientHealthPackage.BatchAmount + batchChange;
+               uint lowestAmount = 1;
+               uint maxAmount = _currentMaxBatchAmountPerPlayer.Value;
+               
+               if (newBatchAmount < lowestAmount)
+               {
+                    clientHealthPackage.BatchAmount = lowestAmount;
+                    return false;
+               }
+               
+               if (newBatchAmount > maxAmount)
+               {
+                    clientHealthPackage.BatchAmount = maxAmount;
+                    return false;
+               }
+               
+               clientHealthPackage.HealthAmount = (uint)newBatchAmount;
+               return true;
           }
           
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
@@ -91,19 +128,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           private void ChangeValues()
           {
                Debug.Log("ChangeValues");
-               HealthPackage healthPackageC1 = new HealthPackage()
+               HealthPackage newHealthPackage = new HealthPackage()
                {
-                    HealthAmount = (uint)simulateHealthChange0,
-                    BatchAmount = (uint)simulateBatchChange0
+                    HealthAmount = simulateHealthValues,
+                    BatchAmount = simulateBatchValues
                };
-               _clientsHealth[0] = healthPackageC1;
-               
-               HealthPackage healthPackageC2 = new HealthPackage()
-               {
-                    HealthAmount = (uint)simulateHealthChange1,
-                    BatchAmount = (uint)simulateBatchChange1
-               };
-               _clientsHealth[1] = healthPackageC2;
+                    
+               _clientsHealth[simulateClient] = newHealthPackage;
           }
           
           [ObserversRpc]
