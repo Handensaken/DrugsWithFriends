@@ -10,9 +10,16 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
      public class HealthManager : NetworkBehaviour //TODO make total control over clients health
      {
+          [Header("Set values to:")]
+          [SerializeField]private int setOnClient;
+          [SerializeField] private uint setHealth;
+          [SerializeField] private uint setBatch;
+          [SerializeField] private bool simulateSet;
+          
+          [Space,Header("Simulate healthChange:")]
           [SerializeField]private int simulateClient;
-          [SerializeField] private uint simulateHealthValues;
-          [SerializeField] private uint simulateBatchValues;
+          [SerializeField] private int simulateHealthValues;
+          [SerializeField] private int simulateBatchValues;
           [SerializeField] private bool simulateChange;
           
           [Space,SerializeField] private HealthRuleData healthRuleData;
@@ -48,47 +55,51 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                return _clientsHealth[clientID];
           }
-
-          public void HandleClientHealthChange(int clientID, int healthChange)
+          
+          private uint HandleClientHealthChange(int clientID, int healthChange)
           {
                HealthPackage clientHealthPackage = _clientsHealth[clientID];
-               int newHealth = (int)clientHealthPackage.HealthAmount + healthChange;
+               int potentialNewHealth = (int)clientHealthPackage.HealthAmount + healthChange;
                uint maxHealth = clientHealthPackage.BatchAmount * healthRuleData.HealthPerBatch;
                
-               if (newHealth < 0)
+               if (potentialNewHealth < 0)
                {
-                    clientHealthPackage.HealthAmount = 0;
+                    return 0;
                }
-               else if (newHealth > maxHealth)
+               
+               if (potentialNewHealth > maxHealth)
                {
-                    clientHealthPackage.HealthAmount = maxHealth;
+                    return maxHealth;
                }
-               else
-               {
-                    clientHealthPackage.HealthAmount = (uint)newHealth;
-               }
+               
+               return (uint)potentialNewHealth;
+          }
+
+          [ServerRpc(RequireOwnership = false)]
+          public void StoreHealthChanges(int clientID, HealthPackage package)
+          {
+               _clientsHealth[clientID] = package;
           }
           
-          public bool HandleClientBatchChange(int clientID, int batchChange)
+          private bool HandleClientBatchChange(int clientID, int batchChange, out uint resultBatchAmount)
           {
-               HealthPackage clientHealthPackage = _clientsHealth[clientID];
-               int newBatchAmount = (int)clientHealthPackage.BatchAmount + batchChange;
+               int possibleBatchAmount = (int)_clientsHealth[clientID].BatchAmount + batchChange;
                uint lowestAmount = 1;
                uint maxAmount = _currentMaxBatchAmountPerPlayer.Value;
                
-               if (newBatchAmount < lowestAmount)
+               if (possibleBatchAmount < lowestAmount)
                {
-                    clientHealthPackage.BatchAmount = lowestAmount;
+                    resultBatchAmount = lowestAmount;
                     return false;
                }
                
-               if (newBatchAmount > maxAmount)
+               if (possibleBatchAmount > maxAmount)
                {
-                    clientHealthPackage.BatchAmount = maxAmount;
+                    resultBatchAmount = maxAmount;
                     return false;
                }
                
-               clientHealthPackage.HealthAmount = (uint)newBatchAmount;
+               resultBatchAmount = (uint)possibleBatchAmount;
                return true;
           }
           
@@ -104,11 +115,31 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     }
                }
           }
+          //TODO remove - currently all clients
           private void Update()
           {
+               if (simulateSet)
+               {
+                    //SetValues();
+                    HealthPackage healthPackage = new HealthPackage()
+                    {
+                         HealthAmount = setHealth,
+                         BatchAmount = setBatch
+                    };
+                    StoreHealthChanges(setOnClient, healthPackage);
+                    simulateSet = false;
+               }
                if (simulateChange)
                {
-                    ChangeValues();
+                    HealthPackage healthPackage = _clientsHealth[simulateClient];
+                    
+                    healthPackage.HealthAmount = HandleClientHealthChange(simulateClient,simulateHealthValues);
+                    if (HandleClientBatchChange(simulateClient,simulateBatchValues, out uint amount))
+                    {
+                         healthPackage.BatchAmount = amount;
+                    }
+                    
+                    StoreHealthChanges(simulateClient, healthPackage);
                     simulateChange = false;
                }
           }
@@ -122,19 +153,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     BatchAmount = 3
                };
                _clientsHealth[clientId] = healthPackage;
-          }
-          
-          [ServerRpc(RequireOwnership = false)]
-          private void ChangeValues()
-          {
-               Debug.Log("ChangeValues");
-               HealthPackage newHealthPackage = new HealthPackage()
-               {
-                    HealthAmount = simulateHealthValues,
-                    BatchAmount = simulateBatchValues
-               };
-                    
-               _clientsHealth[simulateClient] = newHealthPackage;
           }
           
           [ObserversRpc]
