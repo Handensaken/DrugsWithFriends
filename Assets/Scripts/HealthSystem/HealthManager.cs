@@ -18,6 +18,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [SerializeField] private HealthRuleData healthRuleData;
           [SerializeField] private bool simulateChange;
 
+          private readonly SyncVar<uint> _currentMaxBatchAmountPerPlayer = new SyncVar<uint>();
           private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>();
 
           public void OnEnable()
@@ -29,11 +30,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                _clientsHealth.OnChange -= SetValues;
           }
-          
+
           public override void OnStartServer()
           {
                base.OnStartServer();
-               //ServerManager.OnRemoteConnectionState += HandleClientChange;
+               _currentMaxBatchAmountPerPlayer.Value = healthRuleData.InitialMaxAmountForBatches;
           }
 
           public override void OnStartClient()
@@ -42,9 +43,16 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                RequestHealth(ClientManager.Connection.ClientId);
           }
 
-          public HealthPackage ReadHealth(int clientID)
+          public uint MaxBatchAmount => _currentMaxBatchAmountPerPlayer.Value;
+          
+          public HealthPackage ReadClientHealth(int clientID)
           {
                return _clientsHealth[clientID];
+          }
+
+          public void HandleClientHealthChange()
+          {
+               
           }
           
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
@@ -85,15 +93,15 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                Debug.Log("ChangeValues");
                HealthPackage healthPackageC1 = new HealthPackage()
                {
-                    HealthAmount = simulateHealthChange0,
-                    BatchAmount = simulateBatchChange0
+                    HealthAmount = (uint)simulateHealthChange0,
+                    BatchAmount = (uint)simulateBatchChange0
                };
                _clientsHealth[0] = healthPackageC1;
                
                HealthPackage healthPackageC2 = new HealthPackage()
                {
-                    HealthAmount = simulateHealthChange1,
-                    BatchAmount = simulateBatchChange1
+                    HealthAmount = (uint)simulateHealthChange1,
+                    BatchAmount = (uint)simulateBatchChange1
                };
                _clientsHealth[1] = healthPackageC2;
           }
@@ -101,8 +109,8 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [ObserversRpc]
           private void SendHealth(int index, HealthPackage healthPackage)
           {
-               int health = healthPackage.HealthAmount;
-               int batch = healthPackage.BatchAmount;
+               uint health = healthPackage.HealthAmount;
+               uint batch = healthPackage.BatchAmount;
                Debug.Log("ClientID: "+index + " - H: " + health + " - B: " + batch);
                HealthPackage currentHealthData = new HealthPackage()
                {

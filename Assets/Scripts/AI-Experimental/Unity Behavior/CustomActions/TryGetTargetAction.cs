@@ -67,20 +67,15 @@ public partial class TryGetTargetAction : Action
         {
             float distanceValue = EvaluateDistance(target.transform.position, prioritiesAITarget.distance);
             
-            //TODO Get current lvls maxHP
-            Debug.LogWarning("Current value for maxBatchAmount acts as a placeholder where a global variant is needed");
-            
-            
-            //Få tag i spelarens ID
             int clientID = target.GetComponent<NetworkBehaviour>().OwnerId;
             Debug.Log($"Current clientID {clientID}");
             
-            //Få tag i spelarens maxLiv
-            HealthPackage currentHealthStatus = healthManager.Value.ReadHealth(clientID);
+            HealthPackage currentHealthStatus = healthManager.Value.ReadClientHealth(clientID);
             Debug.Log($"Current batch: {currentHealthStatus}");
-            //TODO catch up!
-            
-            float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(currentHealthStatus.BatchAmount,2,prioritiesAITarget.maxHealth);
+
+            uint currentAmountBatches = currentHealthStatus.BatchAmount;
+            uint maxBatchAmount = healthManager.Value.MaxBatchAmount; 
+            float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(currentAmountBatches,maxBatchAmount,prioritiesAITarget.maxHealth);
             
             float currentHealthValue = UtilityAIEvaluations.CurrentHealthValue();
             

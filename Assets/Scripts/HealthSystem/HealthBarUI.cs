@@ -40,7 +40,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             }
             
             Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
-            int currentBatchAmount = healthPackage.BatchAmount;
+            uint currentBatchAmount = healthPackage.BatchAmount;
             
             float maxWidth = healthBarUI.rect.width;
             float gapSpace = maxWidth*0.01f;
@@ -51,13 +51,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             UpdateHealth(healthPackage, batchWidth);
         }
         
-        private void UpdateHealthBatches(int currentBatchAmount,float batchWidth, float gapSpace)
+        private void UpdateHealthBatches(uint currentBatchAmount,float batchWidth, float gapSpace)
         {
             RemoveAllMarkers();
             
-            if (currentBatchAmount > healthRuleData.MaxAmountBatches)
+            if (currentBatchAmount > healthRuleData.InitialMaxAmountForBatches)
             {
-                currentBatchAmount = healthRuleData.MaxAmountBatches;
+                currentBatchAmount = healthRuleData.InitialMaxAmountForBatches;
                 Debug.LogWarning("UpdateHealthBatches exceeded the limited-value but was corrected");
             }
             
@@ -89,17 +89,17 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         
         private void UpdateHealth(HealthPackage healthPackage, float batchWidth)
         {
-            int currentHealth = healthPackage.HealthAmount;
-            int currentBatchValue = healthPackage.BatchAmount;
+            uint currentHealth = healthPackage.HealthAmount;
+            uint currentBatchValue = healthPackage.BatchAmount;
             
-            int maxHealth = healthRuleData.HealthPerBatch*currentBatchValue;
+            uint maxHealth = healthRuleData.HealthPerBatch*currentBatchValue;
             if (currentHealth > maxHealth)
             {
                 currentHealth = maxHealth;
                 Debug.LogWarning("UpdateHealth exceeded the limited-value but was corrected to: "+maxHealth);
             }
 
-            int limitIndex4FullHealth = currentHealth / healthRuleData.HealthPerBatch;
+            uint limitIndex4FullHealth = currentHealth / healthRuleData.HealthPerBatch;
             float height = healthBarUI.rect.height;
             for (int i = 0; i < _healthBatches.Count; i++)
             {

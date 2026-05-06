@@ -48,7 +48,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                transform.position = startPos;
           }
 
-          protected override void UpdateUI(int prev, int next, bool asServer)
+          protected override void UpdateUI(uint prev, uint next, bool asServer)
           {
                base.UpdateUI(prev, next, asServer);
           }

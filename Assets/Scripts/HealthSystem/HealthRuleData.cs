@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
@@ -8,10 +9,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
     {
         public UnityAction<int,HealthPackage> UpdateHealth = delegate(int index,HealthPackage healthPackage) {};
         
-        [SerializeField, Min(1)] private int healthPerBatch;
-        [SerializeField, Range(1,10)] private int maxAmountBatches;
+        [SerializeField, Min(1)] private uint healthPerBatch;
+        [SerializeField, Range(1,10)] private uint initialMaxAmountForBatches;
         
-        public int HealthPerBatch => healthPerBatch;
-        public int MaxAmountBatches => maxAmountBatches;
+        public uint HealthPerBatch => healthPerBatch;
+        public uint InitialMaxAmountForBatches => initialMaxAmountForBatches;
     }
 }

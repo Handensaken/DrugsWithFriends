@@ -12,7 +12,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      {
           [SerializeField] protected HealthRuleData healthRuleData;
           [SerializeField] protected NetworkTrigger networkTrigger;
-          private readonly SyncVar<int> _healthCounter = new SyncVar<int>(10);
+          private readonly SyncVar<uint> _healthCounter = new SyncVar<uint>(10);
           
           public override void OnStartServer()
           {
@@ -56,7 +56,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
                }
           }
 
-          protected virtual void UpdateUI(int prev, int next, bool asServer)
+          protected virtual void UpdateUI(uint prev, uint next, bool asServer)
           {
                if (asServer) return;
                Debug.Log("Only clients");

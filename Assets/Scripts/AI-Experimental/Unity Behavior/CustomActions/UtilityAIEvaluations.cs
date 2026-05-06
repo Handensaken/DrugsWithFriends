@@ -17,7 +17,7 @@ namespace AI_Experimental.Unity_Behavior.CustomActions
             return curveValue * distanceDistanceValuePackage.weight;
         }
         
-        public static float MaxBatchValue(int currentBatchAmount,int maxValue, HealthValuePackage healthDistanceValuePackage)
+        public static float MaxBatchValue(uint currentBatchAmount,uint maxValue, HealthValuePackage healthDistanceValuePackage)
         {
             float refinedCurrentValue = currentBatchAmount-healthDistanceValuePackage.startValue;
             float refinedEndValue = maxValue-healthDistanceValuePackage.startValue;
