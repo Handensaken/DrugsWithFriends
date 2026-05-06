@@ -65,7 +65,7 @@ public class BootstrapManager : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Main Menu") return;
+        if (scene.name == "Main Menu" || scene.name == "HannesScene") return;
 
         var mainMenu = SceneManager.GetSceneByName("Main Menu");
         if (mainMenu.isLoaded)
@@ -137,7 +137,11 @@ public class BootstrapManager : MonoBehaviour
         if(t.ConnectionState == LocalConnectionState.Started)
         {
             Debug.Log("starting lobby with tugboat");
-            MainMenuManager.StartLobby();
+            
+            if(SceneManager.GetSceneByName("Main Menu").isLoaded)
+            {
+                MainMenuManager.StartLobby();
+            }
             instance.networkManager.ClientManager.OnClientConnectionState -= StartLobbyTugboat;
         }
     }
