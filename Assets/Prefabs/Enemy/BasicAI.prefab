@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7657480413914017129}
   - component: {fileID: 3157360777225388573}
-  - component: {fileID: 5865814228308469736}
   - component: {fileID: 8513608233697118439}
+  - component: {fileID: 6709684634751062280}
   m_Layer: 0
   m_Name: DamageCollider
   m_TagString: Untagged
@@ -49,7 +49,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -57,23 +57,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.91, z: 0}
---- !u!114 &5865814228308469736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 163048553723082101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6c52b6dc9a38f42b81fdce546b29a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Damage
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 5599575656561588736}
-  healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
-  networkTrigger: {fileID: 8513608233697118439}
 --- !u!114 &8513608233697118439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +77,24 @@ MonoBehaviour:
   Layers:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &6709684634751062280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163048553723082101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cfc2f3bee14d5a8c75dfcb25d7c362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.NPCDamage
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
+  healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
+  networkTrigger: {fileID: 8513608233697118439}
+  behaviorAgent: {fileID: 4943264456987591253}
 --- !u!1 &1320020916023172601
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,7 +515,7 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 121713909896038513}
   - {fileID: 6007298086680157045}
-  - {fileID: 5865814228308469736}
+  - {fileID: 0}
   - {fileID: 8513608233697118439}
   - {fileID: 420708119996327095}
   - {fileID: 2218079657594921333}
@@ -529,7 +530,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584235487499303157
+  _initializedTimestamp: -8584235376238775226
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
