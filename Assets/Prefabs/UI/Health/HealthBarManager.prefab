@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6346756490662404777}
   - component: {fileID: 882290650986487218}
-  - component: {fileID: 732391026409357108}
   - component: {fileID: 2560093495914073618}
   m_Layer: 5
-  m_Name: Health
+  m_Name: HealthBarManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,30 +46,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3757922011888822656}
   m_CullTransparentMesh: 1
---- !u!114 &732391026409357108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3757922011888822656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deaeac13ab478b14da6cdebd1990bfc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.HealthManager
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
-  _networkObjectCache: {fileID: 0}
-  setOnClient: 0
-  setHealth: 0
-  setBatch: 0
-  simulateSet: 0
-  simulateClient: 0
-  simulateHealthValues: 0
-  simulateBatchValues: 0
-  simulateChange: 0
-  healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
 --- !u!114 &2560093495914073618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735221ea4b6546c38262301232fcb874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.HealthBarManager
-  _componentIndexCache: 1
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
   playerHealthBarUI: {fileID: 7827696188735660561, guid: a8988b52bfb01ec469525be5332c63b6, type: 3}
