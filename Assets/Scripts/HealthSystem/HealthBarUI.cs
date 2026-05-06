@@ -42,13 +42,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 
         private void HandleUI(HealthPackage healthPackage)
         {
+            //Should be validate in other spaces
             Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             uint currentBatchAmount = healthPackage.BatchAmount;
-            if (currentBatchAmount > healthRuleData.InitialMaxAmountForBatches)
-            {
-                currentBatchAmount = healthRuleData.InitialMaxAmountForBatches;
-                Debug.LogWarning("UpdateHealthBatches exceeded the limited-value but was corrected");
-            }
             
             float maxWidth = healthBarUI.rect.width;
             float gapSpace = maxWidth*0.01f;
@@ -76,7 +72,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 Vector2 pos = new Vector2(batchWidth * i + gapSpace*i,0);
                 newBatch.BatchRect.anchoredPosition3D = pos;
                 _healthBatches.Add(newBatch);
-                Debug.Log("Batch: "+i);
             }
         }
 
@@ -93,14 +88,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private void UpdateHealth(HealthPackage healthPackage, float batchWidth)
         {
             uint currentHealth = healthPackage.HealthAmount;
-            uint currentBatchValue = healthPackage.BatchAmount;
-            
-            uint maxHealth = healthRuleData.HealthPerBatch*currentBatchValue;
-            if (currentHealth > maxHealth)
-            {
-                currentHealth = maxHealth;
-                Debug.LogWarning("UpdateHealth exceeded the limited-value but was corrected to: "+maxHealth);
-            }
 
             uint limitIndex4FullHealth = currentHealth / healthRuleData.HealthPerBatch;
             float height = healthBarUI.rect.height;

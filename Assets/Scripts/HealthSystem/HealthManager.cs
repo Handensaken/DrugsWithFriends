@@ -74,12 +74,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                
                return (uint)potentialNewHealth;
           }
-
-          [ServerRpc(RequireOwnership = false)]
-          public void StoreHealthChanges(int clientID, HealthPackage package)
-          {
-               _clientsHealth[clientID] = package;
-          }
           
           private bool HandleClientBatchChange(int clientID, int batchChange, out uint resultBatchAmount)
           {
@@ -103,6 +97,32 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                return true;
           }
           
+          [ServerRpc(RequireOwnership = false)]
+          private void StoreHealthChanges(int clientID, HealthPackage package)
+          {
+               //uint currentBatchAmount =
+               
+               uint maxHealth = package.BatchAmount * healthRuleData.HealthPerBatch;
+               uint currentHealth = ValidateValue(package.HealthAmount,0,maxHealth);
+               
+               _clientsHealth[clientID] = package;
+          }
+
+          private uint ValidateValue(uint current, uint minimum, uint maximum)
+          {
+               if (current < minimum)
+               {
+                    return minimum;
+               }
+               
+               if (current > maximum)
+               {
+                    return maximum;
+               }
+               
+               return current;
+          }
+          
           private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
           {
                if (!asServer) return;
@@ -120,7 +140,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                if (simulateSet)
                {
-                    //SetValues();
                     HealthPackage healthPackage = new HealthPackage()
                     {
                          HealthAmount = setHealth,
@@ -143,7 +162,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     simulateChange = false;
                }
           }
-
+          
           [ServerRpc(RequireOwnership = false)]
           private void RequestHealth(int clientId)
           {
