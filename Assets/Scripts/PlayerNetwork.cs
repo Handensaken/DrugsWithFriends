@@ -294,7 +294,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (angleDifference > 120)
         {
-            networkAnimator.SetTrigger(AnimationParameters.TurnAround);
+            //networkAnimator.SetTrigger(AnimationParameters.TurnAround);
         }
             
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
@@ -430,7 +430,6 @@ public class PlayerNetwork : NetworkBehaviour
             attackBuffered = true;
             attackQueueTimestamp = Time.time;
             queuedAttack = AnimationParameters.LightAttack;
-            attacking = false;
         }
     }
     
@@ -446,12 +445,10 @@ public class PlayerNetwork : NetworkBehaviour
             attackBuffered = true;
             attackQueueTimestamp = Time.time;
             queuedAttack = AnimationParameters.HeavyAttack;
-            attacking = false;
         }
     }
     public void OnAttackStart()
     {
-        StopAllCoroutines();
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
         attackHitboxCollider.enabled = true;
