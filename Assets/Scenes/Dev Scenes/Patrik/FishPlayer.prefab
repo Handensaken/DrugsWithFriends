@@ -337,11 +337,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 154498725950627151, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: WasActiveDuringEdit
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5156850383231471644, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_Name
       value: PlayerCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156850383231471644, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7742780262395722836, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_Pivot.x

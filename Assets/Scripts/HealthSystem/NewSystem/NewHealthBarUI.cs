@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
-    /// <summary>
-    /// TODO Performance
-    /// </summary>
-    public class HealthBarUI : MonoBehaviour
+    public class NewHealthBarUI : MonoBehaviour
     {
         [SerializeField] public int ID;
         [SerializeField] private RectTransform healthBarUI;
@@ -20,26 +15,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
-
-        private void OnEnable()
-        {
-            healthRuleData.UpdateHealth += HandleChanges;
-        }
-
-        private void OnDisable()
-        {
-            healthRuleData.UpdateHealth -= HandleChanges;
-        }
-
-        private void HandleChanges(int clientID, HealthPackage healthPackage)
-        {
-            if (clientID == ID)
-            {
-                HandleUI(healthPackage);
-            }
-        }
-
-        private void HandleUI(HealthPackage healthPackage)
+        
+        
+        public void UpdateUI(HealthPackage healthPackage)
         {
             //Should be validate in other spaces
             Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
