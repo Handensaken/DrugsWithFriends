@@ -76,6 +76,18 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnValidate();
         attackRangeCollider.radius = detectEnemiesRange;
+        
+        if (TryGetComponent(out Animator anim))
+        {
+            animator = anim;
+            animator.SetFloat(AnimationParameters.XInput, 0);
+            animator.SetFloat(AnimationParameters.ZInput, 0);
+        }
+        else
+        {
+            Debug.LogError("Couldn't get animator");
+        }
+        
         animator.speed = animationSpeed;
     }
 
