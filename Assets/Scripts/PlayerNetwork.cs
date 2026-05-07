@@ -419,6 +419,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
+        Debug.Log(attacking);
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
@@ -464,6 +465,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (attackBuffered && timeSinceQueued <= attackBufferTime && currentChain < 3)
         {
             networkAnimator.SetTrigger(queuedAttack);
+            attacking = false;
             return;
         }
         attackHitboxCollider.enabled = false;
