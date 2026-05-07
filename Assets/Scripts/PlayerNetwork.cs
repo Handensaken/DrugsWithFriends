@@ -60,6 +60,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private BoxCollider attackHitboxCollider;
     [SerializeField] private SelectionHandler selectionHandler;
     private string queuedAttack = "";
+    [SerializeField, Range(0, 3f)] private float animationSpeed;
     
     [Serializable]
     struct DashParameters
@@ -75,6 +76,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnValidate();
         attackRangeCollider.radius = detectEnemiesRange;
+        animator.speed = animationSpeed;
     }
 
     private void Awake()
