@@ -7,8 +7,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
     [CreateAssetMenu(menuName = "Health System/HealthSO")]
     public class HealthRuleData : ScriptableObject
     {
-        public UnityAction<int,HealthPackage> UpdateHealth = delegate(int index,HealthPackage healthPackage) {};
-        
+        //TODO NewHealthUnit-event (new player registered)
+        public UnityAction<int,HealthPackage> UpdateHealth = delegate(int clientID,HealthPackage healthPackage) {};
+        //TODO Player Left (id) - removal from system
         [SerializeField, Min(1)] private uint healthPerBatch;
         [SerializeField, Range(1,10)] private uint initialMaxAmountForBatches;
         
