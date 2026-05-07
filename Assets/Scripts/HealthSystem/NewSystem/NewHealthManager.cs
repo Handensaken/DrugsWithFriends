@@ -73,12 +73,19 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           {
                base.OnStartServer();
                _currentMaxBatchAmountPerPlayer.Value = healthRuleData.InitialMaxAmountForBatches;
+               healthRuleData.RequestHealth += RequestHealth;
           }
 
-          public override void OnStartClient()
+          public override void OnStopServer()
           {
-               base.OnStartClient();
-               RequestHealth(ClientManager.Connection.ClientId);
+               base.OnStopServer();
+               healthRuleData.RequestHealth -= RequestHealth;
+          }
+
+          public override void OnStopClient()
+          {
+               base.OnStopClient();
+               //healthRuleData.RemovalOfClientData(ClientManager.Connection.ClientId);
           }
           
           [ServerRpc(RequireOwnership = false)]
@@ -150,6 +157,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [ServerRpc(RequireOwnership = false)]
           private void RequestHealth(int clientId)
           {
+               Debug.Log("RequestHealth - "+clientId);
                HealthPackage healthPackage = new HealthPackage()
                {
                     HealthAmount = 10,
