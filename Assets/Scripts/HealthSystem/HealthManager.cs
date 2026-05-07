@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -27,6 +29,20 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           private readonly SyncVar<uint> _currentMaxBatchAmountPerPlayer = new SyncVar<uint>();
           private readonly SyncDictionary<int, HealthPackage> _clientsHealth = new SyncDictionary<int, HealthPackage>();
 
+          private static HealthManager _singleton;
+          public static HealthManager Instance => _singleton;
+
+          private void Awake()
+          {
+               if (_singleton != null)
+               {
+                    Destroy(gameObject);
+                    return; 
+               }
+
+               _singleton = this;
+          }
+
           public void OnEnable()
           {
                _clientsHealth.OnChange += SetValues;
@@ -50,6 +66,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           }
 
           public uint MaxBatchAmount => _currentMaxBatchAmountPerPlayer.Value;
+          public uint HealthPerBatch => healthRuleData.HealthPerBatch;
           
           public HealthPackage ReadClientHealth(int clientID)
           {
@@ -109,6 +126,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     simulateSet = false;
                }
                
+               //TODO handle if no change to batch-value (player gets the batch back and the other one never receives it)
                if (simulateChange)
                {
                     HealthPackage healthPackage = _clientsHealth[simulateClient];

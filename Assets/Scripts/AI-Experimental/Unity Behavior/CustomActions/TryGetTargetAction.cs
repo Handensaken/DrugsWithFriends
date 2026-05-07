@@ -20,17 +20,23 @@ public partial class TryGetTargetAction : Action
 
     [SerializeReference] public BlackboardVariable<GameObject> self;
     [SerializeReference] public BlackboardVariable<EnemyData> enemySO;
-    [SerializeReference] public BlackboardVariable<HealthManager> healthManager;
 
+    //TODO flag som hanterar flera olika utilityAIVal - SENARE
+    
+    private HealthManager _healthManager;
     private NavMeshAgent _agent;
-
+    
     protected override Status OnStart()
     {
+        if (_healthManager == null)
+        {
+            _healthManager = HealthManager.Instance;
+        }
+        
         _agent = self.Value.GetComponent<NavMeshAgent>();
 
         if (AllTargets.Value.Count <= 0)
         {
-            //Debug.Log("No targets found");
             return Status.Failure;
         }
 
@@ -70,14 +76,16 @@ public partial class TryGetTargetAction : Action
             int clientID = target.GetComponent<NetworkBehaviour>().OwnerId;
             Debug.Log($"Current clientID {clientID}");
             
-            HealthPackage currentHealthStatus = healthManager.Value.ReadClientHealth(clientID);
+            HealthPackage currentHealthStatus = _healthManager.ReadClientHealth(clientID);
             Debug.Log($"Current batch: {currentHealthStatus}");
 
             uint currentAmountBatches = currentHealthStatus.BatchAmount;
-            uint maxBatchAmount = healthManager.Value.MaxBatchAmount; 
-            float maxHealthValue = UtilityAIEvaluations.MaxBatchValue(currentAmountBatches,maxBatchAmount,prioritiesAITarget.maxHealth);
+            uint maxBatchAmount = _healthManager.MaxBatchAmount; 
+            float maxHealthValue = UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentAmountBatches,maxBatchAmount,prioritiesAITarget.maxHealth);
             
-            float currentHealthValue = UtilityAIEvaluations.CurrentHealthValue();
+            uint currentHealth = currentHealthStatus.HealthAmount;
+            uint maxHealth = currentHealthStatus.BatchAmount * _healthManager.HealthPerBatch;
+            float currentHealthValue = UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, prioritiesAITarget.health);
             
             float sum = distanceValue+maxHealthValue+currentHealthValue;
             Debug.Log("Distance:"+ distanceValue +
@@ -111,12 +119,12 @@ public partial class TryGetTargetAction : Action
         return currentBest.Item2;
     }
     
-    private float EvaluateDistance(Vector3 targetPosition, DistanceValuePackage distancePackage)
+    private float EvaluateDistance(Vector3 targetPosition, ValuePackage package)
     {
         NavMeshPath path = new NavMeshPath();
         _agent.CalculatePath(targetPosition, path); 
         _agent.path = path;
             
-        return UtilityAIEvaluations.DistanceValue(_agent.remainingDistance, distancePackage);
+        return UtilityAIEvaluations.MapValueToCurve(_agent.remainingDistance, package);
     }
 }

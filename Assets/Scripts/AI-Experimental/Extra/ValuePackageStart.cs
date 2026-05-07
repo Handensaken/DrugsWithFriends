@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Scenes.Dev_Scenes.Patrik.AI.Extra
 {
     [Serializable]
-    public struct HealthValuePackage
+    public struct ValuePackageStart
     {
         [SerializeField] public AnimationCurve curve;
         [SerializeField, Min(1),

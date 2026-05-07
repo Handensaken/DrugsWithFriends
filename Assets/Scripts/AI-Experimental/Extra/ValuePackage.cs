@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Scenes.Dev_Scenes.Patrik.AI.Extra
 {
     [Serializable]
-    public struct DistanceValuePackage
+    public struct ValuePackage
     {
         [SerializeField] public AnimationCurve curve;
         
