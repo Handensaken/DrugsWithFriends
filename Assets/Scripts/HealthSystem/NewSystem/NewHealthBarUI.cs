@@ -16,11 +16,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
         
-        
         public void UpdateUI(HealthPackage healthPackage)
         {
-            //Should be validate in other spaces
-            Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
+            //Should validate in other spaces
+            //Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             uint currentBatchAmount = healthPackage.BatchAmount;
             
             float maxWidth = healthBarUI.rect.width;

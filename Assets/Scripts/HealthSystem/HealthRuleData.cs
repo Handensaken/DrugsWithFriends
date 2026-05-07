@@ -8,8 +8,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
     public class HealthRuleData : ScriptableObject
     {
         //TODO NewHealthUnit-event (new player registered)
+        public UnityAction<int> RequestHealth = delegate (int clientID){};
         public UnityAction<int,HealthPackage> UpdateHealth = delegate(int clientID,HealthPackage healthPackage) {};
-        //TODO Player Left (id) - removal from system
+        public UnityAction<int> RemovalOfClientData = delegate(int clientID) {};
+        
         [SerializeField, Min(1)] private uint healthPerBatch;
         [SerializeField, Range(1,10)] private uint initialMaxAmountForBatches;
         
