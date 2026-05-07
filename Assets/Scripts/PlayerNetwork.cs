@@ -419,17 +419,18 @@ public class PlayerNetwork : NetworkBehaviour
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
+        Debug.Log(attacking);
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
             Debug.Log("set light attack trigger");
-            attacking = true;
         }
         else
         {
             attackBuffered = true;
             attackQueueTimestamp = Time.time;
             queuedAttack = AnimationParameters.LightAttack;
+            attacking = false;
         }
     }
     
@@ -439,17 +440,18 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.HeavyAttack);
-            attacking = true;
         }
         else
         {
             attackBuffered = true;
             attackQueueTimestamp = Time.time;
             queuedAttack = AnimationParameters.HeavyAttack;
+            attacking = false;
         }
     }
     public void OnAttackStart()
     {
+        StopAllCoroutines();
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
         attackHitboxCollider.enabled = true;
@@ -463,7 +465,9 @@ public class PlayerNetwork : NetworkBehaviour
         float timeSinceQueued = Time.time - attackQueueTimestamp;
         if (attackBuffered && timeSinceQueued <= attackBufferTime && currentChain < 3)
         {
+            attackBuffered = false;
             networkAnimator.SetTrigger(queuedAttack);
+            attacking = false;
             return;
         }
         attackHitboxCollider.enabled = false;
