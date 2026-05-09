@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3798075602117044919}
   - component: {fileID: 154498725950627151}
   m_Layer: 5
-  m_Name: PlayerCanvas
+  m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 7
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 8427667831022364929
+  <AssetPathHash>k__BackingField: 12218551288137672073
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -194,6 +194,10 @@ PrefabInstance:
     - target: {fileID: 3757922011888822656, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
       propertyPath: m_Name
       value: HealthBarManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4077790248885655639, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6346756490662404777, guid: 2fe93e17632c6b0478e0c1209a75b6ef, type: 3}
       propertyPath: m_Pivot.x

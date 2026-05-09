@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8295494486357313803}
   m_Layer: 5
-  m_Name: ParentOrherBars
+  m_Name: ParentOtherBars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 4077790248885655639}
   - component: {fileID: 1922548706975624306}
   m_Layer: 5
-  m_Name: HealthBarManager
+  m_Name: FocusedHealthBarManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: 1922548706975624306}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -112,7 +113,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: 0
+  _initializedTimestamp: -8584232692613032022
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -128,15 +129,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 2
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 725009302018797289
+  <AssetPathHash>k__BackingField: 3271024631859575709
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!114 &1922548706975624306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,13 +150,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ede061accc44c9f89808587c9875d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.HealthBarManager
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4077790248885655639}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 4077790248885655639}
   playerHealthBarUI: {fileID: 6052935330131708497}
   healthBarForOtherPlayers: {fileID: 2314158460644769034, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
   parentOtherPlayersBars: {fileID: 8295494486357313803}
   distanceBetweenOthers: 40
+  fromTheTop: 0
   healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
 --- !u!1001 &6747952847530659310
 PrefabInstance:

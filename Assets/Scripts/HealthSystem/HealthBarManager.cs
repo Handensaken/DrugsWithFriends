@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
+    
     public class HealthBarManager : NetworkBehaviour
     {
         [SerializeField] private HealthBarUI playerHealthBarUI;
@@ -13,7 +14,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private readonly Dictionary<int,HealthBarUI> _healthBarUis = new Dictionary<int, HealthBarUI>();
 
         [Space, Header("Parameters"), SerializeField]
-        private uint distanceBetweenOthers; 
+        private uint distanceBetweenOthers;
+
+        [SerializeField,Tooltip("Now from the top, make it drop, that's some.......ui" +
+                                "\n- either the other bars is dropping from the parent or going upwards from the parent")]
+        private bool fromTheTop;
         
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
@@ -84,7 +89,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private void CreateBar(int clientID)
         {
             Debug.Log("Created new healthBar in database");
-            HealthBarUI bar = Instantiate(healthBarForOtherPlayers,gameObject.GetComponent<RectTransform>()).GetComponent<HealthBarUI>();
+            HealthBarUI bar = Instantiate(healthBarForOtherPlayers,parentOtherPlayersBars).GetComponent<HealthBarUI>();
             bar.SetUp(clientID);
             _healthBarUis[clientID] = bar;
         }
@@ -104,13 +109,32 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         
         private void MoveHealthBars()
         {
-            int counter = 0;
-            foreach (var keyValue in _healthBarUis)
+            if (fromTheTop)
             {
-                RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = parentOtherPlayersBars.anchoredPosition + new Vector2(0,distanceBetweenOthers*counter);
-                counter++;
+                Vector2 startPos = parentOtherPlayersBars.anchoredPosition +
+                                   new Vector2(0, parentOtherPlayersBars.sizeDelta.y);
+                
+                int counter = 0;
+                foreach (var keyValue in _healthBarUis)
+                {
+                    RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
+                    
+                    rectTransform.anchoredPosition = startPos + new Vector2(0,-distanceBetweenOthers*counter);
+                    counter++;
+                }
             }
+            else
+            {
+                int counter = 0;
+                foreach (var keyValue in _healthBarUis)
+                {
+                    RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
+                    rectTransform.anchoredPosition = parentOtherPlayersBars.anchoredPosition + new Vector2(0,distanceBetweenOthers*counter);
+                    counter++;
+                }
+            }
+            
+            
         }
     }
 }
