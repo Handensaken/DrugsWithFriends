@@ -160,11 +160,23 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     simulateChange = false;
                }
           }
+
+          [ServerRpc(RequireOwnership = false)]
+          public void UpdateBatchAmount(int clientID, int change)
+          {
+               Debug.Log(clientID);
+               HealthPackage healthPackage = _clientsHealth[clientID];
+               
+               int currentBatchAmount = (int)healthPackage.BatchAmount +change;
+               
+               StoreHealthChanges(clientID, (int)healthPackage.HealthAmount, currentBatchAmount);
+          }
           
           //TODO does it really need to be ServerRPC?
           [ServerRpc(RequireOwnership = false)]
           private void RequestHealth(int clientId)
           {
+               //TODO testing values 4 now
                Debug.Log("RequestHealth - "+clientId);
                if (clientId == 0)
                {
@@ -192,7 +204,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                HealthPackage t = new HealthPackage()
                {
                     HealthAmount = 10,
-                    BatchAmount = 2
+                    BatchAmount = 1
                };
                _clientsHealth[clientId] = t;
           }
