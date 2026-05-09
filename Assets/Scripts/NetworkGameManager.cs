@@ -1,7 +1,7 @@
 using UnityEngine;
 using FishNet.Object;
 
-public class NewNetworkBehaviourTemplate : NetworkBehaviour
+public class NetworkGameManager : NetworkBehaviour
 {
      [SerializeField] private NetworkObject[] globalObjects;
 

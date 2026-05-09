@@ -1,11 +1,6 @@
-using System;
 using System.Collections.Generic;
-using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using FishNet.Transporting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
@@ -14,112 +9,108 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [SerializeField] private HealthBarUI playerHealthBarUI;
         
         [Space,SerializeField] private GameObject healthBarForOtherPlayers;
-        [SerializeField] private List<HealthBarUI> healthBarUis = new List<HealthBarUI>();
+        [SerializeField] private RectTransform parentOtherPlayersBars;
+        private readonly Dictionary<int,HealthBarUI> _healthBarUis = new Dictionary<int, HealthBarUI>();
 
-        public override void OnStartServer()
-        {
-            ServerManager.OnRemoteConnectionState += HandleConnectionChangeFromOtherClient;
-        }
+        [Space, Header("Parameters"), SerializeField]
+        private uint distanceBetweenOthers; 
+        
+        [Space]
+        [SerializeField] private HealthRuleData healthRuleData;
 
         public override void OnStartClient()
         {
             base.OnStartClient();
-            playerHealthBarUI.ID = ClientManager.Connection.ClientId;
-            SetUpAllExtraBars();
+            
+            //Debug.Log("OnStartClient");
+            healthRuleData.UpdateHealth += HandleChanges;
+            healthRuleData.RemovalClientData += RemoveClientBar;
+            //ServerManager.OnRemoteConnectionState += RemoveClientBar;
+            
+            SettingUpPlayerHealthBar(ClientManager.Connection.ClientId);
+            //Debug.Log("RequestSent - "+ClientManager.Connection.ClientId);
+            ServerRequestHealth(ClientManager.Connection.ClientId);
+            
         }
 
         public override void OnStopClient()
         {
             base.OnStopClient();
-              
-            for (int i = 0; i < healthBarUis.Count; i++)
-            {
-                //Debug.Log("Remove: "+i);
-                Destroy(healthBarUis[^(i+1)].gameObject);
-            }
-            healthBarUis.Clear();
+            
+            healthRuleData.UpdateHealth -= HandleChanges;
+            healthRuleData.RemovalClientData -= RemoveClientBar;
         }
 
-        private void SetUpAllExtraBars()
+        [ServerRpc(RequireOwnership = false)]
+        private void ServerRequestHealth(int clientId)
         {
-            List<int> ids = new List<int>();
-            foreach (NetworkConnection networkConnection in ClientManager.Clients.Values)
+            healthRuleData.RequestHealth(clientId);
+        }
+        
+        [Client]
+        private void SettingUpPlayerHealthBar(int clientID)
+        {
+            playerHealthBarUI.SetUp(clientID);
+        }
+        
+        private void HandleChanges(int clientID, HealthPackage healthPackage)
+        {
+            //MainBar
+            if (playerHealthBarUI.ID == clientID)
             {
-                if (networkConnection.ClientId == ClientManager.Connection.ClientId)
-                {
-                    continue;
-                }
-                ids.Add(networkConnection.ClientId);
+                //Debug.Log("MainPlayer - noted");
+                playerHealthBarUI.UpdateUI(healthPackage);
+                return;
             }
-            CreateBars(ids.ToArray());
-              
+            
+            //Other clients bars
+            HandleIfNew(clientID);
+            _healthBarUis[clientID].UpdateUI(healthPackage);
+        }
+        
+        private void HandleIfNew(int clientID)
+        {
+            if (_healthBarUis.ContainsKey(clientID))
+            {
+                //Debug.Log("Already in local database");
+                return;
+            }
+            
+            //Debug.Log("CreateBarID: "+clientID);
+            CreateBar(clientID);
             MoveHealthBars();
         }
-          
-        private void HandleConnectionChangeFromOtherClient(NetworkConnection networkConnection, RemoteConnectionStateArgs remoteConnectionStateArgs)
-        {
-            Debug.Log("Check");
-              
-            if (remoteConnectionStateArgs.ConnectionState == RemoteConnectionState.Started)
-            {
-                Debug.Log("Client joined: "+networkConnection.ClientId);
-                HandleAddingBar(networkConnection.ClientId);
-            }
-            else if (remoteConnectionStateArgs.ConnectionState == RemoteConnectionState.Stopped)
-            {
-                Debug.Log("Client left: "+networkConnection.ClientId);
-                HandleRemovalOfBar(networkConnection.ClientId);
-            }
-        }
 
-        private void CreateBars(int[] barAndClientID)
+        private void CreateBar(int clientID)
         {
-            int amountOfBars = barAndClientID.Length;
-            for (int i = 0; i < amountOfBars; i++)
-            {
-                Debug.Log("Add: "+i);
-                HealthBarUI test = Instantiate(healthBarForOtherPlayers,gameObject.GetComponent<RectTransform>()).GetComponent<HealthBarUI>();
-                  
-                test.ID = barAndClientID[i];
-                healthBarUis.Add(test);
-            }
+            Debug.Log("Created new healthBar in database");
+            HealthBarUI bar = Instantiate(healthBarForOtherPlayers,gameObject.GetComponent<RectTransform>()).GetComponent<HealthBarUI>();
+            bar.SetUp(clientID);
+            _healthBarUis[clientID] = bar;
         }
-
+        
+        private void RemoveClientBar(int clientID)
+        {
+            if (!_healthBarUis.Remove(clientID, out HealthBarUI ui))
+            {
+                Debug.LogError("couldn't remove certain clientHealthBar: "+clientID);
+                return;
+            }
+            
+            Destroy(ui.gameObject);
+            
+            MoveHealthBars();
+        }
+        
         private void MoveHealthBars()
         {
-            for (int i = 0; i < healthBarUis.Count; i++)
+            int counter = 0;
+            foreach (var keyValue in _healthBarUis)
             {
-                RectTransform rectTransform = healthBarUis[i].GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = playerHealthBarUI.GetComponent<RectTransform>().anchoredPosition + new Vector2(0,40*(i+1));
+                RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = parentOtherPlayersBars.anchoredPosition + new Vector2(0,distanceBetweenOthers*counter);
+                counter++;
             }
-        }
-
-        private void RemoveHealthBars(int clientID)
-        {
-            for (int i = 0; i < healthBarUis.Count; i++)
-            {
-                HealthBarUI currentHealthBar = healthBarUis[^(i+1)];
-                if (currentHealthBar.ID == clientID)
-                {
-                    healthBarUis.Remove(currentHealthBar);
-                    Destroy(currentHealthBar.gameObject);
-                    return;
-                }
-            }
-        }
-          
-        [ObserversRpc]
-        private void HandleAddingBar(int clientID)
-        {
-            CreateBars(new []{clientID});
-            MoveHealthBars();
-        }
-          
-        [ObserversRpc]
-        private void HandleRemovalOfBar(int clientID)
-        {
-            RemoveHealthBars(clientID);
-            MoveHealthBars();
         }
     }
 }

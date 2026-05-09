@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
@@ -32,6 +28,20 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           private static HealthManager _singleton;
           public static HealthManager Instance => _singleton;
 
+          #region Getters
+
+          public uint MaxBatchAmount => _currentMaxBatchAmountPerPlayer.Value;
+          public uint HealthPerBatch => healthRuleData.HealthPerBatch;
+          
+          public HealthPackage ReadClientHealth(int clientID)
+          {
+               return _clientsHealth[clientID];
+          }
+
+          #endregion
+          
+          #region SetUp
+          
           private void Awake()
           {
                if (_singleton != null)
@@ -45,32 +55,39 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 
           public void OnEnable()
           {
-               _clientsHealth.OnChange += SetValues;
+               _clientsHealth.OnChange += HandleSyncDictChange; // TODO put in StartServer
           }
 
           public void OnDisable()
           {
-               _clientsHealth.OnChange -= SetValues;
+               _clientsHealth.OnChange -= HandleSyncDictChange;
           }
-
+          
+          #endregion
+          
           public override void OnStartServer()
           {
                base.OnStartServer();
+               ServerManager.OnRemoteConnectionState += RemoveClientHealth;
+               
                _currentMaxBatchAmountPerPlayer.Value = healthRuleData.InitialMaxAmountForBatches;
+               healthRuleData.RequestHealth += RequestHealth;
           }
 
-          public override void OnStartClient()
+          public override void OnStopServer()
           {
-               base.OnStartClient();
-               RequestHealth(ClientManager.Connection.ClientId);
+               base.OnStopServer();
+               healthRuleData.RequestHealth -= RequestHealth;
+               
+               ServerManager.OnRemoteConnectionState -= RemoveClientHealth;
           }
 
-          public uint MaxBatchAmount => _currentMaxBatchAmountPerPlayer.Value;
-          public uint HealthPerBatch => healthRuleData.HealthPerBatch;
-          
-          public HealthPackage ReadClientHealth(int clientID)
+          private void RemoveClientHealth(NetworkConnection networkConnection, RemoteConnectionStateArgs remoteConnectionStateArgs)
           {
-               return _clientsHealth[clientID];
+               if (remoteConnectionStateArgs.ConnectionState != RemoteConnectionState.Stopped) return;
+               
+               int clientID = networkConnection.ClientId;
+               _clientsHealth.Remove(clientID);
           }
           
           [ServerRpc(RequireOwnership = false)]
@@ -105,16 +122,21 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                return (uint)current;
           }
           
-          private void SetValues(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
+          private void HandleSyncDictChange(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
           {
                if (!asServer) return;
 
-               if (op == SyncDictionaryOperation.Add || op == SyncDictionaryOperation.Set)
+               if (op == SyncDictionaryOperation.Add || op == SyncDictionaryOperation.Set) //TODO dont know if the hole circle is necessary
                {
                     foreach (var keyValues in _clientsHealth)
                     {
-                         SendHealth(keyValues.Key, keyValues.Value);
+                         SendUpdateHealth(keyValues.Key, keyValues.Value);
                     }
+               }
+
+               if (op == SyncDictionaryOperation.Remove)
+               {
+                    SendRemoveClient(key);
                }
           }
           //TODO remove - currently all clients
@@ -139,29 +161,59 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                }
           }
           
+          //TODO does it really need to be ServerRPC?
           [ServerRpc(RequireOwnership = false)]
           private void RequestHealth(int clientId)
           {
-               HealthPackage healthPackage = new HealthPackage()
+               Debug.Log("RequestHealth - "+clientId);
+               if (clientId == 0)
+               {
+                    HealthPackage healthPackage = new HealthPackage()
+                    {
+                         HealthAmount = 10,
+                         BatchAmount = 3
+                    };
+                    _clientsHealth[clientId] = healthPackage;
+                    return;
+               }
+
+               if (clientId == 1)
+               {
+                    HealthPackage healthPackage = new HealthPackage()
+                    {
+                         HealthAmount = 2,
+                         BatchAmount = 1
+                    };
+                    _clientsHealth[clientId] = healthPackage;
+                    return;
+               }
+               
+               
+               HealthPackage t = new HealthPackage()
                {
                     HealthAmount = 10,
-                    BatchAmount = 3
+                    BatchAmount = 2
                };
-               _clientsHealth[clientId] = healthPackage;
+               _clientsHealth[clientId] = t;
           }
           
           [ObserversRpc]
-          private void SendHealth(int index, HealthPackage healthPackage)
+          private void SendUpdateHealth(int index, HealthPackage healthPackage)
           {
                uint health = healthPackage.HealthAmount;
                uint batch = healthPackage.BatchAmount;
-               Debug.Log("ClientID: "+index + " - H: " + health + " - B: " + batch);
                HealthPackage currentHealthData = new HealthPackage()
                {
                     HealthAmount = health,
                     BatchAmount = batch
                };
                healthRuleData.UpdateHealth(index,currentHealthData);
+          }
+          
+          [ObserversRpc]
+          private void SendRemoveClient(int index)
+          {
+               healthRuleData.RemovalClientData(index);
           }
      }
 }

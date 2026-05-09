@@ -2,18 +2,15 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
-    /// <summary>
-    /// TODO Performance
-    /// </summary>
     public class HealthBarUI : MonoBehaviour
     {
-        [SerializeField] public int ID;
+        [SerializeField] private int id;
         [SerializeField] private RectTransform healthBarUI;
-        //[SerializeField] private TextMeshPro clientName;
+        [SerializeField] private TextMeshProUGUI clientName;
         
         [Space,SerializeField] private GameObject healthBatch;
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
@@ -21,27 +18,17 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
 
-        private void OnEnable()
+        public int ID => id;
+        
+        public void SetUp(int clientID)
         {
-            healthRuleData.UpdateHealth += HandleChanges;
+            id = clientID;
+            clientName.text = "Client - " + clientID;
         }
-
-        private void OnDisable()
+        
+        public void UpdateUI(HealthPackage healthPackage)
         {
-            healthRuleData.UpdateHealth -= HandleChanges;
-        }
-
-        private void HandleChanges(int clientID, HealthPackage healthPackage)
-        {
-            if (clientID == ID)
-            {
-                HandleUI(healthPackage);
-            }
-        }
-
-        private void HandleUI(HealthPackage healthPackage)
-        {
-            //Should be validate in other spaces
+            //Should validate in other spaces
             Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             uint currentBatchAmount = healthPackage.BatchAmount;
             

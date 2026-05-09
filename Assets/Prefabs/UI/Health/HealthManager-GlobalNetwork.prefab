@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3273145866729841290
+--- !u!1 &2514215633315939789
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 353891465200584016}
-  - component: {fileID: 6919461705315907871}
-  - component: {fileID: 3292915755582044826}
+  - component: {fileID: 3794671635823482237}
+  - component: {fileID: 7829748783382512381}
+  - component: {fileID: 2149593176544077024}
   m_Layer: 0
-  m_Name: NewHealthManager
+  m_Name: HealthManager-GlobalNetwork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &353891465200584016
+--- !u!4 &3794671635823482237
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273145866729841290}
+  m_GameObject: {fileID: 2514215633315939789}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 897.5322, y: -0, z: 934.19147}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6919461705315907871
+--- !u!114 &7829748783382512381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273145866729841290}
+  m_GameObject: {fileID: 2514215633315939789}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3701cb7bd77a4a748a3dee07dfd1d624, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.NewHealthManager
+  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.HealthManager
   _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 3292915755582044826}
+  _addedNetworkObject: {fileID: 2149593176544077024}
   _networkObjectCache: {fileID: 0}
   setOnClient: 0
   setHealth: 0
@@ -57,13 +57,13 @@ MonoBehaviour:
   simulateBatchValues: 0
   simulateChange: 0
   healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
---- !u!114 &3292915755582044826
+--- !u!114 &2149593176544077024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3273145866729841290}
+  m_GameObject: {fileID: 2514215633315939789}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
@@ -82,7 +82,7 @@ MonoBehaviour:
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
   _isSpawnable: 1
-  _isGlobal: 1
+  _isGlobal: 0
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 65535
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 16300700422485150922
+  <AssetPathHash>k__BackingField: 286378242770949213
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
