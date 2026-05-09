@@ -14,6 +14,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [SerializeField] private NewHealthBarUI playerHealthBarUI;
         
         [Space,SerializeField] private GameObject healthBarForOtherPlayers;
+        [SerializeField] private RectTransform parentOtherPlayersBars;
         private readonly Dictionary<int,NewHealthBarUI> _healthBarUis = new Dictionary<int, NewHealthBarUI>();
 
         [Space]
@@ -22,7 +23,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         public override void OnStartClient()
         {
             base.OnStartClient();
-            if (!IsOwner) return;
             
             //Debug.Log("OnStartClient");
             healthRuleData.UpdateHealth += HandleChanges;
@@ -30,7 +30,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             //ServerManager.OnRemoteConnectionState += RemoveClientBar;
             
             SettingUpPlayerHealthBar(ClientManager.Connection.ClientId);
-            //Debug.Log("RequestSent - "+ClientManager.Connection.ClientId);
+            Debug.Log("RequestSent - "+ClientManager.Connection.ClientId);
             ServerRequestHealth(ClientManager.Connection.ClientId);
             
         }
@@ -38,13 +38,12 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         public override void OnStopClient()
         {
             base.OnStopClient();
-            if (!IsOwner) return;
             
             healthRuleData.UpdateHealth -= HandleChanges;
             healthRuleData.RemovalClientData -= RemoveClientBar;
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void ServerRequestHealth(int clientId)
         {
             healthRuleData.RequestHealth(clientId);
@@ -53,8 +52,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Client]
         private void SettingUpPlayerHealthBar(int clientID)
         {
-            playerHealthBarUI.gameObject.SetActive(true);
-            playerHealthBarUI.ID = clientID;
+            playerHealthBarUI.SetUp(clientID);
         }
         
         private void HandleChanges(int clientID, HealthPackage healthPackage)
@@ -64,6 +62,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             {
                 Debug.Log("MainPlayer - noted");
                 playerHealthBarUI.UpdateUI(healthPackage);
+                return;
             }
             
             //Other clients bars
@@ -88,6 +87,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         {
             Debug.Log("Created new healthBar in database");
             NewHealthBarUI newBar = Instantiate(healthBarForOtherPlayers,gameObject.GetComponent<RectTransform>()).GetComponent<NewHealthBarUI>();
+            newBar.SetUp(clientID);
             _healthBarUis[clientID] = newBar;
         }
         
@@ -111,50 +111,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             foreach (var keyValue in _healthBarUis)
             {
                 RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = playerHealthBarUI.GetComponent<RectTransform>().anchoredPosition + new Vector2(0,40*(counter+1));
+                rectTransform.anchoredPosition = parentOtherPlayersBars.anchoredPosition + new Vector2(0,20*counter);
                 counter++;
             }
         }
-        
-        /*private void CreateBars(int[] barAndClientID)
-        {
-            int amountOfBars = barAndClientID.Length;
-            for (int i = 0; i < amountOfBars; i++)
-            {
-                Debug.Log("Add: "+i);
-                HealthBarUI test = Instantiate(healthBarForOtherPlayers,gameObject.GetComponent<RectTransform>()).GetComponent<HealthBarUI>();
-                  
-                test.ID = barAndClientID[i];
-                //healthBarUis.Add(test);
-            }
-        }*/
-        
-        private void RemoveHealthBars(int clientID)
-        {
-            /*for (int i = 0; i < healthBarUis.Count; i++)
-            {
-                HealthBarUI currentHealthBar = healthBarUis[^(i+1)];
-                if (currentHealthBar.ID == clientID)
-                {
-                    healthBarUis.Remove(currentHealthBar);
-                    Destroy(currentHealthBar.gameObject);
-                    return;
-                }
-            }*/
-        }
-          
-        /*[ObserversRpc]
-        private void HandleAddingBar(int clientID)
-        {
-            CreateBars(new []{clientID});
-            MoveHealthBars();
-        }
-          
-        //[ObserversRpc]
-        private void HandleRemovalOfBar(int clientID)
-        {
-            RemoveHealthBars(clientID);
-            MoveHealthBars();
-        }*/
     }
 }

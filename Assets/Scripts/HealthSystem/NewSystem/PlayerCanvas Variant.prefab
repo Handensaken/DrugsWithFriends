@@ -29,7 +29,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 772611213599232167, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: NetworkBehaviours.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 772611213599232167, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: 'NetworkBehaviours.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7568695461584954825}
+    - target: {fileID: 772611213599232167, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[1]'
       value: 
       objectReference: {fileID: 664503871868993334}
     - target: {fileID: 5156850383231471644, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
@@ -132,6 +140,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6295556715542870510}
   m_SourcePrefab: {fileID: 100100000, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+--- !u!114 &1146547402504813563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4161801648390901085, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+  m_PrefabInstance: {fileID: 3902626660155635366}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1474310213324990113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2476178349064245255, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
@@ -149,6 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ede061accc44c9f89808587c9875d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.NewHealthBarManager
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 4364049109357389313}
+  _networkObjectCache: {fileID: 4364049109357389313}
   playerHealthBarUI: {fileID: 6295556715542870510}
   healthBarForOtherPlayers: {fileID: 4732051583509148556, guid: 358e21c369d86de4f9d4ef6b0411c833, type: 3}
   healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
@@ -164,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.EmptyNetworkBehaviour
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: 4364049109357389313}
   _networkObjectCache: {fileID: 4364049109357389313}
 --- !u!1 &4202674050253359303 stripped
@@ -184,8 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d15836c41942bfa29a98f852979a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.NewHealthBarUI
-  ID: 0
+  id: 0
   healthBarUI: {fileID: 5370839771181483215}
+  clientName: {fileID: 1146547402504813563}
   healthBatch: {fileID: 2454111151257913922, guid: 07f63b393c921144f8f17b9c96034b25, type: 3}
   healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
 --- !u!114 &4364049109357389313 stripped

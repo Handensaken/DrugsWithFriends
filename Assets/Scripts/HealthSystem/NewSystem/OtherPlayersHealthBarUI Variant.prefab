@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5820446509794636034, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 336.4739
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5820446509794636034, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
       propertyPath: m_LocalRotation.w
@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5820446509794636034, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 426.9096
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5820446509794636034, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -123,7 +123,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d15836c41942bfa29a98f852979a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.NewHealthBarUI
-  ID: 0
+  id: 0
   healthBarUI: {fileID: 3562475188692565892}
+  clientName: {fileID: 8363220613561286832}
   healthBatch: {fileID: 2454111151257913922, guid: 07f63b393c921144f8f17b9c96034b25, type: 3}
   healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
+--- !u!114 &8363220613561286832 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1559993533175860790, guid: 68779155d1a68004fafd88026be2a5ca, type: 3}
+  m_PrefabInstance: {fileID: 7040838209081773702}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI

@@ -1,20 +1,30 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
     public class NewHealthBarUI : MonoBehaviour
     {
-        [SerializeField] public int ID;
+        [SerializeField] private int id;
         [SerializeField] private RectTransform healthBarUI;
-        //[SerializeField] private TextMeshPro clientName;
+        [SerializeField] private TextMeshProUGUI clientName;
         
         [Space,SerializeField] private GameObject healthBatch;
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
         
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
+
+        public int ID => id;
+        
+        public void SetUp(int clientID)
+        {
+            id = clientID;
+            clientName.text = "Client - " + clientID;
+        }
         
         public void UpdateUI(HealthPackage healthPackage)
         {
