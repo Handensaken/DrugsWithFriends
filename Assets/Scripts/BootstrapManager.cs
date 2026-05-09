@@ -203,6 +203,21 @@ public class BootstrapManager : MonoBehaviour
             MainMenuManager.JoinStartedLobby();
             instance.networkManager.ClientManager.OnClientConnectionState -= JoinLobbyTugboat;
         }
+
+        instance.networkManager.ClientManager.OnClientConnectionState += ConnectionLostTugboat;
+    }
+    
+    private static void ConnectionLostTugboat(ClientConnectionStateArgs t)
+    {
+        if(t.ConnectionState == LocalConnectionState.Stopped)
+        {
+            Debug.Log("lost connection to lobby with tugboat");
+            var networkManager = FindObjectOfType<NetworkManager>();
+            if (networkManager != null)
+                Destroy(networkManager.gameObject);
+            SceneManager.LoadScene("Bootstrap");
+            instance.networkManager.ClientManager.OnClientConnectionState -= ConnectionLostTugboat;
+        }
     }
     
     void OnLobbyMatchList(LobbyMatchList_t pLobbyMatchList, bool bIOFailure )
@@ -232,7 +247,28 @@ public class BootstrapManager : MonoBehaviour
         {
             instance.fishySteamworks.StopConnection(true);
         }
+        
+        if (instance.useSteam)
+        {
+            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+            SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
+        }
+        else
+        {
+            Debug.Log("Leaving lobby with tugboat");
+            if(isHost)
+            {
+                instance.tugboat.StopConnection(true);
+                instance.tugboat.StopConnection(false);
+                string[] scenesToClose = { "In Game Scene" };
+                BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
+                SceneManager.LoadScene("Bootstrap");
+            }
+            else
+            {
+                instance.tugboat.StopConnection(false);
+                SceneManager.LoadScene("Bootstrap");
+            }
+        }
     }
-    
-    
 }

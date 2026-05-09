@@ -23,6 +23,7 @@ public class PauseMenu : MonoBehaviour
         cancel.action.performed += TryCancel;
         pause.action.performed -= OnPause;
         playerInput.SwitchCurrentActionMap("UI");
+        Debug.Log("pausemenu loaded ");
     }
     
     private void OnDisable()
@@ -44,7 +45,18 @@ public class PauseMenu : MonoBehaviour
         unpause.action.performed -= OnUnpause;
         cancel.action.performed -= TryCancel;
         pause.action.performed += OnPause;
-        playerInput.SwitchCurrentActionMap("Player");
+        
+        if (playerInput != null && playerInput.isActiveAndEnabled)
+        {
+            playerInput.SwitchCurrentActionMap("Player");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        unpause.action.performed -= OnUnpause;
+        cancel.action.performed -= TryCancel;
+        pause.action.performed -= OnPause;
     }
 
     private void Start()
@@ -56,6 +68,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OnPause(InputAction.CallbackContext context)
     {
+        if(pauseMenu is null) return;
         pauseMenu.SetActive(true);
         
         if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
