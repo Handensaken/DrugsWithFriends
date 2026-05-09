@@ -10,7 +10,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         //TODO NewHealthUnit-event (new player registered)
         public UnityAction<int> RequestHealth = delegate (int clientID){};
         public UnityAction<int,HealthPackage> UpdateHealth = delegate(int clientID,HealthPackage healthPackage) {};
-        public UnityAction<int> RemovalOfClientData = delegate(int clientID) {};
+        public UnityAction<int> RemovalClientData = delegate(int clientID) {};
         
         [SerializeField, Min(1)] private uint healthPerBatch;
         [SerializeField, Range(1,10)] private uint initialMaxAmountForBatches;

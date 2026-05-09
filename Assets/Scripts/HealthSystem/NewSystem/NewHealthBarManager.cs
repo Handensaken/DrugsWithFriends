@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using FishNet.Connection;
 using FishNet.Managing.Client;
+using FishNet.Managing.Logging;
 using FishNet.Managing.Server;
 using FishNet.Object;
+using FishNet.Transporting;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
@@ -21,59 +24,62 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             base.OnStartClient();
             if (!IsOwner) return;
             
-            Debug.Log("OnStartClient");
+            //Debug.Log("OnStartClient");
             healthRuleData.UpdateHealth += HandleChanges;
-            healthRuleData.RemovalOfClientData += RemoveLeftClient;
+            healthRuleData.RemovalClientData += RemoveClientBar;
+            //ServerManager.OnRemoteConnectionState += RemoveClientBar;
             
             SettingUpPlayerHealthBar(ClientManager.Connection.ClientId);
-            healthRuleData.RequestHealth(ClientManager.Connection.ClientId);
-            Debug.Log("RequestSent - "+ClientManager.Connection.ClientId);
+            //Debug.Log("RequestSent - "+ClientManager.Connection.ClientId);
+            ServerRequestHealth(ClientManager.Connection.ClientId);
+            
         }
 
         public override void OnStopClient()
         {
-            healthRuleData.UpdateHealth -= HandleChanges;
-            healthRuleData.RemovalOfClientData -= RemoveLeftClient;
-            
             base.OnStopClient();
+            if (!IsOwner) return;
+            
+            healthRuleData.UpdateHealth -= HandleChanges;
+            healthRuleData.RemovalClientData -= RemoveClientBar;
         }
 
+        [ServerRpc]
+        private void ServerRequestHealth(int clientId)
+        {
+            healthRuleData.RequestHealth(clientId);
+        }
+        
+        [Client]
         private void SettingUpPlayerHealthBar(int clientID)
         {
-            Debug.Log("MainPlayer - "+ clientID);
+            playerHealthBarUI.gameObject.SetActive(true);
             playerHealthBarUI.ID = clientID;
         }
         
         private void HandleChanges(int clientID, HealthPackage healthPackage)
         {
-            if (HandleIfMainPlayer(clientID, healthPackage))
-            {
-                return;
-            }
-            
-            HandleIfNew(clientID);
-            _healthBarUis[clientID].UpdateUI(healthPackage);
-        }
-
-        private bool HandleIfMainPlayer(int clientID, HealthPackage healthPackage)
-        {
+            //MainBar
             if (playerHealthBarUI.ID == clientID)
             {
                 Debug.Log("MainPlayer - noted");
                 playerHealthBarUI.UpdateUI(healthPackage);
-                return true;
             }
-            return false;
+            
+            //Other clients bars
+            HandleIfNew(clientID);
+            _healthBarUis[clientID].UpdateUI(healthPackage);
         }
         
         private void HandleIfNew(int clientID)
         {
-            if (clientID == playerHealthBarUI.ID || _healthBarUis.ContainsKey(clientID))
+            if (_healthBarUis.ContainsKey(clientID))
             {
                 Debug.Log("Already in local database");
                 return;
             }
             
+            Debug.Log("CreateBarID: "+clientID);
             CreateBar(clientID);
             MoveHealthBars();
         }
@@ -85,11 +91,15 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             _healthBarUis[clientID] = newBar;
         }
         
-        private void RemoveLeftClient(int clientID)
+        private void RemoveClientBar(int clientID)
         {
-            NewHealthBarUI healthBar = _healthBarUis[clientID];
-            _healthBarUis.Remove(clientID);
-            Destroy(healthBar.gameObject);
+            if (!_healthBarUis.Remove(clientID, out NewHealthBarUI ui))
+            {
+                Debug.LogError("couldn't remove certain clientHealthBar: "+clientID);
+                return;
+            }
+            
+            Destroy(ui.gameObject);
             
             MoveHealthBars();
         }
@@ -97,6 +107,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private void MoveHealthBars()
         {
             int counter = 0;
+            Debug.Log("Amount of keys: "+_healthBarUis.Keys.Count);
             foreach (var keyValue in _healthBarUis)
             {
                 RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
