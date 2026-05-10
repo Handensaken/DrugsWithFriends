@@ -111,14 +111,12 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         {
             if (fromTheTop)
             {
-                Vector2 startPos = parentOtherPlayersBars.anchoredPosition +
-                                   new Vector2(0, parentOtherPlayersBars.sizeDelta.y);
+                Vector2 startPos = new Vector2(0, parentOtherPlayersBars.sizeDelta.y);
                 
                 int counter = 0;
                 foreach (var keyValue in _healthBarUis)
                 {
                     RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
-                    
                     rectTransform.anchoredPosition = startPos + new Vector2(0,-distanceBetweenOthers*counter);
                     counter++;
                 }
@@ -129,7 +127,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 foreach (var keyValue in _healthBarUis)
                 {
                     RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
-                    rectTransform.anchoredPosition = parentOtherPlayersBars.anchoredPosition + new Vector2(0,distanceBetweenOthers*counter);
+                    rectTransform.anchoredPosition += new Vector2(0,distanceBetweenOthers*counter);
                     counter++;
                 }
             }

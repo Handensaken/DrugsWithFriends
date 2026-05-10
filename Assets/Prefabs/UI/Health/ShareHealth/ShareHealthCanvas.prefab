@@ -18,11 +18,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 154498725950627151, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 19
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 154498725950627151, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
       value: 17153605144704455718
+      objectReference: {fileID: 0}
+    - target: {fileID: 924846384074905077, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: fromTheTop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 924846384074905077, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: distanceBetweenOthers
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 924846384074905077, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: healthBarForOtherPlayers
@@ -37,8 +45,16 @@ PrefabInstance:
       value: ShareHealthCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 7306089250002825356, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306089250002825356, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306089250002825356, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 170.94
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 7742780262395722836, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_Pivot.x
