@@ -162,14 +162,20 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           }
 
           [ServerRpc(RequireOwnership = false)]
-          public void UpdateBatchAmount(int clientID, int change)
+          public void TryGiveBatchAmount(int GivingClientID,int GetsClientID, int change)
           {
-               Debug.Log(clientID);
-               HealthPackage healthPackage = _clientsHealth[clientID];
+               Debug.Log($"Giving: {GivingClientID} - Gets: {GetsClientID}");
+               //TODO Check if client has available
+               
+               //TODO check if other clientExists
+               
+               //TODO All valid --> Take from current
+               //               --> And give other 
+               HealthPackage healthPackage = _clientsHealth[GetsClientID];
                
                int currentBatchAmount = (int)healthPackage.BatchAmount +change;
                
-               StoreHealthChanges(clientID, (int)healthPackage.HealthAmount, currentBatchAmount);
+               StoreHealthChanges(GetsClientID, (int)healthPackage.HealthAmount, currentBatchAmount);
           }
           
           //TODO does it really need to be ServerRPC?

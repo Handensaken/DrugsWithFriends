@@ -11,9 +11,9 @@ namespace HealthSystem.Share
      {
           [SerializeField] private HealthBarUI parentHealthBarUI;
 
-          public void TryGiveBatch()
+          public void GiveBatch()
           {
-               HealthManager.Instance.UpdateBatchAmount(parentHealthBarUI.ID,1);
+               HealthManager.Instance.TryGiveBatchAmount(parentHealthBarUI.PlayerID,parentHealthBarUI.OwnerID,1);
           }
      
      }

@@ -53,15 +53,16 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         }
         
         [Client]
-        private void SettingUpPlayerHealthBar(int clientID)
+        private void SettingUpPlayerHealthBar(int otherID)
         {
-            playerHealthBarUI.SetUp(clientID);
+            int playerID = ClientManager.Connection.ClientId;
+            playerHealthBarUI.SetUp(playerID,otherID);
         }
         
         private void HandleChanges(int clientID, HealthPackage healthPackage)
         {
             //MainBar
-            if (playerHealthBarUI.ID == clientID)
+            if (playerHealthBarUI.OwnerID == clientID)
             {
                 //Debug.Log("MainPlayer - noted");
                 playerHealthBarUI.UpdateUI(healthPackage);
@@ -86,12 +87,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             MoveHealthBars();
         }
 
-        private void CreateBar(int clientID)
+        private void CreateBar(int otherID)
         {
             Debug.Log("Created new healthBar in database");
             HealthBarUI bar = Instantiate(healthBarForOtherPlayers,parentOtherPlayersBars).GetComponent<HealthBarUI>();
-            bar.SetUp(clientID);
-            _healthBarUis[clientID] = bar;
+            int playerID = ClientManager.Connection.ClientId;
+            bar.SetUp(playerID,otherID);
+            _healthBarUis[otherID] = bar;
         }
         
         private void RemoveClientBar(int clientID)

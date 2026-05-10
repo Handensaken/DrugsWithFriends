@@ -8,7 +8,8 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
     public class HealthBarUI : MonoBehaviour
     {
-        [SerializeField] private int id;
+        [SerializeField] private int playerID;
+        [SerializeField] private int ownerID;
         [SerializeField] private RectTransform healthBarUI;
         [SerializeField] private TextMeshProUGUI clientName;
         
@@ -18,12 +19,14 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
 
-        public int ID => id;
+        public int PlayerID => playerID;
+        public int OwnerID => ownerID;
         
-        public void SetUp(int clientID)
+        public void SetUp(int playerId,int otherId)
         {
-            id = clientID;
-            clientName.text = "Client - " + clientID;
+            playerID = playerId;
+            ownerID = otherId;
+            clientName.text = "Client - " + otherId;
         }
         
         public void UpdateUI(HealthPackage healthPackage)
