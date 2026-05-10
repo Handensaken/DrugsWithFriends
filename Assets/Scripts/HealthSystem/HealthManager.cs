@@ -162,20 +162,35 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           }
 
           [ServerRpc(RequireOwnership = false)]
-          public void TryGiveBatchAmount(int GivingClientID,int GetsClientID, int change)
+          public void TryGiveBatchAmount(int givingClientID,int gettingClientID, uint change)
           {
-               Debug.Log($"Giving: {GivingClientID} - Gets: {GetsClientID}");
-               //TODO Check if client has available
+               if (!_clientsHealth.TryGetValue(givingClientID, out HealthPackage givingHealthPackage) 
+                   || !_clientsHealth.TryGetValue(gettingClientID, out HealthPackage gettingHealthPackage))
+               {
+                    Debug.LogWarning("Missing clients to give or to take batch from!");
+                    return;
+               }
                
-               //TODO check if other clientExists
+               //check if values is valid
+               int newGivingClientBatchAmount = (int)givingHealthPackage.BatchAmount - (int)change;
+               if (newGivingClientBatchAmount <= 0)
+               {
+                    Debug.LogWarning("Giving client has to low batchAmount to give");
+                    return;
+               }
+               int newGettingClientBatchAmount = (int)(gettingHealthPackage.BatchAmount + change);
+               if (newGettingClientBatchAmount > _currentMaxBatchAmountPerPlayer.Value)
+               {
+                    return;
+               }
                
-               //TODO All valid --> Take from current
-               //               --> And give other 
-               HealthPackage healthPackage = _clientsHealth[GetsClientID];
+               Debug.Log($"Giving: {givingClientID} : {newGivingClientBatchAmount} - Gets: {gettingClientID} : {newGettingClientBatchAmount}");
                
-               int currentBatchAmount = (int)healthPackage.BatchAmount +change;
+               //First we remove the batch
+               StoreHealthChanges(givingClientID,(int)givingHealthPackage.HealthAmount,newGivingClientBatchAmount);
                
-               StoreHealthChanges(GetsClientID, (int)healthPackage.HealthAmount, currentBatchAmount);
+               //Then we give one batch to the chosen client
+               StoreHealthChanges(gettingClientID, (int)gettingHealthPackage.HealthAmount, newGettingClientBatchAmount);
           }
           
           //TODO does it really need to be ServerRPC?
