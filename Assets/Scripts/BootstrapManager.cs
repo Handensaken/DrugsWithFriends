@@ -239,7 +239,6 @@ public class BootstrapManager : MonoBehaviour
 
     public static void LeaveLobby()
     {
-        SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
         currentLobbyID = 0;
 
         instance.fishySteamworks.StopConnection(false);
@@ -262,12 +261,12 @@ public class BootstrapManager : MonoBehaviour
                 instance.tugboat.StopConnection(false);
                 string[] scenesToClose = { "In Game Scene" };
                 BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
-                SceneManager.LoadScene("Bootstrap");
             }
             else
             {
                 instance.tugboat.StopConnection(false);
-                SceneManager.LoadScene("Bootstrap");
+                string[] scenesToClose = { "In Game Scene" };
+                BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
             }
         }
     }
