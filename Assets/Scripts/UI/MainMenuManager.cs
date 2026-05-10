@@ -2,6 +2,7 @@ using System;
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -13,11 +14,20 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI lobbyIDText, lobbyCodeText;
     
     [SerializeField] private GameObject startLobbyButton;
+
+    [SerializeField] private GameObject startButton;
     private void Awake() => instance = this;
 
     private void Start()
     {
         DisplayLobbyCode();
+        EventSystem obj = FindAnyObjectByType<EventSystem>();
+        Debug.Log(obj);
+        obj.gameObject.SetActive(false);
+        obj.gameObject.SetActive(true);
+        EventSystem.current = obj;
+        EventSystem.current.SetSelectedGameObject(startButton);
+        Debug.Log(EventSystem.current);
     }
 
     public void PlayButton(GameObject screenToClose)

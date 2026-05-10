@@ -6,6 +6,7 @@ using FishNet.Transporting;
 using FishNet.Transporting.Tugboat;
 using UnityEngine;
 using Steamworks;
+using UnityEngine.EventSystems;
 //using UnityEditor.Scripting;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -240,33 +241,33 @@ public class BootstrapManager : MonoBehaviour
     public static void LeaveLobby()
     {
         currentLobbyID = 0;
-
-        instance.fishySteamworks.StopConnection(false);
-        if (instance.networkManager.IsServer)
-        {
-            instance.fishySteamworks.StopConnection(true);
-        }
         
         if (instance.useSteam)
         {
             SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
             SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
+            
+            instance.fishySteamworks.StopConnection(false);
+            if (instance.networkManager.IsServer)
+            {
+                instance.fishySteamworks.StopConnection(true);
+            }
         }
         else
         {
             Debug.Log("Leaving lobby with tugboat");
             if(isHost)
             {
+                string[] scenesToClose = { "In Game Scene" };
+                BootstrapNetworkManager.ChangeNetworkScene("Main Menu", scenesToClose);
                 instance.tugboat.StopConnection(true);
                 instance.tugboat.StopConnection(false);
-                string[] scenesToClose = { "In Game Scene" };
-                BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
             }
             else
             {
-                instance.tugboat.StopConnection(false);
                 string[] scenesToClose = { "In Game Scene" };
-                BootstrapNetworkManager.ChangeNetworkScene("Game Lobby", scenesToClose);
+                BootstrapNetworkManager.ChangeNetworkScene("Main Menu", scenesToClose);
+                instance.tugboat.StopConnection(false);
             }
         }
     }
