@@ -4,6 +4,7 @@ using AI_Experimental.Unity_Behavior.CustomActions;
 using FishNet.Object;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
+using Scenes.Dev_Scenes.Patrik.TEST_CombatPacing;
 using Unity.Behavior;
 using UnityEngine;
 using Action = Unity.Behavior.Action;
@@ -11,11 +12,11 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "TryGetTarget", story: "Get suitable [target] from [allTargets]", category: "Action/Interaction",
+[NodeDescription(name: "TryGetTarget", story: "Find suitable [battleCircleTarget] from [allTargets]", category: "Action/Interaction",
     id: "00d6238e85e494466c19dbe18182faaa")]
 public partial class TryGetTargetAction : Action
 {
-    [SerializeReference] public BlackboardVariable<Transform> Target;
+    [SerializeReference] public BlackboardVariable<BattleCircle> BattleCircleTarget;
     [SerializeReference] public BlackboardVariable<List<GameObject>> AllTargets;
 
     [SerializeReference] public BlackboardVariable<GameObject> self;
@@ -45,7 +46,8 @@ public partial class TryGetTargetAction : Action
 
     protected override Status OnUpdate()
     {
-        Target.Value = EvaluateAll();
+        BattleCircleTarget.Value = EvaluateAll().GetComponentInChildren<BattleCircle>();
+        BattleCircleTarget.Value.AssignAI2Point(self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference);
         return Status.Success;
     }
 
