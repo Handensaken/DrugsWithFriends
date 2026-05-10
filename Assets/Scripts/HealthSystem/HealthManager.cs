@@ -35,7 +35,13 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           
           public HealthPackage ReadClientHealth(int clientID)
           {
-               return _clientsHealth[clientID];
+               if (!_clientsHealth.TryGetValue(clientID, out HealthPackage package))
+               {
+                    Debug.LogWarning("Missing client even though clientId-number is called");
+                    return new HealthPackage();
+               }
+               
+               return package;
           }
 
           #endregion
