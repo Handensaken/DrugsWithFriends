@@ -160,7 +160,6 @@ public class BootstrapManager : MonoBehaviour
         fishySteamworks.SetClientAddress(SteamUser.GetSteamID().ToString());
         fishySteamworks.StartConnection(true);
         Debug.Log("Lobby creation was successful");
-        MainMenuManager.StartLobby();
     }
     
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
@@ -186,10 +185,7 @@ public class BootstrapManager : MonoBehaviour
             Debug.Log("Steam connection established");
             instance.fishySteamworks.OnClientConnectionState -= OnSteamClientConnected;
             instance.fishySteamworks.OnClientConnectionState += ConnectionLostSteam;
-            if(SceneManager.GetSceneByName("Main Menu").isLoaded)
-            {
-                MainMenuManager.JoinStartedLobby();
-            }
+            MainMenuManager.JoinStartedLobby();
         }
     }
     

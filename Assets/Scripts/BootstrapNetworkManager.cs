@@ -17,7 +17,17 @@ public class BootstrapNetworkManager : NetworkBehaviour
     {
         instance = this;
     }
-    
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        
+        if (!IsHostStarted)
+        {
+            MainMenuManager.JoinStartedLobby();
+        }
+    }
+
     public override void OnSpawnServer(NetworkConnection connection)
     {
         base.OnSpawnServer(connection);
