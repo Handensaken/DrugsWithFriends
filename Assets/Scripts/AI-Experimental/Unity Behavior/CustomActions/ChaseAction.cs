@@ -34,7 +34,7 @@ public partial class ChaseAction : Action
         return Status.Running;
     }
     
-    protected override Status OnUpdate() //TODO
+    protected override Status OnUpdate()
     {
         //Validate
         if (InvalidParameters())
@@ -42,10 +42,10 @@ public partial class ChaseAction : Action
             return Status.Failure;
         }
         
-        /*if (!_agent.pathPending && CloseEnough())
+        if (!_agent.pathPending && CloseEnough())
         {
             return Status.Success;
-        }*/
+        }
 
         HandleTargetPosition();
         return Status.Running;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -7,24 +8,25 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
     public class BattleCircle : MonoBehaviour
     {
-        [SerializeField, Range(1,10)] private uint amountOfPositioningPoints;
+        [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints; //TODO separate to visualizationComponent
         [SerializeField,Min(0.1f)] private float circleRange;
 
-        private Vector3[] _pointsInLocalSpace;
-
         private readonly Dictionary<BlackboardReference, Transform> _aiPointDictionary = new ();
-
-        private void Awake()
+        
+        private void FixedUpdate()
         {
-            _pointsInLocalSpace = CreateAllPoints();
+            //UpdateAllEnemiesLookingDirection();
+        }
+
+        private void UpdateAllEnemiesLookingDirection()
+        {
+            foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
+            {
+                //blackboard.SetVariableValue()
+            }
         }
         
-        private void Update()
-        {
-            //UpdateAllAIPosition();
-        }
-
-        private void UpdateAllAIPosition()
+        /*private void UpdateAllAIPosition()
         {
             int counter = 0;
             foreach (var keyValue in _aiPointDictionary)
@@ -33,7 +35,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 targetTransform.position = transform.position + _pointsInLocalSpace[counter];
                 counter++;
             }
-        }
+        }*/
+        
         private void SetAITransformPoint(BlackboardReference blackboard, Transform targetTransform)
         {
             blackboard.SetVariableValue("Target",targetTransform);
@@ -43,18 +46,23 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         /// Initial enemy base-orientation for first position --> Rotates toward the first enemy
         /// Begins at 0 degrees and continues clockwise (cw) (Left-handed system).
         /// </summary>
-        private Vector3[] CreateAllPoints()
+        private Vector3[] CreateAllPoints(uint amountOfPoints)
         {
-            if (amountOfPositioningPoints == 1)
+            if (amountOfPoints <= 0)
+            {
+                return null;
+            }
+            
+            if (amountOfPoints == 1)
             {
                 return new[] { transform.forward*circleRange};
             }
             
-            Vector3[] result = new Vector3[amountOfPositioningPoints];
+            Vector3[] result = new Vector3[amountOfPoints];
 
             Vector3 forward = transform.forward;
-            float angleIncrease = Mathf.Deg2Rad*(360f / amountOfPositioningPoints);
-            for (int i = 0; i < amountOfPositioningPoints; i++)
+            float angleIncrease = Mathf.Deg2Rad*(360f / amountOfPoints);
+            for (int i = 0; i < amountOfPoints; i++)
             {
                 if (i == 0)
                 {
@@ -80,15 +88,31 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         public void AssignAI2Point(BlackboardReference blackboard)
         {
-            if (_aiPointDictionary.Count <= 0)
+            //Skapa nya positionsPunkter
+            uint amountOfPoints = (uint)(_aiPointDictionary.Count+1);
+            Vector3[] localPoints = CreateAllPoints(amountOfPoints);
+            
+            //Uppdatera positionen på transforms
+            for (int i = 0; i < _aiPointDictionary.Values.Count; i++)
             {
-                Transform pointTransform = new GameObject().transform;
-                pointTransform.parent = transform;
-                pointTransform.position = transform.position + _pointsInLocalSpace[0];
-                                     
-                _aiPointDictionary[blackboard] = pointTransform;
-                SetAITransformPoint(blackboard, pointTransform);
+                Vector3 localPoint = localPoints[i];
+                Transform existingPointTransform = _aiPointDictionary.Values.ToArray()[i];
+                
+                existingPointTransform.position = transform.position+localPoint;
             }
+            
+            //Tilldela den nya punkten till den nya fienden
+            Transform pointTransform = new GameObject().transform;
+            pointTransform.parent = transform;
+            pointTransform.position = transform.position + localPoints[^1];
+                                     
+            _aiPointDictionary[blackboard] = pointTransform;
+            SetAITransformPoint(blackboard, pointTransform);
+        }
+        //TODO för när fiender dör eller flyttas
+        private void ResignAI2Point(BlackboardReference blackboard)
+        {
+            
         }
 
         private void OnDrawGizmos()
@@ -96,20 +120,24 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Gizmos.color = Color.darkGreen;
             Gizmos.DrawWireSphere(transform.position, circleRange);
             
-            Vector3[] points;
             if (!Application.isPlaying)
             {
-                points = CreateAllPoints();
+                Vector3[] points = CreateAllPoints(amountOfPositioningPoints);
+                foreach (Vector3 point in points)
+                {
+                    Gizmos.DrawSphere(transform.position+point, .2f);
+                }
+                
             }
             else
             {
-                points = _pointsInLocalSpace;
+                foreach (Transform point in _aiPointDictionary.Values)
+                {
+                    Gizmos.DrawSphere(point.position, .2f);
+                }
             }
 
-            foreach (Vector3 point in points)
-            {
-                Gizmos.DrawSphere(transform.position+point, .2f);
-            }
+            
         }
     }
 }
