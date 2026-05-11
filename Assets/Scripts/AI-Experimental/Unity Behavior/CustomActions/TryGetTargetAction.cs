@@ -46,8 +46,16 @@ public partial class TryGetTargetAction : Action
 
     protected override Status OnUpdate()
     {
-        BattleCircleTarget.Value = EvaluateAll().GetComponentInChildren<BattleCircle>();
-        BattleCircleTarget.Value.AssignAI2Point(self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference);
+        if (!EvaluateAll(out int? clientID))
+        {
+            return Status.Failure;
+        }
+        
+        //Få tag i bestTarget ID
+        //Koppla fienden till den battleCirle tillhörande client --> via battleCircleManager
+        //Den anger sedan en passande target till fienden
+        //BattleCircleTarget.Value = bestTarget.GetComponentInChildren<BattleCircle>();
+        //BattleCircleTarget.Value.AssignAI2Point(self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference);
         return Status.Success;
     }
 
@@ -60,12 +68,21 @@ public partial class TryGetTargetAction : Action
         _agent = null;
     }
 
-    private Transform EvaluateAll()
+    private bool EvaluateAll(out int? clientID)
     {
+        Debug.Log("EvaluateAll");
         List<Tuple<float, Transform>> evaluationValueAndTransform = new List<Tuple<float, Transform>>();
         CalculateAllTargetsValues(ref evaluationValueAndTransform);
-        Transform bestTarget = CompareForBestTarget(evaluationValueAndTransform);
-        return bestTarget;
+
+        if (evaluationValueAndTransform.Count <= 0)
+        {
+            clientID = null;
+            return false;
+        }
+        
+        //clientID = CompareForBestTarget(evaluationValueAndTransform);
+        clientID = 0;
+        return true;
     }
     
     private void CalculateAllTargetsValues(ref List<Tuple<float, Transform>> evaluationValueAndTransform)
@@ -73,6 +90,12 @@ public partial class TryGetTargetAction : Action
         UtilityAITarget prioritiesAITarget = enemySO.Value.prioritiesAITarget; 
         foreach (var target in AllTargets.Value)
         {
+            if (!target)
+            {
+                Debug.LogWarning("PossibleTarget is null");
+                continue;
+            }
+            
             float distanceValue = EvaluateDistance(target.transform.position, prioritiesAITarget.distance);
             
             int clientID = target.GetComponent<NetworkBehaviour>().OwnerId;

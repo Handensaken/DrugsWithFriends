@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         private void Update()
         {
-            UpdateAllAIPosition();
+            //UpdateAllAIPosition();
         }
 
         private void UpdateAllAIPosition()
@@ -82,13 +83,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             if (_aiPointDictionary.Count <= 0)
             {
                 Transform pointTransform = new GameObject().transform;
+                pointTransform.parent = transform;
                 pointTransform.position = transform.position + _pointsInLocalSpace[0];
                                      
                 _aiPointDictionary[blackboard] = pointTransform;
                 SetAITransformPoint(blackboard, pointTransform);
             }
         }
-        
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.darkGreen;

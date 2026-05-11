@@ -15,7 +15,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           [SerializeField] private BehaviorGraphAgent behaviorGraphAgent;
           private BlackboardReference _blackboard;
 
-          private readonly Dictionary<int, GameObject> _clientsAsTargets = new Dictionary<int, GameObject>();
+          private readonly Dictionary<int, GameObject> _clientsAsTargets = new ();
           
           private void Awake()
           {
@@ -54,6 +54,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           {
                if (remoteConnectionStateArgs.ConnectionState == RemoteConnectionState.Stopped)
                {
+                    Debug.Log("Removal of target");
                     RemoveClientAsTarget(networkConnection.ClientId);
                     SetAllTargets();
                }
@@ -73,14 +74,8 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           [ServerRpc(RequireOwnership = false)]
           private void SetAllTargets()
           {
-               List<GameObject> result = new List<GameObject>();
-               foreach (GameObject target in _clientsAsTargets.Values)
-               {
-                    result.Add(target);
-               }
-               
-               Debug.Log("Current amount of targets: "+result.Count);
-               _blackboard.SetVariableValue("AllTargets", result);
+               Debug.Log("Current amount of targets: "+_clientsAsTargets.Keys.Count);
+               _blackboard.SetVariableValue("AllTargets", _clientsAsTargets.Values.ToList());
           }
      }
 }

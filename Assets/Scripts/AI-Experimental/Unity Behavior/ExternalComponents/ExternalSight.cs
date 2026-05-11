@@ -36,12 +36,16 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
         }
 
         [Server]
-        private void Update() //TODO Behaviour tree can disable this component
+        private void Update()
         {
             Transform[] all = FindAllTargets();
             Transform[] inSightRange = AllTargetsInRange(all, _sightPackage.FOVRange);
             Transform[] inFOV = AllTargetsInAngle(inSightRange, _sightPackage.FOVAngle);
 
+            //TODO
+            //Set extra value on the closest player for priority
+            //Enable aggressive
+            
             if (inFOV.Length > 0)
             {
                 _blackboard.SetVariableValue("Target", inFOV[0]);

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4465540193332773151}
   - component: {fileID: 8979056088346111991}
   m_Layer: 0
-  m_Name: BattleCircleManager
+  m_Name: BattleCircleManager-GlobalNetwork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
   _isSpawnable: 1
-  _isGlobal: 0
+  _isGlobal: 1
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
