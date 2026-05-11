@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerNetwork : NetworkBehaviour
 {
-    public float moveSpeed;
+    [Range(0, 20f)] public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
     private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered;
@@ -129,7 +129,18 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        if (!IsOwner) return;
         base.OnStartClient();
+    
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectEnemiesRange);
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy") && !enemiesInRange.Contains(hit.transform))
+            {
+                enemiesInRange.Add(hit.transform);
+            }
+        }
+        
         if (GetComponentInChildren<CinemachineCamera>() is CinemachineCamera vcam)
         {
             vcam.enabled = IsOwner;
