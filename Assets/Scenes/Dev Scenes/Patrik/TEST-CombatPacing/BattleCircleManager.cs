@@ -46,6 +46,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                _clientsBattleCircles[clientID] = battleCircle;
           }
 
+          [Server]
           private void HandlePlayerConnection(NetworkConnection networkConnection, RemoteConnectionStateArgs remoteConnectionStateArgs)
           {
                if (remoteConnectionStateArgs.ConnectionState == RemoteConnectionState.Stopped)
@@ -77,9 +78,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                }
           }
 
-          [ServerRpc(RequireOwnership = false)]
+          [Server]
           private void RemoveBattleCircle(int clientID)
           {
+               Debug.Log("Removal of battleCircle");
                if (!_clientsBattleCircles.Remove(clientID,out BattleCircle battleCircle))
                {
                     Debug.Log("Couldn't find battleCircle");

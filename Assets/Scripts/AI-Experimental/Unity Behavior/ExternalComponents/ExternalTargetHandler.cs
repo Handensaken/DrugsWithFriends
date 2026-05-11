@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using FishNet.Component.Animating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Transporting;
@@ -32,7 +31,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           {
                base.OnStartClient();
                AddClientAsTarget(ClientManager.Connection.ClientId);
-               SetAllTargets();
+               ClientSetAllTargets();
                
                if (!IsServerInitialized) enabled = false;
                else enabled = true;
@@ -56,7 +55,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
                {
                     Debug.Log("Removal of target");
                     RemoveClientAsTarget(networkConnection.ClientId);
-                    SetAllTargets();
+                    ServerSetAllTargets();
                }
           }
           
@@ -72,7 +71,13 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           }
           
           [ServerRpc(RequireOwnership = false)]
-          private void SetAllTargets()
+          private void ClientSetAllTargets()
+          {
+               Debug.Log("Current amount of targets: "+_clientsAsTargets.Keys.Count);
+               _blackboard.SetVariableValue("AllTargets", _clientsAsTargets.Values.ToList());
+          }
+          
+          private void ServerSetAllTargets()
           {
                Debug.Log("Current amount of targets: "+_clientsAsTargets.Keys.Count);
                _blackboard.SetVariableValue("AllTargets", _clientsAsTargets.Values.ToList());
