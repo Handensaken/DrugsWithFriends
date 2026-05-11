@@ -40,22 +40,16 @@ public partial class TryGetTargetAction : Action
         {
             return Status.Failure;
         }
-
-        return Status.Running;
-    }
-
-    protected override Status OnUpdate()
-    {
-        if (!EvaluateAll(out int? clientID))
+        
+        if (!EvaluateAll(out int? clientID) || clientID == null)
         {
             return Status.Failure;
         }
+
+        Debug.Log("BestTarget ID: "+clientID);
+        BlackboardReference blackboard = self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference;
+        BattleCircleManager.Instance.AssignAI2BattleCircle((int)clientID,blackboard);
         
-        //Få tag i bestTarget ID
-        //Koppla fienden till den battleCirle tillhörande client --> via battleCircleManager
-        //Den anger sedan en passande target till fienden
-        //BattleCircleTarget.Value = bestTarget.GetComponentInChildren<BattleCircle>();
-        //BattleCircleTarget.Value.AssignAI2Point(self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference);
         return Status.Success;
     }
 
@@ -80,8 +74,8 @@ public partial class TryGetTargetAction : Action
             return false;
         }
         
-        //clientID = CompareForBestTarget(evaluationValueAndTransform);
-        clientID = 0;
+        Transform bestTarget = CompareForBestTarget(evaluationValueAndTransform);
+        clientID = bestTarget.GetComponent<NetworkBehaviour>().OwnerId;
         return true;
     }
     

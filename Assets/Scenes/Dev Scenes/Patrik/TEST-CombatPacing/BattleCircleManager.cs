@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Transporting;
+using Unity.Behavior;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
@@ -52,13 +53,18 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     RemoveBattleCircle(networkConnection.ClientId);
                }
           }
-
-          [Server]
+          
           private void FixedUpdate()
           {
+               if (!IsServerInitialized)
+               {
+                    return;
+               }
+               
                UpdateAllBattleCirclesPositions();
           }
 
+          [Server]
           private void UpdateAllBattleCirclesPositions()
           {
                foreach (var clientBattleCircle in _clientsBattleCircles)
@@ -79,6 +85,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     Debug.Log("Couldn't find battleCircle");
                }
                Destroy(battleCircle.gameObject);
+          }
+          
+          [Server]
+          public void AssignAI2BattleCircle(int clientID, BlackboardReference blackboard)
+          {
+               _clientsBattleCircles[clientID].AssignAI2Point(blackboard);
           }
      }
 }
