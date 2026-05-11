@@ -1048,6 +1048,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7443408887813606049, guid: 0b650fca685f2eb41a86538aa883e4c1, type: 3}
   m_PrefabInstance: {fileID: 1328728319}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1463496291 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3129089411942311774, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1557263041
 GameObject:
   m_ObjectHideFlags: 0
@@ -1214,6 +1219,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 166976938981996354, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: sightObject
+      value: 
+      objectReference: {fileID: 1463496291}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1254,6 +1263,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'managedReferences[3697295022139113650]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[AI_Experimental.Unity_Behavior.ExternalComponents.ExternalSight,
+        AIAssembly]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'managedReferences[3697295022139114333]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.GameObject,
+        UnityEngine.CoreModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139113650].Name
+      value: ExternalSight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139114333].Name
+      value: ExternalSight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: m_BlackboardVariableOverridesList.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139113650].m_Value
+      value: 
+      objectReference: {fileID: 2140728615}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139114333].m_Value
+      value: 
+      objectReference: {fileID: 1463496291}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[6]'
+      value: 3697295022139114333
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139113650].GUID.m_Value0
+      value: 11652490810529251580
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139113650].GUID.m_Value1
+      value: 2797790459306241339
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139114333].GUID.m_Value0
+      value: 16414494923865458160
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295022139114333].GUID.m_Value1
+      value: 11114422051974767141
+      objectReference: {fileID: 0}
     - target: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Name
       value: AI
@@ -1275,6 +1334,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+--- !u!114 &2140728615 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2218079657594921333, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 2140728614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463496291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09493de45cd41e14b93cb1a8c1091da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.Unity_Behavior.SightBehaviour
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

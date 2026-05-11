@@ -7,11 +7,17 @@ using UnityEngine;
 public class EnemyVisualization : MonoBehaviour
 {
     [SerializeField] private EnemyData enemyData;
+    [SerializeField] private GameObject sightObject;
     [Space,Header("Different visualizations"),SerializeField] private SightVisualization patrolSight = new SightVisualization();
     [SerializeField] private AttackVisualization attackRange = new AttackVisualization();
 
     private void OnDrawGizmosSelected()
     {
+        if (Application.isPlaying && !sightObject.activeSelf)
+        {
+            return;
+        }
+        
         if (patrolSight.GetTypeOfVisualization == TypeOfVisualization.Selected)
         {
             PatrolPackage patrolPackage = enemyData.patrolPackage;
@@ -27,6 +33,11 @@ public class EnemyVisualization : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (Application.isPlaying && !sightObject.activeSelf)
+        {
+            return;
+        }
+        
         if (patrolSight.GetTypeOfVisualization == TypeOfVisualization.Always)
         {
             PatrolPackage patrolPackage = enemyData.patrolPackage;
