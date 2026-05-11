@@ -895,6 +895,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 94e005be29269734490e74a60b85c673, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 94e005be29269734490e74a60b85c673, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -1177,11 +1181,10 @@ MonoBehaviour:
     toggleCameraFocus: {fileID: 7347064979651339959, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     lightAttack: {fileID: -2377209859967132474, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     heavyAttack: {fileID: -1555395443974306601, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
-  pauseEvent: {fileID: 11400000, guid: ba555a186a21acc40a9fb333bf309691, type: 2}
   controlSchemeEvent: {fileID: 11400000, guid: 62b7ef50ef3a8b047af15cc474d57e3b, type: 2}
   playerSettings: {fileID: 11400000, guid: 50f1168329bfd9a4e988d3324ba20fad, type: 2}
-  enemyIndex: 0
-  currentChain: 0
+  enemiesInRange: []
+  enemiesOnScreen: []
   freeCam: {fileID: 7434779505794564936}
   lockOnCam: {fileID: 6515165083195661982}
   attackRangeCollider: {fileID: 2553626066740570996}
@@ -1257,7 +1260,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
