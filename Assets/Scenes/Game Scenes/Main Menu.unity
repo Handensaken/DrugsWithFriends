@@ -3173,7 +3173,6 @@ GameObject:
   - component: {fileID: 441831703}
   - component: {fileID: 441831702}
   - component: {fileID: 441831701}
-  - component: {fileID: 441831704}
   m_Layer: 0
   m_Name: CreateLobbyCanvas
   m_TagString: Untagged
@@ -3266,19 +3265,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &441831704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441831698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7538dcf57a99212448c70b70730b27bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnableMenuOnDisable
-  menuToEnable: {fileID: 0}
 --- !u!1 &443408030
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public class MainMenuManager : MonoBehaviour
     public void CreateLobby()
     {
         BootstrapManager.CreateLobby();
-        startLobbyButton.SetActive(true);
+        //startLobbyButton.SetActive(true);
     }
 
     private void DisplayLobbyCode()
