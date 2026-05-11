@@ -9,12 +9,12 @@ using UnityEngine.AI;
 using UnityEngine.Serialization;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Chase", story: "[self] chase [target]", category: "Action/Interaction", id: "65b7e88e62ff10f68259ff83a8253f0c")]
+[NodeDescription(name: "Chase a target", story: "Chase [target]", category: "Action/Interaction", id: "65b7e88e62ff10f68259ff83a8253f0c")]
 public partial class ChaseAction : Action
 {
-    [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<Transform> Target;
     
+    [SerializeReference] public BlackboardVariable<GameObject> Self;
     [SerializeReference] public BlackboardVariable<EnemyData> dataSO;
     [SerializeReference] public BlackboardVariable<Transform> eyes;
 
@@ -63,7 +63,7 @@ public partial class ChaseAction : Action
         _agent = null;
     }
 
-    private bool CloseEnough()
+    protected virtual bool CloseEnough()
     {
         if (_latestCheck4CloseEnough) 
         {
