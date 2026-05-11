@@ -51,7 +51,7 @@ public class MainMenuManager : MonoBehaviour
     {
         instance.lobbyIDText.text = BootstrapManager.currentLobbyID.ToString();
         
-        StartLobby();
+        //StartLobby();
     }
 
     public static void CloseAllScreens()

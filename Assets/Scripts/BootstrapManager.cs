@@ -147,7 +147,6 @@ public class BootstrapManager : MonoBehaviour
         }
     }
     
-
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         Debug.Log("Starting lobby creation: " + callback.m_eResult.ToString());
@@ -176,6 +175,35 @@ public class BootstrapManager : MonoBehaviour
         MainMenuManager.LobbyEntered(SteamMatchmaking.GetLobbyData(new CSteamID(currentLobbyID), "name"), true);
         fishySteamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(currentLobbyID), "HostAddress"));
         fishySteamworks.StartConnection(false);
+        
+        instance.fishySteamworks.OnClientConnectionState += OnSteamClientConnected;
+    }
+    
+    private static void OnSteamClientConnected(ClientConnectionStateArgs t)
+    {
+        if (t.ConnectionState == LocalConnectionState.Started)
+        {
+            Debug.Log("Steam connection established");
+            instance.fishySteamworks.OnClientConnectionState -= OnSteamClientConnected;
+            instance.fishySteamworks.OnClientConnectionState += ConnectionLostSteam;
+            if(SceneManager.GetSceneByName("Main Menu").isLoaded)
+            {
+                MainMenuManager.JoinStartedLobby();
+            }
+        }
+    }
+    
+    private static void ConnectionLostSteam(ClientConnectionStateArgs t)
+    {
+        if (t.ConnectionState == LocalConnectionState.Stopped)
+        {
+            Debug.Log("lost connection to lobby with steam");
+            var networkManager = FindObjectOfType<NetworkManager>();
+            if (networkManager != null)
+                Destroy(networkManager.gameObject);
+            SceneManager.LoadScene("Bootstrap");
+            instance.fishySteamworks.OnClientConnectionState -= ConnectionLostSteam;
+        }
     }
 
     public static void JoinByID(string ID)
@@ -240,11 +268,9 @@ public class BootstrapManager : MonoBehaviour
 
     public static void LeaveLobby()
     {
-        currentLobbyID = 0;
-        
         if (instance.useSteam)
         {
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
+            //SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 4);
             SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
             
             instance.fishySteamworks.StopConnection(false);
@@ -270,5 +296,6 @@ public class BootstrapManager : MonoBehaviour
                 instance.tugboat.StopConnection(false);
             }
         }
+        currentLobbyID = 0;
     }
 }

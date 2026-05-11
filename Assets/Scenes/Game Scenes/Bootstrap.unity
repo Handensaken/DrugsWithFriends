@@ -149,7 +149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791919759}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28b19962fe839804180bd02ce1a545f0, type: 3}
   m_Name: 
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e4a322dca349547989b14021da4e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Transport: {fileID: 791919763}
+  Transport: {fileID: 791919764}
   _intermediateLayer: {fileID: 0}
   _latencySimulator:
     _enabled: 0
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BootstrapManager
   transportManager: {fileID: 791919769}
   tugboat: {fileID: 791919764}
-  useSteam: 1
+  useSteam: 0
   networkManager: {fileID: 791919767}
   fishySteamworks: {fileID: 791919763}
 --- !u!4 &1282869790
