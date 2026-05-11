@@ -21,10 +21,10 @@ public class BootstrapNetworkManager : NetworkBehaviour
     public override void OnStartClient()
     {
         if (IsOwner) return;
-        //if (!IsHostStarted)
-        //{
-        //    MainMenuManager.JoinStartedLobby();
-        //}
+        if (!IsHostStarted)
+        {
+            MainMenuManager.JoinStartedLobby();
+        }
     }
 
     public override void OnSpawnServer(NetworkConnection connection)
