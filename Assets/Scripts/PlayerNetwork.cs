@@ -78,8 +78,8 @@ public class PlayerNetwork : NetworkBehaviour
         if (TryGetComponent(out Animator anim))
         {
             animator = anim;
-            animator.SetFloat(AnimationParameters.XInput, 0);
-            animator.SetFloat(AnimationParameters.ZInput, 0);
+            //animator.SetFloat(AnimationParameters.XInput, 0);
+            //animator.SetFloat(AnimationParameters.ZInput, 0);
         }
         else
         {
