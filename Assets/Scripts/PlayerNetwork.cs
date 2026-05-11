@@ -43,14 +43,12 @@ public class PlayerNetwork : NetworkBehaviour
     }
     
     [SerializeField] private ActionReferences actionReferences;
-    [SerializeField] private PauseEvent pauseEvent;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerGameSettings playerSettings;
     private Animator animator;
     private NetworkAnimator networkAnimator;
-    [SerializeField] private int enemyIndex, currentChain;
-    private List<Transform> enemiesInRange, enemiesOnScreen;
-    private Queue<string> attackQueue;
+    private int enemyIndex, currentChain;
+    [SerializeField, ReadOnly] private List<Transform> enemiesInRange, enemiesOnScreen;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
     [SerializeField] private CinemachineCamera freeCam, lockOnCam;
@@ -98,7 +96,6 @@ public class PlayerNetwork : NetworkBehaviour
         freeCamMovement = true;
         currentChain = 0;
         enemiesInRange = new List<Transform>();
-        attackQueue = new Queue<string>();
         playerInput = GetComponent<PlayerInput>();
         if (TryGetComponent(out Rigidbody rigidbody))
         {
