@@ -137,7 +137,6 @@ public class PlayerNetwork : NetworkBehaviour
                 cam.enabled = false;
             foreach (var axis in GetComponentsInChildren<CinemachineInputAxisController>())
                 axis.enabled = false;
-            playerInput.enabled = false;
             return;
         }
         SubscribeActions(true);

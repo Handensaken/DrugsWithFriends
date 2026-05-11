@@ -19,9 +19,9 @@ public class PauseMenu : MonoBehaviour
     private void OnEnable()
     {
         selectionHandler.selectedObjects.Add(firstSelected);
-        playerInput.actions["Pause"].performed += OnUnpause;
-        playerInput.actions["Cancel"].performed += TryCancel;
-        playerInput.actions["Unpause"].performed -= OnPause;
+        unpause.action.performed += OnUnpause;
+        cancel.action.performed += TryCancel;
+        pause.action.performed -= OnPause;
         playerInput.SwitchCurrentActionMap("UI");
         Debug.Log("pausemenu loaded ");
     }
@@ -42,9 +42,9 @@ public class PauseMenu : MonoBehaviour
         catch
         {
         }
-        playerInput.actions["Pause"].performed -= OnUnpause;
-        playerInput.actions["Cancel"].performed -= TryCancel;
-        playerInput.actions["Unpause"].performed += OnPause;
+        unpause.action.performed -= OnUnpause;
+        cancel.action.performed -= TryCancel;
+        pause.action.performed += OnPause;
         
         if (playerInput != null && playerInput.isActiveAndEnabled)
         {
