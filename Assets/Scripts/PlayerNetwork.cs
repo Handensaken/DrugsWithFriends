@@ -131,6 +131,8 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         base.OnStartClient();
+        
+        SubscribeActions(true);
     
         Collider[] hits = Physics.OverlapSphere(transform.position, detectEnemiesRange);
         foreach (Collider hit in hits)
@@ -155,7 +157,13 @@ public class PlayerNetwork : NetworkBehaviour
             axisController.enabled = IsOwner;
         }
     }
-    
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        SubscribeActions(false);
+    }
+
     private void SubscribeActions(bool register)
     {
         void Performed(InputActionReference r, Action<InputAction.CallbackContext> cb)
@@ -201,8 +209,8 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    private void OnEnable()  => SubscribeActions(true);
-    private void OnDisable() => SubscribeActions(false);
+    //private void OnEnable()  => SubscribeActions(true);
+    //private void OnDisable() => SubscribeActions(false);
 
     private void OnTriggerEnter(Collider other)
     {
