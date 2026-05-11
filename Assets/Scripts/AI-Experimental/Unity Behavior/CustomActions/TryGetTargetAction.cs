@@ -12,11 +12,10 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "TryGetTarget", story: "Find suitable [battleCircleTarget] from [allTargets]", category: "Action/Interaction",
+[NodeDescription(name: "TryFindBattleCircle", story: "Connect to suitable battleCircle from [allTargets]", category: "Action/Interaction",
     id: "00d6238e85e494466c19dbe18182faaa")]
 public partial class TryGetTargetAction : Action
 {
-    [SerializeReference] public BlackboardVariable<BattleCircle> BattleCircleTarget;
     [SerializeReference] public BlackboardVariable<List<GameObject>> AllTargets;
 
     [SerializeReference] public BlackboardVariable<GameObject> self;

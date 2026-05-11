@@ -42,10 +42,10 @@ public partial class ChaseAction : Action
             return Status.Failure;
         }
         
-        if (!_agent.pathPending && CloseEnough())
+        /*if (!_agent.pathPending && CloseEnough())
         {
             return Status.Success;
-        }
+        }*/
 
         HandleTargetPosition();
         return Status.Running;
@@ -71,7 +71,7 @@ public partial class ChaseAction : Action
             return false;
         }
         
-        bool result = _agent.remainingDistance <= dataSO.Value.attackPackage.rangeTolerance;
+        bool result = _agent.remainingDistance <= _agent.stoppingDistance;
         _latestCheck4CloseEnough = result;
         return result;
     }
@@ -84,7 +84,7 @@ public partial class ChaseAction : Action
         
         _agent.transform.forward = dirToTarget;
         
-        Vector3 targetPosition = Target.Value.position - dirToTarget * dataSO.Value.attackPackage.minRange;
+        Vector3 targetPosition = Target.Value.position;
         
         Vector3.Distance(targetPosition,eyes.Value.position);
         _agent.SetDestination(targetPosition); 
@@ -94,6 +94,7 @@ public partial class ChaseAction : Action
     {
         _agent = Self.Value.GetComponent<NavMeshAgent>();
         _agent.speed = dataSO.Value.chasePackage.movementPackage.Speed;
+        _agent.acceleration = dataSO.Value.chasePackage.movementPackage.Acceleration;
         _agent.stoppingDistance = dataSO.Value.chasePackage.movementPackage.StoppingDistance;
         _agent.angularSpeed = 0;
     }

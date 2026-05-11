@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc97a8b9e628044e83004c93095c14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
-  _componentIndexCache: 3
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 5599575656561588736}
   _networkObjectCache: {fileID: 5599575656561588736}
   MaximumSimultaneousHits: 16
@@ -89,9 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2cfc2f3bee14d5a8c75dfcb25d7c362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.NPCDamage
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
   networkTrigger: {fileID: 8513608233697118439}
   behaviorAgent: {fileID: 4943264456987591253}
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: AIAssembly::EnemyVisualization
   enemyData: {fileID: 11400000, guid: 3ba4464c42b93084e94c2c3c4cc9c136, type: 2}
+  sightObject: {fileID: 3129089411942311774}
   patrolSight:
     _typeOfVisualization: 1
     sight: {fileID: 2218079657594921333}
@@ -172,7 +173,7 @@ Transform:
   m_GameObject: {fileID: 3129089411942311774}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.41223, y: 0, z: -8.99147}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -222,7 +223,7 @@ Transform:
   m_GameObject: {fileID: 4293041846045067323}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.41223, y: 0, z: -8.99147}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -420,6 +421,7 @@ MonoBehaviour:
   - rid: 3332841387919409423
   - rid: 5095583341655883958
   - rid: 5095583388595388830
+  - rid: 3697295022139114333
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -442,6 +444,14 @@ MonoBehaviour:
           m_Value1: 9890575146696260877
         Name: Animator
         m_Value: {fileID: 2881763288383015292}
+    - rid: 3697295022139114333
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 16414494923865458160
+          m_Value1: 11114422051974767141
+        Name: ExternalSight
+        m_Value: {fileID: 3129089411942311774}
     - rid: 5095583341655883958
       type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -489,10 +499,10 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 5599575656561588736}
   _networkObjectCache: {fileID: 5599575656561588736}
-  components:
+  disableOnClientComponents:
   - {fileID: 4943264456987591253}
-  - {fileID: 1824923390422600614}
   - {fileID: 166976938981996354}
+  - {fileID: 1824923390422600614}
 --- !u!114 &5599575656561588736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,8 +524,8 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 121713909896038513}
   - {fileID: 6007298086680157045}
-  - {fileID: 0}
   - {fileID: 8513608233697118439}
+  - {fileID: 6709684634751062280}
   - {fileID: 420708119996327095}
   - {fileID: 2218079657594921333}
   - {fileID: 8906328546288525562}
@@ -529,7 +539,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584235376238775226
+  _initializedTimestamp: -8584231032133471640
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -545,7 +555,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 12
+  <PrefabId>k__BackingField: 15
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15029000048171213655
   SceneId: 0
@@ -691,7 +701,7 @@ Transform:
   m_GameObject: {fileID: 7035592057046882805}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.41223, y: 0, z: 8.99147}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

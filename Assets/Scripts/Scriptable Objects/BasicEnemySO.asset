@@ -21,12 +21,14 @@ MonoBehaviour:
       instantInRange: 1.33
     movementPackage:
       speed: 4
+      acceleration: 0
       stoppingDistance: 0.2
   chasePackage:
     stateName: 
     stateColor: {r: 0.86946917, g: 0.8962264, b: 0.25787643, a: 255}
     movementPackage:
       speed: 6
+      acceleration: 60
       stoppingDistance: 0.2
   attackPackage:
     stateName: 

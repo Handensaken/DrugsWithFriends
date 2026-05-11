@@ -15,15 +15,11 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
           private BlackboardReference _blackboard;
 
           private readonly Dictionary<int, GameObject> _clientsAsTargets = new ();
-          
-          private void Awake()
-          {
-               _blackboard = behaviorGraphAgent.BlackboardReference;
-          }
 
           public override void OnStartServer()
           {
                base.OnStartServer();
+               _blackboard = behaviorGraphAgent.BlackboardReference;
                ServerManager.OnRemoteConnectionState += HandleLeftPlayer;
           }
 
