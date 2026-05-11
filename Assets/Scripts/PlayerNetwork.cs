@@ -129,9 +129,17 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (!IsOwner) return;
         base.OnStartClient();
-        
+        if (!IsOwner)
+        {
+            // Disable all cameras on non-owned players
+            foreach (var cam in GetComponentsInChildren<CinemachineCamera>())
+                cam.enabled = false;
+            foreach (var axis in GetComponentsInChildren<CinemachineInputAxisController>())
+                axis.enabled = false;
+            playerInput.enabled = false;
+            return;
+        }
         SubscribeActions(true);
     
         Collider[] hits = Physics.OverlapSphere(transform.position, detectEnemiesRange);
@@ -261,6 +269,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Move(InputAction.CallbackContext context)
     {
+        Debug.Log($"Move called - IsOwner: {IsOwner}, OwnerId: {OwnerId}");
         if (!IsOwner) return;
         if (context.performed)
         {
