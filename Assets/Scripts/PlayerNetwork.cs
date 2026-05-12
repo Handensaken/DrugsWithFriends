@@ -464,6 +464,16 @@ public class PlayerNetwork : NetworkBehaviour
         lockOnCam.transform.position = freeCam.transform.position;
     }
 
+    public void EnableHitBox()
+    {
+        attackHitboxCollider.enabled = true;
+    }
+
+    public void DisableHitBox()
+    {
+        attackHitboxCollider.enabled = false;
+    }
+
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -498,7 +508,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
-        attackHitboxCollider.enabled = true;
+        EnableHitBox();
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
@@ -514,7 +524,7 @@ public class PlayerNetwork : NetworkBehaviour
             attacking = false;
             return;
         }
-        attackHitboxCollider.enabled = false;
+        DisableHitBox();
         ExitCombo();
     }
 
