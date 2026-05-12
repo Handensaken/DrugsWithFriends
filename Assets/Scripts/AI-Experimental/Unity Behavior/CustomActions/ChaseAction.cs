@@ -18,8 +18,8 @@ public partial class ChaseAction : Action
     [SerializeReference] public BlackboardVariable<EnemyData> dataSO;
     [SerializeReference] public BlackboardVariable<Transform> eyes;
 
-    private NavMeshAgent _agent;
-    private bool _latestCheck4CloseEnough = true;
+    protected NavMeshAgent _agent;
+    protected bool _latestCheck4CloseEnough = true;
     
     protected override Status OnStart()
     {
@@ -57,7 +57,10 @@ public partial class ChaseAction : Action
         if (_agent != null)
         {
             _agent.velocity = Vector3.zero;
-            _agent.ResetPath();
+            if (_agent.hasPath)
+            {
+                _agent.ResetPath();
+            }
         }
 
         _agent = null;

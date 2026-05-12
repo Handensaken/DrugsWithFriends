@@ -13,7 +13,6 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
         {
             Gizmos.color = gizmoColor;
             Gizmos.DrawWireSphere(sight.eyes.position,attackPackage.minRange);
-            Gizmos.DrawWireSphere(sight.eyes.position,attackPackage.rangeTolerance);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = System.Random;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
@@ -12,12 +14,79 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         [SerializeField,Min(0.1f)] private float circleRange;
 
         private readonly Dictionary<BlackboardReference, Transform> _aiPointDictionary = new ();
+
+        private readonly List<BlackboardReference> _currentlyAttacking = new();
         
-        private void FixedUpdate()
+        //Token creator
+        [Space, SerializeField,Range(0,3)] private int minTime;
+        [Space, SerializeField,Range(0,5)] private int maxTime;
+        private float _currentTime = 0;
+
+        private void Awake()
         {
-            //UpdateAllEnemiesLookingDirection();
+            //TEMP
+            _currentTime = 0;
+            _currentTime += new Random().Next(minTime,maxTime);
+            _currentTime += (float)new Random().NextDouble();
         }
 
+        private void FixedUpdate()
+        {
+            UpdateAllEnemiesLookingDirection();
+        }
+
+        private void Update()
+        {
+            HandleTokens();
+            
+            //TODO maybe more suitable i fixedUpdate
+            CheckIfAttacking();
+        }
+
+        private void HandleTokens()
+        {
+            _currentTime -= Time.deltaTime;
+            if (_currentTime <= 0)
+            {
+                GiveToken();
+                
+                _currentTime = 0;
+                _currentTime += new Random().Next(minTime,maxTime);
+                _currentTime += (float)new Random().NextDouble();
+            }
+        }
+
+        private void GiveToken()
+        {
+            if (_aiPointDictionary.Count <= 0)
+            {
+                return;
+            }
+            
+            Debug.Log("Give Token");
+            _currentlyAttacking.Add(_aiPointDictionary.Keys.ToArray()[0]);
+            _aiPointDictionary.Keys.ToArray()[0].SetVariableValue("AbleToAttack", true);
+            _aiPointDictionary.Keys.ToArray()[0].SetVariableValue("Target", transform);
+        }
+
+        private void CheckIfAttacking()
+        {
+            for (int i = 0; i < _currentlyAttacking.Count; i++)
+            {
+                BlackboardReference blackboard = _currentlyAttacking[^(i + 1)];
+                blackboard.GetVariableValue("AbleToAttack", out bool attackValue);
+
+                if (attackValue)
+                {
+                    continue;
+                }
+                
+                _currentlyAttacking.RemoveAt((_currentlyAttacking.Count-1)-i);
+
+                blackboard.SetVariableValue("Target",_aiPointDictionary[blackboard]);
+            }
+        }
+        
         private void UpdateAllEnemiesLookingDirection()
         {
             foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
@@ -25,17 +94,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 //blackboard.SetVariableValue()
             }
         }
-        
-        /*private void UpdateAllAIPosition()
-        {
-            int counter = 0;
-            foreach (var keyValue in _aiPointDictionary)
-            {
-                Transform targetTransform = keyValue.Value;
-                targetTransform.position = transform.position + _pointsInLocalSpace[counter];
-                counter++;
-            }
-        }*/
         
         private void SetAITransformPoint(BlackboardReference blackboard, Transform targetTransform)
         {

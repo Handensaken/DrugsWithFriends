@@ -10,7 +10,15 @@ public partial class ChaseUntilInRangeAction : ChaseAction
 {
     protected override bool CloseEnough()
     {
-        return base.CloseEnough();
+        if (_latestCheck4CloseEnough) 
+        {
+            _latestCheck4CloseEnough = false;
+            return false;
+        }
+        
+        bool result = _agent.remainingDistance <= dataSO.Value.attackPackage.minRange;
+        _latestCheck4CloseEnough = result;
+        return result;
     }
 }
 
