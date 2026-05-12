@@ -91,7 +91,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
             {
-                //blackboard.SetVariableValue()
+                blackboard.GetVariableValue("Self", out GameObject gameObject);
+                
+                Vector3 forwardDir = gameObject.transform.position - transform.position;
+                forwardDir.y = 0;
+                forwardDir.Normalize();
+                
+                blackboard.SetVariableValue("Forward",forwardDir);
             }
         }
         
@@ -165,6 +171,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             pointTransform.position = transform.position + localPoints[^1];
                                      
             _aiPointDictionary[blackboard] = pointTransform;
+            blackboard.SetVariableValue("InBattleCircle", true);
             SetAITransformPoint(blackboard, pointTransform);
         }
         //TODO för när fiender dör eller flyttas
@@ -195,7 +202,21 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 }
             }
 
-            
+            DrawEnemyDir();
+        }
+
+        private void DrawEnemyDir()
+        {
+            foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
+            {
+                blackboard.GetVariableValue("Self", out GameObject gameObject);
+                
+                Vector3 forwardDir = transform.position - gameObject.transform.position;
+                forwardDir.y = 0;
+                forwardDir.Normalize();
+                
+                Gizmos.DrawSphere(gameObject.transform.position+forwardDir*2,.5f);
+            }
         }
     }
 }
