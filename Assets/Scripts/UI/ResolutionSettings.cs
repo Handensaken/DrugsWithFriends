@@ -42,7 +42,7 @@ public class ResolutionSettings : MonoBehaviour
         Screen.SetResolution(resolutions[selectedResolution].width, resolutions[selectedResolution].height, fullscreenMode);
     }
 
-    public void ChangeFullscreenMode(int index)
+    public void ChangeScreenMode(int index)
     {
         fullscreenMode = (FullScreenMode)index;
         Screen.SetResolution(resolutions[selectedResolution].width, resolutions[selectedResolution].height, fullscreenMode);
