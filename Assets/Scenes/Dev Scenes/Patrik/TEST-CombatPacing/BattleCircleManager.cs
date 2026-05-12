@@ -92,7 +92,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
           [Server]
           public void AssignAI2BattleCircle(int clientID, BlackboardReference blackboard)
           {
-               _clientsBattleCircles[clientID].AssignAI2Point(blackboard);
+               _clientsBattleCircles[clientID].AssignAI(blackboard);
           }
      }
 }

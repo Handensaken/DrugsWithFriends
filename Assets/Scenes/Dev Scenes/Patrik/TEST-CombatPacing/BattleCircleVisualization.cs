@@ -16,7 +16,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             if (!Application.isPlaying)
             {
-                Vector3[] points = battleCircle.CreateAllPoints(amountOfPositioningPoints);
+                Vector3[] points = battleCircle.CircleBehaviour.CreateAllPoints(amountOfPositioningPoints);
                 foreach (Vector3 point in points)
                 {
                     Gizmos.DrawSphere(transform.position+point, .2f);
