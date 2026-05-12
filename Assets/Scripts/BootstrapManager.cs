@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FishNet.Managing;
 using FishNet.Managing.Transporting;
@@ -6,7 +5,6 @@ using FishNet.Transporting;
 using FishNet.Transporting.Tugboat;
 using UnityEngine;
 using Steamworks;
-using UnityEngine.EventSystems;
 //using UnityEditor.Scripting;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -193,12 +191,7 @@ public class BootstrapManager : MonoBehaviour
     {
         if (t.ConnectionState == LocalConnectionState.Stopped)
         {
-            Debug.Log("lost connection to lobby with steam");
-            var networkManager = FindObjectOfType<NetworkManager>();
-            if (networkManager != null)
-                Destroy(networkManager.gameObject);
-            SceneManager.LoadScene("Bootstrap");
-            instance.fishySteamworks.OnClientConnectionState -= ConnectionLostSteam;
+            LeaveLobby();
         }
     }
 
@@ -236,12 +229,7 @@ public class BootstrapManager : MonoBehaviour
     {
         if(t.ConnectionState == LocalConnectionState.Stopped)
         {
-            Debug.Log("lost connection to lobby with tugboat");
-            var networkManager = FindObjectOfType<NetworkManager>();
-            if (networkManager != null)
-                Destroy(networkManager.gameObject);
-            SceneManager.LoadScene("Bootstrap");
-            instance.networkManager.ClientManager.OnClientConnectionState -= ConnectionLostTugboat;
+            LeaveLobby();
         }
     }
     

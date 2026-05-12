@@ -270,7 +270,6 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Move(InputAction.CallbackContext context)
     {
-        Debug.Log($"Move called - IsOwner: {IsOwner}, OwnerId: {OwnerId}");
         if (!IsOwner) return;
         if (context.performed)
         {
@@ -287,18 +286,16 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Dash(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
         if (freeCamMovement)
         {
-            // If moving the dash direction should be forward but otherwise it should be backwards
             Vector3 dashDirection;
             if(actionReferences.move.action.ReadValue<Vector2>().sqrMagnitude > 0f)
             {
-                Debug.Log("Dashnig forwards");
                 dashDirection = new Vector3(transform.forward.x, 0, transform.forward.z);
             }
             else
             {
-                Debug.Log("dashing backwards");
                 dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
             }
             rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
@@ -474,7 +471,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
-            Debug.Log("set light attack trigger");
         }
         else
         {
