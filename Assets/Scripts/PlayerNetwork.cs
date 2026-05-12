@@ -289,9 +289,19 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (freeCamMovement)
         {
-            Vector2 dashDirection = freeCam.transform.forward;
+            // If moving the dash direction should be forward but otherwise it should be backwards
+            Vector3 dashDirection;
+            if(actionReferences.move.action.ReadValue<Vector2>().sqrMagnitude > 0f)
+            {
+                Debug.Log("Dashnig forwards");
+                dashDirection = new Vector3(transform.forward.x, 0, transform.forward.z);
+            }
+            else
+            {
+                Debug.Log("dashing backwards");
+                dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
+            }
             rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
-            Debug.Log("Dash" + dashParameters.dashForce * dashDirection);
         }
         else
         {
