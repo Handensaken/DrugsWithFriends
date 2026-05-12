@@ -13,7 +13,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints; //TODO separate to visualizationComponent
         [SerializeField,Min(0.1f)] private float circleRange;
 
-        private readonly Dictionary<BlackboardReference, Transform> _aiPointDictionary = new ();
+        private readonly Dictionary<BlackboardReference, Transform> _aiPointDictionary = new (); //TODO structs ??
 
         private readonly List<BlackboardReference> _currentlyAttacking = new();
         
@@ -32,7 +32,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void FixedUpdate()
         {
-            UpdateAllEnemiesLookingDirection();
+            UpdateAllEnemiesForward();
         }
 
         private void Update()
@@ -87,18 +87,23 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
         }
         
-        private void UpdateAllEnemiesLookingDirection()
+        private void UpdateAllEnemiesForward()
         {
             foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
             {
-                blackboard.GetVariableValue("Self", out GameObject gameObject);
-                
-                Vector3 forwardDir = transform.position-gameObject.transform.position;
-                forwardDir.y = 0;
-                forwardDir.Normalize();
-                
-                blackboard.SetVariableValue("Forward",forwardDir);
+                UpdateEnemyForward(blackboard);
             }
+        }
+
+        private void UpdateEnemyForward(BlackboardReference blackboard)
+        {
+            blackboard.GetVariableValue("Self", out GameObject gameObject);
+                
+            Vector3 forwardDir = transform.position-gameObject.transform.position;
+            forwardDir.y = 0;
+            forwardDir.Normalize();
+                
+            blackboard.SetVariableValue("Forward",forwardDir);
         }
         
         private void SetAITransformPoint(BlackboardReference blackboard, Transform targetTransform)
@@ -172,6 +177,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                                      
             _aiPointDictionary[blackboard] = pointTransform;
             blackboard.SetVariableValue("InBattleCircle", true);
+            UpdateEnemyForward(blackboard);
             SetAITransformPoint(blackboard, pointTransform);
         }
         //TODO för när fiender dör eller flyttas
