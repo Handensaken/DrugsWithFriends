@@ -21,13 +21,11 @@ public class MainMenuManager : MonoBehaviour
     private void Start()
     {
         DisplayLobbyCode();
-        EventSystem obj = FindAnyObjectByType<EventSystem>();
-        Debug.Log(obj);
-        obj.gameObject.SetActive(false);
-        obj.gameObject.SetActive(true);
-        EventSystem.current = obj;
-        EventSystem.current.SetSelectedGameObject(startButton);
-        Debug.Log(EventSystem.current);
+        //EventSystem obj = FindAnyObjectByType<EventSystem>();
+        //obj.gameObject.SetActive(false);
+        //obj.gameObject.SetActive(true);
+        //EventSystem.current = obj;
+        //EventSystem.current.SetSelectedGameObject(startButton);
     }
 
     public void PlayButton(GameObject screenToClose)
