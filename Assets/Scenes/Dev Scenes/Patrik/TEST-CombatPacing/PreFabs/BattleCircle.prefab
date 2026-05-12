@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7056826420734022681}
   - component: {fileID: 378956182747798228}
+  - component: {fileID: 5172248316479995667}
   m_Layer: 0
   m_Name: BattleCircle
   m_TagString: Untagged
@@ -44,7 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32322c69f60d41e497de77722d86cc3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: CombatPacing::Scenes.Dev_Scenes.Patrik.TEST_CombatPacing.BattleCircle
-  amountOfPositioningPoints: 8
-  circleRange: 3
+  data: {fileID: 11400000, guid: ebc1b031b5adaa344b42fd2c51ff1409, type: 2}
   minTime: 1
   maxTime: 2
+--- !u!114 &5172248316479995667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5260080134210503676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd449c8b38c47a78c8c982c670c0067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CombatPacing::Scenes.Dev_Scenes.Patrik.TEST_CombatPacing.BattleCircleVisualization
+  battleCircle: {fileID: 378956182747798228}
+  amountOfPositioningPoints: 5
+  data: {fileID: 11400000, guid: ebc1b031b5adaa344b42fd2c51ff1409, type: 2}

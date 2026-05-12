@@ -10,24 +10,23 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
     public class BattleCircle : MonoBehaviour
     {
-        [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints; //TODO separate to visualizationComponent
-        [SerializeField,Min(0.1f)] private float circleRange;
-
-        private readonly Dictionary<BlackboardReference, Transform> _aiPointDictionary = new (); //TODO structs ??
-
-        private readonly List<BlackboardReference> _currentlyAttacking = new();
+        [Space,SerializeField] private BattleCircleData data;
+        
+        private readonly Dictionary<BlackboardReference, Transform> _aiAndTargetTransform = new (); //TODO structs ??
+        private readonly List<BlackboardReference> _attackingAis = new();
         
         //Token creator
-        [Space, SerializeField,Range(0,3)] private int minTime;
-        [Space, SerializeField,Range(0,5)] private int maxTime;
         private float _currentTime = 0;
 
+        #region Properties
+
+        public Dictionary<BlackboardReference, Transform> AiAndTargetTransform => _aiAndTargetTransform;
+
+        #endregion
+        
         private void Awake()
         {
-            //TEMP
-            _currentTime = 0;
-            _currentTime += new Random().Next(minTime,maxTime);
-            _currentTime += (float)new Random().NextDouble();
+            SetRndNextTimeForNewFighter();
         }
 
         private void FixedUpdate()
@@ -42,38 +41,41 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             //TODO maybe more suitable i fixedUpdate
             CheckIfAttacking();
         }
-
+        
+        private void SetRndNextTimeForNewFighter()
+        {
+            _currentTime = new Random().Next(data.tokenCreationData.minTime,data.tokenCreationData.maxTime);
+            _currentTime += (float)new Random().NextDouble();
+        }
+        
         private void HandleTokens()
         {
             _currentTime -= Time.deltaTime;
             if (_currentTime <= 0)
             {
                 GiveToken();
-                
-                _currentTime = 0;
-                _currentTime += new Random().Next(minTime,maxTime);
-                _currentTime += (float)new Random().NextDouble();
+                SetRndNextTimeForNewFighter();
             }
         }
 
         private void GiveToken()
         {
-            if (_aiPointDictionary.Count <= 0)
+            if (_aiAndTargetTransform.Count <= 0)
             {
                 return;
             }
             
             Debug.Log("Give Token");
-            _currentlyAttacking.Add(_aiPointDictionary.Keys.ToArray()[0]);
-            _aiPointDictionary.Keys.ToArray()[0].SetVariableValue("AbleToAttack", true);
-            _aiPointDictionary.Keys.ToArray()[0].SetVariableValue("Target", transform);
+            _attackingAis.Add(_aiAndTargetTransform.Keys.ToArray()[0]);
+            _aiAndTargetTransform.Keys.ToArray()[0].SetVariableValue("AbleToAttack", true);
+            _aiAndTargetTransform.Keys.ToArray()[0].SetVariableValue("Target", transform);
         }
 
         private void CheckIfAttacking()
         {
-            for (int i = 0; i < _currentlyAttacking.Count; i++)
+            for (int i = 0; i < _attackingAis.Count; i++)
             {
-                BlackboardReference blackboard = _currentlyAttacking[^(i + 1)];
+                BlackboardReference blackboard = _attackingAis[^(i + 1)];
                 blackboard.GetVariableValue("AbleToAttack", out bool attackValue);
 
                 if (attackValue)
@@ -81,15 +83,15 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     continue;
                 }
                 
-                _currentlyAttacking.RemoveAt((_currentlyAttacking.Count-1)-i);
+                _attackingAis.RemoveAt((_attackingAis.Count-1)-i);
 
-                blackboard.SetVariableValue("Target",_aiPointDictionary[blackboard]);
+                blackboard.SetVariableValue("Target",_aiAndTargetTransform[blackboard]);
             }
         }
         
         private void UpdateAllEnemiesForward()
         {
-            foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
+            foreach (BlackboardReference blackboard in _aiAndTargetTransform.Keys)
             {
                 UpdateEnemyForward(blackboard);
             }
@@ -115,8 +117,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         /// Initial enemy base-orientation for first position --> Rotates toward the first enemy
         /// Begins at 0 degrees and continues clockwise (cw) (Left-handed system).
         /// </summary>
-        private Vector3[] CreateAllPoints(uint amountOfPoints)
+        public Vector3[] CreateAllPoints(uint amountOfPoints)
         {
+            float circleRange = data.circleRange;
+            
             if (amountOfPoints <= 0)
             {
                 return null;
@@ -158,14 +162,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         public void AssignAI2Point(BlackboardReference blackboard)
         {
             //Skapa nya positionsPunkter
-            uint amountOfPoints = (uint)(_aiPointDictionary.Count+1);
+            uint amountOfPoints = (uint)(_aiAndTargetTransform.Count+1);
             Vector3[] localPoints = CreateAllPoints(amountOfPoints);
             
             //Uppdatera positionen på transforms
-            for (int i = 0; i < _aiPointDictionary.Values.Count; i++)
+            for (int i = 0; i < _aiAndTargetTransform.Values.Count; i++)
             {
                 Vector3 localPoint = localPoints[i];
-                Transform existingPointTransform = _aiPointDictionary.Values.ToArray()[i];
+                Transform existingPointTransform = _aiAndTargetTransform.Values.ToArray()[i];
                 
                 existingPointTransform.position = transform.position+localPoint;
             }
@@ -175,7 +179,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             pointTransform.parent = transform;
             pointTransform.position = transform.position + localPoints[^1];
                                      
-            _aiPointDictionary[blackboard] = pointTransform;
+            _aiAndTargetTransform[blackboard] = pointTransform;
             blackboard.SetVariableValue("InBattleCircle", true);
             UpdateEnemyForward(blackboard);
             SetAITransformPoint(blackboard, pointTransform);
@@ -184,45 +188,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private void ResignAI2Point(BlackboardReference blackboard)
         {
             
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.darkGreen;
-            Gizmos.DrawWireSphere(transform.position, circleRange);
-            
-            if (!Application.isPlaying)
-            {
-                Vector3[] points = CreateAllPoints(amountOfPositioningPoints);
-                foreach (Vector3 point in points)
-                {
-                    Gizmos.DrawSphere(transform.position+point, .2f);
-                }
-                
-            }
-            else
-            {
-                foreach (Transform point in _aiPointDictionary.Values)
-                {
-                    Gizmos.DrawSphere(point.position, .2f);
-                }
-            }
-
-            DrawEnemyDir();
-        }
-
-        private void DrawEnemyDir()
-        {
-            foreach (BlackboardReference blackboard in _aiPointDictionary.Keys)
-            {
-                blackboard.GetVariableValue("Self", out GameObject gameObject);
-                
-                Vector3 forwardDir = transform.position - gameObject.transform.position;
-                forwardDir.y = 0;
-                forwardDir.Normalize();
-                
-                Gizmos.DrawSphere(gameObject.transform.position+forwardDir*2,.5f);
-            }
         }
     }
 }

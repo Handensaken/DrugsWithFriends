@@ -48,7 +48,7 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
             
             if (inFOV.Length > 0)
             {
-                _blackboard.SetVariableValue("Target", inFOV[0]);
+                _blackboard.SetVariableValue("Aggressive", true);
             }
         }
 
