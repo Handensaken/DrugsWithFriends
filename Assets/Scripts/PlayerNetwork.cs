@@ -26,7 +26,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, look, toggleCameraFocus, lightAttack, heavyAttack;
+        public InputActionReference move, look, dash, toggleCameraFocus, lightAttack, heavyAttack;
     }
     
     private static class AnimationParameters
@@ -63,7 +63,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct DashParameters
     {
-        [Range(0, 10f), Tooltip("")] public float dashForce; 
+        [Range(0, 100f), Tooltip("")] public float dashForce; 
         [Range(0, 5f), Tooltip("")] public float dashCooldown;
         [Range(0, 2f), Tooltip("")] public float invincibilityDuration;
     }
@@ -201,6 +201,8 @@ public class PlayerNetwork : NetworkBehaviour
  
         Performed(actionReferences.look, Look);
         Canceled(actionReferences.look, Look);
+        
+        Performed(actionReferences.dash, Dash);
  
         Performed(actionReferences.toggleCameraFocus, ToggleCameraFocus);
         Performed(actionReferences.lightAttack, LightAttack);
@@ -280,6 +282,21 @@ public class PlayerNetwork : NetworkBehaviour
             animator.SetFloat(AnimationParameters.CombatX, 0);
             animator.SetFloat(AnimationParameters.CombatY, 0);
             animator.SetBool(AnimationParameters.Running, false);
+        }
+    }
+
+    private void Dash(InputAction.CallbackContext context)
+    {
+        if (freeCamMovement)
+        {
+            Vector2 dashDirection = freeCam.transform.forward;
+            rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+            Debug.Log("Dash" + dashParameters.dashForce * dashDirection);
+        }
+        else
+        {
+            Vector2 dashDirection = actionReferences.move.action.ReadValue<Vector2>();
+            rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
         }
     }
 
@@ -512,7 +529,6 @@ public class PlayerNetwork : NetworkBehaviour
 
             if (onScreen)
             {
-                Debug.Log($"{enemy.name} is visible and within range!");
                 enemiesOnScreen.Add(enemy);
             }
         }

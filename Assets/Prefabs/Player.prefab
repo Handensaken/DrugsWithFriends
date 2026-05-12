@@ -1125,7 +1125,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584235487499303157
+  _initializedTimestamp: -8584230248900070890
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 1
+  <PrefabId>k__BackingField: 2
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 2092870565765373345
   SceneId: 0
@@ -1178,6 +1178,7 @@ MonoBehaviour:
   actionReferences:
     move: {fileID: -3294628319744290294, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     look: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
+    dash: {fileID: -3554361416335890557, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     toggleCameraFocus: {fileID: 7347064979651339959, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     lightAttack: {fileID: -2377209859967132474, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     heavyAttack: {fileID: -1555395443974306601, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
@@ -1192,7 +1193,7 @@ MonoBehaviour:
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}
   animationSpeed: 1
   dashParameters:
-    dashForce: 0
+    dashForce: 46.5
     dashCooldown: 0
     invincibilityDuration: 0
 --- !u!114 &6442288351224345491
