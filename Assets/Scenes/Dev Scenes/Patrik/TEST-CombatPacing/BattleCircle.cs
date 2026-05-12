@@ -93,7 +93,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 blackboard.GetVariableValue("Self", out GameObject gameObject);
                 
-                Vector3 forwardDir = gameObject.transform.position - transform.position;
+                Vector3 forwardDir = transform.position-gameObject.transform.position;
                 forwardDir.y = 0;
                 forwardDir.Normalize();
                 

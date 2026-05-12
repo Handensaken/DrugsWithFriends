@@ -81,11 +81,11 @@ public partial class ChaseAction : Action
 
     private void HandleTargetPosition()
     {
-        Vector3 dirToTarget = (Target.Value.position-eyes.Value.position);
+        /*Vector3 dirToTarget = (Target.Value.position-eyes.Value.position);
         dirToTarget.y = 0;
         dirToTarget.Normalize(); 
         
-        _agent.transform.forward = dirToTarget;
+        _agent.transform.forward = dirToTarget;*/
         
         Vector3 targetPosition = Target.Value.position;
         
