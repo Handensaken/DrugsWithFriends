@@ -8,15 +8,65 @@ using Random = System.Random;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
+    public class TokenSystem
+    {
+        
+    }
+    
+    public class CircleBehaviour
+    {
+        public void t(BlackboardReference[] newNonFightingAis)
+        {
+            foreach (var blackboard in newNonFightingAis)
+            {
+                //blackboard.SetVariableValue("Target",_aiAndTargetTransform[blackboard]);
+            }
+        }
+    }
+
+    public class FightingBehaviour
+    {
+        private List<BlackboardReference> _attackingAis; 
+        
+        public FightingBehaviour(ref List<BlackboardReference> t)
+        {
+            _attackingAis = t;
+        }
+        
+        public BlackboardReference[] CheckIfStillAttacking(ref List<BlackboardReference> _attackingAis)
+        {
+            List<BlackboardReference> result = new List<BlackboardReference>();
+            for (int i = 0; i < _attackingAis.Count; i++)
+            {
+                BlackboardReference blackboard = _attackingAis[^(i + 1)];
+                blackboard.GetVariableValue("AbleToAttack", out bool attackValue);
+
+                if (attackValue)
+                {
+                    continue;
+                }
+                
+                _attackingAis.RemoveAt((_attackingAis.Count-1)-i);
+                result.Add(blackboard);
+            }
+
+            return result.ToArray();
+        }
+    }
+    
     public class BattleCircle : MonoBehaviour
     {
         [Space,SerializeField] private BattleCircleData data;
         
         private readonly Dictionary<BlackboardReference, Transform> _aiAndTargetTransform = new (); //TODO structs ??
-        private readonly List<BlackboardReference> _attackingAis = new();
+        private List<BlackboardReference> _attackingAis = new();
         
         //Token creator
         private float _currentTime = 0;
+
+        private TokenSystem tokenSystem = new TokenSystem();
+        private CircleBehaviour circleBehaviour = new CircleBehaviour();
+        private FightingBehaviour fightingBehaviour;
 
         #region Properties
 
@@ -26,6 +76,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         private void Awake()
         {
+            fightingBehaviour = new FightingBehaviour(ref _attackingAis);
+            
             SetRndNextTimeForNewFighter();
         }
 
@@ -38,8 +90,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             HandleTokens();
             
-            //TODO maybe more suitable i fixedUpdate
-            CheckIfAttacking();
+            BlackboardReference[] newNonFightingAis = fightingBehaviour.CheckIfStillAttacking(ref _attackingAis);
         }
         
         private void SetRndNextTimeForNewFighter()
@@ -70,24 +121,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _aiAndTargetTransform.Keys.ToArray()[0].SetVariableValue("AbleToAttack", true);
             _aiAndTargetTransform.Keys.ToArray()[0].SetVariableValue("Target", transform);
         }
-
-        private void CheckIfAttacking()
-        {
-            for (int i = 0; i < _attackingAis.Count; i++)
-            {
-                BlackboardReference blackboard = _attackingAis[^(i + 1)];
-                blackboard.GetVariableValue("AbleToAttack", out bool attackValue);
-
-                if (attackValue)
-                {
-                    continue;
-                }
-                
-                _attackingAis.RemoveAt((_attackingAis.Count-1)-i);
-
-                blackboard.SetVariableValue("Target",_aiAndTargetTransform[blackboard]);
-            }
-        }
+        
         
         private void UpdateAllEnemiesForward()
         {
