@@ -42,6 +42,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void AssignFightingAi(BlackboardReference blackboard)
         {
+            _attackingAis.Add(blackboard);
             blackboard.SetVariableValue("AbleToAttack", true);
             SetAITransformPoint(blackboard,_battleCircleTransform);
         }

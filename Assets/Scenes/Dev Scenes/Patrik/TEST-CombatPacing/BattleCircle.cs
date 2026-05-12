@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Behavior;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = System.Random;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
@@ -12,10 +8,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     {
         [Space,SerializeField] private BattleCircleData data;
         
-        //Borde endast vara Lista med AI-blackboard
-        //Resterande borde finnas i respektive beteende
-        private readonly Dictionary<BlackboardReference, Transform> _aiAndTargetTransform = new (); //TODO structs ??
-        private readonly List<BlackboardReference> _attackingAis = new();
+        private readonly List<BlackboardReference> _aisInCircle = new ();
 
         private TokenSystem _tokenSystem;
         private CircleBehaviour _circleBehaviour;
@@ -23,16 +16,19 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         #region Properties
 
-        public Dictionary<BlackboardReference, Transform> AiAndTargetTransform => _aiAndTargetTransform;
+        public List<BlackboardReference> AisInCircle => _aisInCircle;
         public CircleBehaviour CircleBehaviour => _circleBehaviour;
 
         #endregion
         
         private void Awake()
         {
-            _tokenSystem = new TokenSystem(data);
-            _circleBehaviour = new CircleBehaviour(transform,data,_aiAndTargetTransform);
-            _fightingBehaviour = new FightingBehaviour(transform,data,_attackingAis);
+            Dictionary<BlackboardReference, Transform> aiAndTargetTransform = new ();
+            _circleBehaviour = new CircleBehaviour(transform,data,aiAndTargetTransform);
+            
+            List<BlackboardReference> attackingAis = new ();
+            _fightingBehaviour = new FightingBehaviour(transform,data,attackingAis);
+            _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis);
         }
 
         private void FixedUpdate()
@@ -50,7 +46,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         private void UpdateAllEnemiesForward()
         {
-            foreach (BlackboardReference blackboard in _aiAndTargetTransform.Keys)
+            foreach (BlackboardReference blackboard in _aisInCircle)
             {
                 UpdateEnemyForward(blackboard);
             }
@@ -69,6 +65,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public void AssignAI(BlackboardReference blackboard)
         {
+            _aisInCircle.Add(blackboard);
             _circleBehaviour.AssignAI2Point(blackboard);
             UpdateEnemyForward(blackboard);
         }

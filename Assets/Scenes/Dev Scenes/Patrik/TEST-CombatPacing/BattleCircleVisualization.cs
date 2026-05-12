@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             if (!Application.isPlaying)
             {
-                Vector3[] points = battleCircle.CircleBehaviour.CreateAllPoints(amountOfPositioningPoints);
+                Vector3[] points = CircleBehaviour.CreateAllPoints(data,amountOfPositioningPoints,battleCircle.transform);
                 foreach (Vector3 point in points)
                 {
                     Gizmos.DrawSphere(transform.position+point, .2f);
@@ -24,7 +25,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
             else
             {
-                foreach (Transform point in battleCircle.AiAndTargetTransform.Values)
+                Transform[] pointTransforms = battleCircle.CircleBehaviour.AisAndTargetTransforms.Values.ToArray();
+                foreach (Transform point in pointTransforms)
                 {
                     Gizmos.DrawSphere(point.position, .2f);
                 }
@@ -35,7 +37,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void DrawEnemyDir()
         {
-            foreach (BlackboardReference blackboard in battleCircle.AiAndTargetTransform.Keys)
+            foreach (BlackboardReference blackboard in battleCircle.AisInCircle)
             {
                 blackboard.GetVariableValue("Self", out GameObject gameObject);
                 

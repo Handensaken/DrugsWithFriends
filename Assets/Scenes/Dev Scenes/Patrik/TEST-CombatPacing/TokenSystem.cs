@@ -10,11 +10,15 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private readonly BattleCircleData _data;
         private readonly List<BlackboardReference> _aisInCircle;
         private readonly List<BlackboardReference> _fightingAis;
+        
         private float _currentTime = 0;
 
-        public TokenSystem(BattleCircleData data)
+        public TokenSystem(BattleCircleData data,List<BlackboardReference> aisInCircle, List<BlackboardReference> fightingAis)
         {
             _data = data;
+            _aisInCircle = aisInCircle;
+            _fightingAis = fightingAis;
+            
             SetRndNextTimeForNewFighter();
         }
         
@@ -26,6 +30,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public void UpdateTime(float timeDelta)
         {
+            Debug.Log("Amount of fightingAis: "+_fightingAis.Count);
             _currentTime -= timeDelta;
             if (_currentTime <= 0)
             {
@@ -41,17 +46,24 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 return;
             }
-            Debug.Log("Newly assigned fightingEnemy");
             _data.AssignAsFighting(availableAIs[0]);
+            Debug.Log("Newly assigned fightingEnemy");
         }
 
         private BlackboardReference[] AvailableAIs()
         {
+            if (_fightingAis.Count <= 0)
+            {
+                return _aisInCircle.ToArray();
+            }
+            
             List<BlackboardReference> result = new List<BlackboardReference>();
+            
             foreach (BlackboardReference ai in _aisInCircle)
             {
                 if (_fightingAis.Contains(ai))
                 {
+                    Debug.Log("Skipped");
                     continue;
                 }
                 
