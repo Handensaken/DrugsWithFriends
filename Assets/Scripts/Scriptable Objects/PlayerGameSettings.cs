@@ -20,7 +20,7 @@ public class PlayerGameSettings : ScriptableObject
     {
         if (PlayerPrefs.HasKey("MouseSensitivity"))
         {
-            Debug.Log("Set sense to " + PlayerPrefs.GetFloat("MouseSensitivity"));
+            //Debug.Log("Set sense to " + PlayerPrefs.GetFloat("MouseSensitivity"));
             mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             OnSensitivityChanged.Invoke();
         }

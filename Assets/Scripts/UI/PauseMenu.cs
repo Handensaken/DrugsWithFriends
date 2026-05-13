@@ -23,7 +23,6 @@ public class PauseMenu : MonoBehaviour
         cancel.action.performed += TryCancel;
         pause.action.performed -= OnPause;
         playerInput.SwitchCurrentActionMap("UI");
-        Debug.Log("pausemenu loaded ");
     }
     
     private void OnDisable()
@@ -74,7 +73,6 @@ public class PauseMenu : MonoBehaviour
         if (!playerInput.currentControlScheme.ToLower().Contains("keyboard"))
         {
             EventSystem.current.SetSelectedGameObject(firstSelected);
-            Debug.Log("selected " + EventSystem.current.currentSelectedGameObject.name);
         }
     }
     
@@ -85,14 +83,11 @@ public class PauseMenu : MonoBehaviour
 
     public void OnUnpause(InputAction.CallbackContext context)
     {
-        Debug.Log("pause triggerd" + playerInput.currentActionMap.name);
-        
         foreach (var menu in menus)
         {
             menu.gameObject.SetActive(false);
         }
         optionsMenu.SetActive(false);
-        Debug.Log("unpasue triggeredd" + playerInput.currentActionMap.name);
         pauseMenu.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -112,7 +107,6 @@ public class PauseMenu : MonoBehaviour
         {
             if (menus[i].gameObject.activeSelf)
             {
-                Debug.Log(menus[i].gameObject.name + "is active, setting it to false");
                 menus[i].gameObject.SetActive(false);
                 SetSelectedObject();
                 return;

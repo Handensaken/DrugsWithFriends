@@ -477,7 +477,6 @@ public class PlayerNetwork : NetworkBehaviour
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        Debug.Log(attacking);
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
@@ -493,10 +492,15 @@ public class PlayerNetwork : NetworkBehaviour
     private void HeavyAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
-        if (!attacking)
+        if (!attacking) // Later: start heavy attack but it needs to change on charge  
         {
+            // Charge attack first then play attack animation after
             networkAnimator.SetTrigger(AnimationParameters.HeavyAttack);
         }
+        //else if (attacking blab bla bla)
+        //{
+            // release the animation/go into actual attack animation
+        //}
         else
         {
             attackBuffered = true;

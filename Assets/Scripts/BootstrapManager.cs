@@ -93,7 +93,6 @@ public class BootstrapManager : MonoBehaviour
             transportManager.Transport = tugboat;
             fishySteamworks.enabled = false;
         }
-        Debug.Log("using" + transportManager.Transport);
     }
     
     private string GenerateLobbyCode()
