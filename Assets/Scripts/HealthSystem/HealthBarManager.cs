@@ -56,7 +56,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private void SettingUpPlayerHealthBar(int otherID)
         {
             int playerID = ClientManager.Connection.ClientId;
-            playerHealthBarUI.SetUp(playerID,otherID);
+            playerHealthBarUI.SetUp4Player(playerID,otherID);
         }
         
         private void HandleChanges(int clientID, HealthPackage healthPackage)
@@ -92,7 +92,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             Debug.Log("Created new healthBar in database");
             HealthBarUI bar = Instantiate(healthBarForOtherPlayers,parentOtherPlayersBars).GetComponent<HealthBarUI>();
             int playerID = ClientManager.Connection.ClientId;
-            bar.SetUp(playerID,otherID);
+            bar.SetUp4Player(playerID,otherID);
             _healthBarUis[otherID] = bar;
         }
         

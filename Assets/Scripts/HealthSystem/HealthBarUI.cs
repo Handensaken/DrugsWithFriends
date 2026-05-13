@@ -2,16 +2,22 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
     public class HealthBarUI : MonoBehaviour
     {
-        [SerializeField] private int playerID;
+        
+        [SerializeField] private int iD;
+        //TODO Separate to another prefab with specified functionality instead
         [SerializeField] private int ownerID;
         [SerializeField] private RectTransform healthBarUI;
-        [SerializeField] private TextMeshProUGUI clientName;
+        
+        [Space,Header("Text")]
+        [SerializeField] private TextMeshProUGUI text4Name;
+        [SerializeField] private string customName;
         
         [Space,SerializeField] private GameObject healthBatch;
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
@@ -19,14 +25,19 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
 
-        public int PlayerID => playerID;
+        private void Awake()
+        {
+            text4Name.text = customName;
+        }
+
+        public int ID => iD;
         public int OwnerID => ownerID;
         
-        public void SetUp(int playerId,int otherId)
+        public void SetUp4Player(int playerId,int otherId)
         {
-            playerID = playerId;
+            iD = playerId;
             ownerID = otherId;
-            clientName.text = "Client - " + otherId;
+            text4Name.text = "Client - " + otherId;
         }
         
         public void UpdateUI(HealthPackage healthPackage)

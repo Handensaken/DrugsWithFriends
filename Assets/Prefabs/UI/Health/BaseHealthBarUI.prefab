@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3403501629725743506}
   - component: {fileID: 695194540139546559}
   m_Layer: 5
-  m_Name: PlayerHealthBarUI
+  m_Name: BaseHealthBarUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,11 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d15836c41942bfa29a98f852979a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.HealthSystem.HealthBarUI
-  id: 0
+  iD: 0
+  ownerID: 0
   healthBarUI: {fileID: 3999084830175315456}
-  clientName: {fileID: 8223518967808063796}
+  text4Name: {fileID: 8223518967808063796}
+  customName: Test
   healthBatch: {fileID: 2454111151257913922, guid: 07f63b393c921144f8f17b9c96034b25, type: 3}
-  healthRuleData: {fileID: 11400000, guid: 35b0f4ef2e7310a49a3c9c57f17c6d41, type: 2}
+  healthRuleData: {fileID: 0}
 --- !u!1 &7909553399799258038
 GameObject:
   m_ObjectHideFlags: 0

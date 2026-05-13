@@ -1,6 +1,7 @@
 using FishNet.Component.Prediction;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using HealthSystem;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
      //TODO Have blackboard in use for controlling health 
      [RequireComponent(typeof(Rigidbody))]
-     public class DamageDummy : Damage
+     public class DamageDummy : ObjectHealth
      {
           private Rigidbody rb;
           [SerializeField] private float resetDelay = 2f;

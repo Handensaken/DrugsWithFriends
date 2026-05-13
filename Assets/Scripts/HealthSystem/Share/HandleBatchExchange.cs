@@ -13,7 +13,7 @@ namespace HealthSystem.Share
 
           public void GiveBatch()
           {
-               HealthManager.Instance.TryGiveBatchAmount(parentHealthBarUI.PlayerID,parentHealthBarUI.OwnerID,1);
+               HealthManager.Instance.TryGiveBatchAmount(parentHealthBarUI.ID,parentHealthBarUI.OwnerID,1);
           }
      
      }
