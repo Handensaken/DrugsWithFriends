@@ -21,10 +21,10 @@ namespace AI_Experimental.Unity_Behavior.ExternalComponents
 
         private SightPackage _sightPackage;
 
-        private void Awake()
+        public override void OnStartServer()
         {
+            base.OnStartServer();
             _blackboard = behaviorGraphAgent.BlackboardReference;
-            
             _sightPackage = enemyData.patrolPackage.sightPackage;
         }
 

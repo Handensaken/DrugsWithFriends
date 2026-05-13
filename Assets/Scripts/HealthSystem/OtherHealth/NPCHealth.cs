@@ -14,7 +14,7 @@ namespace HealthSystem.OtherHealth
             healthBarUI.SetUp4Npc();
         }
         
-        /*[Server]
+        [Server]
         protected override void TriggerDamage(Collider collider)
         {
             base.TriggerDamage(collider);
@@ -22,6 +22,6 @@ namespace HealthSystem.OtherHealth
             {
                 behaviorAgent.SetVariableValue("Stagger", true);
             }
-        }*/
+        }
     }
 }

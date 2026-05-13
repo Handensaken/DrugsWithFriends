@@ -18,7 +18,6 @@ namespace HealthSystem.OtherHealth
           public override void OnStartServer()
           {
                base.OnStartServer();
-               Debug.Log("Crazy");
                _healthCounter.Value = initialHealth;
           }
 
@@ -34,8 +33,33 @@ namespace HealthSystem.OtherHealth
                base.OnStopClient();
                _healthCounter.OnChange -= UpdateUI;
           }
+
+          [Server]
+          protected override void TriggerDamage(Collider collider)
+          {
+               base.TriggerDamage(collider);
+               if (collider.TryGetComponent(out IEffectData t))
+               {
+                    int currentHealth = (int)_healthCounter.Value;
+                    if (currentHealth-1 <= 0)
+                    {
+                         _healthCounter.Value = 0;
+                         HandleDestruction();
+                    }
+                    else
+                    {
+                         _healthCounter.Value--;
+                    }
+               }
+          }
+
+          [Server]
+          private void HandleDestruction()
+          {
+               NetworkObject.Despawn();
+          }
           
-          
+          [Client]
           protected virtual void UpdateUI(uint prev, uint next, bool asServer)
           {
                if (asServer)
