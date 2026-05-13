@@ -1,10 +1,11 @@
+using System;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using Scenes.Dev_Scenes.Patrik.TakeDamage;
 using UnityEngine;
 
-namespace HealthSystem
+namespace HealthSystem.OtherHealth
 {
      public class ObjectHealth : Damage
      {
@@ -17,14 +18,15 @@ namespace HealthSystem
           public override void OnStartServer()
           {
                base.OnStartServer();
-               SetUpObject();
+               Debug.Log("Crazy");
+               _healthCounter.Value = initialHealth;
           }
 
           public override void OnStartClient()
           {
                base.OnStartClient();
                _healthCounter.OnChange += UpdateUI;
-               //UpdateUI();
+               
           }
 
           public override void OnStopClient()
@@ -32,19 +34,16 @@ namespace HealthSystem
                base.OnStopClient();
                _healthCounter.OnChange -= UpdateUI;
           }
-
-          protected virtual void SetUpObject()
-          {
-               _healthCounter.Value = initialHealth;
-          }
           
-          [Client]
+          
           protected virtual void UpdateUI(uint prev, uint next, bool asServer)
           {
                if (asServer)
                {
-                    Debug.Log("Server here?");
+                    return;
                }
+               
+               Debug.Log("Prev: "+prev +" - UpdateUI hp: "+next);
                
                HealthPackage hp = new HealthPackage()
                {
@@ -53,14 +52,5 @@ namespace HealthSystem
                };
                healthBarUI.UpdateUI(hp);
           }
-
-          [Server]
-          protected override void TriggerDamage(Collider collider)
-          {
-               base.TriggerDamage(collider);
-               _healthCounter.Value--;
-          }
-          
-          
      }
 }

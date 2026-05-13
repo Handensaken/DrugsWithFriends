@@ -1,27 +1,20 @@
 using FishNet.Object;
-using HealthSystem;
-using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using Unity.Behavior;
 using UnityEngine;
 
-namespace TakeDamage
+namespace HealthSystem.OtherHealth
 {
     public class NpcHealth : ObjectHealth
     {
         [SerializeField] private BehaviorGraphAgent behaviorAgent;
         [SerializeField, Min(1)] private uint batchAmount;
-          
-        /*public override void OnStartClient()
+        public override void OnStartClient()
         {
             base.OnStartClient();
-            healthRuleData.UpdateHealth(ClientManager.Connection.ClientId,new HealthPackage()
-            {
-                HealthAmount = _healthCounter.Value,
-                BatchAmount = 2
-            });
-        }*/
-          
-        [Server]
+            healthBarUI.SetUp4Npc();
+        }
+        
+        /*[Server]
         protected override void TriggerDamage(Collider collider)
         {
             base.TriggerDamage(collider);
@@ -29,6 +22,6 @@ namespace TakeDamage
             {
                 behaviorAgent.SetVariableValue("Stagger", true);
             }
-        }
+        }*/
     }
 }

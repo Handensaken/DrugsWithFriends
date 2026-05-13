@@ -30,7 +30,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public void UpdateTime(float timeDelta)
         {
-            Debug.Log("Amount of fightingAis: "+_fightingAis.Count);
+            //Debug.Log("Amount of fightingAis: "+_fightingAis.Count);
             _currentTime -= timeDelta;
             if (_currentTime <= 0)
             {

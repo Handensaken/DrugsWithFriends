@@ -9,7 +9,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
     public class HealthBarUI : MonoBehaviour
     {
-        
         [SerializeField] private int iD;
         //TODO Separate to another prefab with specified functionality instead
         [SerializeField] private int ownerID;
@@ -25,11 +24,6 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
 
-        private void Awake()
-        {
-            text4Name.text = customName;
-        }
-
         public int ID => iD;
         public int OwnerID => ownerID;
         
@@ -38,6 +32,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             iD = playerId;
             ownerID = otherId;
             text4Name.text = "Client - " + otherId;
+        }
+
+        public void SetUp4Npc()
+        {
+            text4Name.text = customName;
         }
         
         public void UpdateUI(HealthPackage healthPackage)

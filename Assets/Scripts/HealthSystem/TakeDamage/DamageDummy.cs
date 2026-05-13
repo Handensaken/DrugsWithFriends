@@ -2,6 +2,7 @@ using FishNet.Component.Prediction;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using HealthSystem;
+using HealthSystem.OtherHealth;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
 using UnityEngine;
 
