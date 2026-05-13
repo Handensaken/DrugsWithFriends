@@ -229,7 +229,7 @@ public class BootstrapManager : MonoBehaviour
     {
         if(t.ConnectionState == LocalConnectionState.Stopped)
         {
-            LeaveLobby();
+            //LeaveLobby();
         }
     }
     
