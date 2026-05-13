@@ -9,6 +9,7 @@ namespace HealthSystem.OtherHealth
 {
      public class ObjectHealth : Damage
      {
+          [Header("Object")]
           [SerializeField,Min(1)] protected uint initialHealth;
           private readonly SyncVar<uint> _healthCounter = new SyncVar<uint>();
           
@@ -54,7 +55,7 @@ namespace HealthSystem.OtherHealth
           }
 
           [Server]
-          private void HandleDestruction()
+          protected virtual void HandleDestruction()
           {
                NetworkObject.Despawn();
           }

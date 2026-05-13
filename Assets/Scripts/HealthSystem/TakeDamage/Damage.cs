@@ -12,6 +12,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      /// </summary>
      public class Damage : NetworkBehaviour
      {
+          [Header("Damageable")]
           [SerializeField] protected NetworkTrigger networkTrigger;
           
           public override void OnStartServer()
