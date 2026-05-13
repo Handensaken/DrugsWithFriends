@@ -21,8 +21,8 @@ public class BootstrapNetworkManager : NetworkBehaviour
     public override void OnStartClient()
     {
         if (IsOwner) return;
-        return;
-        if (!IsHostStarted) // doesnt work without steam atm
+        if (!BootstrapManager.instance.useSteam) return;
+        if (!IsHostStarted)
         {
             MainMenuManager.JoinStartedLobby();
         }

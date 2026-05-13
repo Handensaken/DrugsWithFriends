@@ -11,10 +11,10 @@ using Random = UnityEngine.Random;
 
 public class BootstrapManager : MonoBehaviour
 {
-    private static BootstrapManager instance;
+    [HideInInspector] public static BootstrapManager instance;
     [SerializeField] private TransportManager transportManager;
     [SerializeField] private Tugboat tugboat;
-    [SerializeField] private bool useSteam;
+    public bool useSteam;
     
     [SerializeField] private NetworkManager networkManager;
     [SerializeField] private FishySteamworks.FishySteamworks fishySteamworks;
