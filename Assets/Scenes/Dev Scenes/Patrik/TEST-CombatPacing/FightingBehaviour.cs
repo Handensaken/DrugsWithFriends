@@ -1,21 +1,24 @@
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
     public class FightingBehaviour : BattleCircleAi
     {
+        
         private readonly BattleCircleData _data;
         private readonly Transform _battleCircleTransform;
         private readonly List<BlackboardReference> _attackingAis; 
         
-        public FightingBehaviour(Transform battleCircleTransform,BattleCircleData data,List<BlackboardReference> attackingAis)
+        public FightingBehaviour(Transform battleCircleTransform,BattleCircleData data,List<BlackboardReference> attackingAis, ref UnityAction<BlackboardReference> attackingEvent)
         {
             _battleCircleTransform = battleCircleTransform;
+            Debug.LogWarning("Property Fighting:"+battleCircleTransform.name);
             
             _data = data;
-            _data.AssignAsFighting += AssignFightingAi;
+            attackingEvent += AssignFightingAi;
             
             _attackingAis = attackingAis;
         }
@@ -44,6 +47,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             _attackingAis.Add(blackboard);
             blackboard.SetVariableValue("AbleToAttack", true);
+            Debug.LogWarning("Assigning Fighting:"+_battleCircleTransform.name);
             SetAITransformPoint(blackboard,_battleCircleTransform);
         }
     }

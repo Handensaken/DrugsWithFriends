@@ -1302,6 +1302,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[0].x
+      value: -0.9338865
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[0].z
+      value: 1.860764
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].x
+      value: 2.8923657
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].z
+      value: -0.78582263
+      objectReference: {fileID: 0}
     - target: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1353,10 +1369,6 @@ PrefabInstance:
     - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: WasActiveDuringEdit
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[5]'
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

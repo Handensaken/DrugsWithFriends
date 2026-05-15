@@ -24,7 +24,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             foreach (var blackboard in newNonFightingAis)
             {
-                blackboard.SetVariableValue("Target",_aisAndTargetTransforms[blackboard]);
+                Debug.Log(_aisAndTargetTransforms.ContainsKey(blackboard));
+                Transform target = _aisAndTargetTransforms[blackboard];
+                blackboard.SetVariableValue("Target", target);
                 Debug.Log("Here");
             }
         }

@@ -15,6 +15,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
           private static BattleCircleManager _singleton;
           public static BattleCircleManager Instance => _singleton;
+
+          public BattleCircle ClientBattleCircle(int clientID) => _clientsBattleCircles[clientID];
+          
           private void Awake()
           {
                if (_singleton != null)
@@ -42,7 +45,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
           private void CreateBattleCircle(int clientID)
           {
                BattleCircle battleCircle = Instantiate(battleCirclePreFab,transform).GetComponent<BattleCircle>();
-               battleCircle.name = "BattleCircle: " + clientID;
+               battleCircle.gameObject.name = "BattleCircle: " + clientID;
+               battleCircle.SetUpBattleCircle(clientID);
                _clientsBattleCircles[clientID] = battleCircle;
           }
 

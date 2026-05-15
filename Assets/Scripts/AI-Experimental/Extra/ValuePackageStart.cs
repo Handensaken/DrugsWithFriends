@@ -11,8 +11,6 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
          Tooltip("Parameter acts as a startingPoint for the curve" +
                  "\n Ex: for distance - 0 is a suitable startValue")]
         public float startValue;
-        [SerializeField] public float weight;
-        
-        
+        [SerializeField,Min(0)] public float weight;
     }
 }

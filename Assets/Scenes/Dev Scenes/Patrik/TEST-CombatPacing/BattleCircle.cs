@@ -1,11 +1,16 @@
+using System;
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
     public class BattleCircle : MonoBehaviour
     {
+        public UnityAction<BlackboardReference> AssignAsFighting = delegate { };
+        
+        [SerializeField] private int clientID;
         [Space,SerializeField] private BattleCircleData data;
         
         private readonly List<BlackboardReference> _aisInCircle = new ();
@@ -17,20 +22,25 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         #region Properties
 
         public List<BlackboardReference> AisInCircle => _aisInCircle;
+
+        public int AmountOfEnemiesInCircle => _aisInCircle.Count; 
         public CircleBehaviour CircleBehaviour => _circleBehaviour;
 
         #endregion
-        
-        private void Awake()
+
+        public void SetUpBattleCircle(int clientID)
         {
+            this.clientID = clientID;
+            
             Dictionary<BlackboardReference, Transform> aiAndTargetTransform = new ();
             _circleBehaviour = new CircleBehaviour(transform,data,aiAndTargetTransform);
             
             List<BlackboardReference> attackingAis = new ();
-            _fightingBehaviour = new FightingBehaviour(transform,data,attackingAis);
-            _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis);
+            _fightingBehaviour = new FightingBehaviour(transform,data,attackingAis, ref AssignAsFighting);
+            Debug.LogWarning("Awake: "+transform.name);
+            _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis, ref AssignAsFighting);
         }
-
+        
         private void FixedUpdate()
         {
             UpdateAllEnemiesForward();
