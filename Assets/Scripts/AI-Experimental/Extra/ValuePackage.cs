@@ -18,6 +18,6 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
                  "\n Ex: for distance - 20 is a suitable endValue")]
         public float endValue;
         
-        [SerializeField] public float weight;
+        [SerializeField,Min(0)] public float weight;
     }
 }

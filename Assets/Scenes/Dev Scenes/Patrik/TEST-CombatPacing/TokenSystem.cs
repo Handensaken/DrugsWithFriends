@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = System.Random;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
@@ -10,14 +12,17 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private readonly BattleCircleData _data;
         private readonly List<BlackboardReference> _aisInCircle;
         private readonly List<BlackboardReference> _fightingAis;
+
+        private readonly UnityAction<BlackboardReference> _attackingEvent;
         
         private float _currentTime = 0;
 
-        public TokenSystem(BattleCircleData data,List<BlackboardReference> aisInCircle, List<BlackboardReference> fightingAis)
+        public TokenSystem(BattleCircleData data,List<BlackboardReference> aisInCircle, List<BlackboardReference> fightingAis, ref UnityAction<BlackboardReference> attackingEvent)
         {
             _data = data;
             _aisInCircle = aisInCircle;
             _fightingAis = fightingAis;
+             _attackingEvent = attackingEvent;
             
             SetRndNextTimeForNewFighter();
         }
@@ -46,15 +51,17 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 return;
             }
-            _data.AssignAsFighting(availableAIs[0]);
+            //_data.AssignAsFighting(availableAIs[0]);
+            _attackingEvent(availableAIs[0]);
+            
             Debug.Log("Newly assigned fightingEnemy");
         }
 
         private BlackboardReference[] AvailableAIs()
         {
-            if (_fightingAis.Count <= 0)
+            if (_aisInCircle.Count <= 0)
             {
-                return _aisInCircle.ToArray();
+                return Array.Empty<BlackboardReference>();
             }
             
             List<BlackboardReference> result = new List<BlackboardReference>();
@@ -70,7 +77,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 result.Add(ai);
             }
             
-            return _aisInCircle.ToArray();
+            return result.ToArray();
         }
     }
 }

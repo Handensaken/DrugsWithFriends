@@ -44,8 +44,7 @@ public partial class TryGetTargetAction : Action
         {
             return Status.Failure;
         }
-
-        Debug.Log("BestTarget ID: "+clientID);
+        
         BlackboardReference blackboard = self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference;
         BattleCircleManager.Instance.AssignAI2BattleCircle((int)clientID,blackboard);
         
@@ -65,7 +64,7 @@ public partial class TryGetTargetAction : Action
     {
         Debug.Log("EvaluateAll");
         List<Tuple<float, Transform>> evaluationValueAndTransform = new List<Tuple<float, Transform>>();
-        CalculateAllTargetsValues(ref evaluationValueAndTransform);
+        CalculateAllTargetsValues(evaluationValueAndTransform);
 
         if (evaluationValueAndTransform.Count <= 0)
         {
@@ -78,7 +77,7 @@ public partial class TryGetTargetAction : Action
         return true;
     }
     
-    private void CalculateAllTargetsValues(ref List<Tuple<float, Transform>> evaluationValueAndTransform)
+    private void CalculateAllTargetsValues(List<Tuple<float, Transform>> evaluationValueAndTransform)
     {
         UtilityAITarget prioritiesAITarget = enemySO.Value.prioritiesAITarget; 
         foreach (var target in AllTargets.Value)
@@ -89,26 +88,25 @@ public partial class TryGetTargetAction : Action
                 continue;
             }
             
-            float distanceValue = EvaluateDistance(target.transform.position, prioritiesAITarget.distance);
+            float distanceValue = EvaluateDistanceValue(target.transform.position, prioritiesAITarget.distance);
             
             int clientID = target.GetComponent<NetworkBehaviour>().OwnerId;
-            Debug.Log($"Current clientID {clientID}");
             
             HealthPackage currentHealthStatus = _healthManager.ReadClientHealth(clientID);
-            Debug.Log($"Current batch: {currentHealthStatus}");
+            
+            float maxHealthValue = EvaluateMaxHealthValue(currentHealthStatus, prioritiesAITarget.maxHealth);
 
-            uint currentAmountBatches = currentHealthStatus.BatchAmount;
-            uint maxBatchAmount = _healthManager.MaxBatchAmount; 
-            float maxHealthValue = UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentAmountBatches,maxBatchAmount,prioritiesAITarget.maxHealth);
+            float currentHealthValue = EvaluateCurrentHealthValue(currentHealthStatus, prioritiesAITarget.health);
+            //TODO evaluate from battleCircle-Data
+
+            float targetingValue = EvaluateTargetingValue(clientID, prioritiesAITarget.weightPerEnemyTargeting);
             
-            uint currentHealth = currentHealthStatus.HealthAmount;
-            uint maxHealth = currentHealthStatus.BatchAmount * _healthManager.HealthPerBatch;
-            float currentHealthValue = UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, prioritiesAITarget.health);
-            
-            float sum = distanceValue+maxHealthValue+currentHealthValue;
-            Debug.Log("Distance:"+ distanceValue +
+            float sum = distanceValue+maxHealthValue+currentHealthValue+targetingValue;
+            Debug.Log("\nClientID:"+ clientID + 
+                      "\nDistance:"+ distanceValue +
                       "\nMaxHealth:"+ maxHealthValue +
                       "\nCurrentHealth:"+ currentHealthValue +
+                      "\nTargetingValue:"+ targetingValue +
                       "\nSum: "+sum);
             evaluationValueAndTransform.Add(new Tuple<float, Transform>(sum, target.transform));
         }
@@ -137,12 +135,33 @@ public partial class TryGetTargetAction : Action
         return currentBest.Item2;
     }
     
-    private float EvaluateDistance(Vector3 targetPosition, ValuePackage package)
+    private float EvaluateDistanceValue(Vector3 targetPosition, ValuePackage package)
     {
         NavMeshPath path = new NavMeshPath();
         _agent.CalculatePath(targetPosition, path); 
         _agent.path = path;
             
         return UtilityAIEvaluations.MapValueToCurve(_agent.remainingDistance, package);
+    }
+
+    private float EvaluateMaxHealthValue(HealthPackage currentHealthStatus, ValuePackageStart valuePackageStart)
+    {
+        uint currentAmountBatches = currentHealthStatus.BatchAmount;
+        uint maxBatchAmount = _healthManager.MaxBatchAmount; 
+        return UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentAmountBatches,maxBatchAmount,valuePackageStart);
+    }
+
+    private float EvaluateCurrentHealthValue(HealthPackage currentHealthStatus, ValuePackageStart valuePackageStart)
+    {
+        uint currentHealth = currentHealthStatus.HealthAmount;
+        uint maxHealth = currentHealthStatus.BatchAmount * _healthManager.HealthPerBatch;
+        return UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, valuePackageStart);
+    }
+
+    private float EvaluateTargetingValue(int clientID, float weightPerEnemy)
+    {
+        BattleCircle battleCircle = BattleCircleManager.Instance.ClientBattleCircle(clientID);
+        int amountOfTargetingEnemies = battleCircle.AmountOfEnemiesInCircle;
+        return amountOfTargetingEnemies * -weightPerEnemy;
     }
 }
