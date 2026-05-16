@@ -87,7 +87,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         private void UpdateHealth(HealthPackage healthPackage, float batchWidth)
         {
             uint currentHealth = healthPackage.HealthAmount;
-
+            
             uint limitIndex4FullHealth = currentHealth / healthRuleData.HealthPerBatch;
             float height = healthBarUI.rect.height;
             for (int i = 0; i < _healthBatches.Count; i++)

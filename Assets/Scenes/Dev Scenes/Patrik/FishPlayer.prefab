@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4187065845932601824}
   - component: {fileID: 1246121084118179031}
   - component: {fileID: 8401041456882689394}
+  - component: {fileID: 9096796820949201145}
+  - component: {fileID: 329624645120315936}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -106,7 +108,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -114,6 +116,42 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9096796820949201145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573022294640487267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc97a8b9e628044e83004c93095c14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1059897056725544558}
+  _networkObjectCache: {fileID: 0}
+  MaximumSimultaneousHits: 16
+  AdditionalSize: 0.1
+  Layers:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &329624645120315936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573022294640487267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d998dc8b63204e43b3a95dee65cbe952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HealthSystemAssembly::HealthSystem.OtherHealth.DamagePlayer
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1059897056725544558}
+  _networkObjectCache: {fileID: 0}
+  networkTrigger: {fileID: 9096796820949201145}
 --- !u!1 &8452564711447574715
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,7 +46,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
           {
                BattleCircle battleCircle = Instantiate(battleCirclePreFab,transform).GetComponent<BattleCircle>();
                battleCircle.gameObject.name = "BattleCircle: " + clientID;
-               battleCircle.SetUpBattleCircle(clientID);
                _clientsBattleCircles[clientID] = battleCircle;
           }
 

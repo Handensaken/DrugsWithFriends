@@ -8,6 +8,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
      public class HealthManager : NetworkBehaviour //TODO make total control over clients health
      {
+          /*[Header("Testing:")]
           [Header("Set values to:")]
           [SerializeField]private int setOnClient;
           [SerializeField] private uint setHealth;
@@ -18,7 +19,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [SerializeField]private int simulateClient;
           [SerializeField] private int simulateHealthValues;
           [SerializeField] private int simulateBatchValues;
-          [SerializeField] private bool simulateChange;
+          [SerializeField] private bool simulateChange;*/
           
           [Space,SerializeField] private HealthRuleData healthRuleData;
           
@@ -79,7 +80,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                _currentMaxBatchAmountPerPlayer.Value = healthRuleData.InitialMaxAmountForBatches;
                healthRuleData.RequestHealth += RequestHealth;
           }
-
+          
           public override void OnStopServer()
           {
                base.OnStopServer();
@@ -88,6 +89,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                ServerManager.OnRemoteConnectionState -= RemoveClientHealth;
           }
 
+          [Server]
           private void RemoveClientHealth(NetworkConnection networkConnection, RemoteConnectionStateArgs remoteConnectionStateArgs)
           {
                if (remoteConnectionStateArgs.ConnectionState != RemoteConnectionState.Stopped) return;
@@ -95,6 +97,30 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                int clientID = networkConnection.ClientId;
                _clientsHealth.Remove(clientID);
           }
+
+          [Server]
+          public void ChangePlayerHealthAmount(int clientID, int changeAmount)
+          {
+               if (changeAmount == 0)
+               {
+                    return;
+               }
+               
+               if (changeAmount < 0)
+               {
+                    Debug.Log("Damaging - "+clientID);
+               }
+               else
+               {
+                    Debug.Log("Healing - "+clientID);
+               }
+               
+               HealthPackage healthPackage = _clientsHealth[clientID];
+
+               int currentHealth = (int)healthPackage.HealthAmount + changeAmount;
+                    
+               StoreHealthChanges(clientID, currentHealth, (int)healthPackage.BatchAmount);
+          } 
           
           [ServerRpc(RequireOwnership = false)]
           private void StoreHealthChanges(int clientID, int health, int batchAmount)
@@ -113,6 +139,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                _clientsHealth[clientID] = package;
           }
 
+          
           private uint ValidateValue(int current, uint minimum, uint maximum)
           {
                if (current < minimum)
@@ -146,7 +173,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                }
           }
           //TODO remove - currently all clients
-          private void Update()
+          /*private void Update()
           {
                if (simulateSet)
                {
@@ -165,7 +192,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     StoreHealthChanges(simulateClient, currentHealth, currentBatchAmount);
                     simulateChange = false;
                }
-          }
+          }*/
 
           [ServerRpc(RequireOwnership = false)]
           public void TryGiveBatchAmount(int givingClientID,int gettingClientID, uint change)

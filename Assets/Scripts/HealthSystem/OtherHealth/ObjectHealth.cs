@@ -38,19 +38,24 @@ namespace HealthSystem.OtherHealth
           [Server]
           protected override void TriggerDamage(Collider collider)
           {
-               base.TriggerDamage(collider);
                if (collider.TryGetComponent(out IEffectData t))
                {
-                    int currentHealth = (int)_healthCounter.Value;
-                    if (currentHealth-1 <= 0)
-                    {
-                         _healthCounter.Value = 0;
-                         HandleDestruction();
-                    }
-                    else
-                    {
-                         _healthCounter.Value--;
-                    }
+                    HandleDamage();
+               }
+          }
+
+          [Server]
+          protected override void HandleDamage()
+          {
+               int currentHealth = (int)_healthCounter.Value;
+               if (currentHealth-1 <= 0)
+               {
+                    _healthCounter.Value = 0;
+                    HandleDestruction();
+               }
+               else
+               {
+                    _healthCounter.Value--;
                }
           }
 

@@ -2,6 +2,8 @@ using FishNet.Component.Prediction;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,7 +14,7 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
      /// </summary>
      public class Damage : NetworkBehaviour
      {
-          [Header("Damageable")]
+          [Header("Damageable")] 
           [SerializeField] protected NetworkTrigger networkTrigger;
           
           public override void OnStartServer()
@@ -32,8 +34,14 @@ namespace Scenes.Dev_Scenes.Patrik.TakeDamage
           {
                if (collider.TryGetComponent(out IEffectData t))
                {
-                    Debug.Log($"Hit: {gameObject.name}");
+                    HandleDamage();
                }
+          }
+          
+          [Server]
+          protected virtual void HandleDamage()
+          {
+               Debug.Log($"Hit: {gameObject.name}");
           }
      }
 }

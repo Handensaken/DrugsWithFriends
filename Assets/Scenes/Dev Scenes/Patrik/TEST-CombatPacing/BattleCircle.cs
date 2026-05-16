@@ -10,7 +10,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     {
         public UnityAction<BlackboardReference> AssignAsFighting = delegate { };
         
-        [SerializeField] private int clientID;
         [Space,SerializeField] private BattleCircleData data;
         
         private readonly List<BlackboardReference> _aisInCircle = new ();
@@ -28,16 +27,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         #endregion
 
-        public void SetUpBattleCircle(int clientID)
+        private void Awake()
         {
-            this.clientID = clientID;
-            
             Dictionary<BlackboardReference, Transform> aiAndTargetTransform = new ();
             _circleBehaviour = new CircleBehaviour(transform,data,aiAndTargetTransform);
             
             List<BlackboardReference> attackingAis = new ();
             _fightingBehaviour = new FightingBehaviour(transform,data,attackingAis, ref AssignAsFighting);
-            Debug.LogWarning("Awake: "+transform.name);
             _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis, ref AssignAsFighting);
         }
         

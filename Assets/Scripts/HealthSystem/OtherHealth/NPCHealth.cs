@@ -19,9 +19,9 @@ namespace HealthSystem.OtherHealth
         [Server]
         protected override void TriggerDamage(Collider collider)
         {
-            base.TriggerDamage(collider);
-            if (collider.TryGetComponent(out IEffectData t))
+            if (!collider.CompareTag("Enemy") && collider.TryGetComponent(out IEffectData t))
             {
+                HandleDamage();
                 behaviorAgent.SetVariableValue("Stagger", true);
             }
         }

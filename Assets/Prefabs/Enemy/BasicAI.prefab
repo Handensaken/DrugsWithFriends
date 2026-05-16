@@ -174,9 +174,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2cfc2f3bee14d5a8c75dfcb25d7c362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::HealthSystem.OtherHealth.NpcHealth
-  _componentIndexCache: 255
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   networkTrigger: {fileID: 8513608233697118439}
   initialHealth: 4
   healthRuleData: {fileID: 11400000, guid: 6af7a38df9cb4b3459c135032ce152f4, type: 2}
@@ -279,8 +279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: AIAssembly::Scenes.Dev_Scenes.Patrik.AI.AgentPathPoints
   agent: {fileID: 4943264456987591253}
   localPatrolPoints:
-  - {x: 4.71, y: 0, z: 5.09}
-  - {x: 5.7, y: 0, z: 0}
+  - {x: -0.9338865, y: 0, z: 1.860764}
+  - {x: 2.8923657, y: 0, z: -0.78582263}
 --- !u!1 &4747539358362009898
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +562,7 @@ MonoBehaviour:
   - {fileID: 420708119996327095}
   - {fileID: 2218079657594921333}
   - {fileID: 8906328546288525562}
-  - {fileID: 0}
+  - {fileID: 8607513687918519180}
   - {fileID: 8513608233697118439}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
@@ -574,7 +574,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584229325128607401
+  _initializedTimestamp: -8584226699070018099
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -611,6 +611,7 @@ GameObject:
   - component: {fileID: 2894535741427900752}
   - component: {fileID: 3539211469144731863}
   - component: {fileID: 1198973978086477534}
+  - component: {fileID: 6879597848212603077}
   m_Layer: 0
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -628,7 +629,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1804773940316307524}
@@ -711,6 +712,25 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6879597848212603077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5300104887457091863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 5599575656561588736}
+  _networkObjectCache: {fileID: 0}
+  damage: 0
+  knockbackForce: 0
+  knockbackTime: 0
+  swordCollider: {fileID: 1198973978086477534}
 --- !u!1 &7035592057046882805
 GameObject:
   m_ObjectHideFlags: 0
