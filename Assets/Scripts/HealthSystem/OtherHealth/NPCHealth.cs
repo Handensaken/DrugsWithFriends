@@ -13,7 +13,7 @@ namespace HealthSystem.OtherHealth
         public override void OnStartClient()
         {
             base.OnStartClient();
-            healthBarUI.SetUp4Npc();
+            healthBarUI.SetUpHealthBarNpc();
         }
         
         [Server]

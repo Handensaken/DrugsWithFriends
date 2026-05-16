@@ -4,14 +4,13 @@ using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
-    
     public class HealthBarManager : NetworkBehaviour
     {
         [SerializeField] private HealthBarUI playerHealthBarUI;
         
         [Space,SerializeField] private GameObject healthBarForOtherPlayers;
         [SerializeField] private RectTransform parentOtherPlayersBars;
-        private readonly Dictionary<int,HealthBarUI> _healthBarUis = new Dictionary<int, HealthBarUI>();
+        private readonly Dictionary<int,IHealthBarUI> _healthBarUis = new Dictionary<int, IHealthBarUI>();
 
         [Space, Header("Parameters"), SerializeField]
         private uint distanceBetweenOthers;
@@ -27,13 +26,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         {
             base.OnStartClient();
             
-            //Debug.Log("OnStartClient");
             healthRuleData.UpdateHealth += HandleChanges;
             healthRuleData.RemovalClientData += RemoveClientBar;
-            //ServerManager.OnRemoteConnectionState += RemoveClientBar;
             
-            SettingUpPlayerHealthBar(ClientManager.Connection.ClientId);
-            //Debug.Log("RequestSent - "+ClientManager.Connection.ClientId);
+            playerHealthBarUI.SetUpHealthBarPlayer(ClientManager.Connection.ClientId);
+            
             ServerRequestHealth(ClientManager.Connection.ClientId);
             
         }
@@ -52,17 +49,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             healthRuleData.RequestHealth(clientId);
         }
         
-        [Client]
-        private void SettingUpPlayerHealthBar(int otherID)
-        {
-            int playerID = ClientManager.Connection.ClientId;
-            playerHealthBarUI.SetUp4Player(playerID,otherID);
-        }
-        
-        private void HandleChanges(int clientID, HealthPackage healthPackage)
+        private void HandleChanges(int healthOwnerID, HealthPackage healthPackage)
         {
             //MainBar
-            if (playerHealthBarUI.OwnerID == clientID)
+            if (playerHealthBarUI.OwnerID == healthOwnerID)
             {
                 //Debug.Log("MainPlayer - noted");
                 playerHealthBarUI.UpdateUI(healthPackage);
@@ -70,41 +60,48 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             }
             
             //Other clients bars
-            HandleIfNew(clientID);
-            _healthBarUis[clientID].UpdateUI(healthPackage);
+            HandleIfNew(healthOwnerID);
+            _healthBarUis[healthOwnerID].UpdateUI(healthPackage);
         }
         
-        private void HandleIfNew(int clientID)
+        private void HandleIfNew(int healthOwnerID)
         {
-            if (_healthBarUis.ContainsKey(clientID))
+            if (_healthBarUis.ContainsKey(healthOwnerID))
             {
                 //Debug.Log("Already in local database");
                 return;
             }
             
             //Debug.Log("CreateBarID: "+clientID);
-            CreateBar(clientID);
+            CreateBar(healthOwnerID);
             MoveHealthBars();
         }
 
-        private void CreateBar(int otherID)
+        private void CreateBar(int healthOwnerID)
         {
-            Debug.Log("Created new healthBar in database");
-            HealthBarUI bar = Instantiate(healthBarForOtherPlayers,parentOtherPlayersBars).GetComponent<HealthBarUI>();
-            int playerID = ClientManager.Connection.ClientId;
-            bar.SetUp4Player(playerID,otherID);
-            _healthBarUis[otherID] = bar;
+            Debug.Log("Created new healthBar in database: "+healthOwnerID);
+            IHealthBarUI healthBar = Instantiate(healthBarForOtherPlayers,parentOtherPlayersBars).GetComponent<IHealthBarUI>();
+
+            healthBar.SetUpHealthBarPlayer(healthOwnerID);
+            
+            int localPlayerId = ClientManager.Connection.ClientId;
+            if (healthBar.HasBatchExchange)
+            {
+                healthBar.SetUpBatchExchange(healthOwnerID,localPlayerId);
+            }
+            
+            _healthBarUis[healthOwnerID] = healthBar;
         }
         
-        private void RemoveClientBar(int clientID)
+        private void RemoveClientBar(int healthOwnerID)
         {
-            if (!_healthBarUis.Remove(clientID, out HealthBarUI ui))
+            if (!_healthBarUis.Remove(healthOwnerID, out IHealthBarUI ui))
             {
-                Debug.LogError("couldn't remove certain clientHealthBar: "+clientID);
+                Debug.LogError("couldn't remove certain clientHealthBar: "+healthOwnerID);
                 return;
             }
             
-            Destroy(ui.gameObject);
+            Destroy(ui.GameObject);
             
             MoveHealthBars();
         }
@@ -118,7 +115,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 int counter = 0;
                 foreach (var keyValue in _healthBarUis)
                 {
-                    RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
+                    RectTransform rectTransform = keyValue.Value.GameObject.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = startPos + new Vector2(0,-distanceBetweenOthers*counter);
                     counter++;
                 }
@@ -128,7 +125,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 int counter = 0;
                 foreach (var keyValue in _healthBarUis)
                 {
-                    RectTransform rectTransform = keyValue.Value.GetComponent<RectTransform>();
+                    RectTransform rectTransform = keyValue.Value.GameObject.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition += new Vector2(0,distanceBetweenOthers*counter);
                     counter++;
                 }

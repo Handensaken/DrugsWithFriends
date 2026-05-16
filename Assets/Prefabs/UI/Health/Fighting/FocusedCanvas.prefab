@@ -24,6 +24,14 @@ PrefabInstance:
       propertyPath: SceneId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3381303500101935568, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381303500101935568, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5156850383231471644, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
       propertyPath: m_Name
       value: FocusedCanvas
@@ -108,7 +116,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3798075602117044919, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
+    - {fileID: 154498725950627151, guid: 273514b0fe486ed43a4e4129298e16b4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

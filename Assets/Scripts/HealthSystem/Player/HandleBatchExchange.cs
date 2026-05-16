@@ -9,11 +9,17 @@ namespace HealthSystem.Share
      /// </summary>
      public class HandleBatchExchange : MonoBehaviour
      {
-          [SerializeField] private HealthBarUI parentHealthBarUI;
+          public int _recivingID, _givingID;
+          
+          public void SetUp(int receivingID, int givingID)
+          {
+               _recivingID = receivingID;
+               _givingID = givingID;
+          }
 
           public void GiveBatch()
           {
-               HealthManager.Instance.TryGiveBatchAmount(parentHealthBarUI.ID,parentHealthBarUI.OwnerID,1);
+               HealthManager.Instance.TryGiveBatchAmount(_givingID,_recivingID,1);
           }
      
      }

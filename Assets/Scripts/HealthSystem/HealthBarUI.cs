@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
-    public class HealthBarUI : MonoBehaviour
+    public class HealthBarUI : MonoBehaviour , IHealthBarUI
     {
-        [SerializeField] private int iD;
+        
         //TODO Separate to another prefab with specified functionality instead
         [SerializeField] private int ownerID;
         [SerializeField] private RectTransform healthBarUI;
@@ -23,18 +23,19 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
-
-        public int ID => iD;
-        public int OwnerID => ownerID;
         
-        public void SetUp4Player(int playerId,int otherId)
-        {
-            iD = playerId;
-            ownerID = otherId;
-            text4Name.text = "Client - " + otherId;
-        }
+        public int OwnerID => ownerID;
+        public bool HasBatchExchange => false;
+        public GameObject GameObject => gameObject;
+        
 
-        public void SetUp4Npc()
+        public void SetUpHealthBarPlayer(int healthOwnerID)
+        {
+            ownerID = healthOwnerID;
+            text4Name.text = "Client - " + healthOwnerID;
+        }
+        
+        public void SetUpHealthBarNpc()
         {
             text4Name.text = customName;
         }
@@ -53,7 +54,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             UpdateHealthBatches(currentBatchAmount, batchWidth,gapSpace);
             UpdateHealth(healthPackage, batchWidth);
         }
+
         
+
         private void UpdateHealthBatches(uint currentBatchAmount,float batchWidth, float gapSpace)
         {
             RemoveAllMarkers();
@@ -108,5 +111,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                 }
             }
         }
+
+        #region Extra
+
+        public void SetUpBatchExchange(int healthOwnerID, int givingID) {}
+
+        #endregion
     }
 }
