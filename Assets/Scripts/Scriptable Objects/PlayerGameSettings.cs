@@ -11,6 +11,7 @@ public class PlayerGameSettings : ScriptableObject
     public const float minSensitivity = 0f;
     public const float maxSensitivity = 10f;
     [Range(minSensitivity, maxSensitivity)] public float mouseSensitivity;
+    [Range(minSensitivity, maxSensitivity)] public float gamepadSensitivity;
     public float volume = 1.0f;
     public bool invertMouseY = false;
     
@@ -23,6 +24,11 @@ public class PlayerGameSettings : ScriptableObject
             //Debug.Log("Set sense to " + PlayerPrefs.GetFloat("MouseSensitivity"));
             mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             OnSensitivityChanged.Invoke();
+        }
+        
+        if(PlayerPrefs.HasKey("GamepadSensitivity"))
+        {
+            gamepadSensitivity = PlayerPrefs.GetFloat("GamepadSensitivity");
         }
         
         if (PlayerPrefs.HasKey("Volume"))
@@ -39,6 +45,7 @@ public class PlayerGameSettings : ScriptableObject
     private void OnDisable()
     {
         PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivity);
+        PlayerPrefs.SetFloat("GamepadSensitivity", gamepadSensitivity);
         PlayerPrefs.SetFloat("Volume", volume);
         PlayerPrefs.SetInt("InvertMouseY", invertMouseY ? 1 : 0);
         PlayerPrefs.Save(); 

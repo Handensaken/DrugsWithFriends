@@ -17,9 +17,15 @@ public class SensitivitySlider : MonoBehaviour
         }
     }
 
-    public void SetSensitivity(float sensitivity)
+    public void SetMouseSensitivity(float sensitivity)
     {
         playerSettings.mouseSensitivity = sensitivity;
+        playerSettings.OnSensitivityChanged.Invoke();
+    }
+    
+    public void SetGamepadSensitivity(float sensitivity)
+    {
+        playerSettings.gamepadSensitivity = sensitivity;
         playerSettings.OnSensitivityChanged.Invoke();
     }
 }
