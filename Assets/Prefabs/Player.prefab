@@ -644,6 +644,34 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 2939798840999915008, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_text
+      value: Blanksteg
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122531388917205932, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122531388917205932, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3122531388917205932, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3965372249066290071, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3965372249066290071, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3965372249066290071, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4353300978181758066, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.00024414062
@@ -1328,7 +1356,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
