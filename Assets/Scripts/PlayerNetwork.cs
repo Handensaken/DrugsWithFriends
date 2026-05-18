@@ -70,6 +70,8 @@ public class PlayerNetwork : NetworkBehaviour
     
     [SerializeField] private DashParameters dashParameters;
 
+    [InspectorButton("DoSOmething", "click me")] public bool whatTheHelly;
+
     protected override void OnValidate()
     {
         base.OnValidate();
