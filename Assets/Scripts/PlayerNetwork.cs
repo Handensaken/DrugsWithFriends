@@ -13,6 +13,7 @@ public class PlayerNetwork : NetworkBehaviour
 {
     [Range(0, 20f)] public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
+    [SerializeField, ReadOnly] private float currentSpeed = 0f;
     private Vector2 rot;
     private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered, isDead;
     private Rigidbody rb;
@@ -52,7 +53,7 @@ public class PlayerNetwork : NetworkBehaviour
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
     [SerializeField] private CinemachineCamera freeCam, lockOnCam;
-    [SerializeField, ReadOnly] private Vector3 moveVector;
+    private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
     [SerializeField] private BoxCollider attackHitboxCollider;
@@ -141,7 +142,6 @@ public class PlayerNetwork : NetworkBehaviour
         base.OnStartClient();
         if (!IsOwner)
         {
-            // Disable all cameras on non-owned players
             foreach (var cam in GetComponentsInChildren<CinemachineCamera>())
                 cam.enabled = false;
             foreach (var axis in GetComponentsInChildren<CinemachineInputAxisController>())
@@ -379,6 +379,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (context.performed)
         {
             SetVelocity();
+            currentSpeed = rb.linearVelocity.magnitude;
         }
         else if (context.canceled)
         {
@@ -386,6 +387,7 @@ public class PlayerNetwork : NetworkBehaviour
             animator.SetFloat(AnimationParameters.CombatX, 0);
             animator.SetFloat(AnimationParameters.CombatY, 0);
             animator.SetBool(AnimationParameters.Running, false);
+            currentSpeed = rb.linearVelocity.magnitude;
         }
     }
 
