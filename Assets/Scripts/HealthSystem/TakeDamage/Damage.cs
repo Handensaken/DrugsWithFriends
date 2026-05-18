@@ -1,11 +1,6 @@
 using FishNet.Component.Prediction;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using Scenes.Dev_Scenes.Patrik.HealthSystem;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TakeDamage
 {
