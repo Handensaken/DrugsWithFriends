@@ -575,7 +575,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584225155153962157
+  _initializedTimestamp: -8584225129918220977
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -1563,6 +1563,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6804823511570566487}
     m_Modifications:
+    - target: {fileID: 3056407850952150828, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056407850952150828, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056407850952150828, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1609,19 +1621,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1637,7 +1649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 5920770420677930866, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1647,6 +1659,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyHealthCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8001451944412835864, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
+      propertyPath: m_text
+      value: Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611902779042799630, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944334440304261465, guid: 0015fc228a68c8642a8dbd2ac268b666, type: 3}
+      propertyPath: uiRectTransform
+      value: 
+      objectReference: {fileID: 2744505930240379411}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
