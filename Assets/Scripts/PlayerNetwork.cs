@@ -26,7 +26,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
-        public InputActionReference move, look, dash, toggleCameraFocus, lightAttack, heavyAttack;
+        public InputActionReference move, look, dash, toggleCameraFocus, lightAttack, heavyAttack, spectateNext;
     }
     
     private static class AnimationParameters
@@ -77,6 +77,7 @@ public class PlayerNetwork : NetworkBehaviour
     private Transform originalFreeCamLookAt;
     private int spectatorIndex = 0;
     private List<PlayerNetwork> alivePlayers = new List<PlayerNetwork>();
+    [SerializeField] private GameObject spectatorCanvas;
 
     protected override void OnValidate()
     {
@@ -149,6 +150,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         SubscribeActions(true);
         Application.focusChanged += OnAppFocusChanged;
+        actionReferences.spectateNext.action.Disable();
     
         Collider[] hits = Physics.OverlapSphere(transform.position, detectEnemiesRange);
         foreach (Collider hit in hits)
@@ -230,6 +232,8 @@ public class PlayerNetwork : NetworkBehaviour
         Performed(actionReferences.toggleCameraFocus, ToggleCameraFocus);
         Performed(actionReferences.lightAttack, LightAttack);
         Performed(actionReferences.heavyAttack, HeavyAttack);
+        
+        Performed(actionReferences.spectateNext, SpectateNext);
 
         if (register)
         {
@@ -295,12 +299,13 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         isDead = true;
-
         actionReferences.move.action.Disable();
         actionReferences.lightAttack.action.Disable();
         actionReferences.heavyAttack.action.Disable();
         actionReferences.dash.action.Disable();
         actionReferences.look.action.Enable();
+        actionReferences.spectateNext.action.Enable();
+        spectatorCanvas.SetActive(true);
 
         // Save freeCam's current targets before overwriting
         originalFreeCamFollow = freeCam.Follow;
@@ -333,7 +338,8 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.lightAttack.action.Enable();
         actionReferences.heavyAttack.action.Enable();
         actionReferences.dash.action.Enable();
-
+        actionReferences.spectateNext.action.Disable();
+        spectatorCanvas.SetActive(false);
         isCameraLockedOn = false;
         freeCamMovement = true;
         freeCam.gameObject.SetActive(true);
@@ -356,6 +362,15 @@ public class PlayerNetwork : NetworkBehaviour
     {
         freeCam.Follow = target.freeCam.Follow;
         freeCam.LookAt = target.freeCam.LookAt;
+    }
+    
+    private void SpectateNext(InputAction.CallbackContext context)
+    {
+        if (!IsOwner || !isDead) return;
+        RefreshAlivePlayers();
+        if (alivePlayers.Count == 0) return;
+        spectatorIndex = (spectatorIndex + 1) % alivePlayers.Count;
+        AttachFreeCamToPlayer(alivePlayers[spectatorIndex]);
     }
 
     private void Move(InputAction.CallbackContext context)
