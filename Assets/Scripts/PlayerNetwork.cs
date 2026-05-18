@@ -14,7 +14,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Range(0, 20f)] public float moveSpeed;
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     private Vector2 rot;
-    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered;
+    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered, isDead;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -52,7 +52,7 @@ public class PlayerNetwork : NetworkBehaviour
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
     [SerializeField] private CinemachineCamera freeCam, lockOnCam;
-    private Vector3 moveVector;
+    [SerializeField, ReadOnly] private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
     [SerializeField] private BoxCollider attackHitboxCollider;
@@ -70,7 +70,13 @@ public class PlayerNetwork : NetworkBehaviour
     
     [SerializeField] private DashParameters dashParameters;
 
-    [InspectorButton("DoSOmething", "click me")] public bool whatTheHelly;
+    [SerializeField, InspectorButton("PlayerDeath", "Kill Player")] private bool playerDeathButton;
+    [SerializeField, InspectorButton("PlayerRespawn", "Respawn Player")] private bool playerRespawnButton;
+    
+    private Transform originalFreeCamFollow;
+    private Transform originalFreeCamLookAt;
+    private int spectatorIndex = 0;
+    private List<PlayerNetwork> alivePlayers = new List<PlayerNetwork>();
 
     protected override void OnValidate()
     {
@@ -142,6 +148,7 @@ public class PlayerNetwork : NetworkBehaviour
             return;
         }
         SubscribeActions(true);
+        Application.focusChanged += OnAppFocusChanged;
     
         Collider[] hits = Physics.OverlapSphere(transform.position, detectEnemiesRange);
         foreach (Collider hit in hits)
@@ -171,6 +178,20 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnStopClient();
         SubscribeActions(false);
+        Application.focusChanged -= OnAppFocusChanged;
+    }
+    
+    private void OnAppFocusChanged(bool hasFocus)
+    {
+        if (!IsOwner || !isDead) return;
+        if (hasFocus)
+        {
+            actionReferences.move.action.Disable();
+            actionReferences.lightAttack.action.Disable();
+            actionReferences.heavyAttack.action.Disable();
+            actionReferences.dash.action.Disable();
+            actionReferences.look.action.Enable();
+        }
     }
 
     private void SubscribeActions(bool register)
@@ -268,6 +289,73 @@ public class PlayerNetwork : NetworkBehaviour
             SetVelocity();
         }
         CheckEnemiesOnScreen(); // Temporarily placed here
+    }
+
+    private void PlayerDeath()
+    {
+        if (!IsOwner) return;
+        isDead = true;
+
+        actionReferences.move.action.Disable();
+        actionReferences.lightAttack.action.Disable();
+        actionReferences.heavyAttack.action.Disable();
+        actionReferences.dash.action.Disable();
+        actionReferences.look.action.Enable();
+
+        // Save freeCam's current targets before overwriting
+        originalFreeCamFollow = freeCam.Follow;
+        originalFreeCamLookAt = freeCam.LookAt;
+
+        // Switch off lockOn cam in case it was active
+        lockOnCam.gameObject.SetActive(false);
+        freeCam.gameObject.SetActive(true);
+
+        RefreshAlivePlayers();
+        if (alivePlayers.Count > 0)
+        {
+            spectatorIndex = 0;
+            AttachFreeCamToPlayer(alivePlayers[spectatorIndex]);
+        }
+
+        Debug.Log("Player has died.");
+    }
+    
+    private void PlayerRespawn()
+    {
+        if (!IsOwner) return;
+        isDead = false;
+
+        // Restore freeCam to its original targets
+        freeCam.Follow = originalFreeCamFollow;
+        freeCam.LookAt = originalFreeCamLookAt;
+
+        actionReferences.move.action.Enable();
+        actionReferences.lightAttack.action.Enable();
+        actionReferences.heavyAttack.action.Enable();
+        actionReferences.dash.action.Enable();
+
+        isCameraLockedOn = false;
+        freeCamMovement = true;
+        freeCam.gameObject.SetActive(true);
+        lockOnCam.gameObject.SetActive(false);
+
+        Debug.Log("Player has respawned.");
+    }
+    
+    private void RefreshAlivePlayers()
+    {
+        alivePlayers.Clear();
+        foreach (var p in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
+        {
+            if (p != this && !p.isDead)
+                alivePlayers.Add(p);
+        }
+    }
+
+    private void AttachFreeCamToPlayer(PlayerNetwork target)
+    {
+        freeCam.Follow = target.freeCam.Follow;
+        freeCam.LookAt = target.freeCam.LookAt;
     }
 
     private void Move(InputAction.CallbackContext context)
@@ -478,7 +566,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void LightAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
+        if (!IsOwner || isDead) return;
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
@@ -493,7 +581,7 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
+        if (!IsOwner || isDead) return;
         if (!attacking) // Later: start heavy attack but it needs to change on charge  
         {
             // Charge attack first then play attack animation after
