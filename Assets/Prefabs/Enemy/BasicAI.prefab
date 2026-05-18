@@ -564,6 +564,7 @@ MonoBehaviour:
   - {fileID: 8906328546288525562}
   - {fileID: 8607513687918519180}
   - {fileID: 8513608233697118439}
+  - {fileID: 6879597848212603077}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -574,7 +575,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584226699070018099
+  _initializedTimestamp: -8584225155153962157
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -612,9 +613,9 @@ GameObject:
   - component: {fileID: 3539211469144731863}
   - component: {fileID: 1198973978086477534}
   - component: {fileID: 6879597848212603077}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AttackCollider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -724,9 +725,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
-  _componentIndexCache: 255
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 5599575656561588736}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 5599575656561588736}
   damage: 0
   knockbackForce: 0
   knockbackTime: 0
