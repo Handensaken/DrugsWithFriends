@@ -68,6 +68,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                UpdateAllBattleCirclesPositions();
           }
 
+          private void HandleAllOverlappingCircles()
+          {
+               
+          }
+          
           [Server]
           private void UpdateAllBattleCirclesPositions()
           {

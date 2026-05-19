@@ -1,13 +1,23 @@
+using System;
 using System.Linq;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
+    [Serializable]
+    public struct AngleSpanPackage
+    {
+        [Range(0,359)]public uint angleStart;
+        [Range(0,359)]public uint angleEnd;
+    }
+    
     public class BattleCircleVisualization : MonoBehaviour
     {
         [SerializeField] private BattleCircle battleCircle;
-        [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints; //TODO separate to visualizationComponent
+        [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints;
+        [SerializeField] private AngleSpanPackage[] allAngleSpans;
         
         [Space,SerializeField] private BattleCircleData data;
         private void OnDrawGizmos()
@@ -15,12 +25,27 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Gizmos.color = Color.darkGreen;
             Gizmos.DrawWireSphere(transform.position, data.circleRange);
             
+            DrawPoints();
+
+            DrawEnemyDir();
+        }
+        
+        private void DrawPoints()
+        {
             if (!Application.isPlaying)
             {
-                Vector3[] points = CircleBehaviour.CreateAllPoints(data,amountOfPositioningPoints,battleCircle.transform);
-                foreach (Vector3 point in points)
+                CircleBehaviour.BattleCirclePointPackage[] pointPackages = CircleBehaviour.CreateAllPointsPackages(data,amountOfPositioningPoints,battleCircle.transform);
+                
+                uint angleStart = allAngleSpans[0].angleStart;
+                uint angleEnd = allAngleSpans[0].angleEnd;
+                
+                foreach (var pointPackage in pointPackages)
                 {
-                    Gizmos.DrawSphere(transform.position+point, .2f);
+                    if (IsWithinAngles(pointPackage.AngleInCircle, angleStart, angleEnd))
+                    {
+                        Debug.Log("Draws");
+                        Gizmos.DrawSphere(transform.position+pointPackage.PointInCircle, .2f);
+                    }
                 }
             }
             else
@@ -31,10 +56,28 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     Gizmos.DrawSphere(point.position, .2f);
                 }
             }
-
-            DrawEnemyDir();
         }
 
+        private bool IsWithinAngles(float pointAngle, uint angleStart, uint angleEnd)
+        {
+            Debug.Log(pointAngle);
+            
+            if (Mathf.Approximately(angleStart, angleEnd))
+            {
+                Debug.Log("Same angleStart and angleEnd value --> No point can be used");
+                return false;
+            }
+            
+            if (angleStart < angleEnd)
+            {
+                return pointAngle >= angleStart && pointAngle <= angleEnd;
+            }
+            else
+            {
+                return pointAngle >= angleEnd || pointAngle <= angleStart;
+            }
+        }
+        
         private void DrawEnemyDir()
         {
             foreach (BlackboardReference blackboard in battleCircle.AisInCircle)
