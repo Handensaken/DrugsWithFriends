@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4170032768125187226}
   - component: {fileID: 7368804468184650414}
-  m_Layer: 0
+  - component: {fileID: 7544104942435782600}
+  m_Layer: 10
   m_Name: AttackCollider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,6 +54,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.32, z: 1.88}
   m_Center: {x: 0, y: 0, z: 0.91}
+--- !u!114 &7544104942435782600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6370743830746015534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1314984060710007515}
+  _networkObjectCache: {fileID: 0}
+  damage: 0
+  knockbackForce: 0
+  knockbackTime: 0
+  swordCollider: {fileID: 7368804468184650414}
 --- !u!1001 &4375266169649119917
 PrefabInstance:
   m_ObjectHideFlags: 0
