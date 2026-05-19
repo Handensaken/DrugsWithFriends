@@ -119,35 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &32706915 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6370743830746015534, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-  m_PrefabInstance: {fileID: 8400855885044511983}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &32706917 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 7368804468184650414, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-  m_PrefabInstance: {fileID: 8400855885044511983}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &32706918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32706915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: 806661050}
-  _networkObjectCache: {fileID: 0}
-  damage: 0
-  knockbackForce: 0
-  knockbackTime: 0
-  swordCollider: {fileID: 32706917}
 --- !u!1 &118894313
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,17 +665,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
---- !u!114 &806661050 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1314984060710007515, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-  m_PrefabInstance: {fileID: 8400855885044511983}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
 --- !u!1001 &892153282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1443,37 +1403,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1840076713018604406
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2300000112364951970}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.162, y: -0, z: -8.48061}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2300000112364951970
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1840076713018604406}
-  m_Layer: 0
-  m_Name: Common_Rat
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &8400855885044511983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1494,13 +1423,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI_Rat
       objectReference: {fileID: 0}
-    - target: {fileID: 6370743830746015534, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: m_Layer
-      value: 10
+    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: localPatrolPoints.Array.data[0].x
+      value: 3.5837464
       objectReference: {fileID: 0}
-    - target: {fileID: 6370743830746015534, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
+    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: localPatrolPoints.Array.data[0].z
+      value: 4.984623
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].x
+      value: 6.5421295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].z
+      value: 0.51402473
       objectReference: {fileID: 0}
     - target: {fileID: 7446963935338300537, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1545,10 +1482,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6370743830746015534, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 32706918}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -1563,5 +1497,4 @@ SceneRoots:
   - {fileID: 892153282}
   - {fileID: 2009597760}
   - {fileID: 758902718}
-  - {fileID: 1840076713018604406}
   - {fileID: 8400855885044511983}
