@@ -18,7 +18,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     {
         [SerializeField] private BattleCircle battleCircle;
         [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints;
-        [SerializeField] private AngleSpanPackage[] allAngleSpans;
+        [SerializeField, Tooltip("Only for visualization - no logic in game")] private AngleSpanPackage[] allAngleSpans;
         [SerializeField] private bool seAngleSpan;
         
         [Space,SerializeField] private BattleCircleData data;
@@ -28,65 +28,49 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Gizmos.DrawWireSphere(transform.position, data.circleRange);
             
             DrawPoints();
-            DrawAnglePoints();
+            HandleAllAnglePoints();
             DrawEnemyDir();
         }
 
-        private void DrawAnglePoints()
+        private void HandleAllAnglePoints()
         {
             if (seAngleSpan && !Application.isPlaying)
             {
                 foreach (var angleSpan in allAngleSpans)
                 {
-                    Vector2 xzDir = VectorMath.Rotate(new Vector2(transform.forward.x, transform.forward.z).normalized,
-                        angleSpan.angleStart *Mathf.Deg2Rad);
-                    Vector3 pointDir = new Vector3(xzDir.x, 0, xzDir.y);
-
-                    Vector3 start = transform.position + pointDir * data.circleRange;
-                    
-                    xzDir = VectorMath.Rotate(new Vector2(transform.forward.x, transform.forward.z).normalized,angleSpan.angleEnd*Mathf.Deg2Rad);
-                    pointDir = new Vector3(xzDir.x, 0, xzDir.y);
-
-                    Vector3 end = transform.position + pointDir * data.circleRange;
-                    Gizmos.DrawLine(start, end);
+                    DrawAnglePoints(angleSpan, transform);
                 }
             }
             else if (seAngleSpan)
             {
-                
-                
+                foreach (var angleSpan in battleCircle.CircleBehaviour.AllCircleOverrides)
+                {
+                    DrawAnglePoints(angleSpan, transform);
+                }
             }
+        }
+
+        private void DrawAnglePoints(AngleSpanPackage angleSpan, Transform transform)
+        {
+            Vector2 xzDir = VectorMath.Rotate(new Vector2(transform.forward.x, transform.forward.z).normalized,
+                angleSpan.angleStart *Mathf.Deg2Rad);
+            Vector3 pointDir = new Vector3(xzDir.x, 0, xzDir.y);
+
+            Vector3 start = transform.position + pointDir * data.circleRange;
+                    
+            xzDir = VectorMath.Rotate(new Vector2(transform.forward.x, transform.forward.z).normalized,angleSpan.angleEnd*Mathf.Deg2Rad);
+            pointDir = new Vector3(xzDir.x, 0, xzDir.y);
+
+            Vector3 end = transform.position + pointDir * data.circleRange;
+            Gizmos.DrawLine(start, end);
         }
         
         private void DrawPoints()
         {
             if (!Application.isPlaying)
             {
-                CircleBehaviour.BattleCirclePointPackage[] pointPackages = CircleBehaviour.CreateAllPointsPackages(data,amountOfPositioningPoints,battleCircle.transform);
-                
-                List<CircleBehaviour.BattleCirclePointPackage> points = pointPackages.ToList();
-                
-                foreach (var angleSpan in allAngleSpans)
-                {
-                    uint angleStart = angleSpan.angleStart;
-                    uint angleEnd = angleSpan.angleEnd;
-                    List<CircleBehaviour.BattleCirclePointPackage> validPoints = new();
-                    foreach (var validatingPoint in points)
-                    {
-                        
-                        if (!IsWithinAngles(validatingPoint.AngleInCircle, angleStart, angleEnd))
-                        {
-                            validPoints.Add(validatingPoint);
-                        }
-                    }
-
-                    points = validPoints;
-                }
-
-                foreach (var validPoint in points)
-                {
-                    Gizmos.DrawSphere(transform.position+validPoint.PointInCircle, .2f);
-                }
+                BattleCirclePointPackage[] pointPackages = CircleBehaviour.CreateAllPointsPackages(data,amountOfPositioningPoints,battleCircle.transform);
+                DrawValidPoints(pointPackages, allAngleSpans);
             }
             else
             {
@@ -95,28 +79,22 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 {
                     Gizmos.DrawSphere(point.position, .2f);
                 }
+                
+                //DrawValidPoints(pointPackages);
             }
         }
 
-        private bool IsWithinAngles(float pointAngle, uint angleStart, uint angleEnd)
+        private void DrawValidPoints(BattleCirclePointPackage[] pointPackages, AngleSpanPackage[] angleSpanPackages)
         {
-            Debug.Log(pointAngle);
-            
-            if (Mathf.Approximately(angleStart, angleEnd))
+            BattleCirclePointPackage[] points = CircleBehaviour.FindAllValidCirclePoints(pointPackages,angleSpanPackages);
+
+            foreach (var validPoint in points)
             {
-                Debug.Log("Same angleStart and angleEnd value --> No point can be used");
-                return false;
-            }
-            
-            if (angleStart < angleEnd)
-            {
-                return pointAngle >= angleStart && pointAngle <= angleEnd;
-            }
-            else
-            {
-                return pointAngle >= angleStart || pointAngle <= angleEnd;
+                Gizmos.DrawSphere(transform.position+validPoint.PointInCircle, .2f);
             }
         }
+        
+        
         
         private void DrawEnemyDir()
         {
