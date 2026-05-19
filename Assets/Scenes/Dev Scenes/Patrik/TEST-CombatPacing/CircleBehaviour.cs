@@ -28,6 +28,48 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 blackboard.SetVariableValue("Target", target);
             }
         }
+
+        public struct BattleCirclePointPackage
+        {
+            public Vector3 PointInCircle;
+            public float AngleInCircle;
+        }
+        
+        public static BattleCirclePointPackage[] CreateAllPointsPackages(BattleCircleData data, uint amountOfPoints, Transform transform)
+        {
+            Vector3 forward = transform.forward;
+            float circleRange = data.circleRange;
+            
+            if (amountOfPoints <= 0)
+            {
+                return null;
+            }
+            BattleCirclePointPackage[] result = new BattleCirclePointPackage[amountOfPoints];
+            
+            BattleCirclePointPackage package = new BattleCirclePointPackage()
+            {
+                PointInCircle = transform.position + forward * circleRange,
+                AngleInCircle = 0
+            };
+            if (amountOfPoints == 1)
+            {
+                return result;
+            }
+            
+            float radIncrease = Mathf.Deg2Rad*(360f / amountOfPoints);
+            for (int i = 1; i < amountOfPoints; i++)
+            {
+                Vector2 xzDir = VectorMath.Rotate(new Vector2(forward.x, forward.z).normalized,radIncrease*i);
+                Vector3 pointDir = new Vector3(xzDir.x, 0, xzDir.y);
+
+                package.PointInCircle = pointDir * circleRange;
+                package.AngleInCircle = Mathf.Rad2Deg*(radIncrease * i);
+                result[i] = package;
+            }
+
+            return result;
+        }
+        
         
         /// <summary>
         /// Initial enemy base-orientation for first position --> Rotates toward the first enemy
@@ -55,7 +97,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 if (i == 0)
                 {
-                    result[i] = transform.position + forward * circleRange;
+                    result[i] = forward * circleRange;
                 }
                 
                 Vector2 xzDir = VectorMath.Rotate(new Vector2(forward.x, forward.z).normalized,angleIncrease*i);
