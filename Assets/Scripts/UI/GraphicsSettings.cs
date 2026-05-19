@@ -1,20 +1,25 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
-public class ResolutionSettings : MonoBehaviour
+public class GraphicsSettings : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown resolutionDropdown, screenModeDropdown;
+    [SerializeField] private Slider brightnessSlider;
     private Resolution[] resolutions;
     private List<string> resolutionsList;
     private int selectedResolution;
-
     private FullScreenMode fullscreenMode;
+    //[SerializeField] private Volume postProcessingVolume;
+    //private ColorAdjustments colorAdjustments;
 
     private void Awake()
     {
+        //postProcessingVolume.profile.TryGet(out colorAdjustments);
         fullscreenMode = Screen.fullScreenMode;
-
         resolutions = Screen.resolutions;
         resolutionsList = new List<string>();
 
@@ -41,6 +46,8 @@ public class ResolutionSettings : MonoBehaviour
         
         int currentModeIndex = screenModesList.IndexOf(fullscreenMode.ToString());
         screenModeDropdown.SetValueWithoutNotify(currentModeIndex >= 0 ? currentModeIndex : 0);
+        
+        brightnessSlider.value = Screen.brightness;
     }
 
     public void ChangeResolution(int index)
@@ -54,4 +61,15 @@ public class ResolutionSettings : MonoBehaviour
         fullscreenMode = (FullScreenMode)index;
         Screen.SetResolution(resolutions[selectedResolution].width, resolutions[selectedResolution].height, fullscreenMode);
     }
+    
+    public void SetBrightness(float value)
+    {
+        /*
+        if (colorAdjustments is null)
+        {
+            return;
+        }
+        colorAdjustments.postExposure.value = Mathf.Lerp(-2f, 2f, value);
+        */
+    } 
 }
