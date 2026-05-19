@@ -4607,6 +4607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResolutionSettings
   resolutionDropdown: {fileID: 2349114800211594080}
   screenModeDropdown: {fileID: 4207657810231637391}
+  fpsDropdown: {fileID: 3084405182677644375}
   brightnessSlider: {fileID: 8730555666609001215}
 --- !u!1 &1402817798882428896
 GameObject:
@@ -14199,7 +14200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fullscreen
+  m_text: MaxFPS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ff267d2515dada34ba351a8ffb4280e8, type: 2}
   m_sharedMaterial: {fileID: 21744047739656124, guid: ff267d2515dada34ba351a8ffb4280e8, type: 2}
@@ -14740,7 +14741,7 @@ GameObject:
   - component: {fileID: 7578060861083521535}
   - component: {fileID: 3084405182677644375}
   m_Layer: 5
-  m_Name: RefreshRate
+  m_Name: MaxFps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14857,7 +14858,7 @@ MonoBehaviour:
   m_MultiSelect: 0
   m_Options:
     m_Options:
-    - m_Text: Fullscreen
+    - m_Text: MaxFPS
       m_Image: {fileID: 0}
       m_Color: {r: 1, g: 1, b: 1, a: 1}
     - m_Text: Windowed
@@ -14870,8 +14871,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9016170132515851226}
-        m_TargetAssemblyTypeName: ResolutionSettings, Assembly-CSharp
-        m_MethodName: ChangeScreenMode
+        m_TargetAssemblyTypeName: GraphicsSettings, Assembly-CSharp
+        m_MethodName: SetMaxFPS
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
