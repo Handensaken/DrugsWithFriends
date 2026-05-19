@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GraphicsSettings : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown resolutionDropdown, screenModeDropdown, fpsDropdown;
+    [SerializeField] private TMP_Dropdown resolutionDropdown, screenModeDropdown, fpsDropdown, vsyncDropdown;
     [SerializeField] private Slider brightnessSlider;
     private Resolution[] resolutions;
     private List<string> resolutionsList;
@@ -57,6 +57,12 @@ public class GraphicsSettings : MonoBehaviour
 
         fpsDropdown.options = fpsList.ConvertAll(fps => new TMP_Dropdown.OptionData(fps));
         fpsDropdown.SetValueWithoutNotify(currentFpsIndex);
+
+        // VSync dropdown setup
+        List<string> vsyncList = new List<string> { "Off", "On" };
+        vsyncDropdown.options = vsyncList.ConvertAll(v => new TMP_Dropdown.OptionData(v));
+        int currentVsync = Mathf.Clamp(QualitySettings.vSyncCount, 0, 1);
+        vsyncDropdown.SetValueWithoutNotify(currentVsync);
     }
 
     public void ChangeResolution(int index)
@@ -80,10 +86,16 @@ public class GraphicsSettings : MonoBehaviour
         }
         colorAdjustments.postExposure.value = Mathf.Lerp(-2f, 2f, value);
         */
-    } 
+    }
 
     public void SetMaxFPS(int index)
     {
         Application.targetFrameRate = fpsOptions[index];
+    }
+
+    public void SetVSync(int index)
+    {
+        // 0 = Off, 1 = On
+        QualitySettings.vSyncCount = index;
     }
 }
