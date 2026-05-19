@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Behavior;
@@ -29,10 +30,25 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
         }
 
-        public struct BattleCirclePointPackage
+        public struct BattleCirclePointPackage : IEquatable<BattleCirclePointPackage>
         {
             public Vector3 PointInCircle;
             public float AngleInCircle;
+
+            public bool Equals(BattleCirclePointPackage other)
+            {
+                return PointInCircle.Equals(other.PointInCircle) && AngleInCircle.Equals(other.AngleInCircle);
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is BattleCirclePointPackage other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(PointInCircle, AngleInCircle);
+            }
         }
         
         public static BattleCirclePointPackage[] CreateAllPointsPackages(BattleCircleData data, uint amountOfPoints, Transform transform)
@@ -48,9 +64,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             BattleCirclePointPackage package = new BattleCirclePointPackage()
             {
-                PointInCircle = transform.position + forward * circleRange,
+                PointInCircle = forward * circleRange,
                 AngleInCircle = 0
             };
+            result[0] = package;
+            
             if (amountOfPoints == 1)
             {
                 return result;
