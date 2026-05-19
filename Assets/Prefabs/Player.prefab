@@ -1096,6 +1096,10 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 4813627358408976386}
+    - target: {fileID: 1390082018140375188, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1111,6 +1115,10 @@ PrefabInstance:
     - target: {fileID: 1408249881448373224, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625006740754953714, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2939798840999915008, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_text
@@ -1140,6 +1148,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4076561718023334824, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4353300978181758066, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.00024414062
@@ -1148,9 +1160,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 6551262824129078416, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800371103860209667, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: cameras.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800371103860209667, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: 'cameras.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7434779505794564936}
+    - target: {fileID: 7800371103860209667, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: 'cameras.Array.data[1]'
+      value: 
+      objectReference: {fileID: 6515165083195661982}
     - target: {fileID: 8237410667802671908, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
       propertyPath: m_Text
       value: Hold Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696176970694308856, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844560237786752793, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
