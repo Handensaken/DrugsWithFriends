@@ -1670,7 +1670,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7696538552095724360}
   _networkObjectCache: {fileID: 7696538552095724360}
   moveSpeed: 4
-  rotationSpeed: 0.217
+  rotationSpeed: 0.3
+  currentSpeed: 0
   range: 1.29
   detectEnemiesRange: 5
   attackSpeed: 0.77
@@ -1693,7 +1694,6 @@ MonoBehaviour:
   enemiesOnScreen: []
   freeCam: {fileID: 7434779505794564936}
   lockOnCam: {fileID: 6515165083195661982}
-  moveVector: {x: 0, y: 0, z: 0}
   attackRangeCollider: {fileID: 2553626066740570996}
   attackHitboxCollider: {fileID: 2634556739951376808}
   selectionHandler: {fileID: 11400000, guid: 74c4af823473a0e4eaef65f5f805975a, type: 2}

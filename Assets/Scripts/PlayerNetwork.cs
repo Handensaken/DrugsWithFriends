@@ -520,6 +520,8 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
 
         enemyIndex = Mathf.Clamp(enemyIndex, 0, Mathf.Max(0, enemiesOnScreen.Count - 1));
+        
+        if (!isCameraLockedOn && enemiesOnScreen.Count == 0) return; // TODO: Add camera reset here later
 
         if (!isCameraLockedOn && enemiesOnScreen.Count > 0)
         {
@@ -553,7 +555,13 @@ public class PlayerNetwork : NetworkBehaviour
     {
         isCameraLockedOn = false;
         enemyIndex = 0;
-        freeCam.transform.position = lockOnCam.transform.position;
+        
+        Vector3 snapPos = lockOnCam.transform.position;
+        Quaternion snapRot = lockOnCam.transform.rotation;
+
+        freeCam.transform.SetPositionAndRotation(snapPos, snapRot);
+        freeCam.ForceCameraPosition(snapPos, snapRot); // Necessary to prevent jittering when switching from lock-on to free cam
+
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
@@ -569,6 +577,7 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.look.action.Disable();
         lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
         lockOnCam.transform.position = freeCam.transform.position;
+        lockOnCam.transform.rotation = freeCam.transform.rotation; 
     }
 
     public void EnableHitBox()
