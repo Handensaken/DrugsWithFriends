@@ -17,7 +17,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     public class BattleCircleVisualization : MonoBehaviour
     {
         [SerializeField] private BattleCircle battleCircle;
-        [SerializeField, Range(1,10), Tooltip("Only for visualization - no logic in game")] private uint amountOfPositioningPoints;
+        [SerializeField] private BattleCircleData battleCircleData;
         [SerializeField, Tooltip("Only for visualization - no logic in game")] private AngleSpanPackage[] allAngleSpans;
         [SerializeField] private bool seAngleSpan;
         
@@ -25,7 +25,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.darkGreen;
-            Gizmos.DrawWireSphere(transform.position, data.circleRange);
+            Gizmos.DrawWireSphere(transform.position, data.circleRadius);
             
             DrawPoints();
             Gizmos.color = Color.darkGreen;
@@ -37,6 +37,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void HandleAllAnglePoints()
         {
+            Gizmos.color = Color.yellow;
+            
             if (seAngleSpan && !Application.isPlaying)
             {
                 foreach (var angleSpan in allAngleSpans)
@@ -59,12 +61,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 angleSpan.angleStart *Mathf.Deg2Rad);
             Vector3 pointDir = new Vector3(xzDir.x, 0, xzDir.y);
 
-            Vector3 start = transform.position + pointDir * data.circleRange;
+            Vector3 start = transform.position + pointDir * data.circleRadius;
                     
             xzDir = VectorMath.Rotate(new Vector2(transform.forward.x, transform.forward.z).normalized,angleSpan.angleEnd*Mathf.Deg2Rad);
             pointDir = new Vector3(xzDir.x, 0, xzDir.y);
 
-            Vector3 end = transform.position + pointDir * data.circleRange;
+            Vector3 end = transform.position + pointDir * data.circleRadius;
             Gizmos.DrawLine(start, end);
         }
         
@@ -72,7 +74,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             if (!Application.isPlaying)
             {
-                BattleCirclePointPackage[] pointPackages = CircleBehaviour.CreateAllPointsPackages(data,amountOfPositioningPoints,battleCircle.transform);
+                BattleCirclePointPackage[] pointPackages = CircleBehaviour.CreateAllPointsPackages(data,battleCircleData.amountOfPointsInCircle,battleCircle.transform);
                 DrawValidPoints(pointPackages, allAngleSpans);
             }
             else

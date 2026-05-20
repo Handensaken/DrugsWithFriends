@@ -66,8 +66,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                }
                
                UpdateAllBattleCirclesPositions();
+               HandleAllOverlappingCircles();
           }
 
+          [Server]
           private void HandleAllOverlappingCircles()
           {
                
@@ -98,9 +100,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
           }
           
           [Server]
-          public void AssignAI2BattleCircle(int clientID, BlackboardReference blackboard)
+          public BattleCircle AssignAI2BattleCircle(int clientID, BlackboardReference blackboard)
           {
                _clientsBattleCircles[clientID].AssignAI(blackboard);
+               return _clientsBattleCircles[clientID];
           }
      }
 }

@@ -22,11 +22,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public CircleBehaviour(Transform battleCircleTransform,BattleCircleData data,Dictionary<BlackboardReference, Transform> aisAndTakenTransforms)
         {
+            //External parameters
             _battleCircleTransform = battleCircleTransform;
             _data = data;
             _aisAndTakenTransforms = aisAndTakenTransforms;
             
-            //Test
+            //Creation of points
             uint amountOfPoints = 20; //TODO parameter
             _allPoints = CreateAllPointsPackages(_data,amountOfPoints, _battleCircleTransform);
             _validPoints = _allPoints.ToArray();
@@ -214,7 +215,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         public static BattleCirclePointPackage[] CreateAllPointsPackages(BattleCircleData data, uint amountOfPoints, Transform transform)
         {
             Vector3 forward = transform.forward;
-            float circleRange = data.circleRange;
+            float circleRange = data.circleRadius;
             
             if (amountOfPoints <= 0)
             {
@@ -287,9 +288,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             return points.ToArray();
         }
         
-        private void ResignAI2Point(BlackboardReference blackboard)
+        public void RemoveAIAndTakenTransform(BlackboardReference blackboard)
         {
-            
+            _aisAndTakenTransforms.Remove(blackboard, out Transform targetTransform);
+            _availableTransformPoints.Add(targetTransform);
         }
     }
 }

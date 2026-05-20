@@ -6,8 +6,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     {
         public static bool IsWithinAngles(float pointAngle, uint angleStart, uint angleEnd)
         {
-            Debug.Log(pointAngle);
-            
             if (Mathf.Approximately(angleStart, angleEnd))
             {
                 Debug.Log("Same angleStart and angleEnd value --> No point can be used");

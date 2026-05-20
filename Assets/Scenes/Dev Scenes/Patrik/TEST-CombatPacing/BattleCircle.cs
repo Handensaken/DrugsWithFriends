@@ -80,11 +80,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         }
         
         //TODO för när fiender dör eller flyttas
-        public void ResignAI(BlackboardReference blackboard)
+        public void RemoveAI(BlackboardReference blackboard)
         {
-            
+            _aisInCircle.Remove(blackboard);
+            _circleBehaviour.RemoveAIAndTakenTransform(blackboard);
+            _fightingBehaviour.RemoveFightingAi(blackboard);
         }
-        
-        
     }
 }

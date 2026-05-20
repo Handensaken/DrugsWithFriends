@@ -2,14 +2,17 @@ using System;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
     [CreateAssetMenu(menuName = "AI/BattleCircle/BattelCircleData")]
     public class BattleCircleData : ScriptableObject
     {
-        [SerializeField,Min(0.1f)] public float circleRange;
-        [SerializeField] public TokenManagingPackage tokenCreationData;
+        [SerializeField,Min(0.1f)] public float circleRadius;
+        [SerializeField, Min(1)] public uint amountOfPointsInCircle;
+        
+        [Space,SerializeField] public TokenManagingPackage tokenCreationData;
     }
 
     [Serializable]

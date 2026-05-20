@@ -22,7 +22,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _data = data;
             _aisInCircle = aisInCircle;
             _fightingAis = fightingAis;
-             _attackingEvent = attackingEvent;
+            _attackingEvent = attackingEvent;
             
             SetRndNextTimeForNewFighter();
         }

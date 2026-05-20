@@ -12,10 +12,11 @@ using Unity.Properties;
 using UnityEngine.AI;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "TryFindBattleCircle", story: "Connect to suitable battleCircle from [allTargets]", category: "Action/Interaction",
+[NodeDescription(name: "TryFindBattleCircle", story: "Connect to suitable [battleCircle] from [allTargets]", category: "Action/Interaction",
     id: "00d6238e85e494466c19dbe18182faaa")]
 public partial class TryGetTargetAction : Action
 {
+    [SerializeReference] public BlackboardVariable<BattleCircle> BattleCircle;
     [SerializeReference] public BlackboardVariable<List<GameObject>> AllTargets;
 
     [SerializeReference] public BlackboardVariable<GameObject> self;
@@ -46,7 +47,7 @@ public partial class TryGetTargetAction : Action
         }
         
         BlackboardReference blackboard = self.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference;
-        BattleCircleManager.Instance.AssignAI2BattleCircle((int)clientID,blackboard);
+        BattleCircle.Value = BattleCircleManager.Instance.AssignAI2BattleCircle((int)clientID,blackboard);
         
         return Status.Success;
     }
