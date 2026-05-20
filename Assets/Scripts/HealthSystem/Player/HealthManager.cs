@@ -6,21 +6,8 @@ using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 {
-     public class HealthManager : NetworkBehaviour //TODO make total control over clients health
+     public class HealthManager : NetworkBehaviour
      {
-          /*[Header("Testing:")]
-          [Header("Set values to:")]
-          [SerializeField]private int setOnClient;
-          [SerializeField] private uint setHealth;
-          [SerializeField] private uint setBatch;
-          [SerializeField] private bool simulateSet;
-          
-          [Space,Header("Simulate healthChange:")]
-          [SerializeField]private int simulateClient;
-          [SerializeField] private int simulateHealthValues;
-          [SerializeField] private int simulateBatchValues;
-          [SerializeField] private bool simulateChange;*/
-          
           [Space,SerializeField] private HealthRuleData healthRuleData;
           
           private readonly SyncVar<uint> _currentMaxBatchAmountPerPlayer = new SyncVar<uint>();
