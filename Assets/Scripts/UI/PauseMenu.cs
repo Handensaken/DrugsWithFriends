@@ -14,7 +14,10 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private SelectionHandler selectionHandler;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private InputActionReference pause, unpause, cancel;
+    [SerializeField] private InputActionReference pause, unpause, cancel, spectatorPause, look;
+    [SerializeField, ReadOnly] private string currentActionMap;
+    
+    private string previousActionMap;
 
     private void OnEnable()
     {
@@ -22,7 +25,20 @@ public class PauseMenu : MonoBehaviour
         unpause.action.performed += OnUnpause;
         cancel.action.performed += TryCancel;
         pause.action.performed -= OnPause;
+        spectatorPause.action.performed -= OnPause;
+        
+        try
+        {
+            previousActionMap = playerInput.currentActionMap.name;
+        }
+        catch
+        {
+            Debug.Log("No current actionmap");
+            throw;
+        }
+        
         playerInput.SwitchCurrentActionMap("UI");
+        currentActionMap = playerInput.currentActionMap.name;
     }
     
     private void OnDisable()
@@ -44,11 +60,13 @@ public class PauseMenu : MonoBehaviour
         unpause.action.performed -= OnUnpause;
         cancel.action.performed -= TryCancel;
         pause.action.performed += OnPause;
+        spectatorPause.action.performed += OnPause;
         
         if (playerInput != null && playerInput.isActiveAndEnabled)
         {
-            playerInput.SwitchCurrentActionMap("Player");
+            playerInput.SwitchCurrentActionMap(previousActionMap);
         }
+        currentActionMap = playerInput.currentActionMap.name;
     }
 
     private void OnDestroy()

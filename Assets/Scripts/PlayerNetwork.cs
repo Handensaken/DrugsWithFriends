@@ -7,7 +7,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-
+ 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -23,7 +23,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 4f), Tooltip("Time between attack chains")] private float lightChainAttackCooldown, heavyChainAttackCooldown;
     [SerializeField, Range(0, 1f), Tooltip("Time before when the next attack can be performed")] private float attackBufferTime;
     [SerializeField, Range(0, 5), Tooltip("Number of attacks in a chain")] private int maxChainLengthLight, maxChainLengthHeavy;
-
+ 
     [Serializable]
     struct ActionReferences // Jag vägrar göra string based lookup
     {
@@ -52,7 +52,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, ReadOnly] private List<Transform> enemiesInRange, enemiesOnScreen;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
-    [SerializeField] private CinemachineCamera freeCam, lockOnCam;
+    [SerializeField] private CinemachineCamera freeCam, spectatorCamera, lockOnCam;
     private Vector3 moveVector;
     private float attackQueueTimestamp = -1f;
     [SerializeField] private SphereCollider attackRangeCollider;
@@ -70,16 +70,14 @@ public class PlayerNetwork : NetworkBehaviour
     }
     
     [SerializeField] private DashParameters dashParameters;
-
+ 
     [SerializeField, InspectorButton("PlayerDeath", "Kill Player")] private bool playerDeathButton;
     [SerializeField, InspectorButton("PlayerRespawn", "Respawn Player")] private bool playerRespawnButton;
     
-    private Transform originalFreeCamFollow;
-    private Transform originalFreeCamLookAt;
     private int spectatorIndex = 0;
     private List<PlayerNetwork> alivePlayers = new List<PlayerNetwork>();
     [SerializeField] private GameObject spectatorCanvas;
-
+ 
     protected override void OnValidate()
     {
         base.OnValidate();
@@ -88,8 +86,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (TryGetComponent(out Animator anim))
         {
             animator = anim;
-            //animator.SetFloat(AnimationParameters.XInput, 0);
-            //animator.SetFloat(AnimationParameters.ZInput, 0);
         }
         else
         {
@@ -98,7 +94,7 @@ public class PlayerNetwork : NetworkBehaviour
         
         animator.speed = animationSpeed;
     }
-
+ 
     private void Awake()
     {
         enemiesOnScreen = new List<Transform>();
@@ -115,7 +111,7 @@ public class PlayerNetwork : NetworkBehaviour
         {
             Debug.LogError("No Rigidbody found on PlayerNetwork object. Please add a Rigidbody component.");
         }
-
+ 
         if (TryGetComponent(out Animator anim))
         {
             animator = anim;
@@ -136,7 +132,7 @@ public class PlayerNetwork : NetworkBehaviour
             Debug.LogError("Couldn't get animator");
         }
     }
-
+ 
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -175,7 +171,7 @@ public class PlayerNetwork : NetworkBehaviour
             axisController.enabled = IsOwner;
         }
     }
-
+ 
     public override void OnStopClient()
     {
         base.OnStopClient();
@@ -186,16 +182,8 @@ public class PlayerNetwork : NetworkBehaviour
     private void OnAppFocusChanged(bool hasFocus)
     {
         if (!IsOwner || !isDead) return;
-        if (hasFocus)
-        {
-            actionReferences.move.action.Disable();
-            actionReferences.lightAttack.action.Disable();
-            actionReferences.heavyAttack.action.Disable();
-            actionReferences.dash.action.Disable();
-            actionReferences.look.action.Enable();
-        }
     }
-
+ 
     private void SubscribeActions(bool register)
     {
         void Performed(InputActionReference r, Action<InputAction.CallbackContext> cb)
@@ -234,7 +222,7 @@ public class PlayerNetwork : NetworkBehaviour
         Performed(actionReferences.heavyAttack, HeavyAttack);
         
         Performed(actionReferences.spectateNext, SpectateNext);
-
+ 
         if (register)
         {
             playerInput.onControlsChanged += ControlsChanged;
@@ -244,10 +232,7 @@ public class PlayerNetwork : NetworkBehaviour
             playerInput.onControlsChanged -= ControlsChanged;
         }
     }
-
-    //private void OnEnable()  => SubscribeActions(true);
-    //private void OnDisable() => SubscribeActions(false);
-
+ 
     private void OnTriggerEnter(Collider other)
     {
         if (!IsOwner) return;
@@ -268,14 +253,14 @@ public class PlayerNetwork : NetworkBehaviour
             if (enemiesInRange.Contains(other.transform))
             {
                 enemiesInRange.Remove(other.transform);
-                if(other.transform == lockOnCam.LookAt) // Focus on player if removed enemy was the locked on target 
+                if(other.transform == lockOnCam.LookAt)
                 {
                     FocusOnPlayer();
                 }
             }
         }
     }
-
+ 
     private void FixedUpdate()
     {
         if (!IsOwner) return;
@@ -292,36 +277,27 @@ public class PlayerNetwork : NetworkBehaviour
             HandleRotation();
             SetVelocity();
         }
-        CheckEnemiesOnScreen(); // Temporarily placed here
+        CheckEnemiesOnScreen();
     }
-
+ 
     public void PlayerDeath()
     {
         if (!IsOwner) return;
         isDead = true;
-        actionReferences.move.action.Disable();
-        actionReferences.lightAttack.action.Disable();
-        actionReferences.heavyAttack.action.Disable();
-        actionReferences.dash.action.Disable();
-        actionReferences.look.action.Enable();
-        actionReferences.spectateNext.action.Enable();
+        playerInput.SwitchCurrentActionMap("Spectator");
         spectatorCanvas.SetActive(true);
-
-        // Save freeCam's current targets before overwriting
-        originalFreeCamFollow = freeCam.Follow;
-        originalFreeCamLookAt = freeCam.LookAt;
-
-        // Switch off lockOn cam in case it was active
+ 
         lockOnCam.gameObject.SetActive(false);
-        freeCam.gameObject.SetActive(true);
-
+        freeCam.gameObject.SetActive(false);
+        spectatorCamera.gameObject.SetActive(true);
+ 
         RefreshAlivePlayers();
         if (alivePlayers.Count > 0)
         {
             spectatorIndex = 0;
-            AttachFreeCamToPlayer(alivePlayers[spectatorIndex]);
+            AttachSpectatorCamToPlayer(alivePlayers[spectatorIndex]);
         }
-
+ 
         Debug.Log("Player has died.");
     }
     
@@ -329,22 +305,15 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         isDead = false;
-
-        // Restore freeCam to its original targets
-        freeCam.Follow = originalFreeCamFollow;
-        freeCam.LookAt = originalFreeCamLookAt;
-
-        actionReferences.move.action.Enable();
-        actionReferences.lightAttack.action.Enable();
-        actionReferences.heavyAttack.action.Enable();
-        actionReferences.dash.action.Enable();
-        actionReferences.spectateNext.action.Disable();
+ 
+        spectatorCamera.gameObject.SetActive(false);
+        playerInput.SwitchCurrentActionMap("Player");
         spectatorCanvas.SetActive(false);
         isCameraLockedOn = false;
         freeCamMovement = true;
         freeCam.gameObject.SetActive(true);
         lockOnCam.gameObject.SetActive(false);
-
+ 
         Debug.Log("Player has respawned.");
     }
     
@@ -357,11 +326,11 @@ public class PlayerNetwork : NetworkBehaviour
                 alivePlayers.Add(p);
         }
     }
-
-    private void AttachFreeCamToPlayer(PlayerNetwork target)
+ 
+    private void AttachSpectatorCamToPlayer(PlayerNetwork target)
     {
-        freeCam.Follow = target.freeCam.Follow;
-        freeCam.LookAt = target.freeCam.LookAt;
+        spectatorCamera.Follow = target.freeCam.Follow;
+        spectatorCamera.LookAt = target.freeCam.LookAt;
     }
     
     private void SpectateNext(InputAction.CallbackContext context)
@@ -370,9 +339,9 @@ public class PlayerNetwork : NetworkBehaviour
         RefreshAlivePlayers();
         if (alivePlayers.Count == 0) return;
         spectatorIndex = (spectatorIndex + 1) % alivePlayers.Count;
-        AttachFreeCamToPlayer(alivePlayers[spectatorIndex]);
+        AttachSpectatorCamToPlayer(alivePlayers[spectatorIndex]);
     }
-
+ 
     private void Move(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -391,7 +360,7 @@ public class PlayerNetwork : NetworkBehaviour
             currentSpeed = rb.linearVelocity.magnitude;
         }
     }
-
+ 
     private void Dash(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -415,7 +384,7 @@ public class PlayerNetwork : NetworkBehaviour
             rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
         }
     }
-
+ 
     private void HandleRotation()
     {
         Vector3 rotationTarget;
@@ -448,7 +417,7 @@ public class PlayerNetwork : NetworkBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(rotationTarget);
             
         float angleDifference = Quaternion.Angle(rb.rotation, targetRotation);
-
+ 
         if (angleDifference > 120)
         {
             //networkAnimator.SetTrigger(AnimationParameters.TurnAround);
@@ -456,7 +425,7 @@ public class PlayerNetwork : NetworkBehaviour
             
         rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed));
     }
-
+ 
     private void SetVelocity()
     {
         if(isDead) return;
@@ -469,7 +438,7 @@ public class PlayerNetwork : NetworkBehaviour
             TrackingObjectMovement();
         }
     }
-
+ 
     private (Vector3 forward, Vector3 right) SetCameraVectors(CinemachineCamera cam)
     {
         Vector3 forward = cam.transform.forward;
@@ -480,32 +449,32 @@ public class PlayerNetwork : NetworkBehaviour
         right.Normalize();
         return (forward, right);
     }
-
+ 
     private void FreeCamMovement()
     {
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
-
+ 
         var (cameraForward, cameraRight) = SetCameraVectors(freeCam);
-
+ 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
         animator.SetBool(AnimationParameters.Running, true);
     }
-
+ 
     private void TrackingObjectMovement()
     {
         Vector2 direction = actionReferences.move.action.ReadValue<Vector2>();
         if (direction.sqrMagnitude < 0.01) return;
-
+ 
         var (cameraForward, cameraRight) = SetCameraVectors(lockOnCam);
-
+ 
         moveVector = (cameraForward * direction.y + cameraRight * direction.x);
         rb.linearVelocity = moveVector * moveSpeed;
         animator.SetFloat(AnimationParameters.CombatY, direction.y);
         animator.SetFloat(AnimationParameters.CombatX, direction.x);
     }
-
+ 
     private void Look(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -524,11 +493,11 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
-
+ 
         enemyIndex = Mathf.Clamp(enemyIndex, 0, Mathf.Max(0, enemiesOnScreen.Count - 1));
         
-        if (!isCameraLockedOn && enemiesOnScreen.Count == 0) return; // TODO: Add camera reset here later
-
+        if (!isCameraLockedOn && enemiesOnScreen.Count == 0) return;
+ 
         if (!isCameraLockedOn && enemiesOnScreen.Count > 0)
         {
             LockOnToEnemy(0);
@@ -550,13 +519,13 @@ public class PlayerNetwork : NetworkBehaviour
         enemyIndex++;
         lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
     }
-
+ 
     private void SetCamera()
     {
         freeCam.gameObject.SetActive(!isCameraLockedOn);
         lockOnCam.gameObject.SetActive(isCameraLockedOn);
     }
-
+ 
     private void FocusOnPlayer()
     {
         isCameraLockedOn = false;
@@ -564,10 +533,10 @@ public class PlayerNetwork : NetworkBehaviour
         
         Vector3 snapPos = lockOnCam.transform.position;
         Quaternion snapRot = lockOnCam.transform.rotation;
-
+ 
         freeCam.transform.SetPositionAndRotation(snapPos, snapRot);
-        freeCam.ForceCameraPosition(snapPos, snapRot); // Necessary to prevent jittering when switching from lock-on to free cam
-
+        freeCam.ForceCameraPosition(snapPos, snapRot);
+ 
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
@@ -585,17 +554,17 @@ public class PlayerNetwork : NetworkBehaviour
         lockOnCam.transform.position = freeCam.transform.position;
         lockOnCam.transform.rotation = freeCam.transform.rotation; 
     }
-
+ 
     public void EnableHitBox()
     {
         attackHitboxCollider.enabled = true;
     }
-
+ 
     public void DisableHitBox()
     {
         attackHitboxCollider.enabled = false;
     }
-
+ 
     private void LightAttack(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
@@ -616,15 +585,10 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
-        if (!attacking) // Later: start heavy attack but it needs to change on charge  
+        if (!attacking)
         {
-            // Charge attack first then play attack animation after
             networkAnimator.SetTrigger(AnimationParameters.HeavyAttack);
         }
-        //else if (attacking blab bla bla)
-        //{
-            // release the animation/go into actual attack animation
-        //}
         else
         {
             attackBuffered = true;
@@ -632,6 +596,7 @@ public class PlayerNetwork : NetworkBehaviour
             queuedAttack = AnimationParameters.HeavyAttack;
         }
     }
+ 
     public void OnAttackStart()
     {
         attackBuffered = false;
@@ -642,6 +607,7 @@ public class PlayerNetwork : NetworkBehaviour
         attacking = true;
         currentChain++;
     }
+ 
     public void OnAttackEnd()
     {
         float timeSinceQueued = Time.time - attackQueueTimestamp;
@@ -655,7 +621,7 @@ public class PlayerNetwork : NetworkBehaviour
         DisableHitBox();
         ExitCombo();
     }
-
+ 
     private void ExitCombo()
     {
         currentChain = 0;
@@ -663,20 +629,20 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
     }
-
+ 
     private void CheckEnemiesOnScreen()
     {
         enemiesOnScreen = new List<Transform>();
         foreach (Transform enemy in enemiesInRange)
         {
             bool onScreen = IsOnScreen(enemy);
-
+ 
             if (onScreen)
             {
                 enemiesOnScreen.Add(enemy);
             }
         }
-        enemiesOnScreen.Sort((a, b) => // Sort enemies by distance to center of screen
+        enemiesOnScreen.Sort((a, b) =>
         {
             Vector2 center = new Vector2(0.5f, 0.5f);
             Vector2 vpA = Camera.main.WorldToViewportPoint(a.position);
@@ -688,8 +654,6 @@ public class PlayerNetwork : NetworkBehaviour
     private bool IsOnScreen(Transform target)
     {
         Vector3 vp = Camera.main.WorldToViewportPoint(target.position);
-
-        // z > 0 means the target is in front of the camera
         return vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1;
     }
     
@@ -699,7 +663,6 @@ public class PlayerNetwork : NetworkBehaviour
         controlSchemeEvent.currentControlScheme = input.currentControlScheme.ToLower();
         if(!controlSchemeEvent.currentControlScheme.Contains("keyboard"))
         {
-            // Set selected eventsystem object to the last position of the selection handler
             var selectedObjects = selectionHandler.selectedObjects;
             if (selectedObjects.Count > 0)
             {
