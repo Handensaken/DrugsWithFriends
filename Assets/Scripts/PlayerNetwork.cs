@@ -295,7 +295,7 @@ public class PlayerNetwork : NetworkBehaviour
         CheckEnemiesOnScreen(); // Temporarily placed here
     }
 
-    private void PlayerDeath()
+    public void PlayerDeath()
     {
         if (!IsOwner) return;
         isDead = true;
@@ -325,7 +325,7 @@ public class PlayerNetwork : NetworkBehaviour
         Debug.Log("Player has died.");
     }
     
-    private void PlayerRespawn()
+    public void PlayerRespawn()
     {
         if (!IsOwner) return;
         isDead = false;
