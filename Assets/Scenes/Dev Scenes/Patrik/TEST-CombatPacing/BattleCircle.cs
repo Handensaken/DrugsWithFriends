@@ -47,7 +47,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _tokenSystem.UpdateTime(Time.deltaTime);
             
             BlackboardReference[] newNonFightingAis = _fightingBehaviour.CheckIfStillAttacking();
-            _circleBehaviour.UpdateNewNonFightingTargets(newNonFightingAis);
+            foreach (var ai in newNonFightingAis)
+            {
+                _circleBehaviour.ReassignSameTarget(ai);
+            }
         }
         
         private void UpdateAllEnemiesForward()
@@ -72,7 +75,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         public void AssignAI(BlackboardReference blackboard)
         {
             _aisInCircle.Add(blackboard);
-            _circleBehaviour.AssignAI2Point(blackboard);
+            _circleBehaviour.AssignAI(blackboard);
             UpdateEnemyForward(blackboard);
         }
         

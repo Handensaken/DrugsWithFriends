@@ -10,25 +10,32 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     {
         private readonly Transform _battleCircleTransform;
         private readonly BattleCircleData _data;
-        private readonly Dictionary<BlackboardReference, Transform> _aisAndTargetTransforms;
+        
+        private readonly Transform[] _allTransformsTargetPoints;
+        private readonly List<Transform> _availableTransformPoints;
+        
+        private readonly Dictionary<BlackboardReference, Transform> _aisAndTakenTransforms;
 
         private readonly BattleCirclePointPackage[] _allPoints;
         private BattleCirclePointPackage[] _validPoints;
         private AngleSpanPackage[] _allCircleOverrides = Array.Empty<AngleSpanPackage>(); 
         
-        public CircleBehaviour(Transform battleCircleTransform,BattleCircleData data,Dictionary<BlackboardReference, Transform> aisAndTargetTransforms)
+        public CircleBehaviour(Transform battleCircleTransform,BattleCircleData data,Dictionary<BlackboardReference, Transform> aisAndTakenTransforms)
         {
             _battleCircleTransform = battleCircleTransform;
             _data = data;
-            _aisAndTargetTransforms = aisAndTargetTransforms;
+            _aisAndTakenTransforms = aisAndTakenTransforms;
             
             //Test
             uint amountOfPoints = 20; //TODO parameter
             _allPoints = CreateAllPointsPackages(_data,amountOfPoints, _battleCircleTransform);
             _validPoints = _allPoints.ToArray();
+
+            _allTransformsTargetPoints = CreateAllTargetTransforms();
+            _availableTransformPoints = _allTransformsTargetPoints.ToList();
         }
 
-        public Dictionary<BlackboardReference, Transform> AisAndTargetTransforms => _aisAndTargetTransforms;
+        public Dictionary<BlackboardReference, Transform> AisAndTakenTransforms => _aisAndTakenTransforms;
 
         public AngleSpanPackage[] AllCircleOverrides
         {
@@ -39,6 +46,22 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 HandleChangeOfValidPoints();
             }
         }
+
+        private Transform[] CreateAllTargetTransforms()
+        {
+            Transform[] result = new Transform[_allPoints.Length];
+            for (int i = 0; i < _allPoints.Length; i++)
+            {
+                Transform pointTransform = new GameObject().transform;
+                pointTransform.parent = _battleCircleTransform;
+
+                BattleCirclePointPackage pointPackage = _allPoints[i];
+                pointTransform.position = _battleCircleTransform.position + pointPackage.PointInCircle;
+                result[i] = pointTransform;
+            }
+
+            return result;
+        } 
         
         private void HandleChangeOfValidPoints()
         {
@@ -48,18 +71,70 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 return;
             }
 
-            if (!FindAvailablePoints(takenTargets, out BattleCirclePointPackage[] points))
+            if (!FindAllAvailablePoints(takenTargets, out BattleCirclePointPackage[] availablePoints))
             {
                 //TODO Send out to other circles
                 //TODO Just taunt??
+                return;
+            }
+
+            Transform[] availableTargetTransforms = AvailableTargetTransforms(availablePoints);
+
+            if (!HandleAssigningAvailableTargets(aiWithoutValidTargets, availableTargetTransforms, out BlackboardReference[] restAI))
+            {
+                Debug.Log("AI that is still not assigned");
             }
             
-            //TODO assiagne
-
-
         }
 
-        private bool FindAvailablePoints(Transform[] takenTransforms,out BattleCirclePointPackage[] availablePoints)
+        private bool HandleAssigningAvailableTargets(BlackboardReference[] aiWithoutValidTargets ,Transform[] availableTargetTransforms, out BlackboardReference[] theRest)
+        {
+            List<BlackboardReference> rest = new List<BlackboardReference>();
+            for (int i = 0; i < aiWithoutValidTargets.Length; i++)
+            {
+                BlackboardReference currentAI = aiWithoutValidTargets[i];
+                
+                if (availableTargetTransforms.Length < i+1)
+                {
+                    Debug.Log("Less availablePoints then there are enemies");
+                    rest.Add(currentAI);
+                }
+                
+                //Handles assigning of new transforms
+                Transform target = availableTargetTransforms[i];
+                AssignAi2Target(currentAI,target);
+            }
+
+            theRest = rest.ToArray();
+            return theRest.Length == 0;
+        }
+        
+        private void AssignAi2Target(BlackboardReference ai, Transform target)
+        {
+            _aisAndTakenTransforms[ai] = target;
+            ai.SetVariableValue("Target", target);
+        }
+        
+        private Transform[] AvailableTargetTransforms(BattleCirclePointPackage[] availablePoints)
+        {
+            List<Transform> result = new List<Transform>();
+            foreach (var pointPackage in availablePoints)
+            {
+                foreach (var targetTransform in _allTransformsTargetPoints)
+                {
+                    Vector3 evaluationPosition = pointPackage.PointInCircle + _battleCircleTransform.position;
+                    if (evaluationPosition == targetTransform.position)
+                    {
+                        result.Add(targetTransform);
+                        break;
+                    }
+                }
+            }
+
+            return result.ToArray();
+        }
+        
+        private bool FindAllAvailablePoints(Transform[] takenTransforms,out BattleCirclePointPackage[] availablePoints)
         {
             List<BattleCirclePointPackage> result = new List<BattleCirclePointPackage>();
             foreach (var pointPackage in _validPoints)
@@ -89,7 +164,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             List<BlackboardReference> resultMissingValid = new List<BlackboardReference>();
             List<Transform> resultTakenTransforms = new List<Transform>();
-            foreach (var aiAndTarget in _aisAndTargetTransforms)
+            foreach (var aiAndTarget in _aisAndTakenTransforms)
             {
                 bool validFlag = false;
                 foreach (var pointPackage in _validPoints)
@@ -118,14 +193,17 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             return hasNoValidTarget.Length > 0;
         }
         
-        public void UpdateNewNonFightingTargets(BlackboardReference[] newNonFightingAis)
+        /// <summary>
+        /// For when ai comes back from attack and it should still have its own target.
+        /// the target shouldn't be lost
+        /// </summary>
+        /// <param name="ai"></param>
+        public void ReassignSameTarget(BlackboardReference ai)
         {
-            foreach (var blackboard in newNonFightingAis)
-            {
-                Transform target = _aisAndTargetTransforms[blackboard];
-                blackboard.SetVariableValue("Target", target);
-            }
+            Transform takenTransform = _aisAndTakenTransforms[ai];
+            ai.SetVariableValue("Target", takenTransform);
         }
+        
         /// <summary>
         /// Initial enemy base-orientation for first position --> Rotates toward the first enemy
         /// Begins at 0 degrees and continues clockwise (cw) (Left-handed system).
@@ -167,63 +245,20 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             return result;
         }
         
-        /*
-        /// <summary>
-        /// Initial enemy base-orientation for first position --> Rotates toward the first enemy
-        /// Begins at 0 degrees and continues clockwise (cw) (Left-handed system).
-        /// </summary>
-        public static Vector3[] CreateAllPoints(BattleCircleData data, uint amountOfPoints, Transform transform)
+        public void AssignAI(BlackboardReference blackboard)
         {
-            float circleRange = data.circleRange;
-            
-            if (amountOfPoints <= 0)
+            //TODO hitta tillgänglig punkt till nya fienden
+            if (_availableTransformPoints.Count <= 0)
             {
-                return null;
-            }
-            
-            if (amountOfPoints == 1)
-            {
-                return new[] { transform.forward*circleRange};
-            }
-            
-            Vector3[] result = new Vector3[amountOfPoints];
-
-            Vector3 forward = transform.forward;
-            float angleIncrease = Mathf.Deg2Rad*(360f / amountOfPoints);
-            for (int i = 0; i < amountOfPoints; i++)
-            {
-                if (i == 0)
-                {
-                    result[i] = forward * circleRange;
-                }
-                
-                Vector2 xzDir = VectorMath.Rotate(new Vector2(forward.x, forward.z).normalized,angleIncrease*i);
-                Vector3 pointDir = new Vector3(xzDir.x, 0, xzDir.y);
-                result[i] = pointDir * circleRange;
+                Debug.Log("No more available targets but is still trying to assign!");
             }
 
-            return result;
-        }*/
-        
-        public void AssignAI2Point(BlackboardReference blackboard)
-        {
-            /*//Uppdatera positionen på transforms
-            for (int i = 0; i < _aisAndTargetTransforms.Values.Count; i++)
-            {
-                Vector3 localPoint = localPoints[i];
-                Transform existingPointTransform = _aisAndTargetTransforms.Values.ToArray()[i];
-                
-                existingPointTransform.position = _battleCircleTransform.position+localPoint;
-            }
+            Transform target = _availableTransformPoints[0];
+            _availableTransformPoints.RemoveAt(0);
             
-            //Tilldela den nya punkten till den nya fienden
-            Transform pointTransform = new GameObject().transform;
-            pointTransform.parent = _battleCircleTransform;
-            pointTransform.position = _battleCircleTransform.position + localPoints[^1];
-                                     
-            _aisAndTargetTransforms[blackboard] = pointTransform;
+            _aisAndTakenTransforms[blackboard] = target;
             blackboard.SetVariableValue("InBattleCircle", true);
-            SetAITransformPoint(blackboard, pointTransform);*/
+            SetAITransformPoint(blackboard, target);
         }
         
         public static BattleCirclePointPackage[] FindAllValidCirclePoints(BattleCirclePointPackage[] pointPackages, AngleSpanPackage[] allAngleSpans)
@@ -247,11 +282,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
 
             return points.ToArray();
-        }
-
-        private void FindClosestTransform()
-        {
-            
         }
         
         private void ResignAI2Point(BlackboardReference blackboard)

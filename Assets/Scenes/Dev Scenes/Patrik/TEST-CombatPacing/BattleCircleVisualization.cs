@@ -74,7 +74,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
             else
             {
-                Transform[] pointTransforms = battleCircle.CircleBehaviour.AisAndTargetTransforms.Values.ToArray();
+                Transform[] pointTransforms = battleCircle.CircleBehaviour.AisAndTakenTransforms.Values.ToArray();
                 foreach (Transform point in pointTransforms)
                 {
                     Gizmos.DrawSphere(point.position, .2f);
