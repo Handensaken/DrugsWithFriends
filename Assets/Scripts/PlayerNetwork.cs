@@ -376,6 +376,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void Move(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
+        if(isDead) return;
         if (context.performed)
         {
             SetVelocity();
@@ -394,6 +395,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void Dash(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
+        if(isDead) return;
         if (freeCamMovement)
         {
             Vector3 dashDirection;
@@ -457,6 +459,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void SetVelocity()
     {
+        if(isDead) return;
         if(freeCamMovement)
         {
             FreeCamMovement();
@@ -505,6 +508,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Look(InputAction.CallbackContext context)
     {
+        if (!IsOwner) return;
+        if(isDead) return;
         if (context.performed)
         {
             looking = true;
@@ -518,6 +523,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void ToggleCameraFocus(InputAction.CallbackContext context)
     {
         if (!IsOwner) return;
+        if(isDead) return;
 
         enemyIndex = Mathf.Clamp(enemyIndex, 0, Mathf.Max(0, enemiesOnScreen.Count - 1));
         
@@ -592,7 +598,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void LightAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner || isDead) return;
+        if (!IsOwner) return;
+        if(isDead) return;
         if (!attacking)
         {
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
@@ -607,7 +614,8 @@ public class PlayerNetwork : NetworkBehaviour
     
     private void HeavyAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner || isDead) return;
+        if (!IsOwner) return;
+        if(isDead) return;
         if (!attacking) // Later: start heavy attack but it needs to change on charge  
         {
             // Charge attack first then play attack animation after
