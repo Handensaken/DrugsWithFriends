@@ -28,8 +28,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Gizmos.DrawWireSphere(transform.position, data.circleRange);
             
             DrawPoints();
+            Gizmos.color = Color.darkGreen;
             HandleAllAnglePoints();
+            Gizmos.color = Color.darkGreen;
             DrawEnemyDir();
+            Gizmos.color = Color.darkGreen;
         }
 
         private void HandleAllAnglePoints()
@@ -74,13 +77,21 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
             else
             {
-                Transform[] pointTransforms = battleCircle.CircleBehaviour.AisAndTakenTransforms.Values.ToArray();
-                foreach (Transform point in pointTransforms)
+                Transform[] allTransforms = battleCircle.CircleBehaviour.AllTransforms;
+                Transform[] takenTransforms = battleCircle.CircleBehaviour.AisAndTakenTransforms.Values.ToArray();
+                foreach (Transform point in allTransforms)
                 {
+                    Gizmos.color = Color.blue;
+                    foreach (Transform takenTransform in takenTransforms)
+                    {
+                        if (takenTransform == point)
+                        {
+                            Gizmos.color = Color.red;
+                            break;
+                        }
+                    }
                     Gizmos.DrawSphere(point.position, .2f);
                 }
-                
-                //DrawValidPoints(pointPackages);
             }
         }
 

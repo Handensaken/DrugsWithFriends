@@ -36,6 +36,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         }
 
         public Dictionary<BlackboardReference, Transform> AisAndTakenTransforms => _aisAndTakenTransforms;
+        public Transform[] AllTransforms => _allTransformsTargetPoints;
 
         public AngleSpanPackage[] AllCircleOverrides
         {
@@ -194,12 +195,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         }
         
         /// <summary>
-        /// For when ai comes back from attack and it should still have its own target.
+        /// For when ai comes back from attack, and it should still have its own target.
         /// the target shouldn't be lost
         /// </summary>
         /// <param name="ai"></param>
         public void ReassignSameTarget(BlackboardReference ai)
         {
+            //TODO check if still valid with _validPoints
+            
             Transform takenTransform = _aisAndTakenTransforms[ai];
             ai.SetVariableValue("Target", takenTransform);
         }
