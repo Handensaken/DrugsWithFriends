@@ -1448,6 +1448,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+--- !u!114 &4056690058304187037 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 795329919868385679, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
+  m_PrefabInstance: {fileID: 3694594658113606418}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab06bbdf0268e54ba55e6ae5d6286bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4240380200593404448 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 692724311077871922, guid: 25881631d6ade97489c1569434f5d0fb, type: 3}
@@ -2000,6 +2011,7 @@ MonoBehaviour:
   playerDeathButton: 0
   playerRespawnButton: 0
   spectatorCanvas: {fileID: 1781069009755085589}
+  pauseMenu: {fileID: 4056690058304187037}
 --- !u!114 &6442288351224345491
 MonoBehaviour:
   m_ObjectHideFlags: 0

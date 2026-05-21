@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private InputActionReference pause, unpause, cancel, spectatorPause, look;
     [SerializeField, ReadOnly] private string currentActionMap;
     
-    private string previousActionMap;
+    [HideInInspector] public string previousActionMap;
 
     private void OnEnable()
     {

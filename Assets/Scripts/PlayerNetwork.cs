@@ -77,6 +77,7 @@ public class PlayerNetwork : NetworkBehaviour
     private int spectatorIndex = 0;
     private List<PlayerNetwork> alivePlayers = new List<PlayerNetwork>();
     [SerializeField] private GameObject spectatorCanvas;
+    [SerializeField] private PauseMenu pauseMenu;
  
     protected override void OnValidate()
     {
@@ -285,7 +286,16 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         isDead = true;
-        playerInput.SwitchCurrentActionMap("Spectator");
+        if (playerInput.currentActionMap.name == "UI")
+        {
+            pauseMenu.previousActionMap = "Spectator";
+        }
+
+        else
+        {
+            playerInput.SwitchCurrentActionMap("Spectator");
+        }
+        
         spectatorCanvas.SetActive(true);
  
         lockOnCam.gameObject.SetActive(false);
