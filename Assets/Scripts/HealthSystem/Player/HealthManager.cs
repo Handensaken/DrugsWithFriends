@@ -142,7 +142,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                return (uint)current;
           }
           
-          private void HandleSyncDictChange(SyncDictionaryOperation op, int key, HealthPackage value, bool asServer)
+          private void HandleSyncDictChange(SyncDictionaryOperation op, int clientId, HealthPackage healthStatus, bool asServer)
           {
                if (!asServer) return;
 
@@ -156,30 +156,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
 
                if (op == SyncDictionaryOperation.Remove)
                {
-                    SendRemoveClient(key);
+                    SendRemoveClient(clientId);
                }
           }
-          //TODO remove - currently all clients
-          /*private void Update()
-          {
-               if (simulateSet)
-               {
-                    StoreHealthChanges(setOnClient, (int)setHealth, (int)setBatch);
-                    simulateSet = false;
-               }
-               
-               //TODO handle if no change to batch-value (player gets the batch back and the other one never receives it)
-               if (simulateChange)
-               {
-                    HealthPackage healthPackage = _clientsHealth[simulateClient];
-
-                    int currentHealth = (int)healthPackage.HealthAmount + simulateHealthValues;
-                    int currentBatchAmount = (int)healthPackage.BatchAmount + simulateBatchValues;
-                    
-                    StoreHealthChanges(simulateClient, currentHealth, currentBatchAmount);
-                    simulateChange = false;
-               }
-          }*/
 
           [ServerRpc(RequireOwnership = false)]
           public void TryGiveBatchAmount(int givingClientID,int gettingClientID, uint change)
@@ -217,41 +196,23 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
           [ServerRpc(RequireOwnership = false)]
           private void RequestHealth(int clientId)
           {
-               //TODO testing values 4 now
-               Debug.Log("RequestHealth - "+clientId);
-               if (clientId == 0)
-               {
-                    HealthPackage healthPackage = new HealthPackage()
-                    {
-                         HealthAmount = 10,
-                         BatchAmount = 3
-                    };
-                    _clientsHealth[clientId] = healthPackage;
-                    return;
-               }
-
-               if (clientId == 1)
-               {
-                    HealthPackage healthPackage = new HealthPackage()
-                    {
-                         HealthAmount = 2,
-                         BatchAmount = 1
-                    };
-                    _clientsHealth[clientId] = healthPackage;
-                    return;
-               }
+               /*uint batchAmount = 2;
+               uint healthAmount = batchAmount*healthRuleData.HealthPerBatch;*/
                
+               uint batchAmount = healthRuleData.batchAmount;
+               uint healthAmount = healthRuleData.health;
                
-               HealthPackage t = new HealthPackage()
+               HealthPackage healthPackage = new HealthPackage()
                {
-                    HealthAmount = 10,
-                    BatchAmount = 1
+                    BatchAmount = batchAmount,
+                    HealthAmount = healthAmount
+                    
                };
-               _clientsHealth[clientId] = t;
+               _clientsHealth[clientId] = healthPackage;
           }
           
           [ObserversRpc]
-          private void SendUpdateHealth(int index, HealthPackage healthPackage)
+          private void SendUpdateHealth(int clientId, HealthPackage healthPackage)
           {
                uint health = healthPackage.HealthAmount;
                uint batch = healthPackage.BatchAmount;
@@ -260,7 +221,18 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     HealthAmount = health,
                     BatchAmount = batch
                };
-               healthRuleData.UpdateHealth(index,currentHealthData);
+               healthRuleData.UpdateHealth(clientId,currentHealthData);
+               if (currentHealthData.HealthAmount <= 0)
+               {
+                    NetworkConnection networkConn = ServerManager.Clients[clientId];
+                    PlayerDead(networkConn);
+               }
+          }
+
+          [TargetRpc]
+          private void PlayerDead(NetworkConnection conn)
+          {
+               //conn.FirstObject.GetComponent<PlayerNetwork>().
           }
           
           [ObserversRpc]

@@ -14,6 +14,10 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         
         [SerializeField, Min(1)] private uint healthPerBatch;
         [SerializeField, Range(1,10)] private uint initialMaxAmountForBatches;
+
+        [Space, Header("CustomStartingHealth")] 
+        [SerializeField, Min(1)] public uint health;
+        [SerializeField, Range(1,10)] public uint batchAmount;
         
         public uint HealthPerBatch => healthPerBatch;
         public uint InitialMaxAmountForBatches => initialMaxAmountForBatches;

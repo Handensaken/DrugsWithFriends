@@ -97,7 +97,11 @@ public partial class TryGetTargetAction : Action
             
             float maxHealthValue = EvaluateMaxHealthValue(currentHealthStatus, prioritiesAITarget.maxHealth);
 
-            float currentHealthValue = EvaluateCurrentHealthValue(currentHealthStatus, prioritiesAITarget.health);
+            if (!EvaluateCurrentHealthValue(currentHealthStatus, prioritiesAITarget.health, out float currentHealthValue))
+            {
+                continue;
+            }
+            
             //TODO evaluate from battleCircle-Data
 
             float targetingValue = EvaluateTargetingValue(clientID, prioritiesAITarget.weightPerEnemyTargeting);
@@ -152,11 +156,18 @@ public partial class TryGetTargetAction : Action
         return UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentAmountBatches,maxBatchAmount,valuePackageStart);
     }
 
-    private float EvaluateCurrentHealthValue(HealthPackage currentHealthStatus, ValuePackageStart valuePackageStart)
+    private bool EvaluateCurrentHealthValue(HealthPackage currentHealthStatus, ValuePackageStart valuePackageStart, out float value)
     {
+        if (currentHealthStatus.HealthAmount <= 0)
+        {
+            value = 0;
+            return false;
+        }
+        
         uint currentHealth = currentHealthStatus.HealthAmount;
         uint maxHealth = currentHealthStatus.BatchAmount * _healthManager.HealthPerBatch;
-        return UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, valuePackageStart);
+        value = UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, valuePackageStart);
+        return true;
     }
 
     private float EvaluateTargetingValue(int clientID, float weightPerEnemy)
