@@ -6,6 +6,7 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
     [Serializable]
     public struct MovementPackage
     {
+        
         [SerializeField, Min(.1f)] private float speed;
         [SerializeField, Min(.1f)] private float acceleration;
         [SerializeField, Min(.1f)] private float stoppingDistance;

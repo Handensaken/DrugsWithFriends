@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using AI_Experimental.Unity_Behavior.CustomActions;
+using AI_Experimental.Extra;
 using FishNet.Object;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using Scenes.Dev_Scenes.Patrik.HealthSystem;
@@ -148,14 +148,14 @@ public partial class TryGetTargetAction : Action
         _agent.CalculatePath(targetPosition, path); 
         _agent.path = path;
             
-        return UtilityAIEvaluations.MapValueToCurve(_agent.remainingDistance, package);
+        return MapValues.MapValueToCurve(_agent.remainingDistance, package);
     }
 
     private float EvaluateMaxHealthValue(HealthPackage currentHealthStatus, ValuePackageStart valuePackageStart)
     {
         uint currentAmountBatches = currentHealthStatus.BatchAmount;
         uint maxBatchAmount = _healthManager.MaxBatchAmount; 
-        return UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentAmountBatches,maxBatchAmount,valuePackageStart);
+        return MapValues.MapValueToCurveCustomMaxValue(currentAmountBatches,maxBatchAmount,valuePackageStart);
     }
 
     private bool EvaluateCurrentHealthValue(HealthPackage currentHealthStatus, ValuePackageStart valuePackageStart, out float value)
@@ -168,7 +168,7 @@ public partial class TryGetTargetAction : Action
         
         uint currentHealth = currentHealthStatus.HealthAmount;
         uint maxHealth = currentHealthStatus.BatchAmount * _healthManager.HealthPerBatch;
-        value = UtilityAIEvaluations.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, valuePackageStart);
+        value = MapValues.MapValueToCurveCustomMaxValue(currentHealth,maxHealth, valuePackageStart);
         return true;
     }
 

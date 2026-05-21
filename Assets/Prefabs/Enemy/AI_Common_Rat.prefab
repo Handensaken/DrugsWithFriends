@@ -132,9 +132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
-  _componentIndexCache: 255
+  _componentIndexCache: 8
   _addedNetworkObject: {fileID: 1314984060710007515}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 1314984060710007515}
   damage: 0
   knockbackForce: 0
   knockbackTime: 0
@@ -1527,6 +1527,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[0].x
+      value: 3.5837464
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[0].z
+      value: 4.984623
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].x
+      value: 6.5421295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824923390422600614, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: localPatrolPoints.Array.data[1].z
+      value: 0.51402473
+      objectReference: {fileID: 0}
     - target: {fileID: 2218079657594921333, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: eyes
       value: 
@@ -1577,8 +1593,17 @@ PrefabInstance:
         UnityEngine.CoreModule]]'
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'managedReferences[3697295259227390535]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.GameObject,
+        UnityEngine.CoreModule]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[3697295208146273239].Name
       value: ExternalDistanceEvaluation
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295259227390535].Name
+      value: ExternalSpeedAdjustment
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_BlackboardVariableOverridesList.Array.size
@@ -1601,12 +1626,24 @@ PrefabInstance:
       value: 3697295208146273239
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[8]'
+      value: 3697295259227390535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[3697295208146273239].GUID.m_Value0
       value: 3462757024012291854
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[3697295208146273239].GUID.m_Value1
       value: 16839145630315050332
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295259227390535].GUID.m_Value0
+      value: 17784633893518608140
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[3697295259227390535].GUID.m_Value1
+      value: 8616553129614682674
       objectReference: {fileID: 0}
     - target: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Name
@@ -1622,11 +1659,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: NetworkBehaviours.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
@@ -1640,6 +1677,10 @@ PrefabInstance:
       propertyPath: 'NetworkBehaviours.Array.data[7]'
       value: 
       objectReference: {fileID: 7544104942435782600}
+    - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'NetworkBehaviours.Array.data[8]'
+      value: 
+      objectReference: {fileID: 5544333334972100668}
     - target: {fileID: 5599575656561588736, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
       value: 0

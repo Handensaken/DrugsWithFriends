@@ -1,10 +1,8 @@
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
-using UnityEngine;
-using UnityEngine.AI;
 
-namespace AI_Experimental.Unity_Behavior.CustomActions
+namespace AI_Experimental.Extra
 {
-    public static class UtilityAIEvaluations
+    public static class MapValues
     {
         public static float MapValueToCurve(float currentValue, ValuePackage valuePackage) //Make to interface //TODO make use of distance
         {

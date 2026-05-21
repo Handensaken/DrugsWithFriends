@@ -1236,22 +1236,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI_Rat
       objectReference: {fileID: 0}
-    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: localPatrolPoints.Array.data[0].x
-      value: 3.5837464
-      objectReference: {fileID: 0}
-    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: localPatrolPoints.Array.data[0].z
-      value: 4.984623
-      objectReference: {fileID: 0}
-    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: localPatrolPoints.Array.data[1].x
-      value: 6.5421295
-      objectReference: {fileID: 0}
-    - target: {fileID: 5105143860256588669, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: localPatrolPoints.Array.data[1].z
-      value: 0.51402473
-      objectReference: {fileID: 0}
     - target: {fileID: 7446963935338300537, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1293,7 +1277,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5152032720965767078, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}

@@ -26,10 +26,36 @@ MonoBehaviour:
   chasePackage:
     stateName: 
     stateColor: {r: 0.86946917, g: 0.8962264, b: 0.25787643, a: 255}
-    movementPackage:
-      speed: 4
-      acceleration: 60
-      stoppingDistance: 0.2
+    speedValuePackage:
+      curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0.1
+          inSlope: 0.9
+          outSlope: 0.9
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0.9
+          outSlope: 0.9
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      startValue: 1
+      endValue: 3
+      weight: 6
+    acceleration: 60
+    stoppingDistance: 0.1
   attackPackage:
     stateName: 
     stateColor: {r: 0.7830189, g: 0.13665895, b: 0.13665895, a: 255}

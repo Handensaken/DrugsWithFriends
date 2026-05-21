@@ -9,6 +9,13 @@ namespace Scenes.Dev_Scenes.Patrik.AI.Extra
     {
         [SerializeField] private string stateName;
         [SerializeField] public Color stateColor;
-        [SerializeField] public MovementPackage movementPackage;
+        
+        [Space,Header("Movement")]
+        [SerializeField] public ValuePackage speedValuePackage;
+        [SerializeField, Min(.1f)] private float acceleration;
+        [SerializeField, Min(.1f)] private float stoppingDistance;
+        
+        public float Acceleration => acceleration;
+        public float StoppingDistance => stoppingDistance;
     }
 }
