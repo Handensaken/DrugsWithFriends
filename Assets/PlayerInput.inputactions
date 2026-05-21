@@ -113,15 +113,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "SpectateNext",
-                    "type": "Button",
-                    "id": "33615899-e2ee-444a-8457-3c8779767dcc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -551,28 +542,6 @@
                     "processors": "",
                     "groups": ";Playstation;XBox;NintendoSwitch",
                     "action": "ToggleCam",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3eaaf267-7d12-4c46-908a-8e0737e31d77",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "SpectateNext",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0635ea5b-fec7-42ab-bb00-8d580753344c",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Playstation;XBox;NintendoSwitch",
-                    "action": "SpectateNext",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
