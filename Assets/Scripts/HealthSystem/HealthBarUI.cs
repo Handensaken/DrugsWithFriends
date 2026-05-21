@@ -21,6 +21,9 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [Space,SerializeField] private GameObject healthBatch;
         private List<HealthBatch> _healthBatches = new List<HealthBatch>();
         
+        [Space] 
+        [SerializeField] private Color deadColor;
+        
         [Space]
         [SerializeField] private HealthRuleData healthRuleData;
         
@@ -53,10 +56,24 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
             
             UpdateHealthBatches(currentBatchAmount, batchWidth,gapSpace);
             UpdateHealth(healthPackage, batchWidth);
+            
+            if (healthPackage.HealthAmount <= 0)
+            {
+                ChangeToDeadUI();
+            }
         }
 
+        private void ChangeToDeadUI()
+        {
+            Image[] test = GetComponentsInChildren<Image>();
+            foreach (var childImage in test)
+            {
+                Color resultingColor = (deadColor + childImage.color)/2;
+                resultingColor.a = 1;
+                childImage.color = resultingColor;
+            }
+        }
         
-
         private void UpdateHealthBatches(uint currentBatchAmount,float batchWidth, float gapSpace)
         {
             RemoveAllMarkers();

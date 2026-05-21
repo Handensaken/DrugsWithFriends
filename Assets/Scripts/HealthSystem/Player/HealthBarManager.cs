@@ -12,9 +12,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         [SerializeField] private RectTransform parentOtherPlayersBars;
         private readonly Dictionary<int,IHealthBarUI> _healthBarUis = new Dictionary<int, IHealthBarUI>();
 
-        [Space, Header("Parameters"), SerializeField]
-        private uint distanceBetweenOthers;
-
+        [Space, SerializeField] private uint distanceBetweenOthers;
         [SerializeField,Tooltip("Now from the top, make it drop, that's some.......ui" +
                                 "\n- either the other bars is dropping from the parent or going upwards from the parent")]
         private bool fromTheTop;

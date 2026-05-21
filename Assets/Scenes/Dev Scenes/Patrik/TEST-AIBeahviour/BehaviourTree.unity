@@ -568,6 +568,10 @@ PrefabInstance:
       propertyPath: SceneId
       value: 4290248061
       objectReference: {fileID: 0}
+    - target: {fileID: 102291327394040163, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3288550424515786236, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
       propertyPath: SceneId
       value: 1572306685
@@ -655,6 +659,18 @@ PrefabInstance:
     - target: {fileID: 4968672524091004135, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329908664915932616, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
+      propertyPath: deadColor.b
+      value: 0.6132076
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329908664915932616, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
+      propertyPath: deadColor.g
+      value: 0.6132076
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329908664915932616, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
+      propertyPath: deadColor.r
+      value: 0.6132076
       objectReference: {fileID: 0}
     - target: {fileID: 7500592262408698031, guid: ccc4d971697d4da4e92a2280bb3b18f2, type: 3}
       propertyPath: m_Name
@@ -1277,8 +1293,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 5152032720965767078, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
