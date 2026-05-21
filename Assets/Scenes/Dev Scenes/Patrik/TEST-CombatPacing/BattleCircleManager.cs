@@ -95,6 +95,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                if (!_clientsBattleCircles.Remove(clientID,out BattleCircle battleCircle))
                {
                     Debug.Log("Couldn't find battleCircle");
+                    return;
                }
                Destroy(battleCircle.gameObject);
           }

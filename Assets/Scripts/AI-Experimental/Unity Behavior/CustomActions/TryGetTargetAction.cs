@@ -38,11 +38,13 @@ public partial class TryGetTargetAction : Action
 
         if (AllTargets.Value.Count <= 0)
         {
+            BattleCircle.Value = null;
             return Status.Failure;
         }
         
         if (!EvaluateAll(out int? clientID) || clientID == null)
         {
+            BattleCircle.Value = null;
             return Status.Failure;
         }
         

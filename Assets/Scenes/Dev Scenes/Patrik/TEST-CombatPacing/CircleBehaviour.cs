@@ -261,7 +261,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _availableTransformPoints.RemoveAt(0);
             
             _aisAndTakenTransforms[blackboard] = target;
-            blackboard.SetVariableValue("InBattleCircle", true);
             SetAITransformPoint(blackboard, target);
         }
         
