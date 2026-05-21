@@ -2,6 +2,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
+using Scenes.Dev_Scenes.Patrik.TEST_CombatPacing;
 using UnityEngine;
 
 namespace Scenes.Dev_Scenes.Patrik.HealthSystem
@@ -150,7 +151,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                {
                     foreach (var keyValues in _clientsHealth)
                     {
-                         SendUpdateHealth(keyValues.Key, keyValues.Value);
+                         HandleHealthUpdate(keyValues.Key, keyValues.Value);
                     }
                }
 
@@ -210,7 +211,31 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                };
                _clientsHealth[clientId] = healthPackage;
           }
+
+          /// <summary>
+          /// Handles fifferent conditions
+          /// </summary>
+          /// <param name="clientId"></param>
+          /// <param name="healthPackage"></param>
+          [Server]
+          private void HandleHealthUpdate(int clientId, HealthPackage healthPackage)
+          {
+               SendUpdateHealth(clientId, healthPackage);
+               
+               if (healthPackage.HealthAmount <= 0)
+               {
+                    BattleCircleManager.Instance.RemoveBattleCircle(clientId);
+                    
+                    NetworkConnection networkConn = ServerManager.Clients[clientId];
+                    PlayerDead(networkConn);
+               }
+          }
           
+          /// <summary>
+          /// Handle msg all clients
+          /// </summary>
+          /// <param name="clientId"></param>
+          /// <param name="healthPackage"></param>
           [ObserversRpc]
           private void SendUpdateHealth(int clientId, HealthPackage healthPackage)
           {
@@ -222,17 +247,18 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     BatchAmount = batch
                };
                healthRuleData.UpdateHealth(clientId,currentHealthData);
-               if (currentHealthData.HealthAmount <= 0)
-               {
-                    NetworkConnection networkConn = ServerManager.Clients[clientId];
-                    PlayerDead(networkConn);
-               }
           }
-
+          
           [TargetRpc]
           private void PlayerDead(NetworkConnection conn)
           {
-               //conn.FirstObject.GetComponent<PlayerNetwork>().
+               if (!conn.FirstObject.TryGetComponent(out PlayerNetwork playerNetwork))
+               {
+                    Debug.LogWarning("Player has no player network");
+                    return;
+               }
+               
+               playerNetwork.PlayerDeath();
           }
           
           [ObserversRpc]

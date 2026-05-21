@@ -89,7 +89,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
           }
 
           [Server]
-          private void RemoveBattleCircle(int clientID)
+          public void RemoveBattleCircle(int clientID)
           {
                Debug.Log("Removal of battleCircle");
                if (!_clientsBattleCircles.Remove(clientID,out BattleCircle battleCircle))
