@@ -67,9 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dc97a8b9e628044e83004c93095c14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 7696538552095724360}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7696538552095724360}
   MaximumSimultaneousHits: 16
   AdditionalSize: 0.1
   Layers:
@@ -87,9 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d998dc8b63204e43b3a95dee65cbe952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HealthSystemAssembly::HealthSystem.OtherHealth.DamagePlayer
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 7696538552095724360}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7696538552095724360}
   networkTrigger: {fileID: 474054765729974463}
 --- !u!1 &1781069009755085589
 GameObject:
@@ -1883,7 +1883,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -1909,8 +1909,8 @@ MonoBehaviour:
   - {fileID: 7265315666039459179}
   - {fileID: 6442288351224345491}
   - {fileID: 4336244197981315170}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 474054765729974463}
+  - {fileID: 4092975933509433763}
   - {fileID: 3043812342392740624}
   - {fileID: 2130466159283627140}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584225157794897198
+  _initializedTimestamp: -8584222254477565539
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0

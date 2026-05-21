@@ -136,6 +136,7 @@ public class PlayerNetwork : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        ControlsChanged(playerInput);
         if (!IsOwner)
         {
             foreach (var cam in GetComponentsInChildren<CinemachineCamera>())
