@@ -79,23 +79,45 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 BattleCirclePointPackage[] validInAnglePointPackages = CircleBehaviour.FindOutOfAngleCirclePoints(
                     allPointPackages,allAngleSpans, out BattleCirclePointPackage[] invalidInAnglePointPackages);
                 
+                //Draw InvalidAngle
+                Gizmos.color = Color.yellow;
+                DrawPoints(invalidInAnglePointPackages);
+                
                 BattleCirclePointPackage[] walkablePointPackages = CircleBehaviour.FindAllWalkablePoints(
                     transform.position, transform.position, validInAnglePointPackages,out BattleCirclePointPackage[] invalidWalkablePointPackages);
                 
+                //Draw NotWalkable
+                Gizmos.color = Color.orangeRed;
+                DrawPoints(invalidWalkablePointPackages);
+                
+                //Draw valid points
                 Gizmos.color = Color.darkBlue;
                 DrawPoints(walkablePointPackages);
+            }
+            else
+            {
+                BattleCirclePointPackage[] allPointPackages = CircleBehaviour.CreateAllPointsPackages(
+                    data,battleCircleData.amountOfPointsInCircle,battleCircle.transform);
+                
+                BattleCirclePointPackage[] validInAnglePointPackages = CircleBehaviour.FindOutOfAngleCirclePoints(
+                    allPointPackages,battleCircle.CircleBehaviour.AllCircleOverrides, out BattleCirclePointPackage[] invalidInAnglePointPackages);
                 
                 //Draw InvalidAngle
                 Gizmos.color = Color.yellow;
                 DrawPoints(invalidInAnglePointPackages);
                 
+                BattleCirclePointPackage[] walkablePointPackages = CircleBehaviour.FindAllWalkablePoints(
+                    transform.position, transform.position, validInAnglePointPackages,out BattleCirclePointPackage[] invalidWalkablePointPackages);
+                
                 //Draw NotWalkable
                 Gizmos.color = Color.orangeRed;
                 DrawPoints(invalidWalkablePointPackages);
-            }
-            else
-            {
-                Transform[] allTransforms = battleCircle.CircleBehaviour.AllTransforms;
+                
+                //Draw validPoints
+                Gizmos.color = Color.darkBlue;
+                DrawPoints(walkablePointPackages);
+                
+                /*Transform[] allTransforms = battleCircle.CircleBehaviour.AllTransforms;
                 Transform[] takenTransforms = battleCircle.CircleBehaviour.AisAndTakenTransforms.Values.ToArray();
                 foreach (Transform point in allTransforms)
                 {
@@ -109,7 +131,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                         }
                     }
                     Gizmos.DrawSphere(point.position, .2f);
-                }
+                }*/
             }
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing

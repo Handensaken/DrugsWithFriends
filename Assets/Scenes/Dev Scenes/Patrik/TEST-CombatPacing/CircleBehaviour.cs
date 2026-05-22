@@ -317,20 +317,19 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             invalidPoint = invalidPoints.ToArray();
             return points.ToArray();
         }
-
-        public static BattleCirclePointPackage[] FindAllWalkablePoints(Vector3 walkPoint, Vector3 circleCenter, BattleCirclePointPackage[] sourcePoints, out BattleCirclePointPackage[] invalidPoints)
+        
+        public static BattleCirclePointPackage[] FindAllWalkablePoints(Vector3 walkersPoint, Vector3 circleCenter, BattleCirclePointPackage[] sourcePoints, out BattleCirclePointPackage[] invalidPoints)
         {
             List<BattleCirclePointPackage> valid = new List<BattleCirclePointPackage>();
             List<BattleCirclePointPackage> invalid = new List<BattleCirclePointPackage>();
             foreach (BattleCirclePointPackage pointPackage in sourcePoints)
             {
                 NavMeshPath path = new NavMeshPath();
-                NavMeshQueryFilter navMeshQueryFilter = new NavMeshQueryFilter()
-                {
-                    agentTypeID = 0,
-                    areaMask = NavMesh.AllAreas
-                };
-                if (NavMesh.CalculatePath(walkPoint,circleCenter+pointPackage.PointInCircle, navMeshQueryFilter, path) && path.status == NavMeshPathStatus.PathComplete)
+
+                int areaMask = 1 << NavMesh.GetAreaFromName("Walkable");
+                bool isOnNavMesh = NavMesh.SamplePosition(circleCenter + pointPackage.PointInCircle, out NavMeshHit hit,
+                    .1f, areaMask);
+                if (isOnNavMesh && NavMesh.CalculatePath(walkersPoint,circleCenter+pointPackage.PointInCircle, areaMask, path) && path.status == NavMeshPathStatus.PathComplete)
                 {
                     valid.Add(pointPackage);
                 }
