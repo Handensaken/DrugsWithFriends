@@ -113,24 +113,21 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 Gizmos.color = Color.orangeRed;
                 DrawPoints(invalidWalkablePointPackages);
                 
-                //Draw validPoints
-                Gizmos.color = Color.darkBlue;
-                DrawPoints(walkablePointPackages);
-                
-                /*Transform[] allTransforms = battleCircle.CircleBehaviour.AllTransforms;
-                Transform[] takenTransforms = battleCircle.CircleBehaviour.AisAndTakenTransforms.Values.ToArray();
-                foreach (Transform point in allTransforms)
+                //Draw taken points
+                Gizmos.color = Color.darkGreen;
+                Transform[] takenPoints = battleCircle.CircleBehaviour.AisAndTakenTransforms.Values.ToArray();
+                foreach (Transform takenPoint in takenPoints)
                 {
-                    Gizmos.color = Color.blue;
-                    foreach (Transform takenTransform in takenTransforms)
-                    {
-                        if (takenTransform == point)
-                        {
-                            Gizmos.color = Color.darkGreen;
-                            break;
-                        }
-                    }
-                    Gizmos.DrawSphere(point.position, .2f);
+                    Gizmos.DrawSphere(takenPoint.position, .2f);
+                }
+                
+                //TODO handle change of available transforms
+                /*//Draw available points
+                Gizmos.color = Color.darkBlue;
+                Transform[] availablePoints = battleCircle.CircleBehaviour.AvailableTransforms.ToArray();
+                foreach (Transform availablePoint in availablePoints)
+                {
+                    Gizmos.DrawSphere(availablePoint.position, .2f);
                 }*/
             }
         }

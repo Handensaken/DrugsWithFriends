@@ -93,7 +93,7 @@ public class PlayerNetwork : NetworkBehaviour
             Debug.LogError("Couldn't get animator");
         }
         
-        animator.speed = animationSpeed;
+        //animator.speed = animationSpeed;
     }
  
     private void Awake()

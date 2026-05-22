@@ -41,6 +41,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         public Dictionary<BlackboardReference, Transform> AisAndTakenTransforms => _aisAndTakenTransforms;
         public Transform[] AllTransforms => _allTransformsTargetPoints;
+        //TODO handle change of available transforms
+        public List<Transform> AvailableTransforms => _availableTransformPoints;
 
         public AngleSpanPackage[] AllCircleOverrides
         {
