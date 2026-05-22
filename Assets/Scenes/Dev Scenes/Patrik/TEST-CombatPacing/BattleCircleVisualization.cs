@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -27,14 +28,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Gizmos.color = Color.darkGreen;
             Gizmos.DrawWireSphere(transform.position, data.circleRadius);
             
-            DrawPoints();
-            Gizmos.color = Color.darkGreen;
+            DrawAllPoints();
             HandleAllAnglePoints();
-            Gizmos.color = Color.darkGreen;
             DrawEnemyDir();
-            Gizmos.color = Color.darkGreen;
         }
-
+        
         private void HandleAllAnglePoints()
         {
             Gizmos.color = Color.yellow;
@@ -70,12 +68,30 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Gizmos.DrawLine(start, end);
         }
         
-        private void DrawPoints()
+        private void DrawAllPoints()
         {
             if (!Application.isPlaying)
             {
-                BattleCirclePointPackage[] pointPackages = CircleBehaviour.CreateAllPointsPackages(data,battleCircleData.amountOfPointsInCircle,battleCircle.transform);
-                DrawValidPoints(pointPackages, allAngleSpans);
+                //TODO
+                BattleCirclePointPackage[] allPointPackages = CircleBehaviour.CreateAllPointsPackages(
+                    data,battleCircleData.amountOfPointsInCircle,battleCircle.transform);
+                
+                BattleCirclePointPackage[] validInAnglePointPackages = CircleBehaviour.FindOutOfAngleCirclePoints(
+                    allPointPackages,allAngleSpans, out BattleCirclePointPackage[] invalidInAnglePointPackages);
+                
+                BattleCirclePointPackage[] walkablePointPackages = CircleBehaviour.FindAllWalkablePoints(
+                    transform.position, transform.position, validInAnglePointPackages,out BattleCirclePointPackage[] invalidWalkablePointPackages);
+                
+                Gizmos.color = Color.darkBlue;
+                DrawPoints(walkablePointPackages);
+                
+                //Draw InvalidAngle
+                Gizmos.color = Color.yellow;
+                DrawPoints(invalidInAnglePointPackages);
+                
+                //Draw NotWalkable
+                Gizmos.color = Color.orangeRed;
+                DrawPoints(invalidWalkablePointPackages);
             }
             else
             {
@@ -88,7 +104,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     {
                         if (takenTransform == point)
                         {
-                            Gizmos.color = Color.red;
+                            Gizmos.color = Color.darkGreen;
                             break;
                         }
                     }
@@ -97,17 +113,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
         }
 
-        private void DrawValidPoints(BattleCirclePointPackage[] pointPackages, AngleSpanPackage[] angleSpanPackages)
+        private void DrawPoints(BattleCirclePointPackage[] pointsPackages)
         {
-            BattleCirclePointPackage[] points = CircleBehaviour.FindAllValidCirclePoints(pointPackages,angleSpanPackages);
-
-            foreach (var validPoint in points)
+            foreach (var point in pointsPackages)
             {
-                Gizmos.DrawSphere(transform.position+validPoint.PointInCircle, .2f);
+                Gizmos.DrawSphere(transform.position+point.PointInCircle, .2f);
             }
         }
-        
-        
         
         private void DrawEnemyDir()
         {

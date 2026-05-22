@@ -52,6 +52,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 _circleBehaviour.ReassignSameTarget(ai);
             }
         }
+
+        private void CheckIfPointsOnNavMesh()
+        {
+            
+        }
         
         private void UpdateAllEnemiesForward()
         {

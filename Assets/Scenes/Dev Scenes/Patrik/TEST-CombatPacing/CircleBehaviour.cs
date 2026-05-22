@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using Unity.Behavior;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
@@ -67,7 +70,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         private void HandleChangeOfValidPoints()
         {
-            _validPoints = FindAllValidCirclePoints(_allPoints, _allCircleOverrides);
+            _validPoints = FindOutOfAngleCirclePoints(_allPoints, _allCircleOverrides);
             if (!FindAiWithInvalidTargets(out BlackboardReference[] aiWithoutValidTargets, out Transform[] takenTargets))
             {
                 return;
@@ -264,9 +267,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             SetAITransformPoint(blackboard, target);
         }
         
-        public static BattleCirclePointPackage[] FindAllValidCirclePoints(BattleCirclePointPackage[] pointPackages, AngleSpanPackage[] allAngleSpans)
+        public static BattleCirclePointPackage[] FindOutOfAngleCirclePoints(BattleCirclePointPackage[] sourcePoints, AngleSpanPackage[] allAngleSpans)
         {
-            List<BattleCirclePointPackage> points = pointPackages.ToList();
+            List<BattleCirclePointPackage> points = sourcePoints.ToList();
                 
             foreach (var angleSpan in allAngleSpans)
             {
@@ -285,6 +288,60 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
 
             return points.ToArray();
+        }
+        
+        public static BattleCirclePointPackage[] FindOutOfAngleCirclePoints(BattleCirclePointPackage[] sourcePoints, AngleSpanPackage[] allAngleSpans, out BattleCirclePointPackage[] invalidPoint)
+        {
+            List<BattleCirclePointPackage> points = sourcePoints.ToList();
+            List<BattleCirclePointPackage> invalidPoints = new List<BattleCirclePointPackage>();
+            foreach (var angleSpan in allAngleSpans)
+            {
+                uint angleStart = angleSpan.angleStart;
+                uint angleEnd = angleSpan.angleEnd;
+                List<BattleCirclePointPackage> validPoints = new();
+                foreach (var validatingPoint in points)
+                {
+                    if (!AngleMath.IsWithinAngles(validatingPoint.AngleInCircle, angleStart, angleEnd))
+                    {
+                        validPoints.Add(validatingPoint);
+                    }
+                    else
+                    {
+                        invalidPoints.Add(validatingPoint);
+                    }
+                }
+
+                points = validPoints;
+            }
+
+            invalidPoint = invalidPoints.ToArray();
+            return points.ToArray();
+        }
+
+        public static BattleCirclePointPackage[] FindAllWalkablePoints(Vector3 walkPoint, Vector3 circleCenter, BattleCirclePointPackage[] sourcePoints, out BattleCirclePointPackage[] invalidPoints)
+        {
+            List<BattleCirclePointPackage> valid = new List<BattleCirclePointPackage>();
+            List<BattleCirclePointPackage> invalid = new List<BattleCirclePointPackage>();
+            foreach (BattleCirclePointPackage pointPackage in sourcePoints)
+            {
+                NavMeshPath path = new NavMeshPath();
+                NavMeshQueryFilter navMeshQueryFilter = new NavMeshQueryFilter()
+                {
+                    agentTypeID = 0,
+                    areaMask = NavMesh.AllAreas
+                };
+                if (NavMesh.CalculatePath(walkPoint,circleCenter+pointPackage.PointInCircle, navMeshQueryFilter, path) && path.status == NavMeshPathStatus.PathComplete)
+                {
+                    valid.Add(pointPackage);
+                }
+                else
+                {
+                    invalid.Add(pointPackage);
+                }
+            }
+
+            invalidPoints = invalid.ToArray();
+            return valid.ToArray();
         }
         
         public void RemoveAIAndTakenTransform(BlackboardReference blackboard)
