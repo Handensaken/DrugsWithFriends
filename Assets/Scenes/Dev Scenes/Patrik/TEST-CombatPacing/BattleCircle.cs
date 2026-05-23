@@ -47,7 +47,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             //_tokenSystem.UpdateTime(Time.deltaTime);
             
-            _circleBehaviour.HandleValidityControlOfTargetPoints();
+            _circleBehaviour.AssignInvalidNonWalkablePoints();
             
             BlackboardReference[] newNonFightingAis = _fightingBehaviour.CheckIfStillAttacking();
             foreach (var ai in newNonFightingAis)

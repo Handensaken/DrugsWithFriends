@@ -96,22 +96,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
             else
             {
-                BattleCirclePointPackage[] allPointPackages = CircleBehaviour.CreateAllPointsPackages(
-                    data,battleCircleData.amountOfPointsInCircle,battleCircle.transform);
-                
-                BattleCirclePointPackage[] validInAnglePointPackages = CircleBehaviour.FindOutOfAngleCirclePoints(
-                    allPointPackages,battleCircle.CircleBehaviour.AllCircleOverrides, out BattleCirclePointPackage[] invalidInAnglePointPackages);
-                
                 //Draw InvalidAngle
                 Gizmos.color = Color.yellow;
-                //DrawPoints(invalidInAnglePointPackages);
-                
-                BattleCirclePointPackage[] walkablePointPackages = CircleBehaviour.FindAllWalkablePoints(
-                    transform.position, transform.position, validInAnglePointPackages,out BattleCirclePointPackage[] invalidWalkablePointPackages);
+                DrawPoints(battleCircle.CircleBehaviour.InAnglePoints);
                 
                 //Draw NotWalkable
                 Gizmos.color = Color.orangeRed;
-                //DrawPoints(invalidWalkablePointPackages);
+                DrawPoints(battleCircle.CircleBehaviour.NonWalkablePoints);
                 
                 //Draw taken points
                 Gizmos.color = Color.darkGreen;
