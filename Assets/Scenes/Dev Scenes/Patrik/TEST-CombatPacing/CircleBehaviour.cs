@@ -5,6 +5,7 @@ using Unity.AI.Navigation;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
@@ -15,12 +16,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private readonly BattleCircleData _data;
         
         private readonly Transform[] _allTransformsTargetPoints;
-        private readonly List<Transform> _availableTransformPoints;
+        private List<Transform> _availableTransformPoints;
         
         private readonly Dictionary<BlackboardReference, Transform> _aisAndTakenTransforms;
 
         private readonly BattleCirclePointPackage[] _allPoints;
-        private BattleCirclePointPackage[] _validPoints;
         private AngleSpanPackage[] _allCircleOverrides = Array.Empty<AngleSpanPackage>(); 
         
         public CircleBehaviour(Transform battleCircleTransform,BattleCircleData data,Dictionary<BlackboardReference, Transform> aisAndTakenTransforms)
@@ -33,7 +33,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             //Creation of points
             uint amountOfPoints = 20; //TODO parameter
             _allPoints = CreateAllPointsPackages(_data,amountOfPoints, _battleCircleTransform);
-            _validPoints = _allPoints.ToArray();
 
             _allTransformsTargetPoints = CreateAllTargetTransforms();
             _availableTransformPoints = _allTransformsTargetPoints.ToList();
@@ -50,10 +49,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             set
             {
                 _allCircleOverrides = value;
-                HandleChangeOfValidPoints();
+                HandleValidityControlOfTargetPoints();
             }
         }
-
+        
         private Transform[] CreateAllTargetTransforms()
         {
             Transform[] result = new Transform[_allPoints.Length];
@@ -68,47 +67,60 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
 
             return result;
-        } 
-        
-        private void HandleChangeOfValidPoints()
-        {
-            _validPoints = FindOutOfAngleCirclePoints(_allPoints, _allCircleOverrides);
-            if (!FindAiWithInvalidTargets(out BlackboardReference[] aiWithoutValidTargets, out Transform[] takenTargets))
-            {
-                return;
-            }
+        }
 
-            if (!FindAllAvailablePoints(takenTargets, out BattleCirclePointPackage[] availablePoints))
+        public void HandleValidityControlOfTargetPoints()
+        {
+            BattleCirclePointPackage[] validPoints = FindValidPoints();
+            
+            //Handles enemies finding the enemies with invalid targets
+            if (!FindAiWithInvalidTargets(validPoints,out BlackboardReference[] aiWithoutValidTargets, out Transform[] takenTargets))
+            {
+                Debug.Log("No enemy with invalid target");
+            }
+            
+            //Handles finding still available target points
+            if (!FindAllAvailablePoints(validPoints,takenTargets, out BattleCirclePointPackage[] availablePoints))
             {
                 //TODO Send out to other circles
                 //TODO Just taunt??
-                return;
+                Debug.Log("Couldn't find any available points");
             }
-
-            Transform[] availableTargetTransforms = AvailableTargetTransforms(availablePoints);
-
-            if (!HandleAssigningAvailableTargets(aiWithoutValidTargets, availableTargetTransforms, out BlackboardReference[] restAI))
+            
+            _availableTransformPoints = ConvertPointPackage2TargetTransform(availablePoints).ToList();
+            
+            if (!HandleAssigningAvailableTargets(aiWithoutValidTargets, out BlackboardReference[] restAI))
             {
                 Debug.Log("AI that is still not assigned");
             }
-            
         }
+        
+        private BattleCirclePointPackage[] FindValidPoints()
+        {
+            //Valid points
+            BattleCirclePointPackage[] currentlyValidPoints = FindOutOfAngleCirclePoints(_allPoints, _allCircleOverrides);
+            currentlyValidPoints = FindAllWalkablePoints(_battleCircleTransform.position,
+                _battleCircleTransform.position, currentlyValidPoints,out BattleCirclePointPackage[] invalidPoints);
 
-        private bool HandleAssigningAvailableTargets(BlackboardReference[] aiWithoutValidTargets ,Transform[] availableTargetTransforms, out BlackboardReference[] theRest)
+            return currentlyValidPoints;
+        }
+        
+
+        private bool HandleAssigningAvailableTargets(BlackboardReference[] aiWithoutValidTargets, out BlackboardReference[] theRest)
         {
             List<BlackboardReference> rest = new List<BlackboardReference>();
             for (int i = 0; i < aiWithoutValidTargets.Length; i++)
             {
                 BlackboardReference currentAI = aiWithoutValidTargets[i];
                 
-                if (availableTargetTransforms.Length < i+1)
+                if (_availableTransformPoints.Count < i+1)
                 {
                     Debug.Log("Less availablePoints then there are enemies");
                     rest.Add(currentAI);
                 }
                 
                 //Handles assigning of new transforms
-                Transform target = availableTargetTransforms[i];
+                Transform target = _availableTransformPoints[i];
                 AssignAi2Target(currentAI,target);
             }
 
@@ -122,7 +134,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             ai.SetVariableValue("Target", target);
         }
         
-        private Transform[] AvailableTargetTransforms(BattleCirclePointPackage[] availablePoints)
+        private Transform[] ConvertPointPackage2TargetTransform(BattleCirclePointPackage[] availablePoints)
         {
             List<Transform> result = new List<Transform>();
             foreach (var pointPackage in availablePoints)
@@ -137,14 +149,22 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     }
                 }
             }
-
+            
             return result.ToArray();
         }
-        
-        private bool FindAllAvailablePoints(Transform[] takenTransforms,out BattleCirclePointPackage[] availablePoints)
+
+
+        /// <summary>
+        /// tries to find all points that isn't already taken by other enemies in the battleCircle
+        /// </summary>
+        /// <param name="validPoints"></param>
+        /// <param name="takenTransforms"></param>
+        /// <param name="availablePoints"></param>
+        /// <returns></returns>
+        private bool FindAllAvailablePoints(BattleCirclePointPackage[] validPoints,Transform[] takenTransforms,out BattleCirclePointPackage[] availablePoints)
         {
             List<BattleCirclePointPackage> result = new List<BattleCirclePointPackage>();
-            foreach (var pointPackage in _validPoints)
+            foreach (var pointPackage in validPoints)
             {
                 bool availableFlag = true;
                 foreach (var taken in takenTransforms)
@@ -166,26 +186,34 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             availablePoints = result.ToArray();
             return availablePoints.Length > 0;
         }
-        
-        private bool FindAiWithInvalidTargets(out BlackboardReference[] hasNoValidTarget, out Transform[] allTakenTransforms)
+
+        /// <summary>
+        /// checks if an enemy has a target within sourcePoints and then differs them into valid and non-valid
+        /// main focus on none-valid
+        /// </summary>
+        /// <param name="newValidPoints"></param>
+        /// <param name="aiWithoutValidTarget"></param>
+        /// <param name="allTakenTransforms"></param>
+        /// <returns></returns>
+        private bool FindAiWithInvalidTargets(BattleCirclePointPackage[] newValidPoints,out BlackboardReference[] aiWithoutValidTarget, out Transform[] allTakenTransforms)
         {
             List<BlackboardReference> resultMissingValid = new List<BlackboardReference>();
             List<Transform> resultTakenTransforms = new List<Transform>();
             foreach (var aiAndTarget in _aisAndTakenTransforms)
             {
-                bool validFlag = false;
-                foreach (var pointPackage in _validPoints)
+                bool invalidFlag = true;
+                foreach (var pointPackage in newValidPoints)
                 {
                     Vector3 pointRelativeToCenter = aiAndTarget.Value.position - _battleCircleTransform.position;  
                     if ( pointRelativeToCenter == pointPackage.PointInCircle)
                     {
-                        Debug.Log("Samma - Kan nu raderas eftersom den fungerar");
-                        validFlag = true;
+                        Debug.Log("Point is valid");
+                        invalidFlag = false;
                         break;
                     }
                 }
 
-                if (validFlag)
+                if (invalidFlag)
                 {
                     resultMissingValid.Add(aiAndTarget.Key);
                 }
@@ -195,9 +223,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 }
             }
 
-            hasNoValidTarget = resultMissingValid.ToArray();
+            aiWithoutValidTarget = resultMissingValid.ToArray();
             allTakenTransforms = resultTakenTransforms.ToArray();
-            return hasNoValidTarget.Length > 0;
+            return aiWithoutValidTarget.Length > 0;
         }
         
         /// <summary>

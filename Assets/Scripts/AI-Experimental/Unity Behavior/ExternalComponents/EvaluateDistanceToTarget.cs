@@ -1,5 +1,6 @@
 using System;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
+using Scenes.Dev_Scenes.Patrik.TEST_CombatPacing;
 using Unity.Behavior;
 using UnityEngine;
 
@@ -17,14 +18,14 @@ public class EvaluateDistanceToTarget : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_blackboard.GetVariableValue("Target", out Transform target))
+        if (_blackboard.GetVariableValue("BattleCircle", out BattleCircle battleCircle))
         {
-            if (target == null)
+            if (battleCircle == null)
             {
                 return;
             }
             
-            _blackboard.SetVariableValue("CloseToTarget",Vector3.Distance(target.position, transform.position) <= 3);
+            _blackboard.SetVariableValue("CloseToTarget",Vector3.Distance(battleCircle.transform.position, transform.position) <= 3);
         }
     }
 }

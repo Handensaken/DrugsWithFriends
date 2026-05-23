@@ -104,14 +104,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 
                 //Draw InvalidAngle
                 Gizmos.color = Color.yellow;
-                DrawPoints(invalidInAnglePointPackages);
+                //DrawPoints(invalidInAnglePointPackages);
                 
                 BattleCirclePointPackage[] walkablePointPackages = CircleBehaviour.FindAllWalkablePoints(
                     transform.position, transform.position, validInAnglePointPackages,out BattleCirclePointPackage[] invalidWalkablePointPackages);
                 
                 //Draw NotWalkable
                 Gizmos.color = Color.orangeRed;
-                DrawPoints(invalidWalkablePointPackages);
+                //DrawPoints(invalidWalkablePointPackages);
                 
                 //Draw taken points
                 Gizmos.color = Color.darkGreen;
@@ -121,14 +121,17 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                     Gizmos.DrawSphere(takenPoint.position, .2f);
                 }
                 
-                //TODO handle change of available transforms
-                /*//Draw available points
+                //Draw available points
                 Gizmos.color = Color.darkBlue;
                 Transform[] availablePoints = battleCircle.CircleBehaviour.AvailableTransforms.ToArray();
                 foreach (Transform availablePoint in availablePoints)
                 {
+                    if (takenPoints.Contains(availablePoint))
+                    {
+                        continue;
+                    }
                     Gizmos.DrawSphere(availablePoint.position, .2f);
-                }*/
+                }
             }
         }
 

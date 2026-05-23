@@ -51,7 +51,6 @@ public partial class ChaseAction : Action
         }
 
         _agent.speed = CalculateSpeedValue();
-        Debug.Log("Speed: "+_agent.speed);
         HandleTargetPosition();
         return Status.Running;
     }
