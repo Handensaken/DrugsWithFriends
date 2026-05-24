@@ -603,7 +603,6 @@ public class PlayerNetwork : NetworkBehaviour
     {
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
-        EnableHitBox();
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
@@ -620,7 +619,6 @@ public class PlayerNetwork : NetworkBehaviour
             attacking = false;
             return;
         }
-        DisableHitBox();
         ExitCombo();
     }
  

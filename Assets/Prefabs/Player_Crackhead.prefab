@@ -135,6 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1164758524613289733}
+  - component: {fileID: 1677242774052331210}
   - component: {fileID: 8434067472739170068}
   m_Layer: 0
   m_Name: Visual Components
@@ -162,6 +163,19 @@ Transform:
   - {fileID: 5925180241001861893}
   m_Father: {fileID: 6341586612892200817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1677242774052331210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275088711017005912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705f662b2eb5c384caee7e7e0be0f602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game.Core::AnimationMiddleman
+  playerNetwork: {fileID: 1497369976359165993}
 --- !u!95 &8434067472739170068
 Animator:
   serializedVersion: 7
@@ -5029,8 +5043,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4571837999564258716}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.029781653, y: 0.9502543, z: -0.09599336, w: -0.29481363}
-  m_LocalPosition: {x: 3.022512, y: 2.671, z: 4.4022746}
+  m_LocalRotation: {x: 0.07012456, y: 0.712754, z: -0.07200129, w: 0.69417584}
+  m_LocalPosition: {x: -5.338138, y: 2.671, z: 0.14100194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5113,7 +5127,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: -145.5273
+    Value: 91.51306
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
