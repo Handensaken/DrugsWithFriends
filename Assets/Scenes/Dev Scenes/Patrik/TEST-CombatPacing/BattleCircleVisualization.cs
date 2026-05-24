@@ -106,13 +106,19 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 
                 //Draw available points
                 Gizmos.color = Color.darkBlue;
-                Transform[] availablePoints = battleCircle.CircleBehaviour.AvailableTransforms.ToArray();
+                Transform[] availablePoints = battleCircle.CircleBehaviour.AvailableTargets.ToArray();
                 foreach (Transform availablePoint in availablePoints)
                 {
                     if (takenPoints.Contains(availablePoint))
                     {
                         continue;
                     }
+
+                    if (availablePoint == null)
+                    {
+                        Debug.Log("null target???");
+                    }
+                    
                     Gizmos.DrawSphere(availablePoint.position, .2f);
                 }
             }

@@ -21,9 +21,13 @@ public partial class LeaveBattleCircleAction : Action
             return Status.Success;
         }
 
+        Debug.Log("Remove In AI");
         BlackboardReference blackboard = agent.Value.GetComponent<BehaviorGraphAgent>().BlackboardReference;
         battleCircle.Value.RemoveAI(blackboard);
+        battleCircle.Value = null;
         return Status.Success;
     }
+    
+    
 }
 

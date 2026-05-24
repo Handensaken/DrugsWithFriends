@@ -82,9 +82,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             UpdateEnemyForward(blackboard);
         }
         
-        //TODO för när fiender dör eller flyttas
         public void RemoveAI(BlackboardReference blackboard)
         {
+            Debug.Log("Remove in battle circle");
             _aisInCircle.Remove(blackboard);
             _circleBehaviour.RemoveAIAndTakenTransform(blackboard);
             _fightingBehaviour.RemoveFightingAi(blackboard);

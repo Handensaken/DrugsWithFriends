@@ -16,7 +16,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private readonly BattleCircleData _data;
         
         private readonly Transform[] _allTransformsTargetPoints;
-        private List<Transform> _availableTransformPoints;
+        private List<Transform> _availableTargetPoints;
         
         private readonly Dictionary<BlackboardReference, Transform> _aisAndTakenTransforms;
 
@@ -39,13 +39,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _allPoints = CreateAllPointsPackages(_data,_data.amountOfPointsInCircle, _battleCircleTransform);
 
             _allTransformsTargetPoints = CreateAllTargetTransforms();
-            _availableTransformPoints = _allTransformsTargetPoints.ToList();
+            _availableTargetPoints = _allTransformsTargetPoints.ToList();
         }
 
         public Dictionary<BlackboardReference, Transform> AisAndTakenTransforms => _aisAndTakenTransforms;
         public Transform[] AllTransforms => _allTransformsTargetPoints;
-        //TODO handle change of available transforms
-        public List<Transform> AvailableTransforms => _availableTransformPoints;
+        public List<Transform> AvailableTargets => _availableTargetPoints;
         public BattleCirclePointPackage[] NonWalkablePoints => _invalidNonWalkablePoints;
         public BattleCirclePointPackage[] InAnglePoints => _invalidInAnglePoints;
 
@@ -99,7 +98,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 Debug.Log("Couldn't find any available points");
             }
             
-            _availableTransformPoints = ConvertPointPackage2TargetTransform(availablePoints).ToList();
+            _availableTargetPoints = ConvertPointPackage2TargetTransform(availablePoints).ToList();
             
             if (!HandleAssigningAvailableTargets(aiWithoutValidTargets, out BlackboardReference[] aiWithoutSpace))
             {
@@ -178,7 +177,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 BlackboardReference currentAI = aiWithoutValidTargets[i];
                 
-                if (_availableTransformPoints.Count < i+1)
+                if (_availableTargetPoints.Count < i+1)
                 {
                     Debug.Log("Less availablePoints then there are enemies");
                     rest.Add(currentAI);
@@ -201,7 +200,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 Debug.LogError("Should always have space for ai at this moment");
             }
             
-            _availableTransformPoints.RemoveAt(elementIndex);
+            _availableTargetPoints.RemoveAt(elementIndex);
             
             _aisAndTakenTransforms[ai] = target;
             SetAITransformPoint(ai, target); 
@@ -210,12 +209,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private bool FindClosestAvailableTarget(Vector3 sourcePoint,out Transform closestAvailable, out int elementIndex)
         {
             Tuple<int?, float> currentlyBest = new Tuple<int?, float>(null, 0);
-            for (int i = 0; i < _availableTransformPoints.Count; i++)
+            for (int i = 0; i < _availableTargetPoints.Count; i++)
             {
                 int? currentIndex = currentlyBest.Item1;
                 float currentDistance = currentlyBest.Item2;
                 
-                float distance = Vector3.Distance(sourcePoint, _availableTransformPoints[i].position);
+                float distance = Vector3.Distance(sourcePoint, _availableTargetPoints[i].position);
                 if (currentIndex == null || distance < currentDistance)
                 {
                     currentlyBest= new (i,distance);
@@ -229,7 +228,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 return false;
             }
             
-            closestAvailable = _availableTransformPoints[(int)currentlyBest.Item1];
+            closestAvailable = _availableTargetPoints[(int)currentlyBest.Item1];
             elementIndex = (int)currentlyBest.Item1;
             return true;
         }
@@ -356,11 +355,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
             else
             {
-                _availableTransformPoints.RemoveAt(elementIndex);
+                _availableTargetPoints.RemoveAt(elementIndex);
                 _aisAndTakenTransforms[ai] = potentialTarget;
                 SetAITransformPoint(ai, potentialTarget);
                 
-                _availableTransformPoints.Add(oldTarget);
+                _availableTargetPoints.Add(oldTarget);
             }
         }
         
@@ -408,7 +407,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         public void AssignAI(BlackboardReference blackboard)
         {
             //TODO hitta tillgänglig punkt till nya fienden
-            if (_availableTransformPoints.Count <= 0)
+            if (_availableTargetPoints.Count <= 0)
             {
                 Debug.LogWarning("No more available targets but is still trying to assign!");
                 _aiWithoutSpace.Add(blackboard);
@@ -496,8 +495,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public void RemoveAIAndTakenTransform(BlackboardReference blackboard)
         {
+            Debug.Log("Remove in circle behaviour");
             _aisAndTakenTransforms.Remove(blackboard, out Transform targetTransform);
-            _availableTransformPoints.Add(targetTransform);
+            _availableTargetPoints.Add(targetTransform);
         }
     }
 }
