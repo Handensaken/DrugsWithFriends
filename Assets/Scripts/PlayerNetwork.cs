@@ -46,7 +46,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private ActionReferences actionReferences;
     [SerializeField] private ControlSchemeEvent controlSchemeEvent;
     [SerializeField] private PlayerGameSettings playerSettings;
-    private Animator animator;
+    [SerializeField] private Animator animator;
     private NetworkAnimator networkAnimator;
     private int enemyIndex, currentChain;
     [SerializeField, ReadOnly] private List<Transform> enemiesInRange, enemiesOnScreen;
@@ -83,15 +83,6 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnValidate();
         attackRangeCollider.radius = detectEnemiesRange;
-        
-        if (TryGetComponent(out Animator anim))
-        {
-            animator = anim;
-        }
-        else
-        {
-            Debug.LogError("Couldn't get animator");
-        }
         
         animator.speed = animationSpeed;
     }
