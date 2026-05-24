@@ -149,6 +149,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 _invalidInAnglePoints = invalidPoints;
                 HandleChangeInValidPoints();
+                Debug.Log("Changed!");
             }
         }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
@@ -8,13 +7,6 @@ using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
-    [Serializable]
-    public struct AngleSpanPackage
-    {
-        [Range(0,360)]public uint angleStart;
-        [Range(0,360)]public uint angleEnd;
-    }
-    
     public class BattleCircleVisualization : MonoBehaviour
     {
         [SerializeField] private BattleCircle battleCircle;
