@@ -24,8 +24,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private AngleSpanPackage[] _allCircleOverrides = Array.Empty<AngleSpanPackage>();
 
 
-        private BattleCirclePointPackage[] invalidNonWalkablePoints = Array.Empty<BattleCirclePointPackage>();
-        private BattleCirclePointPackage[] invalidInAnglePoints = Array.Empty<BattleCirclePointPackage>();
+        private BattleCirclePointPackage[] _invalidNonWalkablePoints = Array.Empty<BattleCirclePointPackage>();
+        private BattleCirclePointPackage[] _invalidInAnglePoints = Array.Empty<BattleCirclePointPackage>();
         
         public CircleBehaviour(Transform battleCircleTransform,BattleCircleData data,Dictionary<BlackboardReference, Transform> aisAndTakenTransforms)
         {
@@ -35,8 +35,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _aisAndTakenTransforms = aisAndTakenTransforms;
             
             //Creation of points
-            uint amountOfPoints = 20; //TODO parameter
-            _allPoints = CreateAllPointsPackages(_data,amountOfPoints, _battleCircleTransform);
+            _allPoints = CreateAllPointsPackages(_data,_data.amountOfPointsInCircle, _battleCircleTransform);
 
             _allTransformsTargetPoints = CreateAllTargetTransforms();
             _availableTransformPoints = _allTransformsTargetPoints.ToList();
@@ -46,8 +45,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         public Transform[] AllTransforms => _allTransformsTargetPoints;
         //TODO handle change of available transforms
         public List<Transform> AvailableTransforms => _availableTransformPoints;
-        public BattleCirclePointPackage[] NonWalkablePoints => invalidNonWalkablePoints;
-        public BattleCirclePointPackage[] InAnglePoints => invalidInAnglePoints;
+        public BattleCirclePointPackage[] NonWalkablePoints => _invalidNonWalkablePoints;
+        public BattleCirclePointPackage[] InAnglePoints => _invalidInAnglePoints;
 
         public AngleSpanPackage[] AllCircleOverrides
         {
@@ -98,6 +97,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 //TODO Just taunt??
                 Debug.Log("Couldn't find any available points");
             }
+
+            string t = "";
+            foreach (var VARIABLE in availablePoints)
+            {
+                t += "\n Angle: " + VARIABLE.AngleInCircle;
+            }
+            Debug.Log(t);
             
             _availableTransformPoints = ConvertPointPackage2TargetTransform(availablePoints).ToList();
             
@@ -106,16 +112,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 Debug.Log("AI that is still not assigned");
             }
         }
-        
-        /*private BattleCirclePointPackage[] FindValidPoints()
-        {
-            //Valid points
-            BattleCirclePointPackage[] currentlyValidPoints = FindOutOfAngleCirclePoints(_allPoints, _allCircleOverrides);
-            currentlyValidPoints = FindAllWalkablePoints(_battleCircleTransform.position,
-                _battleCircleTransform.position, currentlyValidPoints,out BattleCirclePointPackage[] invalidPoints);
-
-            return currentlyValidPoints;
-        }*/
 
         private bool FindValidPointPackages(out BattleCirclePointPackage[] validPointPackages)
         {
@@ -123,7 +119,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
             foreach (var pointPackage in _allPoints)
             {
-                if (invalidNonWalkablePoints.Contains(pointPackage) || invalidInAnglePoints.Contains(pointPackage))
+                if (_invalidNonWalkablePoints.Contains(pointPackage) || _invalidInAnglePoints.Contains(pointPackage))
                 {
                     continue;
                 }
@@ -140,9 +136,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             FindAllWalkablePoints(_battleCircleTransform.position,
                 _battleCircleTransform.position, _allPoints,out BattleCirclePointPackage[] invalidPoints);
             
-            if (CheckIfDifferentPointPackages(invalidNonWalkablePoints, invalidPoints))
+            if (CheckIfDifferentPointPackages(_invalidNonWalkablePoints, invalidPoints))
             {
-                invalidNonWalkablePoints = invalidPoints;
+                _invalidNonWalkablePoints = invalidPoints;
                 HandleChangeInValidPoints();
             }
         }
@@ -151,17 +147,15 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             FindOutOfAngleCirclePoints(_allPoints, _allCircleOverrides, out BattleCirclePointPackage[] invalidPoints);
             
-            if (CheckIfDifferentPointPackages(invalidInAnglePoints, invalidPoints))
+            if (CheckIfDifferentPointPackages(_invalidInAnglePoints, invalidPoints))
             {
-                Debug.Log("Now");
-                invalidInAnglePoints = invalidPoints;
+                _invalidInAnglePoints = invalidPoints;
                 HandleChangeInValidPoints();
             }
         }
 
         private bool CheckIfDifferentPointPackages(BattleCirclePointPackage[] packages1, BattleCirclePointPackage[] packages2)
         {
-            string t = "";
             if (packages1.Length != packages2.Length)
             {
                 return true;
@@ -169,15 +163,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             for (int i = 0; i < packages2.Length; i++)
             {
-                t += "\n "+packages1[i].AngleInCircle+" : "+ packages2[i].AngleInCircle;
-                    
                 if (!Mathf.Approximately(packages1[i].AngleInCircle, packages2[i].AngleInCircle))
                 {
                     return true;
                 }
             }
-
-            Debug.Log(t);
+            
             return false;
         }
         
@@ -192,22 +183,49 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 {
                     Debug.Log("Less availablePoints then there are enemies");
                     rest.Add(currentAI);
+                    continue;
                 }
                 
                 //Handles assigning of new transforms
-                Transform target = _availableTransformPoints[i];
-                AssignAi2Target(currentAI,target);
+                AssignAi2Target(currentAI);
             }
 
             theRest = rest.ToArray();
             return theRest.Length == 0;
         }
         
-        
-        private void AssignAi2Target(BlackboardReference ai, Transform target)
+        private void AssignAi2Target(BlackboardReference ai)
         {
+            ai.GetVariableValue("Self", out GameObject aiSelf);
+            Transform target = FindClosestAvailableTarget(aiSelf.transform.position,out int elementIndex);
+            _availableTransformPoints.RemoveAt(elementIndex);
+            
             _aisAndTakenTransforms[ai] = target;
-            ai.SetVariableValue("Target", target);
+            SetAITransformPoint(ai, target); 
+        }
+
+        private Transform FindClosestAvailableTarget(Vector3 sourcePoint, out int elementIndex)
+        {
+            Tuple<int?, float> currentlyBest = new Tuple<int?, float>(null, 0);
+            for (int i = 0; i < _availableTransformPoints.Count; i++)
+            {
+                int? currentIndex = currentlyBest.Item1;
+                float currentDistance = currentlyBest.Item2;
+                
+                float distance = Vector3.Distance(sourcePoint, _availableTransformPoints[i].position);
+                if (currentIndex == null || distance < currentDistance)
+                {
+                    currentlyBest= new (i,distance);
+                }
+            }
+
+            if (currentlyBest.Item1 == null)
+            {
+                throw new Exception("Shouldn't be able to be null!");
+            }
+            
+            elementIndex = (int)currentlyBest.Item1;
+            return _availableTransformPoints[(int)currentlyBest.Item1];
         }
         
         private Transform[] ConvertPointPackage2TargetTransform(BattleCirclePointPackage[] availablePoints)
@@ -245,7 +263,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 bool availableFlag = true;
                 foreach (var taken in takenTransforms)
                 {
-                    Vector3 pointRelativeToCenter = taken.position - _battleCircleTransform.position;
+                    Vector3 pointRelativeToCenter = pointPackage.PointInCircle + _battleCircleTransform.position;
                     if (pointRelativeToCenter == taken.position)
                     {
                         availableFlag = false;
@@ -365,14 +383,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 Debug.Log("No more available targets but is still trying to assign!");
             }
-
-            Transform target = _availableTransformPoints[0];
-            _availableTransformPoints.RemoveAt(0);
             
-            Debug.Log(target.name);
-            
-            _aisAndTakenTransforms[blackboard] = target;
-            SetAITransformPoint(blackboard, target);
+            AssignAi2Target(blackboard);
         }
         
         public static BattleCirclePointPackage[] FindOutOfAngleCirclePoints(BattleCirclePointPackage[] sourcePoints, AngleSpanPackage[] allAngleSpans)
