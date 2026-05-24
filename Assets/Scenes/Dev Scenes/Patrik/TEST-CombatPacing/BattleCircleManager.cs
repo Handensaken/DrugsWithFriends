@@ -93,10 +93,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                          {
                               continue;
                          }
-                         
+
+                         Vector3 mainCenter = mainBattleCircle.Value.transform.position;
+                         Vector3 otherCenter = otherBattleCircle.Value.transform.position;
+                         Vector2 mainCenterXZ = new Vector2(mainCenter.x, mainCenter.z);
+                         Vector2 otherCenterXZ = new Vector2(otherCenter.x, otherCenter.z);
                          AngleSpanPackage angleSpanPackage = CalculateIntersectionSpan(
-                              mainBattleCircle.Value.transform.position,
-                              otherBattleCircle.Value.transform.position,
+                              mainCenterXZ,
+                              otherCenterXZ,
                               battleCircleData.circleRadius);
                          
                          result.Add(angleSpanPackage);
@@ -126,7 +130,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                Vector2 forwardRepresentation = Vector2.up;
                float angleStart = -Vector2.SignedAngle(forwardRepresentation,startPointLocal.normalized); //Is based on local origo
                float angleEnd = -Vector2.SignedAngle(forwardRepresentation,endPointLocal.normalized);
-
+               
                AngleSpanPackage result = new AngleSpanPackage();
                if (angleStart < 0)
                {
