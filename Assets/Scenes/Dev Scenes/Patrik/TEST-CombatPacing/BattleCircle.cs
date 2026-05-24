@@ -45,7 +45,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void Update()
         {
-            //_tokenSystem.UpdateTime(Time.deltaTime);
+            _tokenSystem.UpdateTime(Time.deltaTime);
             
             _circleBehaviour.AssignInvalidNonWalkablePoints();
             
@@ -54,11 +54,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 _circleBehaviour.ReassignSameTarget(ai);
             }
-        }
-
-        private void CheckIfPointsOnNavMesh()
-        {
-            
         }
         
         private void UpdateAllEnemiesForward()

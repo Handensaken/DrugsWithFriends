@@ -22,10 +22,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private readonly BattleCirclePointPackage[] _allPoints;
         private AngleSpanPackage[] _allCircleOverrides = Array.Empty<AngleSpanPackage>();
-
-
+        
         private BattleCirclePointPackage[] _invalidNonWalkablePoints = Array.Empty<BattleCirclePointPackage>();
         private BattleCirclePointPackage[] _invalidInAnglePoints = Array.Empty<BattleCirclePointPackage>();
+
+        private List<BlackboardReference> _aiWithoutSpace = new List<BlackboardReference>();
         
         public CircleBehaviour(Transform battleCircleTransform,BattleCircleData data,Dictionary<BlackboardReference, Transform> aisAndTakenTransforms)
         {
@@ -97,19 +98,16 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 //TODO Just taunt??
                 Debug.Log("Couldn't find any available points");
             }
-
-            string t = "";
-            foreach (var VARIABLE in availablePoints)
-            {
-                t += "\n Angle: " + VARIABLE.AngleInCircle;
-            }
-            Debug.Log(t);
             
             _availableTransformPoints = ConvertPointPackage2TargetTransform(availablePoints).ToList();
             
-            if (!HandleAssigningAvailableTargets(aiWithoutValidTargets, out BlackboardReference[] restAI))
+            if (!HandleAssigningAvailableTargets(aiWithoutValidTargets, out BlackboardReference[] aiWithoutSpace))
             {
                 Debug.Log("AI that is still not assigned");
+                foreach (BlackboardReference ai in aiWithoutSpace)
+                {
+                    _aiWithoutSpace.Add(ai);
+                }
             }
         }
 
@@ -197,14 +195,18 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private void AssignAi2Target(BlackboardReference ai)
         {
             ai.GetVariableValue("Self", out GameObject aiSelf);
-            Transform target = FindClosestAvailableTarget(aiSelf.transform.position,out int elementIndex);
+            if (!FindClosestAvailableTarget(aiSelf.transform.position,out Transform target, out int elementIndex))
+            {
+                Debug.LogError("Should always have space for ai at this moment");
+            }
+            
             _availableTransformPoints.RemoveAt(elementIndex);
             
             _aisAndTakenTransforms[ai] = target;
             SetAITransformPoint(ai, target); 
         }
 
-        private Transform FindClosestAvailableTarget(Vector3 sourcePoint, out int elementIndex)
+        private bool FindClosestAvailableTarget(Vector3 sourcePoint,out Transform closestAvailable, out int elementIndex)
         {
             Tuple<int?, float> currentlyBest = new Tuple<int?, float>(null, 0);
             for (int i = 0; i < _availableTransformPoints.Count; i++)
@@ -221,11 +223,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
             if (currentlyBest.Item1 == null)
             {
-                throw new Exception("Shouldn't be able to be null!");
+                elementIndex = -1;
+                closestAvailable = null;
+                return false;
             }
             
+            closestAvailable = _availableTransformPoints[(int)currentlyBest.Item1];
             elementIndex = (int)currentlyBest.Item1;
-            return _availableTransformPoints[(int)currentlyBest.Item1];
+            return true;
         }
         
         private Transform[] ConvertPointPackage2TargetTransform(BattleCirclePointPackage[] availablePoints)
@@ -329,10 +334,33 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         /// <param name="ai"></param>
         public void ReassignSameTarget(BlackboardReference ai)
         {
-            //TODO check if still valid with _validPoints
+            //evaluating if there is any new points
+            ai.GetVariableValue("Self", out GameObject aiSelf);
+            if (!FindClosestAvailableTarget(aiSelf.transform.position,out Transform potentialTarget,out int elementIndex))
+            {
+                Transform target = _aisAndTakenTransforms[ai];
+                SetAITransformPoint(ai, target); 
+            }
             
-            Transform takenTransform = _aisAndTakenTransforms[ai];
-            ai.SetVariableValue("Target", takenTransform);
+            //Handle comparing the new vs old targetPoint
+            Transform oldTarget = _aisAndTakenTransforms[ai];
+            
+            float distanceOld = Vector3.Distance(aiSelf.transform.position, oldTarget.position);
+            float distancePotential = Vector3.Distance(aiSelf.transform.position, potentialTarget.position);
+
+            if (distanceOld <= distancePotential)
+            {
+                Transform target = _aisAndTakenTransforms[ai];
+                SetAITransformPoint(ai, target); 
+            }
+            else
+            {
+                _availableTransformPoints.RemoveAt(elementIndex);
+                _aisAndTakenTransforms[ai] = potentialTarget;
+                SetAITransformPoint(ai, potentialTarget);
+                
+                _availableTransformPoints.Add(oldTarget);
+            }
         }
         
         /// <summary>
@@ -381,7 +409,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             //TODO hitta tillgänglig punkt till nya fienden
             if (_availableTransformPoints.Count <= 0)
             {
-                Debug.Log("No more available targets but is still trying to assign!");
+                Debug.LogWarning("No more available targets but is still trying to assign!");
+                _aiWithoutSpace.Add(blackboard);
+                return;
             }
             
             AssignAi2Target(blackboard);
