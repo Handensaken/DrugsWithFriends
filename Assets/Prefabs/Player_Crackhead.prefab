@@ -911,13 +911,15 @@ GameObject:
   - component: {fileID: 4093688376111883889}
   - component: {fileID: 8267263751071435674}
   - component: {fileID: 3316476374543429359}
+  - component: {fileID: 2873521469679998473}
+  - component: {fileID: 2844866676561598220}
   m_Layer: 0
   m_Name: Arm_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4093688376111883889
 Transform:
   m_ObjectHideFlags: 0
@@ -1041,6 +1043,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.15, y: 0.17653298, z: 0.21625084}
   m_Center: {x: 0.82, y: 1.432001, z: -0.019029465}
+--- !u!114 &2873521469679998473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053687588832126037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
+  _componentIndexCache: 5
+  _addedNetworkObject: {fileID: 7738708444948177966}
+  _networkObjectCache: {fileID: 0}
+  damage: 5
+  knockbackForce: 5
+  knockbackTime: 0.355
+  swordCollider: {fileID: 3316476374543429359}
+--- !u!114 &2844866676561598220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053687588832126037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bcde17fa5e03f44b87f9963ac281b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkCollision
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7738708444948177966}
+  _networkObjectCache: {fileID: 0}
+  MaximumSimultaneousHits: 16
+  AdditionalSize: 0.1
+  Layers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1128592027943055547
 GameObject:
   m_ObjectHideFlags: 0
