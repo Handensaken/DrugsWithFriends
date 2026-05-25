@@ -15,7 +15,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     [SerializeField, ReadOnly] private float currentSpeed = 0f;
     private Vector2 rot;
-    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered, isDead;
+    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered, isDead, dashing;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -374,23 +374,25 @@ public class PlayerNetwork : NetworkBehaviour
         if (freeCamMovement)
         {
             Vector3 dashDirection;
-            if(actionReferences.move.action.ReadValue<Vector2>().sqrMagnitude > 0f)
-            {
-                dashDirection = new Vector3(transform.forward.x, 0, transform.forward.z);
-                networkAnimator.SetTrigger(AnimationParameters.DashForward);
-            }
-            else
-            {
-                dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
-                networkAnimator.SetTrigger(AnimationParameters.DashBackward);
-            }
-            //rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+            dashDirection = new Vector3(transform.forward.x, 0, transform.forward.z);
+            networkAnimator.SetTrigger(AnimationParameters.DashForward);
+            rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
         }
         else
         {
             Vector2 dashDirection = actionReferences.move.action.ReadValue<Vector2>();
             //rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
         }
+    }
+
+    public void StartDash()
+    {
+        dashing = true;
+    }
+    
+    public void EndDash()
+    {
+        dashing = false;
     }
  
     private void HandleRotation()
@@ -436,7 +438,7 @@ public class PlayerNetwork : NetworkBehaviour
  
     private void SetVelocity()
     {
-        if(isDead) return;
+        if(isDead || dashing) return;
         if(freeCamMovement)
         {
             FreeCamMovement();

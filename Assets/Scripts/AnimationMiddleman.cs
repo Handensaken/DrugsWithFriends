@@ -14,6 +14,16 @@ public class AnimationMiddleman : MonoBehaviour
         playerNetwork.DisableHitBox();
     }
 
+    public void StartDash()
+    {
+        playerNetwork.StartDash();
+    }   
+    
+    public void EndDash()
+    {
+        playerNetwork.EndDash();
+    }
+
     public void AttackStart()
     {
         playerNetwork.OnAttackStart();
