@@ -7,40 +7,60 @@ using Random = System.Random;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
+    //TODO separate logic into different "Taunt-system" and "Attack-system" with an overHead "Token-system"
     public class TokenSystem
     {
         private readonly BattleCircleData _data;
         private readonly List<BlackboardReference> _aisInCircle;
         private readonly List<BlackboardReference> _fightingAis;
+        private readonly List<BlackboardReference> _tauntingAIs;
 
         private readonly UnityAction<BlackboardReference> _attackingEvent;
+        private readonly UnityAction<BlackboardReference> _tauntingEvent;
         
-        private float _currentTime = 0;
+        private float _currentTimeAttack = 0;
+        private float _currentTimeTaunt = 0;
 
-        public TokenSystem(BattleCircleData data,List<BlackboardReference> aisInCircle, List<BlackboardReference> fightingAis, ref UnityAction<BlackboardReference> attackingEvent)
+        public TokenSystem(
+            BattleCircleData data,
+            List<BlackboardReference> aisInCircle,
+            List<BlackboardReference> fightingAis,
+            List<BlackboardReference> tauntingAIs,
+            ref UnityAction<BlackboardReference> attackingEvent,
+            ref UnityAction<BlackboardReference> tauntingEvent)
         {
             _data = data;
+            
             _aisInCircle = aisInCircle;
             _fightingAis = fightingAis;
-            _attackingEvent = attackingEvent;
+            _tauntingAIs = tauntingAIs;
             
-            SetRndNextTimeForNewFighter();
+            _attackingEvent = attackingEvent;
+            _tauntingEvent = attackingEvent;
+            
+            SetRndNextTime();
         }
         
-        private void SetRndNextTimeForNewFighter()
+        private void SetRndNextTime(ref float timer)
         {
-            _currentTime = new Random().Next(_data.tokenCreationData.minTime,_data.tokenCreationData.maxTime);
-            _currentTime += (float)new Random().NextDouble();
+            timer = new Random().Next(_data.tokenCreationData.minTime,_data.tokenCreationData.maxTime);
+            timer += (float)new Random().NextDouble();
         }
         
         public void UpdateTime(float timeDelta)
         {
-            //Debug.Log("Amount of fightingAis: "+_fightingAis.Count);
-            _currentTime -= timeDelta;
-            if (_currentTime <= 0)
+            _currentTimeAttack -= timeDelta;
+            if (_currentTimeAttack <= 0)
             {
                 GiveToken();
-                SetRndNextTimeForNewFighter();
+                SetRndNextTime(ref _currentTimeAttack);
+            }
+            
+            _currentTimeTaunt -= timeDelta;
+            if (_currentTimeTaunt <= 0)
+            {
+                GiveToken();
+                SetRndNextTime(ref _currentTimeTaunt);
             }
         }
         
@@ -52,7 +72,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 return;
             }
             //_data.AssignAsFighting(availableAIs[0]);
-            _attackingEvent(availableAIs[0]);
+            _attackingEvent(availableAIs[0]); //TOD rnd
             
             Debug.Log("Newly assigned fightingEnemy");
         }

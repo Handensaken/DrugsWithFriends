@@ -10,6 +10,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     public class BattleCircle : MonoBehaviour
     {
         public UnityAction<BlackboardReference> AssignAsFighting = delegate { };
+        public UnityAction<BlackboardReference> AssignAsTaunting = delegate { };
         
         [Space,SerializeField] private BattleCircleData data;
         
@@ -18,6 +19,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private TokenSystem _tokenSystem;
         private CircleBehaviour _circleBehaviour;
         private FightingBehaviour _fightingBehaviour;
+        private TauntingBehaviour _tauntingBehaviour;
 
         #region Properties
 
@@ -34,7 +36,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _circleBehaviour = new CircleBehaviour(transform,data,aiAndTargetTransform);
             
             List<BlackboardReference> attackingAis = new ();
-            _fightingBehaviour = new FightingBehaviour(transform,data,attackingAis, ref AssignAsFighting);
+            _fightingBehaviour = new FightingBehaviour(transform,attackingAis, ref AssignAsFighting);
+            
+            List<BlackboardReference> tauntingAis = new ();
+            _tauntingBehaviour = new TauntingBehaviour(tauntingAis, ref AssignAsTaunting);
+            
             _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis, ref AssignAsFighting);
         }
         
@@ -45,7 +51,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void Update()
         {
-            //_tokenSystem.UpdateTime(Time.deltaTime);
+            _tokenSystem.UpdateTime(Time.deltaTime);
             
             _circleBehaviour.AssignInvalidNonWalkablePoints();
 
@@ -53,7 +59,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             //BlackboardReference[] onBattleCircleTarget = GetAllNoneAttacking();
             //_circleBehaviour.UpdateDynamicTargetPoint(onBattleCircleTarget);
             
-            BlackboardReference[] newNonFightingAis = _fightingBehaviour.CheckIfStillAttacking();
+            BlackboardReference[] newNonFightingAis = _fightingBehaviour.CheckIfStillActive();
             foreach (var ai in newNonFightingAis)
             {
                 _circleBehaviour.ReassignSameTarget(ai);
@@ -82,6 +88,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
         }
         
+        //TODO make external component based on if its connected to battleCircle or not
         private void UpdateEnemyForward(BlackboardReference blackboard)
         {
             blackboard.GetVariableValue("Self", out GameObject aiObject);
@@ -93,7 +100,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             dirToPlayer.Normalize();
             
             //When attacking there is no need to include target diff because player and target is the same.
-            if (_fightingBehaviour.ContainsAI(blackboard))
+            if (_fightingBehaviour.ContainsAI(blackboard) || _tauntingBehaviour.ContainsAI(blackboard))
             {
                 blackboard.SetVariableValue("Forward",dirToPlayer);
                 return;
@@ -166,7 +173,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Debug.Log("Remove in battle circle");
             _aisInCircle.Remove(blackboard);
             _circleBehaviour.RemoveAIAndTakenTransform(blackboard);
-            _fightingBehaviour.RemoveFightingAi(blackboard);
+            _fightingBehaviour.RemoveAi(blackboard);
         }
     }
 }

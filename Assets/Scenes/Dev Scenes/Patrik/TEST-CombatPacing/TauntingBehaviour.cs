@@ -5,14 +5,14 @@ using UnityEngine.Events;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
-    public class FightingBehaviour : BattleCircleAi
+    //TODO have an parent class with fightingBehaviour or interfaces
+    public class TauntingBehaviour : BattleCircleAi
     {
         private readonly Transform _targetTransform;
         private readonly List<BlackboardReference> _containingAis; 
         
-        public FightingBehaviour(Transform targetTransform,List<BlackboardReference> containingAis, ref UnityAction<BlackboardReference> attackingEvent)
+        public TauntingBehaviour(List<BlackboardReference> containingAis, ref UnityAction<BlackboardReference> attackingEvent)
         {
-            _targetTransform = targetTransform;
             _containingAis = containingAis;
             
             attackingEvent += AssignAi;
@@ -24,7 +24,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             for (int i = 0; i < _containingAis.Count; i++)
             {
                 BlackboardReference blackboard = _containingAis[^(i + 1)];
-                blackboard.GetVariableValue("AbleToAttack", out bool attackValue);
+                blackboard.GetVariableValue("AbleToTaunt", out bool attackValue);
 
                 if (attackValue)
                 {
@@ -46,8 +46,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private void AssignAi(BlackboardReference blackboard)
         {
             _containingAis.Add(blackboard);
-            blackboard.SetVariableValue("AbleToAttack", true);
-            SetAITransformPoint(blackboard,_targetTransform);
+            blackboard.SetVariableValue("AbleToTaunt", true);
+            blackboard.GetVariableValue("Self",out Transform aiTransform);
+            SetAITransformPoint(blackboard,aiTransform);
         }
         
         public void RemoveAi(BlackboardReference blackboard)
