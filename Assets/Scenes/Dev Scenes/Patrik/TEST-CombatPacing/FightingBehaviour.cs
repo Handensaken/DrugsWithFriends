@@ -42,13 +42,18 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             return result.ToArray();
         }
 
+        public bool ContainsAI(BlackboardReference ai)
+        {
+            return _attackingAis.Contains(ai);
+        } 
+        
         private void AssignFightingAi(BlackboardReference blackboard)
         {
             _attackingAis.Add(blackboard);
             blackboard.SetVariableValue("AbleToAttack", true);
             SetAITransformPoint(blackboard,_battleCircleTransform);
         }
-
+        
         public void RemoveFightingAi(BlackboardReference blackboard)
         {
             _attackingAis.Remove(blackboard);

@@ -25,7 +25,7 @@ public class EvaluateDistanceToTarget : MonoBehaviour
                 return;
             }
             
-            _blackboard.SetVariableValue("CloseToTarget",Vector3.Distance(battleCircle.transform.position, transform.position) <= 3);
+            _blackboard.SetVariableValue("CloseToTarget",Vector3.Distance(battleCircle.transform.position, transform.position) <= enemyData.chasePackage.closeToPlayerRange);
         }
     }
 }

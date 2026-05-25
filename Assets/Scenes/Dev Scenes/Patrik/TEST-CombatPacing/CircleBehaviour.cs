@@ -334,7 +334,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         /// <param name="ai"></param>
         public void ReassignSameTarget(BlackboardReference ai)
         {
-            //evaluating if there is any new points
+            //Evaluating if there is any new points
             ai.GetVariableValue("Self", out GameObject aiSelf);
             if (!FindClosestAvailableTarget(aiSelf.transform.position,out Transform potentialTarget,out int elementIndex))
             {

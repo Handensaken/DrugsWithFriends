@@ -64,15 +64,35 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
         }
         
+        //TODO make external component based on if its connected to battleCircle or not
         private void UpdateEnemyForward(BlackboardReference blackboard)
         {
-            blackboard.GetVariableValue("Self", out GameObject gameObject);
-                
-            Vector3 forwardDir = transform.position-gameObject.transform.position;
-            forwardDir.y = 0;
-            forwardDir.Normalize();
-                
-            blackboard.SetVariableValue("Forward",forwardDir);
+            blackboard.GetVariableValue("Self", out GameObject aiObject);
+
+            Vector3 aiPos = aiObject.transform.position;
+            Vector3 playerPos = transform.position;
+            Vector3 dirToPlayer = playerPos -aiPos;
+            dirToPlayer.y = 0;
+            dirToPlayer.Normalize();
+            
+            //When attacking there is no need to include target diff because player and target is the same.
+            if (_fightingBehaviour.ContainsAI(blackboard))
+            {
+                blackboard.SetVariableValue("Forward",dirToPlayer);
+                return;
+            }
+            
+            //Now there is a diff between target and player when the enemy is trying to focus on player while running to targetPoint
+            Vector3 targetPointPos = _circleBehaviour.AisAndTakenTransforms[blackboard].position;
+            Vector3 dirToTargetPoint = targetPointPos - aiPos;
+            dirToTargetPoint.y = 0;
+            dirToTargetPoint.Normalize();
+            
+            float distanceToTargetPoint = Vector3.Distance(aiPos, targetPointPos);
+            //TODO include curve!!
+            Vector3 blendedDir = Vector3.Slerp(dirToPlayer, dirToTargetPoint,distanceToTargetPoint);
+            
+            blackboard.SetVariableValue("Forward",blendedDir);
         }
         
         public void AssignAI(BlackboardReference blackboard)
