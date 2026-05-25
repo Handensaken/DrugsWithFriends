@@ -334,7 +334,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
                 Transform oldTarget = _aisAndTakenTransforms[ai];
                 
                 ai.GetVariableValue("Self", out GameObject aiSelf);
-                if (Vector3.Distance(oldTarget.position, aiSelf.transform.position) < 2)
+                if (Vector3.Distance(oldTarget.position, aiSelf.transform.position) < 3)
                 {
                     Transform target = _aisAndTakenTransforms[ai];
                     SetAITransformPoint(ai, target); 

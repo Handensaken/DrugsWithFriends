@@ -1,8 +1,6 @@
 using System;
-using Unity.Behavior;
+using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
@@ -12,9 +10,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         [SerializeField,Min(0.1f)] public float circleRadius;
         [SerializeField, Min(1)] public uint amountOfPointsInCircle;
         
+        [Space, SerializeField] public ValuePackage forwardPriorityPackage;
+        
         [Space,SerializeField] public TokenManagingPackage tokenCreationData;
     }
 
+    
+    
     [Serializable]
     public struct TokenManagingPackage
     {
