@@ -37,6 +37,10 @@ public class PlayerNetwork : NetworkBehaviour
         public const string ExitCombo = "ExitCombo";
         public const string Running = "Running";
         public const string TurnAround = "TurnAround";
+        public const string DashForward = "Dash/Forward";
+        public const string DashBackward = "Dash/Backward";
+        public const string DashLeft = "Dash/Left";
+        public const string DashRight = "Dash/Right";
         public const string CombatX = "combatX";
         public const string CombatY = "combatY";
         public const string XInput = "X-Input";
@@ -373,17 +377,19 @@ public class PlayerNetwork : NetworkBehaviour
             if(actionReferences.move.action.ReadValue<Vector2>().sqrMagnitude > 0f)
             {
                 dashDirection = new Vector3(transform.forward.x, 0, transform.forward.z);
+                networkAnimator.SetTrigger(AnimationParameters.DashForward);
             }
             else
             {
                 dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
+                networkAnimator.SetTrigger(AnimationParameters.DashBackward);
             }
-            rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+            //rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
         }
         else
         {
             Vector2 dashDirection = actionReferences.move.action.ReadValue<Vector2>();
-            rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+            //rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
         }
     }
  
