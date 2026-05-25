@@ -45,15 +45,32 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void Update()
         {
-            _tokenSystem.UpdateTime(Time.deltaTime);
+            //_tokenSystem.UpdateTime(Time.deltaTime);
             
             _circleBehaviour.AssignInvalidNonWalkablePoints();
+
+            BlackboardReference[] onBattleCircleTarget = GetAllNoneAttacking();
+            _circleBehaviour.UpdateDynamicTargetPoint(onBattleCircleTarget);
             
             BlackboardReference[] newNonFightingAis = _fightingBehaviour.CheckIfStillAttacking();
             foreach (var ai in newNonFightingAis)
             {
                 _circleBehaviour.ReassignSameTarget(ai);
             }
+        }
+
+        private BlackboardReference[] GetAllNoneAttacking()
+        {
+            List<BlackboardReference> result = new List<BlackboardReference>();
+            foreach (BlackboardReference ai in _aisInCircle)
+            {
+                if (!_fightingBehaviour.ContainsAI(ai))
+                {
+                    result.Add(ai);
+                }
+            }
+
+            return result.ToArray();
         }
         
         private void UpdateAllEnemiesForward()
@@ -78,6 +95,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             //When attacking there is no need to include target diff because player and target is the same.
             if (_fightingBehaviour.ContainsAI(blackboard))
             {
+                //Vector2 newDir = VectorMath.Rotate();
                 blackboard.SetVariableValue("Forward",dirToPlayer);
                 return;
             }
@@ -93,6 +111,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             Vector3 blendedDir = Vector3.Slerp(dirToPlayer, dirToTargetPoint,distanceToTargetPoint);
             
             blackboard.SetVariableValue("Forward",blendedDir);
+        }
+
+        private void ClampRotation()
+        {
+            
         }
         
         public void AssignAI(BlackboardReference blackboard)

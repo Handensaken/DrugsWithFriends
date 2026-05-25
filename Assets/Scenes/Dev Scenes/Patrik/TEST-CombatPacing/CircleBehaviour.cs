@@ -326,6 +326,24 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             allTakenTransforms = resultTakenTransforms.ToArray();
             return aiWithoutValidTarget.Length > 0;
         }
+
+        public void UpdateDynamicTargetPoint(BlackboardReference[] aids)
+        {
+            foreach (var ai in aids)
+            {
+                Transform oldTarget = _aisAndTakenTransforms[ai];
+                
+                ai.GetVariableValue("Self", out GameObject aiSelf);
+                if (Vector3.Distance(oldTarget.position, aiSelf.transform.position) < 2)
+                {
+                    Transform target = _aisAndTakenTransforms[ai];
+                    SetAITransformPoint(ai, target); 
+                    return;
+                }
+                
+                ReassignSameTarget(ai);
+            }
+        }
         
         private bool EvaluateOtherTargetPoints4Suitability(BlackboardReference ai, out int indexInAvailableStorage)
         {
