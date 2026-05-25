@@ -327,19 +327,14 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             return aiWithoutValidTarget.Length > 0;
         }
         
-        /// <summary>
-        /// For when ai comes back from attack, and it should still have its own target.
-        /// the target shouldn't be lost
-        /// </summary>
-        /// <param name="ai"></param>
-        public void ReassignSameTarget(BlackboardReference ai)
+        private bool EvaluateOtherTargetPoints4Suitability(BlackboardReference ai, out int indexInAvailableStorage)
         {
             //Evaluating if there is any new points
             ai.GetVariableValue("Self", out GameObject aiSelf);
             if (!FindClosestAvailableTarget(aiSelf.transform.position,out Transform potentialTarget,out int elementIndex))
             {
-                Transform target = _aisAndTakenTransforms[ai];
-                SetAITransformPoint(ai, target); 
+                indexInAvailableStorage = -1;
+                return false;
             }
             
             //Handle comparing the new vs old targetPoint
@@ -350,17 +345,35 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
             if (distanceOld <= distancePotential)
             {
+                indexInAvailableStorage = 0;
+                return false;
+            }
+            
+            indexInAvailableStorage = elementIndex;
+            return true;
+        }
+        
+        /// <summary>
+        /// For when ai comes back from attack, and it should still have its own target.
+        /// the target shouldn't be lost
+        /// </summary>
+        /// <param name="ai"></param>
+        public void ReassignSameTarget(BlackboardReference ai)
+        {
+            Transform oldTarget = _aisAndTakenTransforms[ai];
+            if (!EvaluateOtherTargetPoints4Suitability(ai, out int indexInAvailableStorage))
+            {
                 Transform target = _aisAndTakenTransforms[ai];
                 SetAITransformPoint(ai, target); 
+                return;
             }
-            else
-            {
-                _availableTargetPoints.RemoveAt(elementIndex);
-                _aisAndTakenTransforms[ai] = potentialTarget;
-                SetAITransformPoint(ai, potentialTarget);
+            
+            Transform newTarget = _availableTargetPoints[indexInAvailableStorage];
+            _availableTargetPoints.RemoveAt(indexInAvailableStorage);
+            _aisAndTakenTransforms[ai] = newTarget;
+            SetAITransformPoint(ai, newTarget);
                 
-                _availableTargetPoints.Add(oldTarget);
-            }
+            _availableTargetPoints.Add(oldTarget);
         }
         
         /// <summary>

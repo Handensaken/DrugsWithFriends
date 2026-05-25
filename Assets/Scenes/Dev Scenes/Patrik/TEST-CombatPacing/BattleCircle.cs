@@ -45,7 +45,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 
         private void Update()
         {
-            //_tokenSystem.UpdateTime(Time.deltaTime);
+            _tokenSystem.UpdateTime(Time.deltaTime);
             
             _circleBehaviour.AssignInvalidNonWalkablePoints();
             
