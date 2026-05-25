@@ -11,11 +11,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private readonly Transform _targetTransform;
         private readonly List<BlackboardReference> _containingAis; 
         
-        public TauntingBehaviour(List<BlackboardReference> containingAis, ref UnityAction<BlackboardReference> attackingEvent)
+        public TauntingBehaviour(List<BlackboardReference> containingAis, ref UnityAction<BlackboardReference> assigningEvent)
         {
             _containingAis = containingAis;
             
-            attackingEvent += AssignAi;
+            assigningEvent += AssignAi;
         }
         
         public BlackboardReference[] CheckIfStillActive()
@@ -24,9 +24,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             for (int i = 0; i < _containingAis.Count; i++)
             {
                 BlackboardReference blackboard = _containingAis[^(i + 1)];
-                blackboard.GetVariableValue("AbleToTaunt", out bool attackValue);
+                blackboard.GetVariableValue("AbleToTaunt", out bool tauntValue);
 
-                if (attackValue)
+                if (tauntValue)
                 {
                     continue;
                 }
@@ -47,8 +47,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         {
             _containingAis.Add(blackboard);
             blackboard.SetVariableValue("AbleToTaunt", true);
-            blackboard.GetVariableValue("Self",out Transform aiTransform);
-            SetAITransformPoint(blackboard,aiTransform);
+            blackboard.GetVariableValue("Self",out GameObject aiObject);
+            SetAITransformPoint(blackboard,aiObject.transform);
         }
         
         public void RemoveAi(BlackboardReference blackboard)

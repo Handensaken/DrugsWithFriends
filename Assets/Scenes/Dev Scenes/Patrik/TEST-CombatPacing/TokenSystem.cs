@@ -36,9 +36,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _tauntingAIs = tauntingAIs;
             
             _attackingEvent = attackingEvent;
-            _tauntingEvent = attackingEvent;
+            _tauntingEvent = tauntingEvent;
             
-            SetRndNextTime();
+            SetRndNextTime(ref _currentTimeAttack);
+            SetRndNextTime(ref _currentTimeTaunt);
         }
         
         private void SetRndNextTime(ref float timer)
@@ -49,32 +50,45 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public void UpdateTime(float timeDelta)
         {
-            _currentTimeAttack -= timeDelta;
-            if (_currentTimeAttack <= 0)
+            /*_currentTimeAttack -= timeDelta;
+            if (_currentTimeAttack <= 0 && GiveAttackToken())
             {
-                GiveToken();
                 SetRndNextTime(ref _currentTimeAttack);
-            }
+            }*/
             
             _currentTimeTaunt -= timeDelta;
-            if (_currentTimeTaunt <= 0)
+            if (_currentTimeTaunt <= 0 && GiveTauntToken())
             {
-                GiveToken();
                 SetRndNextTime(ref _currentTimeTaunt);
             }
         }
         
-        private void GiveToken()
+        private bool GiveAttackToken()
         {
             BlackboardReference[] availableAIs = AvailableAIs();
             if (availableAIs.Length <= 0)
             {
-                return;
+                return false;
             }
             //_data.AssignAsFighting(availableAIs[0]);
             _attackingEvent(availableAIs[0]); //TOD rnd
             
             Debug.Log("Newly assigned fightingEnemy");
+            return true;
+        }
+
+        private bool GiveTauntToken()
+        {
+            BlackboardReference[] availableAIs = AvailableAIs();
+            if (availableAIs.Length <= 0)
+            {
+                return false;
+            }
+            //_data.AssignAsFighting(availableAIs[0]);
+            _tauntingEvent(availableAIs[0]); //TOD rnd
+            
+            Debug.Log("Newly assigned tauntingEnemy");
+            return true;
         }
 
         private BlackboardReference[] AvailableAIs()
@@ -88,7 +102,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             foreach (BlackboardReference ai in _aisInCircle)
             {
-                if (_fightingAis.Contains(ai))
+                if (_fightingAis.Contains(ai) || _tauntingAIs.Contains(ai))
                 {
                     Debug.Log("Skipped");
                     continue;

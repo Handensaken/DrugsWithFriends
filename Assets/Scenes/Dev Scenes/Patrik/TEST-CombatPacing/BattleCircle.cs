@@ -41,7 +41,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             List<BlackboardReference> tauntingAis = new ();
             _tauntingBehaviour = new TauntingBehaviour(tauntingAis, ref AssignAsTaunting);
             
-            _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis, ref AssignAsFighting);
+            _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis, tauntingAis, ref AssignAsFighting, ref AssignAsTaunting);
         }
         
         private void FixedUpdate()
@@ -61,6 +61,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             BlackboardReference[] newNonFightingAis = _fightingBehaviour.CheckIfStillActive();
             foreach (var ai in newNonFightingAis)
+            {
+                _circleBehaviour.ReassignSameTarget(ai);
+            }
+            
+            BlackboardReference[] newNonTauntingAis = _tauntingBehaviour.CheckIfStillActive();
+            foreach (var ai in newNonTauntingAis)
             {
                 _circleBehaviour.ReassignSameTarget(ai);
             }
@@ -115,7 +121,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             float distanceToTargetPoint = Vector3.Distance(aiPos, targetPointPos);
             //TODO include curve!!
             float valueT = MapValues.MapValueToCurve(distanceToTargetPoint, data.forwardPriorityPackage);
-            Debug.Log(valueT);
             Vector3 blendedDir = Vector3.Slerp(dirToPlayer, dirToTargetPoint,valueT);
             blackboard.SetVariableValue("Forward",blendedDir);
         }
@@ -174,6 +179,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _aisInCircle.Remove(blackboard);
             _circleBehaviour.RemoveAIAndTakenTransform(blackboard);
             _fightingBehaviour.RemoveAi(blackboard);
+            _tauntingBehaviour.RemoveAi(blackboard);
         }
     }
 }
