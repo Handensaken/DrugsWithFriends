@@ -260,6 +260,7 @@ public class PlayerNetwork : NetworkBehaviour
  
     private void FixedUpdate()
     {
+        Debug.Log(dashing);
         if (!IsOwner) return;
         if (looking || !freeCamMovement)
         {
@@ -381,7 +382,41 @@ public class PlayerNetwork : NetworkBehaviour
         else
         {
             Vector2 dashDirection = actionReferences.move.action.ReadValue<Vector2>();
-            //rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+
+            if (dashDirection.sqrMagnitude < 0.01f)
+            {
+                networkAnimator.SetTrigger(AnimationParameters.DashBackward);
+                dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
+                rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+                return;
+            }
+
+            if (dashDirection.x > 0f)
+            {
+                networkAnimator.SetTrigger(AnimationParameters.DashRight);
+                rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+                return;
+            }
+            
+            if(dashDirection.x < 0f)
+            {
+                networkAnimator.SetTrigger(AnimationParameters.DashLeft);
+                rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+                return;
+            }
+            
+            if(dashDirection.y > 0f)
+            {
+                networkAnimator.SetTrigger(AnimationParameters.DashForward);
+                rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+                return;
+            }
+            
+            if(dashDirection.y < 0f)
+            {
+                networkAnimator.SetTrigger(AnimationParameters.DashBackward);
+                rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+            }
         }
     }
 
