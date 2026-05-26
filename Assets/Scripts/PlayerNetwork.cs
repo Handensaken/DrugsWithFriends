@@ -655,6 +655,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void OnAttackEnd()
     {
         float timeSinceQueued = Time.time - attackQueueTimestamp;
+        
         if (attackBuffered && timeSinceQueued <= attackBufferTime && currentChain < 3)
         {
             attackBuffered = false;
