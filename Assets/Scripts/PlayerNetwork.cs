@@ -87,7 +87,6 @@ public class PlayerNetwork : NetworkBehaviour
     {
         base.OnValidate();
         attackRangeCollider.radius = detectEnemiesRange;
-        
         animator.speed = animationSpeed;
     }
  
@@ -108,16 +107,8 @@ public class PlayerNetwork : NetworkBehaviour
             Debug.LogError("No Rigidbody found on PlayerNetwork object. Please add a Rigidbody component.");
         }
  
-        if (TryGetComponent(out Animator anim))
-        {
-            animator = anim;
-            animator.SetFloat(AnimationParameters.XInput, 0);
-            animator.SetFloat(AnimationParameters.ZInput, 0);
-        }
-        else
-        {
-            Debug.LogError("Couldn't get animator");
-        }
+        animator.SetFloat(AnimationParameters.XInput, 0);
+        animator.SetFloat(AnimationParameters.ZInput, 0);
         
         if (TryGetComponent(out NetworkAnimator nAnim))
         {
@@ -125,7 +116,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         else
         {
-            Debug.LogError("Couldn't get animator");
+            Debug.LogError("Couldn't get networkanimator");
         }
     }
  
@@ -612,10 +603,10 @@ public class PlayerNetwork : NetworkBehaviour
  
     private void LightAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-        if(isDead) return;
+        if (!IsOwner || isDead) return;
         if (!attacking)
         {
+            currentChain = 1;
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
         }
         else
@@ -625,13 +616,13 @@ public class PlayerNetwork : NetworkBehaviour
             queuedAttack = AnimationParameters.LightAttack;
         }
     }
-    
+
     private void HeavyAttack(InputAction.CallbackContext context)
     {
-        if (!IsOwner) return;
-        if(isDead) return;
+        if (!IsOwner || isDead) return;
         if (!attacking)
         {
+            currentChain = 1;
             networkAnimator.SetTrigger(AnimationParameters.HeavyAttack);
         }
         else
@@ -649,23 +640,39 @@ public class PlayerNetwork : NetworkBehaviour
         actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
-        currentChain++;
     }
  
     public void OnAttackEnd()
     {
         float timeSinceQueued = Time.time - attackQueueTimestamp;
-        
-        if (attackBuffered && timeSinceQueued <= attackBufferTime && currentChain < 3)
+        bool withinBuffer = attackBuffered && timeSinceQueued <= attackBufferTime;
+
+        Debug.Log($"[OnAttackEnd] attackBuffered={attackBuffered}, timeSinceQueued={timeSinceQueued:F3}, attackBufferTime={attackBufferTime}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}, withinBuffer={withinBuffer}");
+
+        if (withinBuffer && queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthLight)
         {
+            currentChain++;
             attackBuffered = false;
             networkAnimator.SetTrigger(queuedAttack);
             attacking = false;
             return;
         }
+
+        if (withinBuffer && queuedAttack == AnimationParameters.HeavyAttack && currentChain < maxChainLengthHeavy)
+        {
+            currentChain++;
+            attackBuffered = false;
+            networkAnimator.SetTrigger(queuedAttack);
+            attacking = false;
+            return;
+        }
+
+        if (attackBuffered)
+            Debug.LogWarning($"[OnAttackEnd] Buffer NOT consumed. withinBuffer={withinBuffer}, timeSinceQueued={timeSinceQueued:F3}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}");
+
         ExitCombo();
     }
- 
+
     private void ExitCombo()
     {
         currentChain = 0;

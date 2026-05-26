@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: DamageAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
   _componentIndexCache: 5
   _addedNetworkObject: {fileID: 7738708444948177966}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   damage: 5
   knockbackForce: 5
   knockbackTime: 0.355
@@ -1074,9 +1074,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bcde17fa5e03f44b87f9963ac281b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkCollision
-  _componentIndexCache: 255
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 7738708444948177966}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   MaximumSimultaneousHits: 16
   AdditionalSize: 0.1
   Layers:
@@ -8078,11 +8078,13 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1497369976359165993}
+  - {fileID: 2508172873198748499}
+  - {fileID: 2373623252109381715}
+  - {fileID: 1067329264458619016}
+  - {fileID: 4987606579895652169}
+  - {fileID: 2873521469679998473}
+  - {fileID: 2844866676561598220}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -8093,7 +8095,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584221578036654191
+  _initializedTimestamp: -8584217876723889317
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -8109,12 +8111,12 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 18
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 6765372501336053659
   SceneId: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: -0, z: 0}
+    Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
@@ -8132,7 +8134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7696538552095724360, guid: 4f8b102cd97b5ef459172a92c66d8b16, type: 3}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   moveSpeed: 4
   rotationSpeed: 0.3
   currentSpeed: 0
@@ -8143,7 +8145,7 @@ MonoBehaviour:
   heavyChainAttackCooldown: 0.52
   attackBufferTime: 0.753
   maxChainLengthLight: 3
-  maxChainLengthHeavy: 3
+  maxChainLengthHeavy: 2
   actionReferences:
     move: {fileID: -3294628319744290294, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
     look: {fileID: 4790227803239612680, guid: fa5d77395a07a9c448484fe3d5f3cb00, type: 3}
@@ -8186,7 +8188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7696538552095724360, guid: 4f8b102cd97b5ef459172a92c66d8b16, type: 3}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   _componentConfiguration: 0
   _synchronizeParent: 0
   _packing:
@@ -8259,7 +8261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Animating.NetworkAnimator
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 7738708444948177966}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   IgnoredParameters: []
   _animator: {fileID: 8434067472739170068}
   _synchronizeWhenDisabled: 0
@@ -9310,7 +9312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkTrigger
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: 7738708444948177966}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   MaximumSimultaneousHits: 16
   AdditionalSize: 0.1
   Layers:
@@ -9330,7 +9332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: HealthSystemAssembly::HealthSystem.OtherHealth.DamagePlayer
   _componentIndexCache: 4
   _addedNetworkObject: {fileID: 7738708444948177966}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7738708444948177966}
   networkTrigger: {fileID: 1067329264458619016}
 --- !u!1 &7961911534279965141
 GameObject:
