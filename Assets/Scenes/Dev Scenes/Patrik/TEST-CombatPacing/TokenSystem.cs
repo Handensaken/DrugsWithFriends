@@ -50,11 +50,11 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         public void UpdateTime(float timeDelta)
         {
-            /*_currentTimeAttack -= timeDelta;
+            _currentTimeAttack -= timeDelta;
             if (_currentTimeAttack <= 0 && GiveAttackToken())
             {
                 SetRndNextTime(ref _currentTimeAttack);
-            }*/
+            }
             
             _currentTimeTaunt -= timeDelta;
             if (_currentTimeTaunt <= 0 && GiveTauntToken())
