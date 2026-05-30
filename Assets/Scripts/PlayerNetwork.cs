@@ -251,7 +251,6 @@ public class PlayerNetwork : NetworkBehaviour
  
     private void FixedUpdate()
     {
-        Debug.Log(dashing);
         if (!IsOwner) return;
         if (looking || !freeCamMovement)
         {
@@ -670,6 +669,18 @@ public class PlayerNetwork : NetworkBehaviour
         if (attackBuffered)
             Debug.LogWarning($"[OnAttackEnd] Buffer NOT consumed. withinBuffer={withinBuffer}, timeSinceQueued={timeSinceQueued:F3}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}");
 
+        if (queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthHeavy)
+        {
+            StartCoroutine(EnableAttackAfterDelay(lightChainAttackCooldown));
+            return;
+        }
+
+        if (queuedAttack == AnimationParameters.HeavyAttack && currentChain < maxChainLengthHeavy)
+        {
+            StartCoroutine(EnableAttackAfterDelay(heavyChainAttackCooldown));
+            return;
+        }
+        
         ExitCombo();
     }
 
@@ -679,6 +690,15 @@ public class PlayerNetwork : NetworkBehaviour
         attacking = false;
         actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
+    }
+    
+    private IEnumerator EnableAttackAfterDelay(float delay)
+    {
+        currentChain = 0;
+        animator.SetBool(AnimationParameters.ExitCombo, true);
+        actionReferences.move.action.Enable();
+        yield return new WaitForSeconds(delay);
+        attacking = false;
     }
  
     private void CheckEnemiesOnScreen()
