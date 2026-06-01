@@ -251,7 +251,6 @@ public class PlayerNetwork : NetworkBehaviour
  
     private void FixedUpdate()
     {
-        Debug.Log(dashing);
         if (!IsOwner) return;
         if (looking || !freeCamMovement)
         {
@@ -566,17 +565,14 @@ public class PlayerNetwork : NetworkBehaviour
     {
         isCameraLockedOn = false;
         enemyIndex = 0;
-        
-        Vector3 snapPos = lockOnCam.transform.position;
-        Quaternion snapRot = lockOnCam.transform.rotation;
- 
-        freeCam.transform.SetPositionAndRotation(snapPos, snapRot);
-        freeCam.ForceCameraPosition(snapPos, snapRot);
- 
-        SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
+        
+        SetCamera();
+        
+        //freeCam.gameObject.transform.position = lockOnCam.transform.position;
+        //freeCam.gameObject.transform.rotation = lockOnCam.transform.rotation;
     }
     
     private void LockOnToEnemy(int index)
@@ -670,6 +666,18 @@ public class PlayerNetwork : NetworkBehaviour
         if (attackBuffered)
             Debug.LogWarning($"[OnAttackEnd] Buffer NOT consumed. withinBuffer={withinBuffer}, timeSinceQueued={timeSinceQueued:F3}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}");
 
+        if (queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthHeavy)
+        {
+            StartCoroutine(EnableAttackAfterDelay(lightChainAttackCooldown));
+            return;
+        }
+
+        if (queuedAttack == AnimationParameters.HeavyAttack && currentChain < maxChainLengthHeavy)
+        {
+            StartCoroutine(EnableAttackAfterDelay(heavyChainAttackCooldown));
+            return;
+        }
+        
         ExitCombo();
     }
 
@@ -679,6 +687,15 @@ public class PlayerNetwork : NetworkBehaviour
         attacking = false;
         actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
+    }
+    
+    private IEnumerator EnableAttackAfterDelay(float delay)
+    {
+        currentChain = 0;
+        animator.SetBool(AnimationParameters.ExitCombo, true);
+        actionReferences.move.action.Enable();
+        yield return new WaitForSeconds(delay);
+        attacking = false;
     }
  
     private void CheckEnemiesOnScreen()
