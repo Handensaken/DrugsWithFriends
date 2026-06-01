@@ -565,14 +565,15 @@ public class PlayerNetwork : NetworkBehaviour
     {
         isCameraLockedOn = false;
         enemyIndex = 0;
+
+        // Preserve current facing direction
+        moveVector = transform.forward;
+
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
-        
+
         SetCamera();
-        
-        //freeCam.gameObject.transform.position = lockOnCam.transform.position;
-        //freeCam.gameObject.transform.rotation = lockOnCam.transform.rotation;
     }
     
     private void LockOnToEnemy(int index)
