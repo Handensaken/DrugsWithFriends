@@ -565,18 +565,22 @@ public class PlayerNetwork : NetworkBehaviour
     {
         isCameraLockedOn = false;
         enemyIndex = 0;
-    
+
+        // Disable lockOnCam first so Cinemachine stops using it immediately
+        
         Vector3 snapPos = lockOnCam.transform.position;
         Quaternion snapRot = lockOnCam.transform.rotation;
-
+        
         freeCam.transform.SetPositionAndRotation(snapPos, snapRot);
         freeCam.ForceCameraPosition(snapPos, snapRot);
 
-        // Preserve the player's facing direction so HandleRotation doesn't snap them around
         Vector3 forward = lockOnCam.transform.forward;
         moveVector = new Vector3(forward.x, 0f, forward.z).normalized;
 
-        SetCamera();
+        // SetCamera() is now a no-op since we already set both cameras above
+        
+        lockOnCam.gameObject.SetActive(false);
+        freeCam.gameObject.SetActive(true);
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
