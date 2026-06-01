@@ -565,13 +565,17 @@ public class PlayerNetwork : NetworkBehaviour
     {
         isCameraLockedOn = false;
         enemyIndex = 0;
-        
+    
         Vector3 snapPos = lockOnCam.transform.position;
         Quaternion snapRot = lockOnCam.transform.rotation;
- 
+
         freeCam.transform.SetPositionAndRotation(snapPos, snapRot);
         freeCam.ForceCameraPosition(snapPos, snapRot);
- 
+
+        // Preserve the player's facing direction so HandleRotation doesn't snap them around
+        Vector3 forward = lockOnCam.transform.forward;
+        moveVector = new Vector3(forward.x, 0f, forward.z).normalized;
+
         SetCamera();
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
