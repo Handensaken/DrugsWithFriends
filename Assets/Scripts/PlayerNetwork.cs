@@ -568,18 +568,11 @@ public class PlayerNetwork : NetworkBehaviour
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
-
-        // Sync freeCam's orbital axis to match where lockOnCam is currently looking
-        // so the blend starts from the correct position
-        float angle = Vector3.SignedAngle(Vector3.forward, lockOnCam.transform.forward, Vector3.up);
-        var orbitalFollow = freeCam.GetComponent<CinemachineOrbitalFollow>();
-        if (orbitalFollow != null)
-        {
-            orbitalFollow.HorizontalAxis.Value = angle;
-            orbitalFollow.VerticalAxis.Value = 0; // Adjust as needed based on your camera setup
-        }
-
+        
         SetCamera();
+        
+        //freeCam.gameObject.transform.position = lockOnCam.transform.position;
+        //freeCam.gameObject.transform.rotation = lockOnCam.transform.rotation;
     }
     
     private void LockOnToEnemy(int index)
