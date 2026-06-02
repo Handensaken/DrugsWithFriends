@@ -15,7 +15,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField, Range(0, 1f)] private float rotationSpeed;
     [SerializeField, ReadOnly] private float currentSpeed = 0f;
     private Vector2 rot;
-    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered, isDead, dashing;
+    private bool freeCamMovement, looking, attacking, isCameraLockedOn, attackBuffered, isDead, dashing, transitioningFromLockOn;
     private Rigidbody rb;
     [SerializeField, Range(0, 10f)] private float range;
     [SerializeField, Range(0, 10f)] private float detectEnemiesRange;
@@ -422,7 +422,8 @@ public class PlayerNetwork : NetworkBehaviour
  
     private void HandleRotation()
     {
-        Vector3 rotationTarget;
+        if (transitioningFromLockOn) return;
+        Vector3 rotationTarget = new Vector3();
         Transform currentTarget = null;
         if (!freeCamMovement)
         {
@@ -566,14 +567,33 @@ public class PlayerNetwork : NetworkBehaviour
         isCameraLockedOn = false;
         enemyIndex = 0;
 
-        // Preserve current facing direction
         moveVector = transform.forward;
 
         freeCamMovement = true;
         animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
 
+        //freeCam.PreviousStateIsValid = false;
+
+        transitioningFromLockOn = true;
+        
+        freeCam.ForceCameraPosition(
+            lockOnCam.State.GetFinalPosition(),
+            lockOnCam.State.GetFinalOrientation());
+
         SetCamera();
+        
+        StartCoroutine(EndTransition());
+        
+        Debug.Log(Vector3.Distance(
+            freeCam.State.GetFinalPosition(),
+            lockOnCam.State.GetFinalPosition()));
+    }
+    
+    private IEnumerator EndTransition()
+    {
+        yield return new WaitForSeconds(0.5f);
+        transitioningFromLockOn = false;
     }
     
     private void LockOnToEnemy(int index)
