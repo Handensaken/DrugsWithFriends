@@ -45,6 +45,8 @@ public class PlayerNetwork : NetworkBehaviour
         public const string CombatY = "combatY";
         public const string XInput = "X-Input";
         public const string ZInput = "Z-Input";
+        public const string Hurt = "Hurt";
+        public const string Death = "Death";
     }
     
     [SerializeField] private ActionReferences actionReferences;
@@ -224,7 +226,7 @@ public class PlayerNetwork : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsOwner) return;
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && other.gameObject.activeSelf)
         {
             if (!enemiesInRange.Contains(other.transform))
             {
@@ -743,7 +745,8 @@ public class PlayerNetwork : NetworkBehaviour
     private bool IsOnScreen(Transform target)
     {
         Vector3 vp = Camera.main.WorldToViewportPoint(target.position);
-        return vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1;
+        //return vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1;
+        return true;
     }
     
     private void ControlsChanged(PlayerInput input)
