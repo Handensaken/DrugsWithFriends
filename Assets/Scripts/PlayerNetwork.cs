@@ -350,7 +350,6 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
-        if(attacking) return;
         if (context.performed)
         {
             SetVelocity();
@@ -664,6 +663,7 @@ public class PlayerNetwork : NetworkBehaviour
             currentChainHeavy = 1;
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
+        actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
     }
@@ -712,6 +712,7 @@ public class PlayerNetwork : NetworkBehaviour
         currentChainLight = 0;
         currentChainHeavy = 0;
         attacking = false;
+        actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
     }
 
@@ -720,6 +721,7 @@ public class PlayerNetwork : NetworkBehaviour
         currentChainLight = 0;
         currentChainHeavy = 0;
         animator.SetBool(AnimationParameters.ExitCombo, true);
+        actionReferences.move.action.Enable();
         yield return new WaitForSeconds(delay);
         attacking = false;
     }
