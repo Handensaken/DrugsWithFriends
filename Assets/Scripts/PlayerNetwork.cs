@@ -688,13 +688,13 @@ public class PlayerNetwork : NetworkBehaviour
             return;
         }
 
-        if (queuedAttack == AnimationParameters.LightAttack && currentChainLight >= maxChainLengthLight)
+        if (currentChainLight >= maxChainLengthLight)
         {
             StartCoroutine(EnableAttackAfterDelay(lightChainAttackCooldown));
             return;
         }
 
-        if (queuedAttack == AnimationParameters.HeavyAttack && currentChainHeavy >= maxChainLengthHeavy)
+        if (currentChainHeavy >= maxChainLengthHeavy)
         {
             StartCoroutine(EnableAttackAfterDelay(heavyChainAttackCooldown));
             return;
