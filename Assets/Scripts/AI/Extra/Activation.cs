@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace AI_Experimental.Extra
@@ -5,7 +6,7 @@ namespace AI_Experimental.Extra
     public class Activation : MonoBehaviour
     {
         [SerializeField] private GameObject gameObject;
-        
+
         public void Activate()
         {
             //Debug.Log("activation");
