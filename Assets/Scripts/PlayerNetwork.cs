@@ -428,6 +428,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void EndDash()
     {
         dashing = false;
+        animator.SetLayerWeight(1, freeCamMovement ? 0 : 1);
         Debug.Log("set dashing to false");
     }
  
@@ -581,7 +582,7 @@ public class PlayerNetwork : NetworkBehaviour
         moveVector = transform.forward;
 
         freeCamMovement = true;
-        animator.SetLayerWeight(1, 0);
+        if (!dashing) animator.SetLayerWeight(1, 0);
         actionReferences.look.action.Enable();
 
         //freeCam.PreviousStateIsValid = false;
@@ -612,7 +613,8 @@ public class PlayerNetwork : NetworkBehaviour
         enemyIndex = index;
         isCameraLockedOn = true;
         freeCamMovement = false;
-        animator.SetLayerWeight(1, 1);
+        if (!dashing)
+            animator.SetLayerWeight(1, 1);
         actionReferences.look.action.Disable();
         lockOnCam.LookAt = enemiesOnScreen[enemyIndex];
         lockOnCam.transform.position = freeCam.transform.position;
