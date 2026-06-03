@@ -350,6 +350,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
+        if (dashing) return;
         if (context.performed)
         {
             SetVelocity();
@@ -369,6 +370,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
+        if (dashing) return;
         if (freeCamMovement)
         {
             Vector3 dashDirection;
@@ -383,8 +385,8 @@ public class PlayerNetwork : NetworkBehaviour
             if (dashDirection.sqrMagnitude < 0.01f)
             {
                 networkAnimator.SetTrigger(AnimationParameters.DashBackward);
-                dashDirection = new Vector3(-transform.forward.x, 0, -transform.forward.z);
-                rb.AddForce(dashParameters.dashForce * dashDirection, ForceMode.Impulse);
+                Vector3 backwardForce = new Vector3(-transform.forward.x, 0, -transform.forward.z);
+                rb.AddForce(dashParameters.dashForce * backwardForce, ForceMode.Impulse);
                 return;
             }
 
@@ -420,11 +422,13 @@ public class PlayerNetwork : NetworkBehaviour
     public void StartDash()
     {
         dashing = true;
+        Debug.Log("set dashing to true");
     }
     
     public void EndDash()
     {
         dashing = false;
+        Debug.Log("set dashing to false");
     }
  
     private void HandleRotation()
