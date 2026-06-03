@@ -55,7 +55,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private PlayerGameSettings playerSettings;
     [SerializeField] private Animator animator;
     private NetworkAnimator networkAnimator;
-    private int enemyIndex, currentChain;
+    private int enemyIndex, currentChainLight, currentChainHeavy;
     [SerializeField, ReadOnly] private List<Transform> enemiesInRange, enemiesOnScreen;
     private PlayerInput playerInput;
     private CinemachineCamera cinemachineCamera;
@@ -98,7 +98,8 @@ public class PlayerNetwork : NetworkBehaviour
         enemiesOnScreen = new List<Transform>();
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
-        currentChain = 0;
+        currentChainLight = 0;
+        currentChainHeavy = 0;
         enemiesInRange = new List<Transform>();
         playerInput = GetComponent<PlayerInput>();
         if (TryGetComponent(out Rigidbody rigidbody))
@@ -349,6 +350,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
+        if(attacking) return;
         if (context.performed)
         {
             SetVelocity();
@@ -656,72 +658,68 @@ public class PlayerNetwork : NetworkBehaviour
 
     public void OnAttackStart()
     {
-        if (currentChain == 0)
-            currentChain = 1;
-
+        if (currentChainLight == 0)
+            currentChainLight = 1;
+        if (currentChainHeavy == 0)
+            currentChainHeavy = 1;
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
-        actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
     }
- 
+
     public void OnAttackEnd()
     {
         float timeSinceQueued = Time.time - attackQueueTimestamp;
         bool withinBuffer = attackBuffered && timeSinceQueued <= attackBufferTime;
 
-        Debug.Log($"[OnAttackEnd] attackBuffered={attackBuffered}, timeSinceQueued={timeSinceQueued:F3}, attackBufferTime={attackBufferTime}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}, withinBuffer={withinBuffer}");
-
-        if (withinBuffer && queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthLight)
+        if (withinBuffer && queuedAttack == AnimationParameters.LightAttack && currentChainLight < maxChainLengthLight)
         {
-            currentChain++;
+            Debug.Log("Current light chain was " + currentChainLight + "which is less than max " + maxChainLengthLight);
+            currentChainLight++;
             attackBuffered = false;
             networkAnimator.SetTrigger(queuedAttack);
             attacking = false;
             return;
         }
 
-        if (withinBuffer && queuedAttack == AnimationParameters.HeavyAttack && currentChain < maxChainLengthHeavy)
+        if (withinBuffer && queuedAttack == AnimationParameters.HeavyAttack && currentChainHeavy < maxChainLengthHeavy)
         {
-            currentChain++;
+            currentChainHeavy++;
             attackBuffered = false;
             networkAnimator.SetTrigger(queuedAttack);
             attacking = false;
             return;
         }
 
-        if (attackBuffered)
-            Debug.LogWarning($"[OnAttackEnd] Buffer NOT consumed. withinBuffer={withinBuffer}, timeSinceQueued={timeSinceQueued:F3}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}");
-
-        if (queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthLight)
+        if (queuedAttack == AnimationParameters.LightAttack && currentChainLight < maxChainLengthLight)
         {
             StartCoroutine(EnableAttackAfterDelay(lightChainAttackCooldown));
             return;
         }
 
-        if (queuedAttack == AnimationParameters.HeavyAttack && currentChain < maxChainLengthHeavy)
+        if (queuedAttack == AnimationParameters.HeavyAttack && currentChainHeavy < maxChainLengthHeavy)
         {
             StartCoroutine(EnableAttackAfterDelay(heavyChainAttackCooldown));
             return;
         }
-        
+
         ExitCombo();
     }
 
     private void ExitCombo()
     {
-        currentChain = 0;
+        currentChainLight = 0;
+        currentChainHeavy = 0;
         attacking = false;
-        actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
     }
-    
+
     private IEnumerator EnableAttackAfterDelay(float delay)
     {
-        currentChain = 0;
+        currentChainLight = 0;
+        currentChainHeavy = 0;
         animator.SetBool(AnimationParameters.ExitCombo, true);
-        actionReferences.move.action.Enable();
         yield return new WaitForSeconds(delay);
         attacking = false;
     }
