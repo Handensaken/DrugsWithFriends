@@ -46,6 +46,7 @@ public class PlayerNetwork : NetworkBehaviour
         public const string XInput = "X-Input";
         public const string ZInput = "Z-Input";
         public const string Hurt = "Hurt";
+        public const string Downed = "Downed";
         public const string Death = "Death";
     }
     
@@ -285,10 +286,11 @@ public class PlayerNetwork : NetworkBehaviour
         }
         
         spectatorCanvas.SetActive(true);
- 
         lockOnCam.gameObject.SetActive(false);
         freeCam.gameObject.SetActive(false);
         spectatorCamera.gameObject.SetActive(true);
+        
+        networkAnimator.SetTrigger(AnimationParameters.Downed);
  
         RefreshAlivePlayers();
         if (alivePlayers.Count > 0)
@@ -304,6 +306,8 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         isDead = false;
+        
+        animator.SetBool(AnimationParameters.Death, false);
  
         spectatorCamera.gameObject.SetActive(false);
         playerInput.SwitchCurrentActionMap("Player");
@@ -625,7 +629,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner || isDead) return;
         if (!attacking)
         {
-            currentChain = 1;
             networkAnimator.SetTrigger(AnimationParameters.LightAttack);
         }
         else
@@ -641,7 +644,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner || isDead) return;
         if (!attacking)
         {
-            currentChain = 1;
             networkAnimator.SetTrigger(AnimationParameters.HeavyAttack);
         }
         else
@@ -651,9 +653,12 @@ public class PlayerNetwork : NetworkBehaviour
             queuedAttack = AnimationParameters.HeavyAttack;
         }
     }
- 
+
     public void OnAttackStart()
     {
+        if (currentChain == 0)
+            currentChain = 1;
+
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
         actionReferences.move.action.Disable();
@@ -689,7 +694,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (attackBuffered)
             Debug.LogWarning($"[OnAttackEnd] Buffer NOT consumed. withinBuffer={withinBuffer}, timeSinceQueued={timeSinceQueued:F3}, queuedAttack={queuedAttack}, currentChain={currentChain}, maxChainLight={maxChainLengthLight}, maxChainHeavy={maxChainLengthHeavy}");
 
-        if (queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthHeavy)
+        if (queuedAttack == AnimationParameters.LightAttack && currentChain < maxChainLengthLight)
         {
             StartCoroutine(EnableAttackAfterDelay(lightChainAttackCooldown));
             return;
