@@ -98,8 +98,8 @@ public class PlayerNetwork : NetworkBehaviour
         enemiesOnScreen = new List<Transform>();
         attackHitboxCollider.enabled = false;
         freeCamMovement = true;
-        currentChainLight = 0;
-        currentChainHeavy = 0;
+        currentChainLight = 1;
+        currentChainHeavy = 1;
         enemiesInRange = new List<Transform>();
         playerInput = GetComponent<PlayerInput>();
         if (TryGetComponent(out Rigidbody rigidbody))
@@ -350,7 +350,6 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         if(isDead) return;
-        if(attacking) return;
         if (context.performed)
         {
             SetVelocity();
@@ -658,12 +657,9 @@ public class PlayerNetwork : NetworkBehaviour
 
     public void OnAttackStart()
     {
-        if (currentChainLight == 0)
-            currentChainLight = 1;
-        if (currentChainHeavy == 0)
-            currentChainHeavy = 1;
         attackBuffered = false;
         animator.SetBool(AnimationParameters.ExitCombo, false);
+        actionReferences.move.action.Disable();
         rb.linearVelocity = Vector3.zero;
         attacking = true;
     }
@@ -692,13 +688,13 @@ public class PlayerNetwork : NetworkBehaviour
             return;
         }
 
-        if (queuedAttack == AnimationParameters.LightAttack && currentChainLight < maxChainLengthLight)
+        if (currentChainLight >= maxChainLengthLight)
         {
             StartCoroutine(EnableAttackAfterDelay(lightChainAttackCooldown));
             return;
         }
 
-        if (queuedAttack == AnimationParameters.HeavyAttack && currentChainHeavy < maxChainLengthHeavy)
+        if (currentChainHeavy >= maxChainLengthHeavy)
         {
             StartCoroutine(EnableAttackAfterDelay(heavyChainAttackCooldown));
             return;
@@ -709,18 +705,20 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void ExitCombo()
     {
-        currentChainLight = 0;
-        currentChainHeavy = 0;
+        currentChainLight = 1;
+        currentChainHeavy = 1;
         attacking = false;
+        actionReferences.move.action.Enable();
         animator.SetBool(AnimationParameters.ExitCombo, true);
     }
 
     private IEnumerator EnableAttackAfterDelay(float delay)
     {
-        currentChainLight = 0;
-        currentChainHeavy = 0;
         animator.SetBool(AnimationParameters.ExitCombo, true);
+        actionReferences.move.action.Enable();
         yield return new WaitForSeconds(delay);
+        currentChainLight = 1;
+        currentChainHeavy = 1;
         attacking = false;
     }
  
