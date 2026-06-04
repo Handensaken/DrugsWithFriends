@@ -733,12 +733,13 @@ public class PlayerNetwork : NetworkBehaviour
         enemiesOnScreen = new List<Transform>();
         foreach (Transform enemy in enemiesInRange)
         {
-            bool onScreen = IsOnScreen(enemy);
- 
-            if (onScreen)
-            {
+            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(enemy.position);
+            bool isOnScreen = viewportPoint.x >= 0f && viewportPoint.x <= 1f &&
+                              viewportPoint.y >= 0f && viewportPoint.y <= 1f &&
+                              viewportPoint.z > 0f;
+
+            if (isOnScreen)
                 enemiesOnScreen.Add(enemy);
-            }
         }
         enemiesOnScreen.Sort((a, b) =>
         {
