@@ -46,7 +46,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
         public void UpdateUI(HealthPackage healthPackage)
         {
             //Should validate in other spaces
-            Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
+            //Debug.Log("Arrived - H:"+healthPackage.HealthAmount +" - B:"+healthPackage.BatchAmount);
             uint currentBatchAmount = healthPackage.BatchAmount;
             
             float maxWidth = healthBarUI.rect.width;

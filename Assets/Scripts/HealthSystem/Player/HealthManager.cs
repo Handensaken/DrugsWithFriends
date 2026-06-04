@@ -96,11 +96,11 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                
                if (changeAmount < 0)
                {
-                    Debug.Log("Damaging - "+clientID);
+                    //Debug.Log("Damaging - "+clientID);
                }
                else
                {
-                    Debug.Log("Healing - "+clientID);
+                    //Debug.Log("Healing - "+clientID);
                }
                
                HealthPackage healthPackage = _clientsHealth[clientID];
@@ -184,7 +184,7 @@ namespace Scenes.Dev_Scenes.Patrik.HealthSystem
                     return;
                }
                
-               Debug.Log($"Giving: {givingClientID} : {newGivingClientBatchAmount} - Gets: {gettingClientID} : {newGettingClientBatchAmount}");
+               //Debug.Log($"Giving: {givingClientID} : {newGivingClientBatchAmount} - Gets: {gettingClientID} : {newGettingClientBatchAmount}");
                
                //First we remove the batch
                StoreHealthChanges(givingClientID,(int)givingHealthPackage.HealthAmount,newGivingClientBatchAmount);

@@ -247,6 +247,7 @@ public class PlayerNetwork : NetworkBehaviour
                 enemiesInRange.Remove(other.transform);
                 if(other.transform == lockOnCam.LookAt)
                 {
+                    Debug.Log("Locked on enemy left range, unfocusing camera");
                     FocusOnPlayer();
                 }
             }
@@ -422,14 +423,12 @@ public class PlayerNetwork : NetworkBehaviour
     public void StartDash()
     {
         dashing = true;
-        Debug.Log("set dashing to true");
     }
     
     public void EndDash()
     {
         dashing = false;
         animator.SetLayerWeight(1, freeCamMovement ? 0 : 1);
-        Debug.Log("set dashing to false");
     }
  
     private void HandleRotation()
@@ -596,10 +595,6 @@ public class PlayerNetwork : NetworkBehaviour
         SetCamera();
         
         StartCoroutine(EndTransition());
-        
-        Debug.Log(Vector3.Distance(
-            freeCam.State.GetFinalPosition(),
-            lockOnCam.State.GetFinalPosition()));
     }
     
     private IEnumerator EndTransition()
