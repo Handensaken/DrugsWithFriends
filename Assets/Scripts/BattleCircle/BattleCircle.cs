@@ -20,7 +20,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private CircleBehaviour _circleBehaviour;
         private FightingBehaviour _fightingBehaviour;
         private TauntingBehaviour _tauntingBehaviour;
-
+        
         #region Properties
 
         public List<BlackboardReference> AisInCircle => _aisInCircle;
@@ -40,8 +40,26 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             
             List<BlackboardReference> tauntingAis = new ();
             _tauntingBehaviour = new TauntingBehaviour(tauntingAis, ref AssignAsTaunting);
+
+            /*PlayerNetwork[] test = FindObjectsByType<PlayerNetwork>(FindObjectsInactive.Exclude,FindObjectsSortMode.InstanceID);
+
             
-            _tokenSystem = new TokenSystem(data,_aisInCircle, attackingAis, tauntingAis, ref AssignAsFighting, ref AssignAsTaunting);
+            PlayerNetwork current;
+
+
+            if (expr)
+            {
+                
+                
+            }*/
+            _tokenSystem = new TokenSystem(
+                
+                data,
+                _aisInCircle,
+                attackingAis,
+                tauntingAis,
+                ref AssignAsFighting,
+                ref AssignAsTaunting);
         }
         
         private void FixedUpdate()
@@ -72,6 +90,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             }
         }
 
+        //private void FindCorrectPlayerNetwork
+        
         private BlackboardReference[] GetAllNoneAttacking()
         {
             List<BlackboardReference> result = new List<BlackboardReference>();

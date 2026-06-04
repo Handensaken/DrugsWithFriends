@@ -1,6 +1,7 @@
 using System;
 using Scenes.Dev_Scenes.Patrik.AI.Extra;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
 {
@@ -12,10 +13,9 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         [Space, SerializeField] public ValuePackage forwardPriorityPackage;
         
-        [Space,SerializeField] public TokenManagingPackage tokenCreationData;
+        [Space,SerializeField] public TokenManagingPackage attackTokenCreationData;
+        [Space,SerializeField] public TokenManagingPackage tauntTokenCreationData;
     }
-
-    
     
     [Serializable]
     public struct TokenManagingPackage

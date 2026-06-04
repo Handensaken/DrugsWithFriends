@@ -10,6 +10,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
     //TODO separate logic into different "Taunt-system" and "Attack-system" with an overHead "Token-system"
     public class TokenSystem
     {
+        private readonly PlayerNetwork _player;
+        
         private readonly BattleCircleData _data;
         private readonly List<BlackboardReference> _aisInCircle;
         private readonly List<BlackboardReference> _fightingAis;
@@ -22,6 +24,7 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private float _currentTimeTaunt = 0;
 
         public TokenSystem(
+            //PlayerNetwork player,
             BattleCircleData data,
             List<BlackboardReference> aisInCircle,
             List<BlackboardReference> fightingAis,
@@ -29,6 +32,8 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             ref UnityAction<BlackboardReference> attackingEvent,
             ref UnityAction<BlackboardReference> tauntingEvent)
         {
+            //_player = player;
+            
             _data = data;
             
             _aisInCircle = aisInCircle;
@@ -38,13 +43,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _attackingEvent = attackingEvent;
             _tauntingEvent = tauntingEvent;
             
-            SetRndNextTime(ref _currentTimeAttack);
-            SetRndNextTime(ref _currentTimeTaunt);
+            SetRndNextTime(ref _currentTimeAttack, _data.attackTokenCreationData);
+            SetRndNextTime(ref _currentTimeTaunt,_data.tauntTokenCreationData);
         }
         
-        private void SetRndNextTime(ref float timer)
+        private void SetRndNextTime(ref float timer, TokenManagingPackage data)
         {
-            timer = new Random().Next(_data.tokenCreationData.minTime,_data.tokenCreationData.maxTime);
+            timer = new Random().Next(data.minTime,data.maxTime);
             timer += (float)new Random().NextDouble();
         }
         
@@ -53,13 +58,13 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             _currentTimeAttack -= timeDelta;
             if (_currentTimeAttack <= 0 && GiveAttackToken())
             {
-                SetRndNextTime(ref _currentTimeAttack);
+                SetRndNextTime(ref _currentTimeAttack, _data.attackTokenCreationData);
             }
             
             _currentTimeTaunt -= timeDelta;
             if (_currentTimeTaunt <= 0 && GiveTauntToken())
             {
-                SetRndNextTime(ref _currentTimeTaunt);
+                SetRndNextTime(ref _currentTimeTaunt, _data.tauntTokenCreationData);
             }
         }
         
@@ -70,8 +75,12 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 return false;
             }
-            //_data.AssignAsFighting(availableAIs[0]);
-            _attackingEvent(availableAIs[0]); //TOD rnd
+            
+            //TODO Utility AI
+            // if lockOn --> attack
+            // else slump
+            //Debug.Log();
+            _attackingEvent(availableAIs[0]); 
             
             Debug.Log("Newly assigned fightingEnemy");
             return true;
@@ -84,8 +93,10 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 return false;
             }
-            //_data.AssignAsFighting(availableAIs[0]);
-            _tauntingEvent(availableAIs[0]); //TOD rnd
+            
+            Random rnd = new Random();
+            int rndIndex = rnd.Next(0, availableAIs.Length);
+            _tauntingEvent(availableAIs[rndIndex]);
             
             Debug.Log("Newly assigned tauntingEnemy");
             return true;
@@ -104,7 +115,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             {
                 if (_fightingAis.Contains(ai) || _tauntingAIs.Contains(ai))
                 {
-                    Debug.Log("Skipped");
                     continue;
                 }
                 

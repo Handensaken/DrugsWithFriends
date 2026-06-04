@@ -574,11 +574,6 @@ MonoBehaviour:
   targetCollider: {fileID: 700129202}
   meshRenderer: {fileID: 700129203}
   currentTime: 0
---- !u!65 &1009841505 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 7368804468184650414, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-  m_PrefabInstance: {fileID: 8400855885044511983}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1384053163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -787,11 +782,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &2079148862 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6370743830746015534, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-  m_PrefabInstance: {fileID: 8400855885044511983}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8400855885044511983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -808,71 +798,9 @@ PrefabInstance:
       propertyPath: WasActiveDuringEdit
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1314984060710007515, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: 'NetworkBehaviours.Array.data[8]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1895575800670430710, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
       propertyPath: m_Name
       value: AI_Rat
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: 'managedReferences[4408440274590892887]'
-      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.Collider,
-        UnityEngine.PhysicsModule]]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: 'managedReferences[7683673227285234395]'
-      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[UnityEngine.GameObject,
-        UnityEngine.CoreModule]]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[4408440274590892887].Name
-      value: AttackCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[7683673227285234395].Name
-      value: AttackCollider
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[4408440274590892887].m_Value
-      value: 
-      objectReference: {fileID: 1009841505}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[7683673227285234395].m_Value
-      value: 
-      objectReference: {fileID: 2079148862}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[8]'
-      value: 7683673227285234395
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[4408440274590892887].GUID.m_Value0
-      value: 18197329611919111064
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[4408440274590892887].GUID.m_Value1
-      value: 14509367454746417760
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[7683673227285234395].GUID.m_Value0
-      value: 15239324090033534935
-      objectReference: {fileID: 0}
-    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: managedReferences[7683673227285234395].GUID.m_Value1
-      value: 7673129296096812602
-      objectReference: {fileID: 0}
-    - target: {fileID: 2953934149219429207, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: initialHealth
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370743830746015534, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7446963935338300537, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
       propertyPath: m_LocalPosition.x
