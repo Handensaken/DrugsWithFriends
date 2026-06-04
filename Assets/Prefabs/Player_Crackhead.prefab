@@ -5867,6 +5867,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2736266310421363235}
   - component: {fileID: 6132145671442687788}
+  - component: {fileID: 1048798559415665371}
+  - component: {fileID: 2231389487339099669}
   m_Layer: 0
   m_Name: Player_Augmented_R_Elbow_JNT
   m_TagString: Untagged
@@ -5911,6 +5913,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.697321, y: 0.16462325, z: 0.09093834}
   m_Center: {x: 0.7329084, y: -0.0075548086, z: -0.0312162}
+--- !u!114 &1048798559415665371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5161708552603575591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a0dbf9b71c94f46b038978bbb538a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HealthSystemAssembly::Scenes.Dev_Scenes.Patrik.TakeDamage.Sword
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7738708444948177966}
+  _networkObjectCache: {fileID: 0}
+  damage: 5
+  knockbackForce: 5
+  knockbackTime: 0.355
+  swordCollider: {fileID: 6132145671442687788}
+--- !u!114 &2231389487339099669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5161708552603575591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bcde17fa5e03f44b87f9963ac281b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Prediction.NetworkCollision
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7738708444948177966}
+  _networkObjectCache: {fileID: 0}
+  MaximumSimultaneousHits: 16
+  AdditionalSize: 0.1
+  Layers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &5172540390544775864
 GameObject:
   m_ObjectHideFlags: 0
