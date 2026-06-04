@@ -15,12 +15,23 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         
         [Space,SerializeField] public TokenManagingPackage attackTokenCreationData;
         [Space,SerializeField] public TokenManagingPackage tauntTokenCreationData;
+
+
+        private void OnValidate()
+        {
+            //Attack
+            if (attackTokenCreationData.minTime > attackTokenCreationData.maxTime)
+            {
+                attackTokenCreationData.minTime = attackTokenCreationData.maxTime;
+            }
+            
+            //Taunt
+            if (tauntTokenCreationData.minTime > tauntTokenCreationData.maxTime)
+            {
+                tauntTokenCreationData.minTime = tauntTokenCreationData.maxTime;
+            }
+        }
     }
     
-    [Serializable]
-    public struct TokenManagingPackage
-    {
-        [Space, SerializeField,Range(0,3)] public int minTime;
-        [Space, SerializeField,Range(1,10)] public int maxTime;
-    }
+    
 }

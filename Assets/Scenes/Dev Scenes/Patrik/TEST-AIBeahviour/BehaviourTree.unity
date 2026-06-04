@@ -655,6 +655,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2a8de7a3deac9f42bfe1a89ae5a0843, type: 3}
+--- !u!114 &1473238395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2953934149219429207, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+  m_PrefabInstance: {fileID: 8400855885044511983}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cfc2f3bee14d5a8c75dfcb25d7c362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HealthSystemAssembly::HealthSystem.OtherHealth.NpcHealth
 --- !u!1 &1660443532
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,6 +812,43 @@ PrefabInstance:
     - target: {fileID: 1895575800670430710, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
       propertyPath: m_Name
       value: AI_Rat
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: 'managedReferences[7683673228480348671]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[HealthSystem.OtherHealth.NpcHealth,
+        HealthSystemAssembly]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: managedReferences[7683673228480348671].Name
+      value: NPCHealth
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: m_BlackboardVariableOverridesList.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: managedReferences[7683673228480348671].m_Value
+      value: 
+      objectReference: {fileID: 1473238395}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[9]'
+      value: 7683673228480348671
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: managedReferences[7683673228480348671].GUID.m_Value0
+      value: 11760549901534744261
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950185873637362318, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: managedReferences[7683673228480348671].GUID.m_Value1
+      value: 5494990127427058184
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953934149219429207, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: batchAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953934149219429207, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
+      propertyPath: initialHealth
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7446963935338300537, guid: 88d1d8ce424b3d049b69b7a7e766caa8, type: 3}
       propertyPath: m_LocalPosition.x

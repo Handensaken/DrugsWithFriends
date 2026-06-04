@@ -11,7 +11,7 @@ namespace HealthSystem.OtherHealth
      {
           [Header("Object")]
           [SerializeField,Min(1)] protected uint initialHealth;
-          private readonly SyncVar<uint> _healthCounter = new SyncVar<uint>();
+          protected readonly SyncVar<uint> _healthCounter = new SyncVar<uint>();
           
           [Space,SerializeField] protected HealthRuleData healthRuleData;
           [SerializeField] protected HealthBarUI healthBarUI;
@@ -59,8 +59,8 @@ namespace HealthSystem.OtherHealth
                }
           }
 
-          [Server]
-          protected virtual void HandleDestruction()
+          [ServerRpc(RequireOwnership = false)]
+          public virtual void HandleDestruction()
           {
                NetworkObject.Despawn();
           }

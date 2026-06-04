@@ -24,7 +24,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
         private float _currentTimeTaunt = 0;
 
         public TokenSystem(
-            //PlayerNetwork player,
             BattleCircleData data,
             List<BlackboardReference> aisInCircle,
             List<BlackboardReference> fightingAis,
@@ -32,8 +31,6 @@ namespace Scenes.Dev_Scenes.Patrik.TEST_CombatPacing
             ref UnityAction<BlackboardReference> attackingEvent,
             ref UnityAction<BlackboardReference> tauntingEvent)
         {
-            //_player = player;
-            
             _data = data;
             
             _aisInCircle = aisInCircle;

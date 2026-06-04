@@ -15,6 +15,22 @@ namespace HealthSystem.OtherHealth
             base.OnStartClient();
             healthBarUI.SetUpHealthBarNpc();
         }
+
+        [Server]
+        protected override void HandleDamage()
+        {
+            int currentHealth = (int)_healthCounter.Value;
+            if (currentHealth-1 <= 0)
+            {
+                _healthCounter.Value = 0;
+            }
+            else
+            {
+                _healthCounter.Value--;
+            }
+            
+            behaviorAgent.SetVariableValue("Health", (int)_healthCounter.Value);
+        }
         
         [Server]
         protected override void TriggerDamage(Collider collider)
