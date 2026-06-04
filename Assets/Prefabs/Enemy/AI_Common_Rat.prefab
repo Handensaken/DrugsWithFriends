@@ -1587,6 +1587,11 @@ PrefabInstance:
         UnityEngine.CoreModule]]'
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: 'managedReferences[7683673228480348861]'
+      value: 'Unity.Behavior Unity.Behavior.BlackboardVariable`1[[HealthSystem.OtherHealth.NpcHealth,
+        HealthSystemAssembly]]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[3697295208146273239].Name
       value: ExternalDistanceEvaluation
       objectReference: {fileID: 0}
@@ -1599,8 +1604,12 @@ PrefabInstance:
       value: AttackCollider
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[7683673228480348861].Name
+      value: NPCHealth
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_BlackboardVariableOverridesList.Array.size
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[3332841387919409423].m_Value
@@ -1619,12 +1628,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6370743830746015534}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[7]'
-      value: 3697295208146273239
-      objectReference: {fileID: 0}
+      propertyPath: managedReferences[7683673228480348861].m_Value
+      value: 
+      objectReference: {fileID: 2953934149219429207}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
-      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[8]'
-      value: 7683673227285234395
+      propertyPath: 'm_BlackboardVariableOverridesList.Array.data[7]'
+      value: 7683673228480348861
       objectReference: {fileID: 0}
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[3697295208146273239].GUID.m_Value0
@@ -1649,6 +1658,14 @@ PrefabInstance:
     - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: managedReferences[7683673227285234395].GUID.m_Value1
       value: 7673129296096812602
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[7683673228480348861].GUID.m_Value0
+      value: 11760549901534744261
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943264456987591253, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+      propertyPath: managedReferences[7683673228480348861].GUID.m_Value1
+      value: 5494990127427058184
       objectReference: {fileID: 0}
     - target: {fileID: 5027146694817819949, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
       propertyPath: m_Name
@@ -1734,6 +1751,17 @@ NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 4868335839143244014, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
   m_PrefabInstance: {fileID: 6884441894284986587}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2953934149219429207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8607513687918519180, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
+  m_PrefabInstance: {fileID: 6884441894284986587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cfc2f3bee14d5a8c75dfcb25d7c362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HealthSystemAssembly::HealthSystem.OtherHealth.NpcHealth
 --- !u!4 &7446963935338300537 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4094507991667084450, guid: 940952f3d6b2cd34389feaf7e00ac969, type: 3}
