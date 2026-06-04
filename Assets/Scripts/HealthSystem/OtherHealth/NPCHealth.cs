@@ -50,7 +50,7 @@ namespace HealthSystem.OtherHealth
                 return;
             }
                
-            Debug.Log("Prev: "+prev +" - UpdateUI hp: "+next);
+            //Debug.Log("Prev: "+prev +" - UpdateUI hp: "+next);
                
             HealthPackage hp = new HealthPackage()
             {

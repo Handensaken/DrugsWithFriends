@@ -240,16 +240,19 @@ public class PlayerNetwork : NetworkBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!IsOwner) return;
-        if (other.CompareTag("Enemy"))
+        if (!other.CompareTag("Enemy")) return;
+
+        // Double-check they're actually out of range before trusting the event
+        float dist = Vector3.Distance(transform.position, other.transform.position);
+        if (dist < detectEnemiesRange * 0.9f) return; // spurious exit, ignore
+
+        if (enemiesInRange.Contains(other.transform))
         {
-            if (enemiesInRange.Contains(other.transform))
+            enemiesInRange.Remove(other.transform);
+            if (other.transform == lockOnCam.LookAt)
             {
-                enemiesInRange.Remove(other.transform);
-                if(other.transform == lockOnCam.LookAt)
-                {
-                    Debug.Log("Locked on enemy left range, unfocusing camera");
-                    FocusOnPlayer();
-                }
+                Debug.Log("Locked on enemy left range, unfocusing camera");
+                FocusOnPlayer();
             }
         }
     }
@@ -555,6 +558,7 @@ public class PlayerNetwork : NetworkBehaviour
         }
         else
         {
+            Debug.Log("Reached end of cycled enemies, focusing on player...");
             FocusOnPlayer();
         }
         
